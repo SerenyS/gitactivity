@@ -16,6 +16,6 @@ namespace isprojectHiT.Models
 
         public virtual ICollection<Patient> Patient { get; set; }
 
-        public IEnumerable<Ethnicity> Ethnicities { get; set; }
+        //public IEnumerable<Ethnicity> Ethnicities { get; set; }
     }
 }

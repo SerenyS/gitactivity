@@ -23,6 +23,11 @@ namespace isprojectHiT.Controllers
         public IActionResult Gender() => View(repository.Genders);
 
         public IActionResult Discharge() => View(repository.Discharges);
+
+        public IActionResult SignUp() => View();
+
+        public IActionResult Login() => View();
+
         /*
                 public IActionResult Privacy()
                 {
