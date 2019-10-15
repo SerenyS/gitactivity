@@ -1,0 +1,48 @@
+﻿@using IS_Proj_HIT.Models.ViewModels
+@model ListPatientsViewModel
+
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Patients</h4></div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">MRN</th>
+            <th scope="col">Name</th>
+            @*<th scope="col">First Name</th>
+                <th scope="col">Middle Intial</th>
+                <th scope="col">Last Name</th>*@
+            <th scope="col">Date of Birth</th>
+            @*<th scope="col">Religion</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Ethnicity</th>
+                <th scope="col">Marital Status</th>*@
+            <th scope="col">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model.Patients)
+        {
+        <tr>
+            <td>@patient.Mrn</td>
+            <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
+            <td>@patient.Dob.ToShortDateString()</td>
+            @*<td>@patient.Religion.Name</td>
+        <td>@patient.Gender.Name</td>
+        <td>@patient.Ethnicity.Name</td>
+        <td>@patient.MaritalStatus.Name</td>*@
+            <td id="special"><button type="button" class="btn btn-outline-primary"><a asp-action="Edit" asp-route-id="@patient.Mrn">Edit</a></button> <button type="button" class="btn btn-outline-primary"><a asp-action="DeletePatient" asp-route-id="@patient.Mrn">Delete</a></button></td>
+            <td><a asp-action="AddEncounter" asp-route-id="@patient.Mrn">Add Encounter</a></td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+<div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary" page-class-selected="btn-primary"
+     class="btn-group" pull-right m-1></div>
+
+<hr />
+<button type="button" class="btn btn-outline-primary"><a asp-action="AddPatient">Create New Patient</a></button>
