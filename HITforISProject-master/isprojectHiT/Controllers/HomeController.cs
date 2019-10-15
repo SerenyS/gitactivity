@@ -28,6 +28,8 @@ namespace isprojectHiT.Controllers
 
         public IActionResult Login() => View();
 
+        public IActionResult PatientLookup() => View();
+
         /*
                 public IActionResult Privacy()
                 {
