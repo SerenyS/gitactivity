@@ -1,0 +1,25 @@
+﻿@model IS_Proj_HIT.Models.Patient
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Edit Patient</h4></div>
+<div class="list-group">
+    <form method="post" id="patientEdit" name="patientEdit" asp-action="Update">
+
+        <partial name="~/Views/Patient/PatientFormFields.cshtml" />
+        <div class="row" id="employmentSelection">
+            <div class="col-md-10">
+                <label>Employer Name -- Occupation</label>
+                @*@Html.DropDownList("EmploymentId", (SelectList)ViewBag.Employment, "--Select One--")*@
+                <select class="form-control dropdowns" asp-for="@Model.EmploymentId" asp-items="ViewBag.Employment"></select>
+            </div>
+        </div>
+        <button type="submit">Save</button>
+
+    </form>
+</div>
+
+<hr />
+<a asp-action="Index">Home</a>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>

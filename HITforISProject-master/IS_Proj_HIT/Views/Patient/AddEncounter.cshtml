@@ -1,0 +1,92 @@
+﻿<link rel="stylesheet" href="~/css/forms.css" />
+<div class="bg-primary m-1 p-1 text-white"><h4>Add Encounter</h4></div>
+@model IS_Proj_HIT.Models.Encounter
+<form method="post" id="encounter" name="encounter" asp-action="AddEncounter">
+    <div class="container" asp-validation-summary="All"></div>
+    <div class="text-center shadebox">
+        <label>MRN</label><br />
+        <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" placeholder="ABC321" maxlength="6" />
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Current Patient Age</label><br />
+            <input asp-for="@Model.PatientCurrentAge" name="Patient Age" placeholder="12" type="number"/>
+        </div>
+        <div class="col-sm-4">
+            <label>Chief Complaint</label><br />
+            <input asp-for="@Model.ChiefComplaint" name="ChiefComplaint" placeholder="Johnson" />
+        </div>
+        <div class="col-sm-4">
+            <label>Room Number</label><br />
+            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="number" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <br /><label>Facility Registry Opt In Out</label>
+            <input asp-for="@Model.FacilityRegistryOptInOut" name="FacilityRegistryOptInOut" placeholder="I\'m not sure" />
+        </div>
+        <div class="col-sm-4">
+            <label>Discharge Date</label><br />
+            <input asp-for="@Model.DischargeDate" name="aliasMiddleName" placeholder="10/20/20XX" type="date" />
+        </div>
+        <div class="col-sm-4">
+            <label>Discharge Time</label><br />
+            <input asp-for="@Model.DischargeTime" name="DischargeTime" placeholder="17:32" type="time"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Discharge Disposition</label><br />
+            <input asp-for="@Model.DischargeDisposition" name="DischargeDisposition" placeholder="2?" />
+        </div>
+        <div class="col-sm-4">
+            <label>Admit Type</label><br />
+            <input asp-for="@Model.AdmitType" name="AdmitType" placeholder="Check up" />
+        </div>
+        <div class="col-sm-4">
+            <label>Facility</label><br />
+            <input asp-for="@Model.Facility" name="Facility" placeholder="ProHealth Care Rehabilitation Service Center" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Department</label><br />
+            <input asp-for="@Model.Department" placeholder="Nursing" />
+        </div>
+        <div class="col-sm-4">
+            <label>Encounter Physicians</label><br />
+            <input asp-for="@Model.EncounterPhysicians" placeholder="Bryan, Angela" />
+        </div>
+        <div class="col-sm-4">
+            <label>Encounter Type</label><br />
+            <input asp-for="@Model.EncounterType" name="EncounterType" placeholder="Check up" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Payment</label><br />
+            <input asp-for="@Model.Payment" name="Payment" placeholder="CreditCard" />
+        </div>
+        <div class="col-sm-4">
+            <label>Place Of Service</label><br />
+            <input asp-for="@Model.PlaceOfService" name="PlaceOfService" placeholder="The Hospital" />
+        </div>
+        <div class="col-sm-4">
+            <label>Point Of Origin</label><br />
+            <input asp-for="@Model.PointOfOrigin" name="PointOfOrigin" placeholder="Not sure" />
+        </div>
+    </div>
+    <br />
+    <input asp-for="@Model.LastModified" type="text" readonly hidden value="@(ViewBag.LastModified ?? String.Empty)" />
+    <button class="btn-primary" type="submit">Create</button>
+</form>
+
+<hr />
+<a asp-action="Index">Home</a>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>
+
+
