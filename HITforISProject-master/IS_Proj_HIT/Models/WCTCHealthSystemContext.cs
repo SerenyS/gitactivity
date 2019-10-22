@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -18,10 +17,19 @@ namespace IS_Proj_HIT.Models
 
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<AdmitType> AdmitType { get; set; }
+        public virtual DbSet<AdvancedDirectives> AdvancedDirectives { get; set; }
         public virtual DbSet<AlertType> AlertType { get; set; }
         public virtual DbSet<Allergen> Allergen { get; set; }
+        public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<CareSystemAssessment> CareSystemAssessment { get; set; }
         public virtual DbSet<CareSystemAssessmentType> CareSystemAssessmentType { get; set; }
+        public virtual DbSet<ClinicalReminders> ClinicalReminders { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
         public virtual DbSet<Discharge> Discharge { get; set; }
@@ -32,6 +40,7 @@ namespace IS_Proj_HIT.Models
         public virtual DbSet<EncounterType> EncounterType { get; set; }
         public virtual DbSet<Ethnicity> Ethnicity { get; set; }
         public virtual DbSet<Facility> Facility { get; set; }
+        public virtual DbSet<FallRisks> FallRisks { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<Insurance> Insurance { get; set; }
         public virtual DbSet<Language> Language { get; set; }
@@ -39,8 +48,10 @@ namespace IS_Proj_HIT.Models
         public virtual DbSet<O2deliveryType> O2deliveryType { get; set; }
         public virtual DbSet<PainScaleType> PainScaleType { get; set; }
         public virtual DbSet<Patient> Patient { get; set; }
+        public virtual DbSet<PatientAdvancedDirectives> PatientAdvancedDirectives { get; set; }
         public virtual DbSet<PatientAlerts> PatientAlerts { get; set; }
         public virtual DbSet<PatientAllergy> PatientAllergy { get; set; }
+        public virtual DbSet<PatientClinicalReminders> PatientClinicalReminders { get; set; }
         public virtual DbSet<PatientContactDetails> PatientContactDetails { get; set; }
         public virtual DbSet<PatientEmergencyContact> PatientEmergencyContact { get; set; }
         public virtual DbSet<PatientFallRisks> PatientFallRisks { get; set; }
@@ -60,12 +71,15 @@ namespace IS_Proj_HIT.Models
         public virtual DbSet<PointOfOrigin> PointOfOrigin { get; set; }
         public virtual DbSet<PreferredContactTime> PreferredContactTime { get; set; }
         public virtual DbSet<PreferredModeOfContact> PreferredModeOfContact { get; set; }
+        public virtual DbSet<ProviderType> ProviderType { get; set; }
         public virtual DbSet<PulseRouteType> PulseRouteType { get; set; }
         public virtual DbSet<Race> Race { get; set; }
         public virtual DbSet<Reaction> Reaction { get; set; }
         public virtual DbSet<Relationship> Relationship { get; set; }
         public virtual DbSet<Religion> Religion { get; set; }
+        public virtual DbSet<Restrictions> Restrictions { get; set; }
         public virtual DbSet<Sex> Sex { get; set; }
+        public virtual DbSet<Specialty> Specialty { get; set; }
         public virtual DbSet<TempRouteType> TempRouteType { get; set; }
         public virtual DbSet<UserFacility> UserFacility { get; set; }
         public virtual DbSet<UserTable> UserTable { get; set; }
@@ -75,7 +89,7 @@ namespace IS_Proj_HIT.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=bitsql.wctc.edu;Database=WCTCHealthSystem;User ID=HealthSystemApp;Password=WCTC_H3alth;");
+                optionsBuilder.UseSqlServer("Server=bitsql.wctc.edu;Database=WCTCHealthSystem;User ID=HealthSystemApp;Password=WCTC_H3alth;Trusted_Connection=False;");
             }
         }
 
@@ -145,6 +159,14 @@ namespace IS_Proj_HIT.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<AdvancedDirectives>(entity =>
+            {
+                entity.HasKey(e => e.AdvancedDirectiveId)
+                    .HasName("pk_AdvancedDirectives");
+
+                entity.Property(e => e.AdvancedDirectiveId).HasColumnName("AdvancedDirectiveID");
+            });
+
             modelBuilder.Entity<AlertType>(entity =>
             {
                 entity.HasKey(e => e.AlertId);
@@ -158,11 +180,6 @@ namespace IS_Proj_HIT.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RestrictionType)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -182,6 +199,108 @@ namespace IS_Proj_HIT.Models
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<AspNetRoleClaims>(entity =>
+            {
+                entity.HasIndex(e => e.RoleId);
+
+                entity.Property(e => e.RoleId).IsRequired();
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.AspNetRoleClaims)
+                    .HasForeignKey(d => d.RoleId);
+            });
+
+            modelBuilder.Entity<AspNetRoles>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedName)
+                    .HasName("RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<AspNetUserClaims>(entity =>
+            {
+                entity.HasIndex(e => e.UserId);
+
+                entity.Property(e => e.UserId).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserClaims)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserLogins>(entity =>
+            {
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+                entity.HasIndex(e => e.UserId);
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.ProviderKey).HasMaxLength(128);
+
+                entity.Property(e => e.UserId).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserLogins)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserRoles>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
+
+                entity.HasIndex(e => e.RoleId);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.AspNetUserRoles)
+                    .HasForeignKey(d => d.RoleId);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserRoles)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserTokens>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUsers>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
             modelBuilder.Entity<CareSystemAssessment>(entity =>
@@ -231,6 +350,19 @@ namespace IS_Proj_HIT.Models
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<ClinicalReminders>(entity =>
+            {
+                entity.HasKey(e => e.ClinicalReminderId)
+                    .HasName("pk_ClinicalReminder");
+
+                entity.Property(e => e.ClinicalReminderId).HasColumnName("ClinicalReminderID");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -524,6 +656,21 @@ namespace IS_Proj_HIT.Models
                     .HasConstraintName("fk_Facility_AddressID");
             });
 
+            modelBuilder.Entity<FallRisks>(entity =>
+            {
+                entity.HasKey(e => e.FallRiskId)
+                    .HasName("pk_FallRisks");
+
+                entity.Property(e => e.FallRiskId)
+                    .HasColumnName("FallRiskID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Gender>(entity =>
             {
                 entity.Property(e => e.GenderId)
@@ -760,6 +907,34 @@ namespace IS_Proj_HIT.Models
                     .HasConstraintName("fk_Patient_SexID");
             });
 
+            modelBuilder.Entity<PatientAdvancedDirectives>(entity =>
+            {
+                entity.HasKey(e => e.PatientAdvancedDirectiveId)
+                    .HasName("pk_PatientAdvancedDirectives");
+
+                entity.Property(e => e.PatientAdvancedDirectiveId).HasColumnName("PatientAdvancedDirectiveID");
+
+                entity.Property(e => e.AdvancedDirectiveId).HasColumnName("AdvancedDirectiveID");
+
+                entity.Property(e => e.LastModified)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.PatientAlertId).HasColumnName("PatientAlertID");
+
+                entity.HasOne(d => d.AdvancedDirective)
+                    .WithMany(p => p.PatientAdvancedDirectives)
+                    .HasForeignKey(d => d.AdvancedDirectiveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientAdvancedDirectives_AdvancedDirectiveID");
+
+                entity.HasOne(d => d.PatientAlert)
+                    .WithMany(p => p.PatientAdvancedDirectives)
+                    .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientAdvancedDirectives_PatientAlertID");
+            });
+
             modelBuilder.Entity<PatientAlerts>(entity =>
             {
                 entity.HasKey(e => e.PatientAlertId);
@@ -768,7 +943,13 @@ namespace IS_Proj_HIT.Models
 
                 entity.Property(e => e.AlertTypeId).HasColumnName("AlertTypeID");
 
-                entity.Property(e => e.FallRiskId).HasColumnName("FallRiskID");
+                entity.Property(e => e.Comments).IsUnicode(false);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
@@ -780,35 +961,20 @@ namespace IS_Proj_HIT.Models
                     .HasMaxLength(6)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PatientAllergyId).HasColumnName("PatientAllergyID");
-
-                entity.Property(e => e.RestrictionId).HasColumnName("RestrictionID");
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.AlertType)
                     .WithMany(p => p.PatientAlerts)
                     .HasForeignKey(d => d.AlertTypeId)
                     .HasConstraintName("fk_PatientAlerts_AlertTypeID");
 
-                entity.HasOne(d => d.FallRisk)
-                    .WithMany(p => p.PatientAlerts)
-                    .HasForeignKey(d => d.FallRiskId)
-                    .HasConstraintName("fk_PatientAlerts_FallRiskID");
-
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientAlerts)
                     .HasForeignKey(d => d.Mrn)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientAlerts_MRN");
-
-                entity.HasOne(d => d.PatientAllergy)
-                    .WithMany(p => p.PatientAlerts)
-                    .HasForeignKey(d => d.PatientAllergyId)
-                    .HasConstraintName("fk_PatientAlerts_PatientAllergyID");
-
-                entity.HasOne(d => d.Restriction)
-                    .WithMany(p => p.PatientAlerts)
-                    .HasForeignKey(d => d.RestrictionId)
-                    .HasConstraintName("fk_PatientAlerts_RestrictionID");
             });
 
             modelBuilder.Entity<PatientAllergy>(entity =>
@@ -817,21 +983,11 @@ namespace IS_Proj_HIT.Models
 
                 entity.Property(e => e.AllergenId).HasColumnName("AllergenID");
 
-                entity.Property(e => e.Comments).IsUnicode(false);
-
-                entity.Property(e => e.DateOfFirstReaction).HasColumnType("datetime");
-
-                entity.Property(e => e.DateResolved).HasColumnType("datetime");
-
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Mrn)
-                    .IsRequired()
-                    .HasColumnName("MRN")
-                    .HasMaxLength(6)
-                    .IsUnicode(false);
+                entity.Property(e => e.PatientAlertId).HasColumnName("PatientAlertID");
 
                 entity.Property(e => e.ReactionId).HasColumnName("ReactionID");
 
@@ -840,16 +996,44 @@ namespace IS_Proj_HIT.Models
                     .HasForeignKey(d => d.AllergenId)
                     .HasConstraintName("fk_PatientAllergy_AllergenID");
 
-                entity.HasOne(d => d.MrnNavigation)
+                entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientAllergy)
-                    .HasForeignKey(d => d.Mrn)
+                    .HasForeignKey(d => d.PatientAlertId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PatientAllergy_MRN");
+                    .HasConstraintName("fk_PatientAllergy_PatientAlertID");
 
                 entity.HasOne(d => d.Reaction)
                     .WithMany(p => p.PatientAllergy)
                     .HasForeignKey(d => d.ReactionId)
                     .HasConstraintName("fk_PatientAllergy_ReactionID");
+            });
+
+            modelBuilder.Entity<PatientClinicalReminders>(entity =>
+            {
+                entity.HasKey(e => e.PatientClinicalReminderId)
+                    .HasName("pk_PatientClinicalReminders");
+
+                entity.Property(e => e.PatientClinicalReminderId).HasColumnName("PatientClinicalReminderID");
+
+                entity.Property(e => e.ClinicalReminderId).HasColumnName("ClinicalReminderID");
+
+                entity.Property(e => e.LastModified)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.PatientAlertId).HasColumnName("PatientAlertID");
+
+                entity.HasOne(d => d.ClinicalReminder)
+                    .WithMany(p => p.PatientClinicalReminders)
+                    .HasForeignKey(d => d.ClinicalReminderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientClinicalReminders_ClinicalReminderID");
+
+                entity.HasOne(d => d.PatientAlert)
+                    .WithMany(p => p.PatientClinicalReminders)
+                    .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientClinicalReminders_PatientAlertID");
             });
 
             modelBuilder.Entity<PatientContactDetails>(entity =>
@@ -968,33 +1152,29 @@ namespace IS_Proj_HIT.Models
 
             modelBuilder.Entity<PatientFallRisks>(entity =>
             {
-                entity.HasKey(e => e.FallRiskId);
+                entity.HasKey(e => e.PatientFallRiskId);
+
+                entity.Property(e => e.PatientFallRiskId).HasColumnName("PatientFallRiskID");
 
                 entity.Property(e => e.FallRiskId).HasColumnName("FallRiskID");
-
-                entity.Property(e => e.Comments).IsUnicode(false);
-
-                entity.Property(e => e.DateOfApplication).HasColumnType("datetime");
-
-                entity.Property(e => e.DateOfRemoval).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Mrn)
-                    .IsRequired()
-                    .HasColumnName("MRN")
-                    .HasMaxLength(6)
-                    .IsUnicode(false);
+                entity.Property(e => e.PatientAlertId).HasColumnName("PatientAlertID");
 
-                entity.HasOne(d => d.MrnNavigation)
+                entity.HasOne(d => d.FallRisk)
                     .WithMany(p => p.PatientFallRisks)
-                    .HasForeignKey(d => d.Mrn)
+                    .HasForeignKey(d => d.FallRiskId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PatientFallRisks_MRN");
+                    .HasConstraintName("fk_PatientFallRisks_FallRiskID");
+
+                entity.HasOne(d => d.PatientAlert)
+                    .WithMany(p => p.PatientFallRisks)
+                    .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientFallRisks_PatientAlertID");
             });
 
             modelBuilder.Entity<PatientLanguage>(entity =>
@@ -1082,31 +1262,25 @@ namespace IS_Proj_HIT.Models
 
                 entity.Property(e => e.RestrictionId).HasColumnName("RestrictionID");
 
-                entity.Property(e => e.Comments).IsUnicode(false);
-
-                entity.Property(e => e.DateOfApplication).HasColumnType("datetime");
-
-                entity.Property(e => e.DateOfRemoval).HasColumnType("datetime");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .IsUnicode(false);
-
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Mrn)
-                    .IsRequired()
-                    .HasColumnName("MRN")
-                    .HasMaxLength(6)
-                    .IsUnicode(false);
+                entity.Property(e => e.PatientAlertId).HasColumnName("PatientAlertID");
 
-                entity.HasOne(d => d.MrnNavigation)
+                entity.Property(e => e.RestrictionTypeId).HasColumnName("RestrictionTypeID");
+
+                entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientRestrictions)
-                    .HasForeignKey(d => d.Mrn)
+                    .HasForeignKey(d => d.PatientAlertId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_PatientRestrictions_MRN");
+                    .HasConstraintName("fk_PatientRestrictions_PatientAlertID");
+
+                entity.HasOne(d => d.RestrictionType)
+                    .WithMany(p => p.PatientRestrictions)
+                    .HasForeignKey(d => d.RestrictionTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_PatientRestrictions_RestrictionID");
             });
 
             modelBuilder.Entity<Payment>(entity =>
@@ -1284,16 +1458,49 @@ namespace IS_Proj_HIT.Models
             {
                 entity.Property(e => e.PhysicianId).HasColumnName("PhysicianID");
 
-                entity.Property(e => e.Description).IsUnicode(false);
+                entity.Property(e => e.AddressId).HasColumnName("AddressID");
+
+                entity.Property(e => e.Credentials)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.LastName)
                     .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.License)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpecialtyId).HasColumnName("SpecialtyID");
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Physician)
+                    .HasForeignKey(d => d.AddressId)
+                    .HasConstraintName("FK_Physician_AddressID");
+
+                entity.HasOne(d => d.Specialty)
+                    .WithMany(p => p.Physician)
+                    .HasForeignKey(d => d.SpecialtyId)
+                    .HasConstraintName("FK_Physician_SpecialtyID");
             });
 
             modelBuilder.Entity<PhysicianRole>(entity =>
@@ -1370,6 +1577,22 @@ namespace IS_Proj_HIT.Models
                 entity.HasKey(e => e.ModeOfContactId);
 
                 entity.Property(e => e.ModeOfContactId).HasColumnName("ModeOfContactID");
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.LastModified)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ProviderType>(entity =>
+            {
+                entity.Property(e => e.ProviderTypeId).HasColumnName("ProviderTypeID");
 
                 entity.Property(e => e.Description).IsUnicode(false);
 
@@ -1465,6 +1688,19 @@ namespace IS_Proj_HIT.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Restrictions>(entity =>
+            {
+                entity.HasKey(e => e.RestrictionId)
+                    .HasName("pk_Restriction");
+
+                entity.Property(e => e.RestrictionId).HasColumnName("RestrictionID");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Sex>(entity =>
             {
                 entity.Property(e => e.SexId)
@@ -1478,6 +1714,22 @@ namespace IS_Proj_HIT.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(25)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Specialty>(entity =>
+            {
+                entity.Property(e => e.SpecialtyId).HasColumnName("SpecialtyID");
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.LastModified)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 
@@ -1563,7 +1815,7 @@ namespace IS_Proj_HIT.Models
                     .HasDefaultValueSql("(getdate())");
             });
 
-            modelBuilder.HasSequence("MRN_ID");
+            modelBuilder.HasSequence<int>("MRN_ID");
         }
     }
 }

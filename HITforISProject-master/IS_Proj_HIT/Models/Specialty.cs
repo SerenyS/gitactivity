@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace IS_Proj_HIT.Models
 {
-    public partial class AlertType
+    public partial class Specialty
     {
-        public AlertType()
+        public Specialty()
         {
-            PatientAlerts = new HashSet<PatientAlerts>();
+            Physician = new HashSet<Physician>();
         }
 
-        public int AlertId { get; set; }
+        public int SpecialtyId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<PatientAlerts> PatientAlerts { get; set; }
+        public virtual ICollection<Physician> Physician { get; set; }
     }
 }
