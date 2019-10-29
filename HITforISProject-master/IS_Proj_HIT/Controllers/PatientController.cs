@@ -23,24 +23,37 @@ namespace IS_Proj_HIT.Controllers
         public int PageSize = 8;
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
-        // Displays list of patients
-        public ViewResult Index(string firstname, int patientPage = 1) => View(new ListPatientsViewModel
+        public ViewResult Index(string firstname, int patientPage = 1 /*, string searchString*/)
+
         {
-            Patients = repository.Patients
-                .Include(p => p.Religion)
-                .Include(p => p.Gender)
-                .Include(p => p.Ethnicity)
-                .Include(p => p.MaritalStatus)
-                .OrderBy(p => p.FirstName)
-                .Skip((patientPage - 1) * PageSize)
-                .Take(PageSize),
-            PagingInfo = new PagingInfo
+            var patients = from p in repository.Patients select p;
+
+            patients
+            .Include(p => p.Religion)
+            .Include(p => p.Gender)
+            .Include(p => p.Ethnicity)
+            .Include(p => p.MaritalStatus)
+            .OrderBy(p => p.FirstName)
+            .Skip((patientPage - 1) * PageSize)
+            .Take(PageSize);
+            
+            /*
+            if (!String.IsNullOrEmpty(searchString))
             {
-                CurrentPage = patientPage,
-                ItemsPerPage = PageSize,
-                TotalItems = repository.Patients.Count()
-            }
-        });
+                patients = patients.Where(p => p.LastName.Contains(searchString));
+            } */
+
+            return View(new ListPatientsViewModel
+            {
+                Patients = patients,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = patientPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = patients.Count()
+                }
+            });
+        }
 
 
 
