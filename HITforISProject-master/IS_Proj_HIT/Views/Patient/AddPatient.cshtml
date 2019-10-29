@@ -1,18 +1,22 @@
 ﻿@model IS_Proj_HIT.Models.Patient
 @*@model IS_Proj_HIT.Models.ViewModel.AddPatientsAndEmployment*@
 <link rel="stylesheet" href="~/css/site.css" />
-<div class="bg-primary m-1 p-1 text-white"><h4>Add Patient</h4></div>
-@**@
-<form method="post" id="patient" name="patient" asp-action="AddPatient">
+<div class="card bg-secondary">
+    <div class="card-header bg-primary text-white"><h4>Add Patient</h4></div>
+    @**@
+    <div class="card-body bg-light">
+        <form method="post" id="patient" name="patient" asp-action="AddPatient">
 
-    <partial name="~/Views/Patient/PatientFormFields.cshtml" />
+            <partial name="~/Views/Patient/PatientFormFields.cshtml" />
 
-        <button class="btn-primary" type="submit">Create</button>
-</form>
-@*<input type="text" readonly value="@(ViewBag.NewMRN ?? String.Empty)" />*@
-@*<button class="btn-primary" asp-controller="Patient" asp-action="CreateMRN" type="button">Create MRN</button>*@
-<hr />
-<a asp-action="Index">Home</a>
+            <button class="btn btn-primary btn-block btn-lg" type="submit">Create</button>
+        </form>
+        @*<input type="text" readonly value="@(ViewBag.NewMRN ?? String.Empty)" />*@
+        @*<button class="btn-primary" asp-controller="Patient" asp-action="CreateMRN" type="button">Create MRN</button>*@
+        <hr />
+        <a asp-action="Index">Home</a>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>

@@ -1,95 +1,95 @@
 ﻿@model IS_Proj_HIT.Models.Patient
 <div class="container" asp-validation-summary="All"></div>
-<div class="text-center shadebox">
+<div class="text-center shadebox form-group">
     <label>MRN</label><br />
-    <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" maxlength="6" />
+    <input class="form-control" asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" maxlength="6" />
 </div>
 
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>First Name</label><br />
-        <input asp-for="@Model.FirstName" name="FirstName" placeholder="John" />
+        <input class="form-control" asp-for="@Model.FirstName" name="FirstName" placeholder="John" />
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Middle Initial</label><br />
-        <input asp-for="@Model.MiddleName" name="MiddleName" placeholder="X" maxlength="1" />
+        <input class="form-control" asp-for="@Model.MiddleName" name="MiddleName" placeholder="X" maxlength="1" />
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Last Name</label><br />
-        <input asp-for="@Model.LastName" name="lastName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.LastName" name="lastName" placeholder="Smith" />
 
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Alias First Name</label>
-        <input asp-for="@Model.AliasFirstName" name="aliasFirstName" placeholder="John" />
+        <input class="form-control" asp-for="@Model.AliasFirstName" name="aliasFirstName" placeholder="John" />
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Alias Middle Initial</label>
-        <input asp-for="@Model.AliasMiddleName" name="aliasMiddleName" placeholder="X" maxlength="1" />
+        <input class="form-control" asp-for="@Model.AliasMiddleName" name="aliasMiddleName" placeholder="X" maxlength="1" />
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Alias Last Name</label>
-        <input asp-for="@Model.AliasLastName" name="aliasLastName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.AliasLastName" name="aliasLastName" placeholder="Smith" />
 
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Maiden Name</label>
-        <input asp-for="@Model.MaidenName" name="MaidenName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.MaidenName" name="MaidenName" placeholder="Smith" />
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Mother's Maiden Name</label>
-        <input asp-for="@Model.MothersMaidenName" name="MothersMaidenName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.MothersMaidenName" name="MothersMaidenName" placeholder="Smith" />
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
-        <label for="interp">Interpreter Needed?</label>
-        <input id="interp" asp-for="@Model.InterpreterNeeded" placeholder="30000" />
+    <div class="col-sm-4 form-group">
+        <label class="" for="interp">Interpreter Needed?</label>
+        <input class="" id="interp" asp-for="@Model.InterpreterNeeded" placeholder="30000" />
     </div>
-    <div class="col-sm-4">
-        <label for="deceased">Deceased</label>
-        <input id="deceased" asp-for="@Model.DeceasedLiving" />
+    <div class="col-sm-4 form-group">
+        <label class="" for="deceased">Deceased</label>
+        <input class="" id="deceased" asp-for="@Model.DeceasedLiving" />
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>SSN</label><br />
-        <input asp-for="@Model.Ssn" name="Ssn" maxlength="9" />
+        <input class="form-control" asp-for="@Model.Ssn" name="Ssn" maxlength="9" />
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>DOB</label><br />
-        <input type="date" asp-for="@Model.Dob" name="Dob" placeholder="12/12/1980" />
+        <input class="form-control" type="date" asp-for="@Model.Dob" name="Dob" placeholder="12/12/1980" />
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Marital Status</label>
-        <select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"></select>
+        <select  class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"></select>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Ethnicity ID</label>
         <select class="form-control dropdowns" asp-for="@Model.EthnicityId" asp-items="ViewBag.Ethnicity"></select>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Religion</label>
         @*@Html.DropDownList("ReligionId", (SelectList)ViewBag.Religions, "--Select One--")*@
         <select class="form-control dropdowns" asp-for="@Model.ReligionId" asp-items="ViewBag.Religions"></select>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Sex</label>
         <select class="form-control dropdowns" asp-for="@Model.SexId" asp-items="ViewBag.Sexes"></select>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 form-group">
         <label>Gender</label>
         <select class="form-control dropdowns" asp-for="@Model.GenderId" asp-items="ViewBag.Gender"></select>
     </div>
