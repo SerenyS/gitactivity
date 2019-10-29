@@ -12,6 +12,7 @@ namespace IS_Proj_HIT.Models
             PatientContactDetailsMailingAddress = new HashSet<PatientContactDetails>();
             PatientContactDetailsResidenceAddress = new HashSet<PatientContactDetails>();
             PatientEmergencyContact = new HashSet<PatientEmergencyContact>();
+            Physician = new HashSet<Physician>();
         }
 
         public int AddressId { get; set; }
@@ -29,5 +30,6 @@ namespace IS_Proj_HIT.Models
         public virtual ICollection<PatientContactDetails> PatientContactDetailsMailingAddress { get; set; }
         public virtual ICollection<PatientContactDetails> PatientContactDetailsResidenceAddress { get; set; }
         public virtual ICollection<PatientEmergencyContact> PatientEmergencyContact { get; set; }
+        public virtual ICollection<Physician> Physician { get; set; }
     }
 }

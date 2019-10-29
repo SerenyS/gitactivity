@@ -1,80 +1,65 @@
 ﻿<link rel="stylesheet" href="~/css/forms.css" />
 <div class="bg-primary m-1 p-1 text-white"><h4>Add Encounter</h4></div>
 @model IS_Proj_HIT.Models.Encounter
+<div class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class="patientBanner"><span class="heading">MRN:</span><br /> @(ViewBag.EncounterMRN ?? String.Empty)</div><br />
+    <br /><div class="patientBanner"><span class="heading">PATIENT: </span> @ViewBag.PatientFirstName @ViewBag.PatientMiddleName @ViewBag.PatientLastName</div>
+    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.PatientDob.ToShortDateString()</div>
+    <div class="patientBanner"><span class="heading">Age: </span> @ViewBag.PatientAge</div>
+</div>
 <form method="post" id="encounter" name="encounter" asp-action="AddEncounter">
     <div class="container" asp-validation-summary="All"></div>
-    <div class="text-center shadebox">
-        <label>MRN</label><br />
-        <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" placeholder="ABC321" maxlength="6" />
-    </div>
+    <input asp-for="@Model.PatientCurrentAge" name="Patient Age" placeholder="12" type="hidden" value="@ViewBag.PatientAge" />
+    <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
     <div class="row">
         <div class="col-sm-4">
-            <label>Current Patient Age</label><br />
-            <input asp-for="@Model.PatientCurrentAge" name="Patient Age" placeholder="12" type="number"/>
-        </div>
-        <div class="col-sm-4">
             <label>Chief Complaint</label><br />
-            <input asp-for="@Model.ChiefComplaint" name="ChiefComplaint" placeholder="Johnson" />
+            <textarea asp-for="@Model.ChiefComplaint" name="ChiefComplaint" placeholder="Johnson" type="text">
+            </textarea>
         </div>
         <div class="col-sm-4">
             <label>Room Number</label><br />
-            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="number" />
+            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="number" maxlength="3" class="numberNoArrows" />
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
             <br /><label>Facility Registry Opt In Out</label>
-            <input asp-for="@Model.FacilityRegistryOptInOut" name="FacilityRegistryOptInOut" placeholder="I\'m not sure" />
-        </div>
-        <div class="col-sm-4">
-            <label>Discharge Date</label><br />
-            <input asp-for="@Model.DischargeDate" name="aliasMiddleName" placeholder="10/20/20XX" type="date" />
-        </div>
-        <div class="col-sm-4">
-            <label>Discharge Time</label><br />
-            <input asp-for="@Model.DischargeTime" name="DischargeTime" placeholder="17:32" type="time"/>
+            <input asp-for="@Model.FacilityRegistryOptInOut" name="FacilityRegistryOptInOut" />
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <label>Discharge Disposition</label><br />
-            <input asp-for="@Model.DischargeDisposition" name="DischargeDisposition" placeholder="2?" />
+            <label>Facilities</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.FacilityId" name="FacilityId" asp-items="ViewBag.Facility"></select>
         </div>
         <div class="col-sm-4">
             <label>Admit Type</label><br />
-            <input asp-for="@Model.AdmitType" name="AdmitType" placeholder="Check up" />
-        </div>
-        <div class="col-sm-4">
-            <label>Facility</label><br />
-            <input asp-for="@Model.Facility" name="Facility" placeholder="ProHealth Care Rehabilitation Service Center" />
+            <select class="form-control dropdowns" asp-for="@Model.AdmitTypeId" name="AdmitTypeId" asp-items="ViewBag.AdmitTypes"></select>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <label>Department</label><br />
-            <input asp-for="@Model.Department" placeholder="Nursing" />
+            <label>Departments</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.DepartmentId" name="DepartmentId" asp-items="ViewBag.Departments"></select>
         </div>
         <div class="col-sm-4">
             <label>Encounter Physicians</label><br />
-            <input asp-for="@Model.EncounterPhysicians" placeholder="Bryan, Angela" />
+            <select class="form-control dropdowns" asp-for="@Model.EncounterPhysiciansId" name="EncounterPhysiciansId" asp-items="ViewBag.EncounterPhysicians"></select>
         </div>
         <div class="col-sm-4">
-            <label>Encounter Type</label><br />
-            <input asp-for="@Model.EncounterType" name="EncounterType" placeholder="Check up" />
+            <label>Encounter Types</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.EncounterTypeId" name="EncounterTypeId" asp-items="ViewBag.EncounterTypes"></select>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <label>Payment</label><br />
-            <input asp-for="@Model.Payment" name="Payment" placeholder="CreditCard" />
-        </div>
-        <div class="col-sm-4">
             <label>Place Of Service</label><br />
-            <input asp-for="@Model.PlaceOfService" name="PlaceOfService" placeholder="The Hospital" />
+            <select class="form-control dropdowns" asp-for="@Model.PlaceOfServiceId" name="PlaceOfServiceId" asp-items="ViewBag.PlacesOfService"></select>
         </div>
         <div class="col-sm-4">
             <label>Point Of Origin</label><br />
-            <input asp-for="@Model.PointOfOrigin" name="PointOfOrigin" placeholder="Not sure" />
+            <select class="form-control dropdowns" asp-for="@Model.PointOfOriginId" name="PointOfOriginId" asp-items="ViewBag.PointsOfOrigin"></select>
         </div>
     </div>
     <br />

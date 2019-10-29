@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IS_Proj_HIT.Models
 {
     public partial class PatientFallRisks
     {
-        public PatientFallRisks()
-        {
-            PatientAlerts = new HashSet<PatientAlerts>();
-        }
-
-        public long FallRiskId { get; set; }
-        public string Description { get; set; }
-        public string Mrn { get; set; }
-        public DateTime DateOfApplication { get; set; }
-        public DateTime? DateOfRemoval { get; set; }
-        public string Comments { get; set; }
+        public long PatientFallRiskId { get; set; }
         public DateTime LastModified { get; set; }
+        public long PatientAlertId { get; set; }
+        public byte FallRiskId { get; set; }
 
-        public virtual Patient MrnNavigation { get; set; }
-        public virtual ICollection<PatientAlerts> PatientAlerts { get; set; }
+        public virtual FallRisks FallRisk { get; set; }
+        public virtual PatientAlerts PatientAlert { get; set; }
     }
 }
