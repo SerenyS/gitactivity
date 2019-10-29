@@ -3,9 +3,15 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
+
 @if (SignInManager.IsSignedIn(User))
 {
+    @if (User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Faculty") || User.IsInRole("Administrator"))
+    {
     <li class="nav-item">
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Administration</a></li>
+        }
+<li class="nav-item">
         <a  class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
     </li>
     <li class="nav-item">
