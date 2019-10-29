@@ -3,9 +3,9 @@
 
 // Write your JavaScript code.
 
-$(function(){
+$(function () {
     console.log('Hi');
-    
+
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
     });
@@ -28,16 +28,11 @@ $(function(){
             return true;
         return false;
     }, "Too far in the past!");   // error message
-    
+
 
     $("form[name='patient']").validate({
         // Specify validation rules
         rules: {
-            Mrn: {
-                required: true,
-                minlength: 6,
-                maxlength:6
-            },
             FirstName: {
                 required: true,
                 alphabetsnspace: true
@@ -60,18 +55,12 @@ $(function(){
             },
             Ssn: {
                 required: true,
-                minlength: 9,
-                number: true
+                minlength: 9
             }
-            
+
         },
         // Specify validation error messages
         messages: {
-            Mrn: {
-                required: "Please provide an MRN with 6 digits",
-                minlength: "The MRN must be  6 digits long",
-                maxlength: "The MRN must be  6 digits long"
-            },
             
             FirstName: {
                 required: "Please provide a first name",
@@ -83,8 +72,7 @@ $(function(){
             },
             Ssn: {
                 required: "Please provide a Social Security Number",
-                minlength: "Your SSN must be at least 10 digits long",
-                number: "SSN should be numeric"
+                minlength: "Your SSN must be at least 10 digits long"
             },
             MiddleName: "Only one letter allowed",
             aliasFirstName: "Only letters allowed",
@@ -103,11 +91,6 @@ $(function(){
     $("form[name='patientEdit']").validate({
         // Specify validation rules
         rules: {
-            Mrn: {
-                required: true,
-                minlength: 6,
-                maxlength:6
-            },
             FirstName: {
                 required: true,
                 alphabetsnspace: true
@@ -130,8 +113,7 @@ $(function(){
             },
             Ssn: {
                 required: true,
-                minlength: 9,
-                number: true
+                minlength: 9
             }
 
         },
@@ -147,8 +129,7 @@ $(function(){
             },
             Ssn: {
                 required: "Please provide a Social Security Number",
-                minlength: "Your SSN must be at least 10 digits long",
-                number: "SSN should be numeric"
+                minlength: "Your SSN must be at least 10 digits long"
             },
             MiddleName: "Only one letter allowed",
             aliasFirstName: "Only letters allowed",
@@ -208,5 +189,110 @@ $(function(){
             form.submit();
         }
     });
+
+    // Calc age from DOB input in add/edit patient when leaving DOB field
+    $('.dob').focusout(function () {
+        var dob = $('.dob').val();
+        console.log("Hello " + dob);
+        if (dob != '') {
+            var DateCreated = new Date(Date.parse(dob));
+            var today = new Date();
+
+            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+            console.log("dayDiff " + dayDiff);
+            var age = parseInt(dayDiff);
+            console.log("age " + age);
+            $('.age').text(age);
+
+        }
+    });
+
+    // Calc age in div in Details page
+    $(function () {
+        var dob = $('.dob').html();
+        var dob1 = $('.dob').val();
+        
+        if (dob != '') {
+            var DateCreated = new Date(Date.parse(dob));
+            var today = new Date();
+
+            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+            
+            var age = parseInt(dayDiff);
+            
+            $('.age').text(age);
+            $('.age').css('background-color', 'gold');
+
+        }
+
+        if (dob1 != '') {
+            var DateCreated = new Date(Date.parse(dob1));
+            var today = new Date();
+
+            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+            console.log("dayDiff " + dayDiff);
+            var age = parseInt(dayDiff);
+            console.log("age " + age);
+            $('.age').text(age);
+
+        }
+    });
+
+    // When SSN is being edited, the dashes are added
+    $('#Ssn').keyup(function () {
+        var val = this.value.replace(/\D/g, '');
+        val = val.replace(/^(\d{3})/, '$1-');
+        val = val.replace(/-(\d{2})/, '-$1-');
+        val = val.replace(/(\d)-(\d{4}).*/, '$1-$2');
+        this.value = val;
+    });
+
+    // When page loads, if SSN field is on there, this adds the dashes
+    $(function () {
+        var val = $('#Ssn').text();
+        val.replace(/\D/g, '');
+        val = val.replace(/^(\d{3})/, '$1-');
+        val = val.replace(/-(\d{2})/, '-$1-');
+        val = val.replace(/(\d)-(\d{4}).*/, '$1-$2');
+        $('#Ssn').html(val);
+    });
+
+    // When user clicks save or create on Add Patient or Edit Patient page
+    $('#formatSsnAndSubmitForm').on('click', function () {
+        var temp = $('#Ssn').val();
+        var fixed = temp.replace(/-/g, '')
+        $('#Ssn').val(fixed);
+    });
+
+
+    $('#formatSsnAndSubmitForm').hide();
+
+    $("#patientEdit").on('change', function () {
+        $('#formatSsnAndSubmitForm').show();
+    });
+
+    $('#patient').on('change', function () {
+        $('#formatSsnAndSubmitForm').show();
+    });
+
+    $("#showAddAlertModal").click(function () {
+        alert("HI");
+        //modal.style.display = "block";
+        //$("#ModelPopUp").modal('show');
+    });
+
+     
     
-})
+
+
+    $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#allergylist").filter(function () {
+            $(this).toggle($(this).asp-items().toLowerCase().indexOf(value) > -1)
+        });
+    });
+   
+});
+    
+
+

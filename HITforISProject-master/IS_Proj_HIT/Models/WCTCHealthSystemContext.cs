@@ -1490,12 +1490,19 @@ namespace IS_Proj_HIT.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProviderTypeId).HasColumnName("ProviderTypeID");
+
                 entity.Property(e => e.SpecialtyId).HasColumnName("SpecialtyID");
 
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Physician)
                     .HasForeignKey(d => d.AddressId)
                     .HasConstraintName("FK_Physician_AddressID");
+
+                entity.HasOne(d => d.ProviderType)
+                    .WithMany(p => p.Physician)
+                    .HasForeignKey(d => d.ProviderTypeId)
+                    .HasConstraintName("FK_Physician_ProviderTypeID");
 
                 entity.HasOne(d => d.Specialty)
                     .WithMany(p => p.Physician)

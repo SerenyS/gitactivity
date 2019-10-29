@@ -1,0 +1,61 @@
+﻿@using IS_Proj_HIT.Models
+@model ListAlertsViewModel
+
+@ViewBag.Message
+<br />
+<h2><i class="fas fa-exclamation-triangle alertColor"></i> Alerts for MRN: @ViewBag.myMrn</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Alert Type</th>
+            <th scope="col">MRN</th>
+            <th scope="col">Active?</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Comments</th>
+            <th scope="col">Last Modified</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patientalerts in Model.PatientAlerts)
+        {
+            <tr>
+
+                <td>@patientalerts.AlertType.Name</td>
+                <td>@patientalerts.Mrn</td>
+                <td>@patientalerts.IsActive</td>
+                <td>@patientalerts.StartDate.ToShortDateString()</td>
+                <td>@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
+                <td width="300px">@patientalerts.Comments</td>
+                <td>@patientalerts.LastModified</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<a asp-action="DisplayAddAlert" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
+    <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert
+</a>
+<a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details
+</a>
+
+<hr />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script>
+// Alert Type drop down list from Add Alert in Patients area
+    //$(function () {
+    //    console.log("this");
+    //    if ($('#peace').text() != '') {
+    //        var enddatevalue = $('.endDate').val().getYear();
+    //        $(this).text("peace");
+
+
+    //    }
+
+    //});
+</script>
