@@ -19,9 +19,12 @@ namespace IS_Proj_HIT.Models
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public int? SpecialtyId { get; set; }
+        public int? ProviderTypeId { get; set; }
+        public byte? ProviderStatus { get; set; }
         public DateTime LastModified { get; set; }
-
+      
         public virtual Address Address { get; set; }
+        public virtual ProviderType ProviderType { get; set; }
         public virtual Specialty Specialty { get; set; }
         public virtual ICollection<EncounterPhysicians> EncounterPhysicians { get; set; }
     }
