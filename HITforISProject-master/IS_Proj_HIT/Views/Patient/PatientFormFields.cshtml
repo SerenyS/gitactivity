@@ -1,10 +1,10 @@
 ﻿@model IS_Proj_HIT.Models.Patient
 <div class="container" asp-validation-summary="All"></div>
+
 <div class="text-center shadebox form-group">
     <label>MRN</label><br />
     <input class="form-control" asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" maxlength="6" />
 </div>
-
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>First Name</label><br />
@@ -62,11 +62,15 @@
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>SSN</label><br />
-        <input class="form-control" asp-for="@Model.Ssn" name="Ssn" maxlength="9" />
+        <input class="form-control" asp-for="@Model.Ssn" name="Ssn" maxlength="11" />
     </div>
     <div class="col-sm-4 form-group">
         <label>DOB</label><br />
         <input class="form-control" type="date" asp-for="@Model.Dob" name="Dob" placeholder="12/12/1980" />
+    </div>
+    <div class="col-sm-4">
+        <label class="ageLabel">Age</label><br />
+        <div class="age" type="date"></div>
     </div>
 </div>
 <div class="row">
@@ -80,7 +84,6 @@
     </div>
     <div class="col-sm-4 form-group">
         <label>Religion</label>
-        @*@Html.DropDownList("ReligionId", (SelectList)ViewBag.Religions, "--Select One--")*@
         <select class="form-control dropdowns" asp-for="@Model.ReligionId" asp-items="ViewBag.Religions"></select>
     </div>
 </div>

@@ -3,22 +3,21 @@
 <div class="bg-primary m-1 p-1 text-white"><h4>Edit Patient</h4></div>
 <div class="list-group">
     <form method="post" id="patientEdit" name="patientEdit" asp-action="Update">
-
-        <partial name="~/Views/Patient/PatientFormFields.cshtml" />
-        <div class="row" id="employmentSelection">
-            <div class="col-md-10">
-                <label>Employer Name -- Occupation</label>
-                @*@Html.DropDownList("EmploymentId", (SelectList)ViewBag.Employment, "--Select One--")*@
-                <select class="form-control dropdowns" asp-for="@Model.EmploymentId" asp-items="ViewBag.Employment"></select>
-            </div>
+        <div class="text-center shadebox">
+            <label>MRN</label><br />
+            <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" readonly maxlength="6" />
         </div>
-        <button type="submit">Save</button>
-
+        <partial name="~/Views/Patient/PatientFormFields.cshtml" />
+        <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
     </form>
 </div>
 
 <hr />
-<a asp-action="Index">Home</a>
+
+<a asp-action="Index" id="homeLink" class="btn btn-outline-primary">Home</a>
+<a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Mrn"  class="btn btn-outline-primary">
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back To Details</a>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>

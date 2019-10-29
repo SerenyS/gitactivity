@@ -1,9 +1,6 @@
 ﻿@using IS_Proj_HIT.Models.ViewModels
 @model ListPatientsViewModel
 
-
-<div class="bg-primary m-1 p-1 text-white"><h4>Patients</h4></div>
-
 <table class="table">
     <thead>
         <tr>
@@ -29,11 +26,15 @@
             <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
             <td>@patient.Dob.ToShortDateString()</td>
             @*<td>@patient.Religion.Name</td>
-        <td>@patient.Gender.Name</td>
-        <td>@patient.Ethnicity.Name</td>
-        <td>@patient.MaritalStatus.Name</td>*@
-            <td id="special"><button type="button" class="btn btn-outline-primary"><a asp-action="Edit" asp-route-id="@patient.Mrn">Edit</a></button> <button type="button" class="btn btn-outline-primary"><a asp-action="DeletePatient" asp-route-id="@patient.Mrn">Delete</a></button></td>
-            <td><a asp-action="AddEncounter" asp-route-id="@patient.Mrn">Add Encounter</a></td>
+            <td>@patient.Gender.Name</td>
+            <td>@patient.Ethnicity.Name</td>
+            <td>@patient.MaritalStatus.Name</td>*@
+            <td id="special">
+                    <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
+            <td>
+                
+                    
+             </td>
         </tr>
         }
 
@@ -45,4 +46,5 @@
      class="btn-group" pull-right m-1></div>
 
 <hr />
-<button type="button" class="btn btn-outline-primary"><a asp-action="AddPatient">Create New Patient</a></button>
+<a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
+<a asp-controller="home" asp-action="Index" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Home Page</a>

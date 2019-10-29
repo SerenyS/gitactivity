@@ -9,14 +9,11 @@ namespace IS_Proj_HIT.Models
         {
             Encounter = new HashSet<Encounter>();
             PatientAlerts = new HashSet<PatientAlerts>();
-            PatientAllergy = new HashSet<PatientAllergy>();
             PatientContactDetails = new HashSet<PatientContactDetails>();
             PatientEmergencyContact = new HashSet<PatientEmergencyContact>();
-            PatientFallRisks = new HashSet<PatientFallRisks>();
             PatientLanguage = new HashSet<PatientLanguage>();
             PatientMilitaryService = new HashSet<PatientMilitaryService>();
             PatientRace = new HashSet<PatientRace>();
-            PatientRestrictions = new HashSet<PatientRestrictions>();
         }
 
         public string Mrn { get; set; }
@@ -48,14 +45,10 @@ namespace IS_Proj_HIT.Models
         public virtual Sex Sex { get; set; }
         public virtual ICollection<Encounter> Encounter { get; set; }
         public virtual ICollection<PatientAlerts> PatientAlerts { get; set; }
-        public virtual ICollection<PatientAllergy> PatientAllergy { get; set; }
         public virtual ICollection<PatientContactDetails> PatientContactDetails { get; set; }
         public virtual ICollection<PatientEmergencyContact> PatientEmergencyContact { get; set; }
-        public virtual ICollection<PatientFallRisks> PatientFallRisks { get; set; }
         public virtual ICollection<PatientLanguage> PatientLanguage { get; set; }
         public virtual ICollection<PatientMilitaryService> PatientMilitaryService { get; set; }
         public virtual ICollection<PatientRace> PatientRace { get; set; }
-        public virtual ICollection<PatientRestrictions> PatientRestrictions { get; set; }
-
     }
 }
