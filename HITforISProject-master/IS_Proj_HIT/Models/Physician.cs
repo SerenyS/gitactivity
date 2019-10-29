@@ -22,7 +22,7 @@ namespace IS_Proj_HIT.Models
         public int? ProviderTypeId { get; set; }
         public byte? ProviderStatus { get; set; }
         public DateTime LastModified { get; set; }
-
+      
         public virtual Address Address { get; set; }
         public virtual ProviderType ProviderType { get; set; }
         public virtual Specialty Specialty { get; set; }
