@@ -7,7 +7,10 @@
     @**@
     <div class="card-body bg-light">
         <form method="post" id="patient" name="patient" asp-action="AddPatient">
-
+            <div class="text-center shadebox">
+                <label>MRN</label><br />
+                <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" readonly value="@(ViewBag.MRN ?? String.Empty)" />
+            </div>
             <partial name="~/Views/Patient/PatientFormFields.cshtml" />
 
             <button class="btn btn-primary btn-block btn-lg" type="submit">Create</button>
