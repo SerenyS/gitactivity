@@ -100,53 +100,8 @@ namespace isprojectHiT.Models
         public void AddAlert(AlertsViewModel alert)
         {
 
-            //PatientAlerts pa = new PatientAlerts();
-            //PatientFallRisks pfr = new PatientFallRisks();
-            //using (var context = new WCTCHealthSystemContext())
-            //{
-            //    using (var transaction = context.Database.BeginTransaction())
-            //    {
-            //        try
-            //        {
-            //            // do your changes
 
-            //            pa.AlertTypeId = alert.AlertTypeId;
-            //            pa.PatientAlertId = alert.PatientAlertId;
-            //            pa.Mrn = alert.Mrn;
-            //            pa.LastModified = alert.LastModified;
-            //            pa.StartDate = alert.StartDate;
-            //            pa.EndDate = alert.EndDate;
-            //            pa.Comments = alert.Comments;
-            //            context.PatientAlerts.Add(pa);
-            //            context.SaveChanges();
-
-            //            pfr.FallRiskId = alert.FallRiskId;
-            //            pfr.PatientAlertId = alert.PatientAlertId;
-            //            pfr.FallRiskId = alert.FallRiskId;
-            //            pfr.LastModified = alert.LastModified;
-            //            context.PatientFallRisks.Add(pfr);
-            //            context.SaveChanges();
-
-            //            //            // do another changes
-            //            //            context.SaveChanges();
-
-            //            transaction.Commit();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine("The following error appeared: " + ex.Message);
-            //            transaction.Rollback();
-
-            //            //Log, handle or absorbe I don't care ^_^
-            //        }
-            //    }
-            //}
-
-
-            Debug.WriteLine("this is fallRiskId " + alert.FallRiskId);
-            Debug.WriteLine("this is alert.PatientAlertId " + alert.PatientAlertId);
-            Debug.WriteLine("this is LastModified " + alert.LastModified);
-
+            
             PatientAlerts pa = new PatientAlerts();
             pa.AlertTypeId = alert.AlertTypeId;
             pa.PatientAlertId = alert.PatientAlertId;
@@ -155,32 +110,36 @@ namespace isprojectHiT.Models
             pa.StartDate = alert.StartDate;
             pa.EndDate = alert.EndDate;
             pa.Comments = alert.Comments;
-            context.PatientAlerts.Add(pa);
+            //context.PatientAlerts.Add(pa);
+            context.Attach(pa);
             context.SaveChanges();
+            long patientAlertid = pa.PatientAlertId;
 
             PatientFallRisks pfr = new PatientFallRisks();
             pfr.FallRiskId = alert.FallRiskId;
-            pfr.PatientAlertId = alert.PatientAlertId;
+            pfr.PatientAlertId = patientAlertid;
             pfr.LastModified = alert.LastModified;
             context.PatientFallRisks.Add(pfr);
+
+            context.Attach(pfr);
+
             context.SaveChanges();
 
-            //PatientRestrictions pr = new PatientRestrictions();
-            //pr.RestrictionTypeId = alert.RestrictionTypeId;
-            //pr.PatientAlertId = alert.PatientAlertId;
-            //pr.LastModified = alert.LastModified;
-            //context.PatientRestrictions.Add(pr);
-            //context.SaveChanges();
-            //}
+            PatientRestrictions pr = new PatientRestrictions();
+            pr.RestrictionTypeId = alert.RestrictionTypeId;
+            pr.PatientAlertId = patientAlertid;
+            pr.LastModified = alert.LastModified;
+            context.PatientRestrictions.Add(pr);
+            context.SaveChanges();
 
-            //PatientAllergy pall = new PatientAllergy();
-            //pall.AllergenId = alert.AllergenId;
-            //pall.ReactionId = alert.ReactionId;
-            //pall.PatientAlertId = alert.PatientAlertId;
-            //pall.LastModified = alert.LastModified;
-            //context.PatientAllergy.Add(pall);
-            //context.SaveChanges();
+            PatientAllergy pall = new PatientAllergy();
+            pall.AllergenId = alert.AllergenId;
+            pall.ReactionId = alert.ReactionId;
+            pall.PatientAlertId = patientAlertid;
+            pall.LastModified = alert.LastModified;
+            context.PatientAllergy.Add(pall);
+            context.SaveChanges();
         }
 
-        }
+    }
 }

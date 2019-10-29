@@ -418,14 +418,14 @@ namespace IS_Proj_HIT.Controllers
 
             ViewBag.LastModified = @DateTime.Now;
 
-            ViewBag.AlertType = repository.AlertTypes.Select(a =>
+            ViewBag.AlertType = repository.AlertTypes.OrderBy(a => a.Name).Select(a =>
                     new SelectListItem
                     {
                         Value = a.AlertId.ToString(),
                         Text = a.Name
                     }).ToList();
 
-            ViewBag.Restriction = repository.Restrictions.Include(r=>r.PatientRestrictions).Select(r =>
+            ViewBag.Restriction = repository.Restrictions.OrderBy(r => r.Name).Include(r=>r.PatientRestrictions).Select(r =>
                       new SelectListItem
                       {
                           Value = r.RestrictionId.ToString(),
@@ -434,7 +434,7 @@ namespace IS_Proj_HIT.Controllers
 
             //var query = repository.FallRisk.Select(r => new { r.FallRiskId, r.FallRisk.Name });
             //ViewBag.PatientFallRisk = new SelectList(query.AsEnumerable(), "FallRiskId", "Name", 0);
-            ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
+            ViewBag.PatientFallRisk = repository.FallRisks.OrderBy(r => r.Name).Include(r => r.PatientFallRisks).Select(r =>
                    new SelectListItem
                    {
                        Value = r.FallRiskId.ToString(),
@@ -443,7 +443,7 @@ namespace IS_Proj_HIT.Controllers
 
 
 
-            ViewBag.Allergens = repository.Allergens.Include(r => r.PatientAllergy)
+            ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
             .Select(r =>
                new SelectListItem
                {
@@ -453,7 +453,7 @@ namespace IS_Proj_HIT.Controllers
 
 
 
-            ViewBag.Reactions = repository.Reactions.Include(r => r.PatientAllergy).Select(r =>
+            ViewBag.Reactions = repository.Reactions.OrderBy(r => r.Name).Include(r => r.PatientAllergy).Select(r =>
                   new SelectListItem
                   {
                       Value = r.ReactionId.ToString(),

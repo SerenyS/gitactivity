@@ -60,7 +60,7 @@
                     <div class="form-group" id="fallRiskList">
                         <label>Fall Risk</label><br />
                         @*@Html.DropDownList("FallRiskId", (SelectList)ViewBag.PatientFallRisk, "--Select One--")*@
-                        <select class="form-control chosen" asp-for="@Model.PatientFallRisk.PatientFallRiskId" asp-items="ViewBag.PatientFallRisk"></select>
+                        <select class="form-control chosen" asp-for="@Model.FallRiskId" asp-items="ViewBag.PatientFallRisk"></select>
                     </div>
                     <div class="form-group" id="restrictionList">
                         <label>Restriction</label><br />
