@@ -99,9 +99,6 @@ namespace isprojectHiT.Models
 
         public void AddAlert(AlertsViewModel alert)
         {
-
-
-            
             PatientAlerts pa = new PatientAlerts();
             pa.AlertTypeId = alert.AlertTypeId;
             pa.PatientAlertId = alert.PatientAlertId;
@@ -119,8 +116,6 @@ namespace isprojectHiT.Models
             pfr.FallRiskId = alert.FallRiskId;
             pfr.PatientAlertId = patientAlertid;
             pfr.LastModified = alert.LastModified;
-            context.PatientFallRisks.Add(pfr);
-
             context.Attach(pfr);
 
             context.SaveChanges();
