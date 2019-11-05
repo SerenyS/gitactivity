@@ -1,0 +1,48 @@
+﻿@using IS_Proj_HIT.Models.ViewModels
+@model IEnumerable<IS_Proj_HIT.Models.Encounter>
+@{
+    ViewData["Title"] = "Encounter List";
+    var i = 0;
+    List<String> firstNames = (List<String>)ViewData["FirstNames"];
+    List<String> lastNames = (List<String>)ViewData["LastNames"];
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">MRN</th>
+            <th scope="col">Name</th>
+            <th scope="col">Admit Time</th>
+            <th scope="col">Edit Encounter</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var encounter in Model)
+        {
+            <tr>
+                <td>@encounter.Mrn</td>
+                <td>@firstNames[i] @lastNames[i]</td>
+                <td>@encounter.AdmitDateTime</td>
+                <td id="special">
+                    <a asp-action="EditEncounter" asp-route-id="@encounter.Mrn" class="btn btn-outline-primary">Edit</a>
+                    <a onclick="deleteCheck(@firstNames[i], @lastNames[i], @encounter.AdmitDateTime)" asp-action="DeleteEncounter" asp-route-encounterId="@encounter.EncounterId" class="btn btn-danger">Delete</a>
+                    <a asp-action="DeleteEncounter" asp-route-encounterId="@encounter.EncounterId" id="goDelete" class="btn" hidden>hidden</a>
+            <td></td>
+            </tr>
+            i++;
+        }
+
+    </tbody>
+</table>
+@section Scripts{ 
+<script>
+    function deleteCheck(firstName, lastName, time)
+    {
+        comfirm("hey howdy");
+        if (comfirm("Are you sure you want to delete the encounter of " + firstName + " " + lastName + " on " + time + "?")) {
+            $("#goDelete").click();
+        }
+    }
+</script>
+}

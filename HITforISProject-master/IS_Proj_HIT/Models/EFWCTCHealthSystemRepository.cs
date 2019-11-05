@@ -83,6 +83,12 @@ namespace isprojectHiT.Models
             context.SaveChanges();
         }
 
+        public void DeleteEncounter(Encounter encounter)
+        {
+            context.Remove(encounter);
+            context.SaveChanges();
+        }
+
         public void EditPatient(Patient patient)
         {
             /*if (patient.Mrn == 0)
@@ -93,6 +99,13 @@ namespace isprojectHiT.Models
             {*/
             context.Update(patient);
             //}
+
+            context.SaveChanges();
+        }
+
+        public void EditEncounter(Encounter encounter)
+        {
+            context.Update(encounter);
 
             context.SaveChanges();
         }

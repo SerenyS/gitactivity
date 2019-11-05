@@ -42,6 +42,8 @@ namespace isprojectHiT.Models
         void AddPatient(Patient patient);
         void DeletePatient(Patient patient);
         void EditPatient(Patient patient);
+        void EditEncounter(Encounter encounter);
+        void DeleteEncounter(Encounter encounter);
 
         void AddAlert(AlertsViewModel alert);
         void AddEmployment(Employment employment);

@@ -239,11 +239,7 @@ namespace IS_Proj_HIT.Controllers
                 }
                 else
                 {
-                    Debug.WriteLine("find me! " + Request.Form["Facility"]);
                     model.LastModified = @DateTime.Now;
-                    Debug.WriteLine("MRN: " + model.Mrn);
-                    Debug.WriteLine("Facility: " + model.FacilityId);
-                    Debug.WriteLine("EncounterType: " + model.EncounterTypeId);
                     repository.AddEncounter(model);
                     return RedirectToAction("Index");
                 }

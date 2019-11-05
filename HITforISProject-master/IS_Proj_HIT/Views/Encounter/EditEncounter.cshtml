@@ -1,5 +1,5 @@
 ﻿<link rel="stylesheet" href="~/css/forms.css" />
-<div class="bg-primary m-1 p-1 text-white"><h4>Add Encounter</h4></div>
+<div class="bg-primary m-1 p-1 text-white"><h4>Edit Encounter</h4></div>
 @model IS_Proj_HIT.Models.Encounter
 <div class="navbar navbar-expand-lg navbar-dark bg-secondary">
     <div class="patientBanner"><span class="heading">MRN:</span><br /> @(ViewBag.EncounterMRN ?? String.Empty)</div><br />
@@ -7,10 +7,12 @@
     <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.PatientDob.ToShortDateString()</div>
     <div class="patientBanner"><span class="heading">Age: </span> @ViewBag.PatientAge</div>
 </div>
-<form method="post" id="encounter" name="encounter" asp-action="AddEncounter">
+<form method="post" id="editEncounter" name="editEncounter" asp-action="Update">
     <div class="container" asp-validation-summary="All"></div>
     <input asp-for="@Model.PatientCurrentAge" name="Patient Age" type="hidden" value="@ViewBag.PatientAge" />
     <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
+    <input asp-for="@Model.EncounterId" name="EncounterId" type="hidden" value="@ViewBag.EncounterId" />
+    <input asp-for="@Model.AdmitDateTime" name="AdmitDateTime" type="hidden" value="@ViewBag.AdmitDateTime" />
     <div class="row">
         <div class="col-sm-4">
             <label>Chief Complaint</label><br />
@@ -64,11 +66,11 @@
     </div>
     <br />
     <input asp-for="@Model.LastModified" type="text" readonly hidden value="@(ViewBag.LastModified ?? String.Empty)" />
-    <button class="btn-primary" type="submit">Create</button>
+    <button class="btn-primary" type="submit">Save</button>
 </form>
 
 <hr />
-<a asp-action="Index">Home</a>
+<a asp-action="Index">Back to Encounters</a>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
