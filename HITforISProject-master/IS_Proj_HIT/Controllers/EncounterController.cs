@@ -26,25 +26,28 @@ namespace IS_Proj_HIT.Controllers
         public ViewResult Index(int encounterPage = 1 /*, string searchString*/)
 
         {
-            var encounters = (from e in repository.Encounters select e).ToList();
-            List<String> encounterFirstnames = new List<string>();
-            List<String> encounterLastnames = new List<string>();
-            var patients = (from p in repository.Patients select p).ToList();
-            for (int ii = 0; ii < encounters.Count(); ii++)
-            {
-                for (int i = 0; i < patients.Count(); i++)
+            var patientEncounters = repository.Encounters
+                .Join(repository.Patients,
+                encounter => encounter.Mrn,
+                patient => patient.Mrn,
+                (encounter, patient) => new
                 {
-                    if (encounters[ii].Mrn == patients[i].Mrn)
-                    {
-                        encounterFirstnames.Add(patients.ElementAt(i).FirstName);
-                        encounterLastnames.Add(patients.ElementAt(i).LastName);
-                    }
-                }
-            }
-            ViewData["FirstNames"] = encounterFirstnames;
-            ViewData["LastNames"] = encounterLastnames;
+                    Mrn = encounter.Mrn,
+                    EncounterId = encounter.EncounterId,
+                    AdmitDateTime = encounter.AdmitDateTime,
+                    FirstName = patient.FirstName,
+                    LastName = patient.LastName
 
-            return View(encounters.ToList());
+                }).ToList();
+            List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
+            for(int i = 0; i < patientEncounters.Count(); i++)
+            {
+                EncounterPatientViewModel thisPatientEncounter = new EncounterPatientViewModel(patientEncounters[i].Mrn,
+                    patientEncounters[i].EncounterId, patientEncounters[i].AdmitDateTime,
+                    patientEncounters[i].FirstName, patientEncounters[i].LastName);
+                viewPatientEncounters.Add(thisPatientEncounter);
+            }
+            return View(viewPatientEncounters);
         }
 
         // Deletes Encounter
