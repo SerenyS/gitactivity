@@ -58,6 +58,7 @@ namespace isprojectHiT.Models
         public IQueryable<EncounterPhysicians> EncounterPhysicians => context.EncounterPhysicians;
         public IQueryable<Facility> Facilities => context.Facility;
         public IQueryable<Physician> Physicians => context.Physician;
+        public IQueryable<PhysicianRole> PhysicianRoles => context.PhysicianRole;
 
         public void AddEmployment(Employment employment)
         {
@@ -83,6 +84,12 @@ namespace isprojectHiT.Models
             context.SaveChanges();
         }
 
+        public void DeleteEncounter(Encounter encounter)
+        {
+            context.Remove(encounter);
+            context.SaveChanges();
+        }
+
         public void EditPatient(Patient patient)
         {
             /*if (patient.Mrn == 0)
@@ -93,6 +100,13 @@ namespace isprojectHiT.Models
             {*/
             context.Update(patient);
             //}
+
+            context.SaveChanges();
+        }
+
+        public void EditEncounter(Encounter encounter)
+        {
+            context.Update(encounter);
 
             context.SaveChanges();
         }
