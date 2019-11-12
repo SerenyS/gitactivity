@@ -63,16 +63,17 @@ namespace IS_Proj_HIT.Controllers
 
 
         // Displays the Edit Encounter page
-        public IActionResult EditEncounter(string id)
+        public IActionResult EditEncounter(long encounterId)
         {
-            ViewBag.EncounterId = repository.Encounters.FirstOrDefault(b => b.Mrn == id).EncounterId;
-            ViewBag.AdmitDateTime = repository.Encounters.FirstOrDefault(b => b.Mrn == id).AdmitDateTime;
-            ViewBag.EncounterMRN = repository.Patients.FirstOrDefault(b => b.Mrn == id).Mrn;
+            ViewBag.EncounterId = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).EncounterId;
+            ViewBag.AdmitDateTime = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).AdmitDateTime;
+            ViewBag.EncounterMRN = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).Mrn;
+            string encounterMrn = ViewBag.EncounterMRN;
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.PatientFirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.PatientMiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.PatientLastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.PatientDob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
+            ViewBag.PatientFirstName = repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).FirstName;
+            ViewBag.PatientMiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).MiddleName;
+            ViewBag.PatientLastName = repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).LastName;
+            ViewBag.PatientDob = repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).Dob;
             DateTime now = DateTime.Now;
             TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
             if (pAge.Days > 365)
@@ -144,8 +145,7 @@ namespace IS_Proj_HIT.Controllers
 
                                }).ToList();
 
-            return View(repository.Encounters.FirstOrDefault(e => e.Mrn == id));
-
+            return View(repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId));
         }
 
         // Save edits to patient record from Edit Patients page
