@@ -13,19 +13,15 @@
     <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
     <div class="row">
         <div class="col-sm-4">
-            <label>Chief Complaint</label><br />
-            <textarea asp-for="@Model.ChiefComplaint" name="ChiefComplaint" placeholder="Johnson" type="text">
-            </textarea>
-        </div>
-        <div class="col-sm-4">
-            <label>Room Number</label><br />
-            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="number" maxlength="3" class="numberNoArrows" />
+            <br /><label>Facility Registry Opt Out</label>
+            <input asp-for="@Model.FacilityRegistryOptInOut" name="FacilityRegistryOptInOut" />
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <br /><label>Facility Registry Opt In Out</label>
-            <input asp-for="@Model.FacilityRegistryOptInOut" name="FacilityRegistryOptInOut" />
+            <label>Chief Complaint</label><br />
+            <textarea asp-for="@Model.ChiefComplaint" name="ChiefComplaint" type="text" cols="50" rows="8">
+            </textarea>
         </div>
     </div>
     <div class="row">
@@ -34,15 +30,29 @@
             <select class="form-control dropdowns" asp-for="@Model.FacilityId" name="FacilityId" asp-items="ViewBag.Facility"></select>
         </div>
         <div class="col-sm-4">
+            <label>Departments</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.DepartmentId" name="DepartmentId" asp-items="ViewBag.Departments"></select>
+        </div>
+        <div class="col-sm-4">
+            <label>Room Number</label><br />
+            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="text" pattern="\d*" maxlength="3" title="Please only enter positive integers" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Point Of Origin</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.PointOfOriginId" name="PointOfOriginId" asp-items="ViewBag.PointsOfOrigin"></select>
+        </div>
+        <div class="col-sm-4">
+            <label>Place Of Service</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.PlaceOfServiceId" name="PlaceOfServiceId" asp-items="ViewBag.PlacesOfService"></select>
+        </div>
+        <div class="col-sm-4">
             <label>Admit Type</label><br />
             <select class="form-control dropdowns" asp-for="@Model.AdmitTypeId" name="AdmitTypeId" asp-items="ViewBag.AdmitTypes"></select>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">
-            <label>Departments</label><br />
-            <select class="form-control dropdowns" asp-for="@Model.DepartmentId" name="DepartmentId" asp-items="ViewBag.Departments"></select>
-        </div>
         <div class="col-sm-4">
             <label>Encounter Physicians</label><br />
             <select class="form-control dropdowns" asp-for="@Model.EncounterPhysiciansId" name="EncounterPhysiciansId" asp-items="ViewBag.EncounterPhysicians"></select>
@@ -50,16 +60,6 @@
         <div class="col-sm-4">
             <label>Encounter Types</label><br />
             <select class="form-control dropdowns" asp-for="@Model.EncounterTypeId" name="EncounterTypeId" asp-items="ViewBag.EncounterTypes"></select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <label>Place Of Service</label><br />
-            <select class="form-control dropdowns" asp-for="@Model.PlaceOfServiceId" name="PlaceOfServiceId" asp-items="ViewBag.PlacesOfService"></select>
-        </div>
-        <div class="col-sm-4">
-            <label>Point Of Origin</label><br />
-            <select class="form-control dropdowns" asp-for="@Model.PointOfOriginId" name="PointOfOriginId" asp-items="ViewBag.PointsOfOrigin"></select>
         </div>
     </div>
     <br />

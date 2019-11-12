@@ -58,6 +58,7 @@ namespace isprojectHiT.Models
         public IQueryable<EncounterPhysicians> EncounterPhysicians => context.EncounterPhysicians;
         public IQueryable<Facility> Facilities => context.Facility;
         public IQueryable<Physician> Physicians => context.Physician;
+        public IQueryable<PhysicianRole> PhysicianRoles => context.PhysicianRole;
 
         public void AddEmployment(Employment employment)
         {

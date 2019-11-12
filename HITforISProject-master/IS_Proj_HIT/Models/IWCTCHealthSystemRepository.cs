@@ -27,6 +27,7 @@ namespace isprojectHiT.Models
         IQueryable<Facility> Facilities { get; }
         IQueryable<PatientContactDetails> PatientContactDetails { get; }
         IQueryable<Physician> Physicians { get; }
+        IQueryable<PhysicianRole> PhysicianRoles { get; }
 
         IQueryable<PatientAlerts> PatientAlerts { get; }
         IQueryable<AlertType> AlertTypes { get; }

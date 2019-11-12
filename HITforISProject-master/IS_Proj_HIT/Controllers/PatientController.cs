@@ -220,7 +220,7 @@ namespace IS_Proj_HIT.Controllers
                                new SelectListItem
                                {
                                    Value = EnP.EncounterPhysiciansId.ToString(),
-                                   Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
+                                   Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName + " - " + repository.PhysicianRoles.FirstOrDefault(b => b.PhysicianRoleId == EnP.PhysicianRoleId).Name),
 
                                }).ToList();
             return View();
