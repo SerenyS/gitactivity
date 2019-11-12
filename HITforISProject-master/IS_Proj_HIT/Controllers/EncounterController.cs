@@ -38,7 +38,7 @@ namespace IS_Proj_HIT.Controllers
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
                     FacilityName = repository.Facilities.FirstOrDefault(b => b.FacilityId == encounter.FacilityId).Name,
-                    DischargeDateTime = ((encounter.DischargeDate == null) && (encounter.DischargeTime == null)) ? "Patient has not yet been discharged" : "" + encounter.DischargeDate + " " + encounter.DischargeTime
+                    DischargeDateTime = ((encounter.DischargeDate == null) || (encounter.DischargeTime == null)) ? "Patient has not yet been discharged" : "" + encounter.DischargeDate + " " + encounter.DischargeTime
 
                 }).ToList();
             List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();

@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="~/css/site.css" />
 
 <div class="card bg-secondary">
+
     <div class="card-header bg-primary text-white"><h4>Add Patient</h4></div>
     @**@
     <div class="card-body bg-light">
@@ -12,8 +13,7 @@
                 <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" readonly value="@(ViewBag.MRN ?? String.Empty)" />
             </div>
             <partial name="~/Views/Patient/PatientFormFields.cshtml" />
-
-            <button class="btn btn-primary btn-block btn-lg" type="submit">Create</button>
+            <button class="btn btn-primary btn-block btn-lg" type="submit" id="formatSsnAndSubmitForm">Create</button>
         </form>
         @*<input type="text" readonly value="@(ViewBag.NewMRN ?? String.Empty)" />*@
         @*<button class="btn-primary" asp-controller="Patient" asp-action="CreateMRN" type="button">Create MRN</button>*@

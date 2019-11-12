@@ -1,24 +1,32 @@
 ﻿@model IS_Proj_HIT.Models.Patient
 
-<div class="bg-primary m-1 p-1 text-white"><h4>Edit Patient</h4></div>
-<div class="list-group">
-    <form method="post" id="patientEdit" name="patientEdit" asp-action="Update">
-        <div class="text-center shadebox">
-            <label>MRN</label><br />
-            <input asp-for="@Model.Mrn" name="Mrn" id="mrn" data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" readonly maxlength="6" />
-        </div>
-        <partial name="~/Views/Patient/PatientFormFields.cshtml" />
-        <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
-    </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
+    <div class="patientBanner"><span class="heading">MRN:</span><br />  <span id="calcMRN"></span></div><br />
+    <br /><div class="patientBanner"><span class="heading">PATIENT: </span> <span id="fullName" type="date"></span></div>
+    <br /><div class="patientBanner"><span class="heading">DOB: </span> <span id="calcDOB"></span></div>
+    <br /><div class="patientBanner"><span class="heading">AGE: </span> <span class="age" type="date"></span></div>
+
+</nav>
+<div class="card">
+    <div class="card-header bg-primary text-white"><h4>Edit Patient</h4></div>
+    <div class="card-body bg-light">
+        <form method="post" id="patientEdit" name="patientEdit" asp-action="Update">
+
+            <partial name="~/Views/Patient/PatientFormFields.cshtml" />
+            <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
+        </form>
+    </div>
 </div>
 
 <hr />
 
 <a asp-action="Index" id="homeLink" class="btn btn-outline-primary">Home</a>
-<a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Mrn"  class="btn btn-outline-primary">
+<a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Mrn"  class="btn btn-outline-primary mrn">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back To Details</a>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>
+
+

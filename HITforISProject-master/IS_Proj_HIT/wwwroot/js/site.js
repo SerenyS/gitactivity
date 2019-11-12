@@ -6,6 +6,17 @@
 $(function () {
     console.log('Hi');
 
+    
+
+    $('#clearSearch').on('click', function () {
+        $('#searchMRN').val("");
+        $('#searchSSN').val("");
+        $('#searchFirst').val("");
+        $('#searchLast').val("");
+        $('#searchDOB').val("");
+        $('#searchDOBBefore').val("");
+    });
+
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
     });
@@ -190,10 +201,12 @@ $(function () {
         }
     });
 
-    // Calc age from DOB input in add/edit patient when leaving DOB field
+    // Calc age from DOB input in add/edit patient when leaving DOB field HELPMEIMDYING
     $('.dob').focusout(function () {
         var dob = $('.dob').val();
         console.log("Hello " + dob);
+        console.log('Hi you left the field, ' + dob);
+
         if (dob != '') {
             var DateCreated = new Date(Date.parse(dob));
             var today = new Date();
@@ -201,39 +214,94 @@ $(function () {
             var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
             console.log("dayDiff " + dayDiff);
             var age = parseInt(dayDiff);
-            console.log("age " + age);
+            console.log("calcified age " + age);
             $('.age').text(age);
+
+            // Format DOB in patient banner
+            var str = $('.dob').val();
+            var year = str.substring(0, 4);
+            var month = str.substring(5, 7);
+            var day = str.substring(8, 10);
+            $('#calcDOB').text(month + '/' + day + '/' + year);
 
         }
     });
 
-    // Calc age in div in Details page
+    // Update first, middle and last names in patient banner with those fields are edited in the Edit Page
+    $('#FirstName').focusout(function () {
+        var firstname = $('#FirstName').val();
+        var middlename = $('#MiddleName').val();
+        var lastname = $('#LastName').val();
+        $('#fullName').text(firstname + " " + middlename + " " + lastname);
+    });
+    $('#MiddleName').focusout(function () {
+        var firstname = $('#FirstName').val();
+        var middlename = $('#MiddleName').val();
+        var lastname = $('#LastName').val();
+        $('#fullName').text(firstname + " " + middlename + " " + lastname);
+    });
+    $('#LastName').focusout(function () {
+        var firstname = $('#FirstName').val();
+        var middlename = $('#MiddleName').val();
+        var lastname = $('#LastName').val();
+        $('#fullName').text(firstname + " " + middlename + " " + lastname);
+    });
+
+    // When Edit page loads
     $(function () {
-        var dob = $('.dob').html();
-        var dob1 = $('.dob').val();
-        
+        // DOB in Edit page patient banner
+        var dob = $('.dob').val();
         if (dob != '') {
             var DateCreated = new Date(Date.parse(dob));
             var today = new Date();
 
             var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
-            
+
             var age = parseInt(dayDiff);
-            
+
             $('.age').text(age);
-            $('.age').css('background-color', 'gold');
+            
 
         }
+        // MRN in Edit page patient banner
+        var mrn = $('.mrn').val();
+        $('#calcMRN').text(mrn);
 
-        if (dob1 != '') {
-            var DateCreated = new Date(Date.parse(dob1));
+        // First, middle and last name
+        var firstname = $('#FirstName').val();
+        var middlename = $('#MiddleName').val();
+        var lastname = $('#LastName').val();
+        $('#fullName').text(firstname + " " + middlename + " " + lastname);
+
+        // Format DOB in patient banner
+        var str = $('.dob').val();
+        var year = str.substring(0, 4);
+        var month = str.substring(5, 7);
+        var day = str.substring(8, 10);
+        $('#calcDOB').text(month + '/' + day + '/' + year);
+
+
+    });
+
+    
+
+    
+    
+
+    // Calc age in div in Details page
+    $(function () {
+        var dob = $('.dob').html();
+
+        if (dob != '') {
+            var DateCreated = new Date(Date.parse(dob));
             var today = new Date();
 
             var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
-            console.log("dayDiff " + dayDiff);
+
             var age = parseInt(dayDiff);
-            console.log("age " + age);
+
             $('.age').text(age);
+            $('.age').css('background-color', 'gold');
 
         }
     });
@@ -291,6 +359,11 @@ $(function () {
             $(this).toggle($(this).asp-items().toLowerCase().indexOf(value) > -1)
         });
     });
+
+    
+
+
+
    
 });
     

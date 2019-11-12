@@ -2,36 +2,55 @@
 @model ListAlertsViewModel
 
 @ViewBag.Message
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
+    <div class="patientBanner"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />
+    <br /><div class="patientBanner"><span class="heading">PATIENT: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
+    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
+    <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
+</nav>
 <br />
-<h2><i class="fas fa-exclamation-triangle alertColor"></i> Alerts for MRN: @ViewBag.myMrn</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Alert Type</th>
-            <th scope="col">MRN</th>
-            <th scope="col">Active?</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Comments</th>
-            <th scope="col">Last Modified</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var patientalerts in Model.PatientAlerts)
-        {
+@if (Model.PatientAlerts.Count() == 0)
+{
+    <div class="red">
+        <p>No patient alerts have been created for this patient yet.</p>
+    </div>
+}
+else
+{
+    <h2><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts:</h2>
+    <div class="red">@Html.Raw(TempData["msg"])</div>
+    <table class="table">
+        <thead>
             <tr>
-
-                <td>@patientalerts.AlertType.Name</td>
-                <td>@patientalerts.Mrn</td>
-                <td>@patientalerts.IsActive</td>
-                <td>@patientalerts.StartDate.ToShortDateString()</td>
-                <td>@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
-                <td width="300px">@patientalerts.Comments</td>
-                <td>@patientalerts.LastModified</td>
+                <th class="linky" scope="col">@Html.ActionLink("Alert Type", "ListAlerts", new { sortOrder = ViewBag.AlertTypeSortParm })</th>
+                @*<th scope="col">MRN</th>*@
+                <th scope="col">Active?</th>
+                @*<th scope="col">Start Date</th>*@
+                <th class="linky" scope="col">@Html.ActionLink("Start Date", "ListAlerts", new { sortOrder = ViewBag.StartSortParm })</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Comments</th>
+                @*<th class="linky" scope="col">@Html.ActionLink("Comments", "ListAlerts", new { sortOrder = ViewBag.CommentSortParm })</th>*@
+                <th scope="col">Last Modified</th>
+                @*<th class="linky" scope="col">@Html.ActionLink("Last Modified", "ListAlerts", new { sortOrder = ViewBag.LastModifiedSortParm })</th>*@
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var patientalerts in Model.PatientAlerts)
+            {
+                <tr>
+
+                    <td>@patientalerts.AlertType.Name</td>
+                    @*<td>@patientalerts.Mrn</td>*@
+                    <td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>
+                    <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
+                    <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
+                    <td class="hideComments" width="300px">@patientalerts.Comments</td>
+                    <td class="hideMod">@patientalerts.LastModified</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 
 <a asp-action="DisplayAddAlert" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
@@ -47,15 +66,54 @@
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script>
-// Alert Type drop down list from Add Alert in Patients area
-    //$(function () {
-    //    console.log("this");
-    //    if ($('#peace').text() != '') {
-    //        var enddatevalue = $('.endDate').val().getYear();
-    //        $(this).text("peace");
+
+    // Calc age in div in Patient Banner
+    $(function () {
+        var dob = $('.dob').html();
+        var dob1 = $('.dob').val();
+        if (dob != '') {
+            var DateCreated = new Date(Date.parse(dob));
+            var today = new Date();
+
+            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+            var age = parseInt(dayDiff);
+            $('.age').text(age);
+
+        }
+
+        if (dob1 != '') {
+            var DateCreated = new Date(Date.parse(dob1));
+            var today = new Date();
+
+            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+            var age = parseInt(dayDiff);
+
+            $('.age').text(age);
+
+        }
 
 
-    //    }
+        // Hide Active column
+        //$('.showAllCols').on('click', function () {
+        //    $('.hideActive').css('display', 'block');
+        //    $('.hideStart').css('display', 'block');
+        //    $('.hideEnd').css('display', 'block');
 
-    //});
+        //});
+
+        //$('.hideActive').on('click', function () {
+        //    $('.hideActive').css('display', 'none');
+        //});
+
+        //$('.hideStart').on('click', function () {
+        //    $('.hideStart').css('display', 'none');
+        //});
+
+        //$('.hideEnd').on('click', function () {
+        //    $('.hideEnd').css('display', 'none');
+        //});
+
+
+    });
+
 </script>

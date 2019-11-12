@@ -1,50 +1,57 @@
 ﻿@using IS_Proj_HIT.Models.ViewModels
 @model ListPatientsViewModel
+<link rel="stylesheet" href="~/css/site.css" />
+<div class="red">@Html.Raw(TempData["msg"])</div>
+<br />
+@if (Model.Patients.Count() == 0)
+{
+    <div class="red">
+        <p>No patients found</p>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.ActionLink("MRN", "Index", new { sortOrder = ViewBag.MrnSortParm })</th>
+                <th scope="col">@Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })</th>
+                @*<th scope="col">First Name</th>
+                    <th scope="col">Middle Intial</th>
+                    <th scope="col">Last Name</th>*@
+                <th scope="col">@Html.ActionLink("Date of Birth", "Index", new { sortOrder = ViewBag.DobSortParm })</th>
+                @*<th scope="col">Religion</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Ethnicity</th>
+                    <th scope="col">Marital Status</th>*@
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model.Patients)
+            {
+                <tr>
+                    <td>@patient.Mrn</td>
+                    <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
+                    <td>@patient.Dob.ToShortDateString()</td>
+                    @*<td>@patient.Religion.Name</td>
+                        <td>@patient.Gender.Name</td>
+                        <td>@patient.Ethnicity.Name</td>
+                        <td>@patient.MaritalStatus.Name</td>*@
+                    <td id="special">
+                        <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">MRN</th>
-            <th scope="col">Name</th>
-            @*<th scope="col">First Name</th>
-                <th scope="col">Middle Intial</th>
-                <th scope="col">Last Name</th>*@
-            <th scope="col">Date of Birth</th>
-            @*<th scope="col">Religion</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Ethnicity</th>
-                <th scope="col">Marital Status</th>*@
-            <th scope="col">Actions</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var patient in Model.Patients)
-        {
-        <tr>
-            <td>@patient.Mrn</td>
-            <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
-            <td>@patient.Dob.ToShortDateString()</td>
-            @*<td>@patient.Religion.Name</td>
-            <td>@patient.Gender.Name</td>
-            <td>@patient.Ethnicity.Name</td>
-            <td>@patient.MaritalStatus.Name</td>*@
-            <td id="special">
-                    <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
-            <td>
-                
-                    
-             </td>
-        </tr>
-        }
-
-    </tbody>
-</table>
-
-<div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
-     page-class="btn" page-class-normal="btn-secondary" page-class-selected="btn-primary"
-     class="btn-group" pull-right m-1></div>
-
-<hr />
-<a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
-<a asp-controller="home" asp-action="Index" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Home Page</a>
+    @*<div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
+        page-class="btn" page-class-normal="btn-secondary" page-class-selected="btn-primary"
+        class="btn-group" pull-right m-1></div>*@
+    <hr />
+    <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
+    <a asp-controller="home" asp-action="Index" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Home Page</a>
+    <a asp-controller="Home" asp-action="PatientLookup" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
