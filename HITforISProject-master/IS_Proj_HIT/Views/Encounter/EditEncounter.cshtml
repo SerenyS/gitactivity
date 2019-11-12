@@ -9,10 +9,9 @@
 </div>
 <form method="post" id="editEncounter" name="editEncounter" asp-action="Update">
     <div class="container" asp-validation-summary="All"></div>
-    <input asp-for="@Model.PatientCurrentAge" name="Patient Age" type="hidden" value="@ViewBag.PatientAge" />
+    <input asp-for="@Model.PatientCurrentAge" type="hidden" value="@ViewBag.CurrentPatientAge" />
     <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
     <input asp-for="@Model.EncounterId" name="EncounterId" type="hidden" value="@ViewBag.EncounterId" />
-    <input asp-for="@Model.AdmitDateTime" name="AdmitDateTime" type="hidden" value="@ViewBag.AdmitDateTime" />
     <div class="row">
         <div class="col-sm-4">
             <label>Chief Complaint</label><br />
@@ -21,7 +20,7 @@
         </div>
         <div class="col-sm-4">
             <label>Room Number</label><br />
-            <input asp-for="@Model.RoomNumber" name="RoomNumber" placeholder="316" type="number" maxlength="3" class="numberNoArrows" />
+            <input asp-for="@Model.RoomNumber" name="RoomNumber" type="text" pattern="\d*" maxlength="3" title="Please only enter positive integers"/>
         </div>
     </div>
     <div class="row">
@@ -38,6 +37,10 @@
         <div class="col-sm-4">
             <label>Admit Type</label><br />
             <select class="form-control dropdowns" asp-for="@Model.AdmitTypeId" name="AdmitTypeId" asp-items="ViewBag.AdmitTypes"></select>
+        </div>
+        <div class="col-sm-4">
+            <label>Admit Type</label><br />
+            <input asp-for="@Model.AdmitDateTime" name="AdmitDateTime" type="datetime-local" />
         </div>
     </div>
     <div class="row">
@@ -62,6 +65,20 @@
         <div class="col-sm-4">
             <label>Point Of Origin</label><br />
             <select class="form-control dropdowns" asp-for="@Model.PointOfOriginId" name="PointOfOriginId" asp-items="ViewBag.PointsOfOrigin"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Discharge Disposition</label><br />
+            <select class="form-control dropdowns" asp-for="@Model.DischargeDisposition" name="DischargeDisposition" asp-items="ViewBag.Discharges"></select>
+        </div>
+        <div class="col-sm-4">
+            <label>Discharge Date</label><br />
+            <input asp-for="@Model.DischargeDate" name="DischargeDate" type="date">
+        </div>
+        <div class="col-sm-4">
+            <label>Discharge Time</label><br />
+            <input asp-for="@Model.DischargeDisposition" name="DischargeTime" type="time">
         </div>
     </div>
     <br />

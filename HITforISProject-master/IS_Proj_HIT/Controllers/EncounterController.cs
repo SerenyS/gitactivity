@@ -36,7 +36,9 @@ namespace IS_Proj_HIT.Controllers
                     EncounterId = encounter.EncounterId,
                     AdmitDateTime = encounter.AdmitDateTime,
                     FirstName = patient.FirstName,
-                    LastName = patient.LastName
+                    LastName = patient.LastName,
+                    FacilityName = repository.Facilities.FirstOrDefault(b => b.FacilityId == encounter.FacilityId).Name,
+                    DischargeDateTime = "" + encounter.DischargeDate + " " + encounter.DischargeTime
 
                 }).ToList();
             List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
@@ -44,7 +46,8 @@ namespace IS_Proj_HIT.Controllers
             {
                 EncounterPatientViewModel thisPatientEncounter = new EncounterPatientViewModel(patientEncounters[i].Mrn,
                     patientEncounters[i].EncounterId, patientEncounters[i].AdmitDateTime,
-                    patientEncounters[i].FirstName, patientEncounters[i].LastName);
+                    patientEncounters[i].FirstName, patientEncounters[i].LastName, patientEncounters[i].FacilityName,
+                    patientEncounters[i].DischargeDateTime);
                 viewPatientEncounters.Add(thisPatientEncounter);
             }
             return View(viewPatientEncounters);
@@ -58,100 +61,6 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public IActionResult AddEncounter(string id)
-        {
-            ViewBag.EncounterMRN = repository.Patients.FirstOrDefault(b => b.Mrn == id).Mrn;
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.PatientFirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.PatientMiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.PatientLastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.PatientDob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
-            DateTime now = DateTime.Now;
-            TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
-            if (pAge.Days > 365)
-            {
-                ViewBag.PatientAge = (pAge.Days / 365) + " Years";
-            }
-            else
-            {
-                ViewBag.PatientAge = pAge.Days + " Days";
-            }
-
-            //If you wanted to get the tool tips, you'd need to do this:
-            //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
-            ViewBag.AdmitTypes = repository.AdmitTypes.Select(at =>
-                                new SelectListItem
-                                {
-                                    Value = at.AdmitTypeId.ToString(),
-                                    Text = at.Description,
-
-                                }).ToList();
-            ViewBag.Departments = repository.Departments.Select(dep =>
-                                new SelectListItem
-                                {
-                                    Value = dep.DepartmentId.ToString(),
-                                    Text = dep.Name,
-
-                                }).ToList();
-            ViewBag.EncounterTypes = repository.EncounterTypes.Select(ent =>
-                               new SelectListItem
-                               {
-                                   Value = ent.EncounterTypeId.ToString(),
-                                   Text = ent.Name,
-
-                               }).ToList();
-            ViewBag.PlacesOfService = repository.PlaceOfService.Select(pos =>
-                                new SelectListItem
-                                {
-                                    Value = pos.PlaceOfServiceId.ToString(),
-                                    Text = pos.Description,
-
-                                }).ToList();
-            ViewBag.PointsOfOrigin = repository.PointOfOrigin.Select(poo =>
-                                new SelectListItem
-                                {
-                                    Value = poo.PointOfOriginId.ToString(),
-                                    Text = poo.Description,
-
-                                }).ToList();
-            ViewBag.Facility = repository.Facilities.Select(fac =>
-                                new SelectListItem
-                                {
-                                    Value = fac.FacilityId.ToString(),
-                                    Text = fac.Name,
-
-                                }).ToList();
-            ViewBag.EncounterPhysicians = repository.EncounterPhysicians.Select(EnP =>
-                               new SelectListItem
-                               {
-                                   Value = EnP.EncounterPhysiciansId.ToString(),
-                                   Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
-
-                               }).ToList();
-            return View();
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEncounter(Encounter model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
-                {
-                    ModelState.AddModelError("", "Encounter Id must be unique");
-                }
-                else
-                {
-                    model.LastModified = @DateTime.Now;
-                    repository.AddEncounter(model);
-                    return RedirectToAction("Index");
-                }
-            }
-            return View();
-        }
 
         // Displays the Edit Encounter page
         public IActionResult EditEncounter(string id)
@@ -168,13 +77,14 @@ namespace IS_Proj_HIT.Controllers
             TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
             if (pAge.Days > 365)
             {
-                ViewBag.PatientAge = (pAge.Days / 365) + " Years";
+                ViewBag.CurrentPatientAge = (byte)(pAge.Days / 365);
+                ViewBag.PatientAge = ViewBag.CurrentPatientAge + " Years";
             }
             else
             {
+                ViewBag.CurrentPatientAge = 0;
                 ViewBag.PatientAge = pAge.Days + " Days";
             }
-
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
             ViewBag.AdmitTypes = repository.AdmitTypes.Select(at =>
@@ -189,6 +99,13 @@ namespace IS_Proj_HIT.Controllers
                                 {
                                     Value = dep.DepartmentId.ToString(),
                                     Text = dep.Name,
+
+                                }).ToList();
+            ViewBag.Discharges = repository.Discharges.Select(dis =>
+                                new SelectListItem
+                                {
+                                    Value = dis.DischargeId.ToString(),
+                                    Text = dis.Name,
 
                                 }).ToList();
             ViewBag.EncounterTypes = repository.EncounterTypes.Select(ent =>
