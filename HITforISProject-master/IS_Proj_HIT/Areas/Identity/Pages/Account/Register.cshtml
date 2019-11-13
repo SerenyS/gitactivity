@@ -6,6 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
+
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -27,6 +28,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            @*<a asp-controller="Administration" asp-action="RegisterDetails" class="btn btn-primary">RegisterDetails</a>*@
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>

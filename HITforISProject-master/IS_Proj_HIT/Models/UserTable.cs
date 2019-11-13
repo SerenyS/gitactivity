@@ -7,7 +7,7 @@ namespace IS_Proj_HIT.Models
     {
         public UserTable()
         {
-            UserFacility = new HashSet<UserFacility>();
+            //UserFacility = new HashSet<UserFacility>();
         }
 
         public int UserId { get; set; }
@@ -19,7 +19,8 @@ namespace IS_Proj_HIT.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime LastModified { get; set; }
+        public string AspNetUsersID { get; set; }
 
-        public virtual ICollection<UserFacility> UserFacility { get; set; }
+        //public virtual ICollection<UserFacility> UserFacility { get; set; }
     }
 }

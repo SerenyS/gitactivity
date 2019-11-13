@@ -49,5 +49,9 @@ namespace isprojectHiT.Models
         void AddAlert(AlertsViewModel alert);
         void AddEmployment(Employment employment);
         void AddEncounter(Encounter encounter);
+
+        void AddUser(UserTable userTable);
+        void DeleteUser(UserTable userTable);
+        void EditUser(UserTable userTable);
     }
 }

@@ -1,8 +1,13 @@
-﻿using IS_Proj_HIT.ViewModels;
+﻿using IS_Proj_HIT.Models;
+using IS_Proj_HIT.ViewModels;
+using isprojectHiT.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,20 +15,85 @@ namespace IS_Proj_HIT.Controllers
 {
     public class AdministrationController : Controller
     {
+
+        private IWCTCHealthSystemRepository repository;
         private RoleManager<IdentityRole> roleManager { get; }
         private UserManager<IdentityUser> userManager { get; }
-        public AdministrationController(RoleManager<IdentityRole> roleManager,          
-                                        UserManager<IdentityUser> userManager)
+        public AdministrationController(RoleManager<IdentityRole> roleManager,
+                                        UserManager<IdentityUser> userManager,
+                                        IWCTCHealthSystemRepository repo)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
-        }        
+            this.repository = repo;
+        }
 
         [HttpGet]
         public IActionResult CreateRole()
         {
             return View();
         }
+
+        //public ViewResult RegisterDetails()
+        //{
+        //    return View();
+        //}
+
+        [HttpGet]
+        public IActionResult RegisterDetails()
+        {
+            //ViewBag.Facilities = repository.Facilities.Select(f =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = f.FacilityId.ToString(),
+            //                         Text = f.Name
+            //                     }).ToList();
+
+            ViewBag.LastModified = DateTime.Now;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RegisterDetails(UserTable model)
+        {
+
+            var user = userManager.FindByEmailAsync(User.Identity.Name);
+            var guidID = userManager.GetUserId(HttpContext.User);
+            model.AspNetUsersID = guidID;
+            //model.UserId = user.Id;
+            model.Email = User.Identity.Name;
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+            TryValidateModel(model);
+
+            if (ModelState.IsValid)
+            {
+                //Debug.WriteLine("find me! " + Request.Form["Facility"]);
+                model.LastModified = @DateTime.Now;
+                //Debug.WriteLine("MRN: " + model.Mrn);
+                //Debug.WriteLine("Facility: " + model.FacilityId);
+                //Debug.WriteLine("EncounterType: " + model.EncounterTypeId);
+                repository.AddUser(model);
+                //return RedirectToAction("Index");
+                return RedirectToRoute(new
+                {
+                    controller = "Home",
+                    action = "Index"
+                });
+            }
+
+
+            foreach (var i in errors)
+            {
+                Debug.WriteLine("*******" + errors.ToString());
+                ModelState.AddModelError("", errors.ToString());
+            }
+
+            return View();
+
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
@@ -42,13 +112,13 @@ namespace IS_Proj_HIT.Controllers
                     return RedirectToAction("ListRoles", "Administration");
                 }
 
-                foreach(IdentityError error in result.Errors)
+                foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            
-             
+
+
             return View(model);
         }
         [HttpGet]
@@ -76,7 +146,7 @@ namespace IS_Proj_HIT.Controllers
 
             foreach (var user in userManager.Users)
             {
-                if( await userManager.IsInRoleAsync(user, role.Name))
+                if (await userManager.IsInRoleAsync(user, role.Name))
                 {
                     model.Users.Add(user.UserName);
                 }
@@ -99,7 +169,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 role.Name = model.RoleName;
                 var result = await roleManager.UpdateAsync(role);
-                
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("ListRoles");
@@ -124,7 +194,7 @@ namespace IS_Proj_HIT.Controllers
             }
 
             var model = new List<UserRoleViewModel>();
-            foreach(var user in userManager.Users)
+            foreach (var user in userManager.Users)
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
@@ -184,13 +254,13 @@ namespace IS_Proj_HIT.Controllers
                 }
             }
             return RedirectToAction("EditRole", new { Id = roleId });
-            
+
         }
 
         public IActionResult ListAppUsers()
         {
             var appUsers = "users go here";
-                return View(appUsers);
+            return View(appUsers);
         }
     }
 }

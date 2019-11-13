@@ -1772,15 +1772,19 @@ namespace IS_Proj_HIT.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_UserFacility_FacilityID");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserFacility)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_UserFacility_UserID");
+                //entity.HasOne(d => d.User)
+                //    .WithMany(p => p.UserFacility)
+                //    .HasForeignKey(d => d.UserId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("fk_UserFacility_UserID");
             });
 
             modelBuilder.Entity<UserTable>(entity =>
             {
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserId")
+                    .ValueGeneratedOnAdd();
+
                 entity.HasKey(e => e.UserId)
                     .HasName("PK_User");
 
@@ -1820,6 +1824,10 @@ namespace IS_Proj_HIT.Models
                 entity.Property(e => e.StartDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.AspNetUsersID)
+                    .HasMaxLength(400)
+                    .IsUnicode(true);
             });
 
             modelBuilder.HasSequence<int>("MRN_ID");

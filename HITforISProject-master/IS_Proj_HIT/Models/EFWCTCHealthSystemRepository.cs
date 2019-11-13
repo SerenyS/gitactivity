@@ -20,6 +20,8 @@ namespace isprojectHiT.Models
         public IQueryable<Ethnicity> Ethnicities => context.Ethnicity;
         public IQueryable<Gender> Genders => context.Gender;
 
+        public IQueryable<AspNetUsers> AspNetUsers => context.AspNetUsers;
+
         public IQueryable<Departments> Departments => context.Departments;
         public IQueryable<EncounterType> EncounterTypes => context.EncounterType;
 
@@ -87,6 +89,24 @@ namespace isprojectHiT.Models
         public void DeleteEncounter(Encounter encounter)
         {
             context.Remove(encounter);
+            context.SaveChanges();
+        }
+
+        public void AddUser(UserTable userTable)
+        {
+            context.Add(userTable);
+            context.SaveChanges();
+        }
+
+        public void DeleteUser(UserTable userTable)
+        {
+            context.Remove(userTable);
+            context.SaveChanges();
+        }
+
+        public void EditUser(UserTable userTable)
+        {
+            context.Update(userTable);
             context.SaveChanges();
         }
 
