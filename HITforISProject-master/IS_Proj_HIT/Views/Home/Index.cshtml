@@ -24,11 +24,12 @@
     </div>
 }
 else
-{           
+{
     <div class="card-group" style="height:200px; text-align:center;">
         <div class="card bg-secondary">
+
             <h2 style="vertical-align:central">Welcome!</h2>
-            <h3>Please log in or register an account to continue.</h3>
-        </div>
-        </div>
+            <h3>Please <a style="color:green" asp-area="Identity" asp-page="/Account/Login"> log in</a> or <a style="color:green" asp-area="Identity" asp-page="/Account/Register"> create a user account</a> to continue.</h3>
+         </div>
+    </div>
 }
