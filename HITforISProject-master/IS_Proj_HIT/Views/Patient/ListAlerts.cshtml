@@ -6,11 +6,11 @@
 @ViewBag.Message
 <nav class="navbar navbar-expand-lg bg-secondary">
     <button type="button" class="btn btn-danger">
-        <span class="badge badge-danger"><h5>MRN</h5></span>  <h4>@ViewBag.myMrn</h4>
+        <span class="badge badge-danger">Patient</span>  <h4>@ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</h4>
     </button><br />
     @*<div class="patientBanner MRN"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />*@
 
-    <div class="patientBanner"><span class="heading">Patient: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
+             <div class="patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</div>
     <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
     <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
 </nav>
@@ -79,15 +79,17 @@ else
         <tbody>
             @foreach (var patientalerts in Model.PatientAlerts)
             {
-                <tr>
-                    <td>@patientalerts.AlertType.Name</td>
-                    @*<td>@patientalerts.Mrn</td>*@
-                    <td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>
-                    <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
-                    <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
-                    <td class="hideComments" width="300px">@patientalerts.Comments</td>
-                    <td class="hideMod">@patientalerts.LastModified</td>
-                </tr>
+            <tr>
+                <td>@patientalerts.AlertType.Name</td>
+                @*<td>@patientalerts.Mrn</td>*@
+                <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
+                @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
+                @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
+                <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
+                <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
+                <td class="hideComments" width="300px">@patientalerts.Comments</td>
+                <td class="hideMod">@patientalerts.LastModified</td>
+            </tr>
             }
         </tbody>
     </table>

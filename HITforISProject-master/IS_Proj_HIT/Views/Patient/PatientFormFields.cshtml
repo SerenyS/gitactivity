@@ -1,51 +1,53 @@
 ﻿@model IS_Proj_HIT.Models.Patient
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/chosen.min.css" />
 <div class="container" asp-validation-summary="All"></div>
 <div class="col-sm-4" hidden>
     <label>MRN</label><br />
-    <input asp-for="@Model.Mrn" name="Mrn" class="mrn" placeholder="John" />
+    <input asp-for="@Model.Mrn" name="Mrn" class="mrn" />
 </div>
 <div class="row">
     <div class="col-sm-4">
         <label>First Name</label><br />
-        <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="John" />
+        <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
 
     </div>
     <div class="col-sm-4 form-group">
         <label>Middle Initial</label><br />
-        <input class="form-control" asp-for="@Model.MiddleName" name="MiddleName" id="MiddleName" placeholder="X" maxlength="1" />
+        <input class="form-control" asp-for="@Model.MiddleName" name="MiddleName" id="MiddleName" placeholder="Middle Initial" maxlength="1" />
 
     </div>
     <div class="col-sm-4 form-group">
         <label>Last Name</label><br />
-        <input class="form-control" asp-for="@Model.LastName" name="lastName" id="LastName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.LastName" name="lastName" id="LastName" placeholder="Last Name" />
 
     </div>
 </div>
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>Alias First Name</label>
-        <input class="form-control" asp-for="@Model.AliasFirstName" name="aliasFirstName" placeholder="John" />
+        <input class="form-control" asp-for="@Model.AliasFirstName" name="aliasFirstName" placeholder="Alias First Name" />
 
     </div>
     <div class="col-sm-4 form-group">
         <label>Alias Middle Initial</label>
-        <input class="form-control" asp-for="@Model.AliasMiddleName" name="aliasMiddleName" placeholder="X" maxlength="1" />
+        <input class="form-control" asp-for="@Model.AliasMiddleName" name="aliasMiddleName" placeholder="Alias Middle Initial" maxlength="1" />
 
     </div>
     <div class="col-sm-4 form-group">
         <label>Alias Last Name</label>
-        <input class="form-control" asp-for="@Model.AliasLastName" name="aliasLastName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.AliasLastName" name="aliasLastName" placeholder="Alias Last Name" />
 
     </div>
 </div>
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>Maiden Name</label>
-        <input class="form-control" asp-for="@Model.MaidenName" name="MaidenName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.MaidenName" name="MaidenName" placeholder="Maiden Name" />
     </div>
     <div class="col-sm-4 form-group">
         <label>Mother's Maiden Name</label>
-        <input class="form-control" asp-for="@Model.MothersMaidenName" name="MothersMaidenName" placeholder="Smith" />
+        <input class="form-control" asp-for="@Model.MothersMaidenName" name="MothersMaidenName" placeholder="Mother's Maiden Name" />
     </div>
 </div>
 <div class="row">
@@ -61,11 +63,11 @@
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>SSN</label><br />
-        <input asp-for="@Model.Ssn" name="Ssn" id="Ssn" maxlength="11" />
+        <input asp-for="@Model.Ssn" name="Ssn" id="Ssn" maxlength="11" placeholder="SSN" />
     </div>
     <div class="col-sm-4 form-group">
         <label>DOB</label><br />
-        <input type="date" asp-for="@Model.Dob" name="Dob" class="dob" placeholder="12/12/1980" />
+        <input type="date" asp-for="@Model.Dob" name="Dob" class="dob" placeholder="Date of Birth" />
     </div>
     <div class="col-sm-4 form-group">
         <label class="ageLabel">Age</label><br />
@@ -79,21 +81,25 @@
     </div>
     <div class="col-sm-4">
         <label>Ethnicity ID</label>
-        <select class="form-control dropdowns" asp-for="@Model.EthnicityId" asp-items="ViewBag.Ethnicity"></select>
+        @*<select class="form-control dropdowns" asp-for="@Model.EthnicityId" asp-items="ViewBag.Ethnicity"></select>*@
+        @Html.DropDownList("EthnicityId", (SelectList)ViewBag.Ethnicity, "--Select Ethnicity--", new { @class = "form-control chosen" })
     </div>
     <div class="col-sm-4 form-group">
         <label>Religion</label>
-        <select class="form-control dropdowns" asp-for="@Model.ReligionId" asp-items="ViewBag.Religions"></select>
+        @Html.DropDownList("ReligionId", (SelectList)ViewBag.Religions, "--Select Religion--", new { @class = "form-control chosen" })
+        @*<select class="form-control dropdowns" asp-for="@Model.ReligionId" asp-items="ViewBag.Religions"></select>*@
     </div>
 </div>
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>Sex</label>
-        <select class="form-control dropdowns" asp-for="@Model.SexId" asp-items="ViewBag.Sexes"></select>
+        @Html.DropDownList("SexId", (SelectList)ViewBag.Sexes, "--Select Sex--", new { @name = "sex", @class = "form-control chosen" })
+        @*<select class="form-control dropdowns" asp-for="@Model.SexId" asp-items="ViewBag.Sexes"></select>*@
     </div>
     <div class="col-sm-4 form-group">
         <label>Gender</label>
-        <select class="form-control dropdowns" asp-for="@Model.GenderId" asp-items="ViewBag.Gender"></select>
+        @Html.DropDownList("GenderId", (SelectList)ViewBag.Gender, "--Select Gender--", new { @class = "chosen" })
+        @*<select class="form-control dropdowns" asp-for="@Model.GenderId" asp-items="ViewBag.Gender"></select>*@
     </div>
 </div>
 

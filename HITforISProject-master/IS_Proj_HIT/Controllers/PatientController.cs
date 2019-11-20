@@ -109,36 +109,44 @@ namespace IS_Proj_HIT.Controllers
 
 
             // Do it this way if you need to have nothing selected as default
-            //var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
-            //ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
+            var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
+            ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
 
-            ViewBag.Religions = repository.Religions.Select(r =>
-                                 new SelectListItem
-                                 {
-                                     Value = r.ReligionId.ToString(),
-                                     Text = r.Name
-                                 }).ToList();
+            //ViewBag.Religions = repository.Religions.Select(r =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = r.ReligionId.ToString(),
+            //                         Text = r.Name
+            //                     }).ToList();
 
-            ViewBag.Sexes = repository.Sexes.Select(s =>
-                                 new SelectListItem
-                                 {
-                                     Value = s.SexId.ToString(),
-                                     Text = s.Name
-                                 }).ToList();
+            var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
+            ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
 
-            ViewBag.Gender = repository.Genders.Select(g =>
-                                 new SelectListItem
-                                 {
-                                     Value = g.GenderId.ToString(),
-                                     Text = g.Name
-                                 }).ToList();
+            var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
+            ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
 
-            ViewBag.Ethnicity = repository.Ethnicities.Select(e =>
-                                 new SelectListItem
-                                 {
-                                     Value = e.EthnicityId.ToString(),
-                                     Text = e.Name
-                                 }).ToList();
+            var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
+            ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
+            //ViewBag.Sexes = repository.Sexes.Select(s =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = s.SexId.ToString(),
+            //                         Text = s.Name
+            //                     }).ToList();
+
+            //ViewBag.Gender = repository.Genders.Select(g =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = g.GenderId.ToString(),
+            //                         Text = g.Name
+            //                     }).ToList();
+
+            //ViewBag.Ethnicity = repository.Ethnicities.Select(e =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = e.EthnicityId.ToString(),
+            //                         Text = e.Name
+            //                     }).ToList();
 
             ViewBag.MaritalStatus = repository.MaritalStatuses.Select(m =>
                                  new SelectListItem
@@ -313,42 +321,51 @@ namespace IS_Proj_HIT.Controllers
 
             //ViewBag.ReligionID = repository.Patients.Include(p => p.Religion).FirstOrDefault(p => p.Mrn == id);
             ViewBag.MaritalID = repository.Patients.Include(p => p.MaritalStatus).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.SexID = repository.Patients.Include(p => p.Sex).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.GenderID = repository.Patients.Include(p => p.Gender).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.EthnicityID = repository.Patients.Include(p => p.Ethnicity).FirstOrDefault(p => p.Mrn == id);
-
+            //ViewBag.SexID = repository.Patients.Include(p => p.Sex).FirstOrDefault(p => p.Mrn == id);
+            //ViewBag.GenderID = repository.Patients.Include(p => p.Gender).FirstOrDefault(p => p.Mrn == id);
+            //ViewBag.EthnicityID = repository.Patients.Include(p => p.Ethnicity).FirstOrDefault(p => p.Mrn == id);
+            
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
 
             //var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
             //ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
 
-            ViewBag.Religions = repository.Religions.Select(r =>
-                                 new SelectListItem
-                                 {
-                                     Value = r.ReligionId.ToString(),
-                                     Text = r.Name
-                                 }).ToList();
+            var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
+            ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
+            //ViewBag.Religions = repository.Religions.Select(r =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = r.ReligionId.ToString(),
+            //                         Text = r.Name
+            //                     }).ToList();
 
-            ViewBag.Sexes = repository.Sexes.Select(s =>
-                                 new SelectListItem
-                                 {
-                                     Value = s.SexId.ToString(),
-                                     Text = s.Name
-                                 }).ToList();
+            var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
+            ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
 
-            ViewBag.Gender = repository.Genders.Select(g =>
-                                 new SelectListItem
-                                 {
-                                     Value = g.GenderId.ToString(),
-                                     Text = g.Name
-                                 }).ToList();
+            //ViewBag.Sexes = repository.Sexes.Select(s =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = s.SexId.ToString(),
+            //                         Text = s.Name
+            //                     }).ToList();
 
-            ViewBag.Ethnicity = repository.Ethnicities.Select(e =>
-                                 new SelectListItem
-                                 {
-                                     Value = e.EthnicityId.ToString(),
-                                     Text = e.Name
-                                 }).ToList();
+            var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
+            ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
+            //ViewBag.Gender = repository.Genders.Select(g =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = g.GenderId.ToString(),
+            //                         Text = g.Name
+            //                     }).ToList();
+
+            var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
+            ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
+            //ViewBag.Ethnicity = repository.Ethnicities.Select(e =>
+            //                     new SelectListItem
+            //                     {
+            //                         Value = e.EthnicityId.ToString(),
+            //                         Text = e.Name
+            //                     }).ToList();
 
             ViewBag.MaritalStatus = repository.MaritalStatuses.Select(m =>
                                  new SelectListItem
