@@ -1,14 +1,54 @@
 ﻿@using IS_Proj_HIT.Models
 @model ListAlertsViewModel
-
+@{
+    ViewData["Title"] = "Patient Alerts";
+}
 @ViewBag.Message
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
-    <div class="patientBanner"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />
-    <br /><div class="patientBanner"><span class="heading">PATIENT: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
+<nav class="navbar navbar-expand-lg bg-secondary">
+    <button type="button" class="btn btn-danger">
+        <span class="badge badge-danger"><h5>MRN</h5></span>  <h4>@ViewBag.myMrn</h4>
+    </button><br />
+    @*<div class="patientBanner MRN"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />*@
+
+    <div class="patientBanner"><span class="heading">Patient: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
     <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
     <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
 </nav>
+<div class="card-header bg-primary text-white"><h4><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts</h4></div>
 <br />
+@{
+    var classAlertName = "fa fa-angle-right";
+    var classLastModified = "fa fa-angle-down";
+    var classStartDate = "fa fa-angle-right";
+
+    if (TempData["msg"].Equals("Sort order is by Alert Type Ascending"))
+    {
+        classAlertName = "fa fa-angle-down";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+    }
+    else if (TempData["msg"].Equals("Sort order is by Alert Type Descending"))
+    {
+        classAlertName = "fa fa-angle-up";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Start Date Ascending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-down";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Start Date Descending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-up";
+    }
+}
+
 @if (Model.PatientAlerts.Count() == 0)
 {
     <div class="red">
@@ -17,28 +57,29 @@
 }
 else
 {
-    <h2><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts:</h2>
-    <div class="red">@Html.Raw(TempData["msg"])</div>
+    @*The below msg is used to decide which icon to display when sorting.*@
+    <div id="sortBy" hidden class="red">@Html.Raw(TempData["msg"])</div>
+
+
+
+
     <table class="table">
         <thead>
             <tr>
-                <th class="linky" scope="col">@Html.ActionLink("Alert Type", "ListAlerts", new { sortOrder = ViewBag.AlertTypeSortParm })</th>
-                @*<th scope="col">MRN</th>*@
+                <th class="linky" scope="col"><i class="@classAlertName" aria-hidden="true"></i> @Html.ActionLink("Alert Type", "ListAlerts", new { sortOrder = ViewBag.AlertTypeSortParm })</th>
+
+
                 <th scope="col">Active?</th>
-                @*<th scope="col">Start Date</th>*@
-                <th class="linky" scope="col">@Html.ActionLink("Start Date", "ListAlerts", new { sortOrder = ViewBag.StartSortParm })</th>
+                <th class="linky" scope="col"><i class="@classStartDate" aria-hidden="true"></i> @Html.ActionLink("Start Date", "ListAlerts", new { sortOrder = ViewBag.StartSortParm })</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Comments</th>
-                @*<th class="linky" scope="col">@Html.ActionLink("Comments", "ListAlerts", new { sortOrder = ViewBag.CommentSortParm })</th>*@
-                <th scope="col">Last Modified</th>
-                @*<th class="linky" scope="col">@Html.ActionLink("Last Modified", "ListAlerts", new { sortOrder = ViewBag.LastModifiedSortParm })</th>*@
+                <th scope="col"><i class="@classLastModified" aria-hidden="true"></i> Last Modified</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var patientalerts in Model.PatientAlerts)
             {
                 <tr>
-
                     <td>@patientalerts.AlertType.Name</td>
                     @*<td>@patientalerts.Mrn</td>*@
                     <td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>
@@ -52,14 +93,12 @@ else
     </table>
 }
 
-
 <a asp-action="DisplayAddAlert" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
     <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert
 </a>
 <a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details
 </a>
-
 <hr />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -112,6 +151,11 @@ else
         //$('.hideEnd').on('click', function () {
         //    $('.hideEnd').css('display', 'none');
         //});
+
+        //$('#downArrow').hide();
+        //$('#upArrow').hide();
+
+
 
 
     });

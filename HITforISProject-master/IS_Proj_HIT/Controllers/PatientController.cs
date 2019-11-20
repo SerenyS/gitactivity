@@ -71,10 +71,12 @@ namespace IS_Proj_HIT.Controllers
             }
             if (searchDOBBefore.GetHashCode() == 0)
             {
-                searchDOBBefore = new DateTime(2030, 1, 1); ;
+                searchDOBBefore = new DateTime(2030, 1, 1);
             }
 
-            var patients = repository.Patients
+            return View(new ListPatientsViewModel
+            {
+                Patients = repository.Patients
                     .Include(p => p.Religion)
                     .Include(p => p.Gender)
                     .Include(p => p.Ethnicity)
@@ -84,37 +86,7 @@ namespace IS_Proj_HIT.Controllers
                         && p.Ssn.Contains(searchSSN)
                         && p.Mrn.Contains(searchMRN)
                         && p.Dob >= searchDOB
-                        && p.Dob <= searchDOBBefore);
-
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.MrnSortParm = sortOrder == "mrn" ? "mrn_desc" : "mrn";
-            ViewBag.DobSortParm = sortOrder == "dob" ? "dob_desc" : "dob";
-
-            switch (sortOrder)
-            {
-                case "mrn":
-                    patients = patients.OrderBy(p => p.Mrn);
-                    break;
-                case "mrn_desc":
-                    patients = patients.OrderByDescending(p => p.Mrn);
-                    break;
-                case "dob":
-                    patients = patients.OrderBy(p => p.Dob);
-                    break;
-                case "dob_desc":
-                    patients = patients.OrderByDescending(p => p.Dob);
-                    break;
-                case "name_desc":
-                    patients = patients.OrderByDescending(p => p.LastName);
-                    break;
-                default:
-                    patients = patients.OrderBy(p => p.LastName);
-                    break;
-            }
-
-            return View(new ListPatientsViewModel
-            {
-                Patients = patients
+                        && p.Dob <= searchDOBBefore)
             });
 
         }
@@ -329,33 +301,6 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-
-        public IActionResult AddEmployment()
-        {
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEmployment(Employment model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (repository.Employments.Any(e => e.EmploymentId == model.EmploymentId))
-                {
-                    ModelState.AddModelError("", "Employment ID must be unique");
-                }
-                else
-                {
-                    model.LastModified = @DateTime.Now;
-                    repository.AddEmployment(model);
-                    return RedirectToAction("Index");
-                }
-            }
-            return View();
-        }
-
         // Displays the Edit Patient page
         public IActionResult Edit(string id)
         {
@@ -476,7 +421,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
             if (sortOrder == "byAlertType" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
             {
-                TempData["msg"] = "Sort order is by Alert Type Ascending ";
+                TempData["msg"] = "Sort order is by Alert Type Ascending";
             }
             else if (sortOrder == "byAlertTypeDesc" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
             {
@@ -560,7 +505,7 @@ namespace IS_Proj_HIT.Controllers
                 sortOrder = "";
                 return View(new ListAlertsViewModel
                 {
-                    PatientAlerts = repository.PatientAlerts
+                 PatientAlerts = repository.PatientAlerts
                 .Include(p => p.AlertType)
                 .Where(p => p.Mrn == id)
                 .OrderBy(p => p.AlertType.Name)
@@ -586,6 +531,7 @@ namespace IS_Proj_HIT.Controllers
                     PatientAlerts = repository.PatientAlerts
                 .Include(p => p.AlertType)
                 .Where(p => p.Mrn == id)
+                .OrderByDescending(p => p.LastModified)
                 });
             }
 

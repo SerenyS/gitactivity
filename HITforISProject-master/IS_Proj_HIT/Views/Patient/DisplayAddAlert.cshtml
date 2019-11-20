@@ -2,13 +2,15 @@
 <link rel="stylesheet" href="~/css/site.css" />
 <link rel="stylesheet" href="~/css/chosen.min.css" />
 @{
-    ViewBag.Title = "Add New Alert";
+    ViewData["Title"] = "Add Patient Alert";
 }
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
-    <div class="patientBanner"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />
-    <br /><div class="patientBanner"><span class="heading">PATIENT: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
-          <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
+    <button type="button" class="btn btn-danger">
+        <span class="badge badge-danger"><h5>MRN</h5></span>  <h4>@ViewBag.myMrn</h4>
+    </button><br />
+    <br /><div class="patientBanner"><span class="heading">Patient: </span> @ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</div>
+    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
     <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
 </nav>
 <div id="alertDiv">
