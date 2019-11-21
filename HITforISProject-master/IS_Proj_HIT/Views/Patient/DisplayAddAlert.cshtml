@@ -82,32 +82,22 @@
         if (dob != '') {
             var DateCreated = new Date(Date.parse(dob));
             var today = new Date();
-
             var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
             var age = parseInt(dayDiff);
             $('.age').text(age);
-
         }
-
         if (dob1 != '') {
             var DateCreated = new Date(Date.parse(dob1));
             var today = new Date();
-
             var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
             var age = parseInt(dayDiff);
-
             $('.age').text(age);
-
         }
-
-
         // On page load...
         $('#allergenList').hide();
         $('#reactionList').hide();
         $('#fallRiskList').hide();
         $('#restrictionList').hide();
-
-
         $('#alertType').on('change', function () {
             console.log("Value is: " + $("#alertType option:selected").text());
             if ($("#alertType option:selected").text() == 'Fall Risk') {
@@ -116,7 +106,6 @@
                 $('#reactionList').hide();
                 $('#fallRiskList').show();
                 $('#restrictionList').hide();
-
             } else if ($("#alertType option:selected").text() == 'Restricted Access') {
                 $('#allergenList').hide();
                 $('#reactionList').hide();
@@ -143,16 +132,12 @@
                 $('#fallRiskList').hide();
                 $('#restrictionList').hide();
             }
-
         });
-
         $('.chosen').chosen({ width: '30%' });
-
         //var d = new Date();
         //var fullDate = d.getDate();
         //console.log("Date is " + fullDate);
         //$('.startDate').val(fullDate);
-
         // Set the start date to the current date
         var currentTime = new Date();
         var month = currentTime.getMonth() + 1;
@@ -163,7 +148,6 @@
         var year = currentTime.getFullYear();
         console.log("Start date = " + year + '-' + month + '-' + date);
         $('.startDate').val(year + '-' + month + '-' + date);
-
     });
-    
+
 </script>

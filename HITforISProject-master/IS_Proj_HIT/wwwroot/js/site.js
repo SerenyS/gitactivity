@@ -6,16 +6,6 @@
 $(function () {
     console.log('Hi');
 
-    
-
-    $('#clearSearch').on('click', function () {
-        $('#searchMRN').val("");
-        $('#searchSSN').val("");
-        $('#searchFirst').val("");
-        $('#searchLast').val("");
-        $('#searchDOB').val("");
-        $('#searchDOBBefore').val("");
-    });
 
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
@@ -58,6 +48,8 @@ $(function () {
             aliasLastName: "alphabetsnspace",
             MaidenName: "alphabetsnspace",
             MothersMaidenName: "alphabetsnspace",
+            MaritalStatusId: "required",
+            
             Dob: {
                 required: true,
                 date: true,
@@ -68,6 +60,7 @@ $(function () {
                 required: true,
                 minlength: 9
             }
+           
 
         },
         // Specify validation error messages
@@ -90,7 +83,9 @@ $(function () {
             aliasMiddleName: "Only letters allowed",
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
-            MaidenName: "Only letters allowed"
+            MaidenName: "Only letters allowed",
+            MaritalStatusId: "Select an item from the list"
+            
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -125,6 +120,9 @@ $(function () {
             Ssn: {
                 required: true,
                 minlength: 9
+            },
+            MaritalStatusId: {
+                required: true
             }
 
         },
@@ -147,52 +145,8 @@ $(function () {
             aliasMiddleName: "Only letters allowed",
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
-            MaidenName: "Only letters allowed"
-        },
-        // Make sure the form is submitted to the destination defined
-        // in the "action" attribute of the form when valid
-        submitHandler: function (form) {
-            form.submit();
-        }
-    });
-
-    $("form[name='employment']").validate({
-        // Specify validation rules
-        rules: {
-            employerName: {
-                required: true
-            },
-            address: {
-                required: true
-            },
-            PhoneNumber: {
-                required: true,
-                number: true,
-                maxlength: 10,
-                minlength: 10
-
-            },
-            occupation: {
-                required: true
-            }
-        },
-        // Specify validation error messages
-        messages: {
-            employerName: {
-                required: "Please provide an Employer Name"
-            },
-            address: {
-                required: "Please provide an address"
-            },
-            PhoneNumber: {
-                required: "Please provide a phone number",
-                number: "Must be a 10 digit number starting with 1",
-                minlength: "Too short - make it a 10 digit number",
-                maxlength: "Too long - make it a 10 digit number"
-            },
-            occupation: {
-                required: "Please provide an occupation"
-            }
+            MaidenName: "Only letters allowed",
+            MaritalStatusId: "Select an item from the list"
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -271,7 +225,7 @@ $(function () {
         var firstname = $('#FirstName').val();
         var middlename = $('#MiddleName').val();
         var lastname = $('#LastName').val();
-        $('#fullName').text(firstname + " " + middlename + " " + lastname);
+        $('#fullName').append(firstname + '&nbsp;' + middlename + '&nbsp;' + lastname);
 
         // Format DOB in patient banner
         var str = $('.dob').val();
@@ -282,11 +236,6 @@ $(function () {
 
 
     });
-
-    
-
-    
-    
 
     // Calc age in div in Details page
     $(function () {
@@ -343,15 +292,6 @@ $(function () {
         $('#formatSsnAndSubmitForm').show();
     });
 
-    $("#showAddAlertModal").click(function () {
-        alert("HI");
-        //modal.style.display = "block";
-        //$("#ModelPopUp").modal('show');
-    });
-
-     
-    
-
 
     $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
@@ -360,11 +300,8 @@ $(function () {
         });
     });
 
-    
+    $('.chosen').chosen({ width: '30%' });
 
-
-
-   
 });
     
 

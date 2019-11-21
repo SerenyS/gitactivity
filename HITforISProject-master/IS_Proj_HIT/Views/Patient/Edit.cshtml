@@ -2,11 +2,13 @@
 <link rel="stylesheet" href="~/css/chosen.min.css" />
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
     <button type="button" class="btn btn-danger">
-        <span class="badge badge-danger">Patient</span>  <h4><span id="fullName"></span></h4>
+        <h4>Patient:&nbsp;<span id="fullName"></span></h4>
+        @*<span class="badge badge-danger">Patient</span>  <h4><span id="fullName"></span></h4>*@
     </button><br />
-    <br /><div class="patientBanner"><span class="heading">MRN: </span> <span id="calcMRN" type="date"></span></div>
     <br /><div class="patientBanner"><span class="heading">DOB: </span> <span id="calcDOB"></span></div>
-    <br /><div class="patientBanner"><span class="heading">Age: </span> <span class="age" type="date"></span></div>
+    <br /><div class="patientBanner"><span class="heading">Age: </span> <span class="age" type="date"></span> years</div>
+    <br /><div class="patientBanner"><span class="heading">MRN: </span> <span id="calcMRN" type="date"></span></div>
+
 </nav>
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Edit Patient</h4></div>

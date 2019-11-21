@@ -8,13 +8,9 @@
     <button type="button" class="btn btn-danger">
         <h4>Patient:&nbsp;@Model.FirstName&nbsp;@Model.MiddleName&nbsp;@Model.LastName</h4>
     </button><br />
-    @*<button type="button" class="btn btn-danger">
-            <span class="badge badge-danger">Patient</span>  <h4> @Model.FirstName @Model.MiddleName @Model.LastName</h4>
-        </button><br />*@
     <div class="dob patientBanner"><span class="heading">DOB: </span> @Model.Dob.ToShortDateString()</div>
     <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
     <br /><div class="patientBanner"><span class="heading">MRN: </span>@Model.Mrn</div>
-
 </nav>
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Patient Details</h4></div>
@@ -140,12 +136,5 @@
 
         $('#formatSsnAndSubmitForm').hide();
 
-
-        //$("#showAddAlertModal").click(function () {
-        //    console.log("HI script in view");
-        //    modal.css('display', 'block');
-        //    modal.style.display = "block";
-        //    //$("#ModelPopUp").modal('show');
-        //});
     });
 </script>

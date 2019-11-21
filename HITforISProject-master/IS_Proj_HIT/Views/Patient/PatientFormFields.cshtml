@@ -77,7 +77,8 @@
 <div class="row">
     <div class="col-sm-4 form-group">
         <label>Marital Status</label>
-        <select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"></select>
+        @Html.DropDownList("MaritalStatusId", (SelectList)ViewBag.MaritalStatus, "--Select Marital Status--", new { @class = "form-control chosen" , required = "required" })
+        @*<select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"></select>*@
     </div>
     <div class="col-sm-4">
         <label>Ethnicity ID</label>
