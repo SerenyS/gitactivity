@@ -29,6 +29,10 @@ a.navbar-brand {
     font-weight:bold;
 }
 
+#message{
+    color: red;
+}
+
 
 .container {
     font-size: 18px;

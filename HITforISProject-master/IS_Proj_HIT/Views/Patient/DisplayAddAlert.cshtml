@@ -7,7 +7,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
     <button type="button" class="btn btn-danger">
-        <span class="badge badge-danger">Patient</span>  <h4>@ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</h4>
+        <h4>Patient&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
     </button><br />
     <br /><div class="patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</div>
     <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
@@ -94,7 +94,7 @@
                 $('#message').text('Please select an Alert Type.');
                 //alert('Please select an Alert Type');
             } else if (allergies == '0') {
-                $('#message').text('Please select an Allergy.');
+                $('#message').text('Please select an Allergen.');
             } else if (reactions == '0') {
                 $('#message').text('Please select a Reaction.');
             } else if (fallrisks == '0') {
