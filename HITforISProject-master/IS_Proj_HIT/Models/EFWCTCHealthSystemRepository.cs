@@ -124,6 +124,12 @@ namespace isprojectHiT.Models
             context.SaveChanges();
         }
 
+        public void EditAlert(PatientAlerts alert)
+        {
+            context.Update(alert);
+            context.SaveChanges();
+        }
+
         public void EditEncounter(Encounter encounter)
         {
             context.Update(encounter);

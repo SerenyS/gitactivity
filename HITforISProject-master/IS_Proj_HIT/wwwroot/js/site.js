@@ -30,6 +30,12 @@ $(function () {
         return false;
     }, "Too far in the past!");   // error message
 
+    $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+        return arg !== value;
+    }, "Value must not equal arg.");
+
+    $.validator.setDefaults({ ignore: ":hidden:not(select)" })
+    //$.validator.setDefaults({ ignore: ":hidden:not(.chosen-select)" })
 
     $("form[name='patient']").validate({
         // Specify validation rules
@@ -49,7 +55,9 @@ $(function () {
             MaidenName: "alphabetsnspace",
             MothersMaidenName: "alphabetsnspace",
             MaritalStatusId: "required",
-            
+            SexId: "required",
+            EthnicityId: "required",
+
             Dob: {
                 required: true,
                 date: true,
@@ -78,13 +86,22 @@ $(function () {
                 required: "Please provide a Social Security Number",
                 minlength: "Your SSN must be at least 10 digits long"
             },
+
+            Dob: {
+                required: "Please provide a valid date of birth",
+                date: "Please provide a valid date of birth",
+                maxDate: "Please provide a valid date of birth",
+                minDate: "Please provide a valid date of birth"
+            },
             MiddleName: "Only one letter allowed",
             aliasFirstName: "Only letters allowed",
             aliasMiddleName: "Only letters allowed",
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
             MaidenName: "Only letters allowed",
-            MaritalStatusId: "Select an item from the list"
+            MaritalStatusId: "Select a Marital Status from the list",
+            EthnicityId: "Select an Ethnicity from the list",
+            SexId: "Select a Sex from the list"
             
         },
         // Make sure the form is submitted to the destination defined
@@ -121,9 +138,10 @@ $(function () {
                 required: true,
                 minlength: 9
             },
-            MaritalStatusId: {
-                required: true
-            }
+            MaritalStatusId: "required",
+            SexId: "required",
+            EthnicityId: "required",
+            
 
         },
         // Specify validation error messages
@@ -146,7 +164,16 @@ $(function () {
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
             MaidenName: "Only letters allowed",
-            MaritalStatusId: "Select an item from the list"
+            MaritalStatusId: "Select a Marital Status from the list",
+            EthnicityId: "Select an Ethnicity from the list",
+            SexId: "Select a Sex from the list",
+            Dob: {
+                required: "Please provide a valid date of birth",
+                date: "Please provide a valid date of birth",
+                maxDate: "Please provide a valid date of birth",
+                minDate: "Please provide a valid date of birth"
+            }
+            
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -154,6 +181,7 @@ $(function () {
             form.submit();
         }
     });
+
 
     // Calc age from DOB input in add/edit patient when leaving DOB field HELPMEIMDYING
     $('.dob').focusout(function () {
@@ -300,7 +328,7 @@ $(function () {
         });
     });
 
-    $('.chosen').chosen({ width: '30%' });
+    $('.chosen').chosen({ width: '50%' });
 
 });
     

@@ -1,0 +1,86 @@
+﻿@model IS_Proj_HIT.ViewModels.AlertsViewModel
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/chosen.min.css" />
+@{
+    ViewData["Title"] = "Edit Patient Alert";
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
+    <button type="button" class="btn btn-danger">
+        <span class="badge badge-danger">Patient</span>  <h4>@ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</h4>
+    </button><br />
+    <br /><div class="patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</div>
+    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
+    <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
+</nav>
+
+<div id="alertDiv">
+    <div class="form-group"><i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert</div>
+    <form method="post" id="alert" name="alert" asp-action="AddAlert">
+        <div class="form-group">
+            <label>Alert Type</label><br />
+            @*<select class="form-control chosen" id="alertType" asp-for=@Model.AlertTypeId asp-items="ViewBag.AlertType"></select>*@
+        </div>
+
+        <div class="form-group" id="fallRiskList">
+            <label>Fall Risk</label><br />
+
+            <select class="form-control chosen" asp-for="@Model.FallRiskId" asp-items="ViewBag.PatientFallRisk"></select>
+        </div>
+        @*<div class="form-group" id="restrictionList">
+            <label>Restriction</label><br />
+
+            <select class="form-control chosen" asp-for="@Model.RestrictionTypeId" asp-items="ViewBag.Restriction"></select>
+        </div>
+
+        <div class="form-group" id="allergenList">
+            <label>Allergy</label><br />
+            <select class="form-control chosen" id="allergylist" asp-for="@Model.AllergenId" asp-items="ViewBag.Allergens"></select>
+        </div>
+        <div class="form-group" id="reactionList">
+            <label>Reaction</label><br />
+            <select class="form-control chosen" id="reactionlist" asp-for="@Model.ReactionId" asp-items="ViewBag.Reactions"></select>
+        </div>*@
+
+        <div class="form-group">
+            <label>MRN</label><br />
+            <input asp-for="@Model.Mrn" value="@ViewBag.myMrn" name="Mrn" id="mrn" readonly data-toggle="popover" data-placement="top" title="This unique ID identifies the patient" maxlength="6" />
+        </div>
+        <div class="form-group">
+            <label>Patient Alert ID</label><br />
+            <input asp-for="@Model.PatientAlertId"  readonly  />
+        </div>
+        <div class="form-group">
+            <label>Comments</label><br />
+            <textarea asp-for="@Model.Comments" cols="60" rows="3"></textarea>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <label>Start Date</label>
+                <input asp-for="@Model.StartDate" class="form-control startDate" type="date" id="longer" />
+            </div>
+            <div class="col-sm-4 form-group">
+                <label>End Date</label><br />
+                <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="longer" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <label>Active?</label><br />
+                <input type="radio" asp-for="@Model.IsActive" class="form-control" value="True" />Yes
+                <input type="radio" asp-for="@Model.IsActive" class="form-control" value="False" />No
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Last Modified</label><br />
+            <input asp-for="@Model.LastModified" type="text" id="longer" readonly value="@(ViewBag.LastModified ?? String.Empty)" />
+        </div>
+        <button class="btn btn-outline-primary" type="submit">Create Alert</button>
+        <a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details</a>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>

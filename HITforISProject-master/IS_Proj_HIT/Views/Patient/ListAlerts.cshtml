@@ -19,18 +19,21 @@
     var classAlertName = "fa fa-angle-right";
     var classLastModified = "fa fa-angle-down";
     var classStartDate = "fa fa-angle-right";
+    var classActive = "fa fa-angle-right";
 
     if (TempData["msg"].Equals("Sort order is by Alert Type Ascending"))
     {
         classAlertName = "fa fa-angle-down";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-right";
     }
     else if (TempData["msg"].Equals("Sort order is by Alert Type Descending"))
     {
         classAlertName = "fa fa-angle-up";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-right";
     }
 
     else if (TempData["msg"].Equals("Sort order is by Start Date Ascending"))
@@ -38,6 +41,7 @@
         classAlertName = "fa fa-angle-right";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-down";
+        classActive = "fa fa-angle-right";
     }
 
     else if (TempData["msg"].Equals("Sort order is by Start Date Descending"))
@@ -45,6 +49,23 @@
         classAlertName = "fa fa-angle-right";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-up";
+        classActive = "fa fa-angle-right";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Active Ascending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-down";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Active Descending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-up";
     }
 }
 
@@ -68,7 +89,7 @@ else
                 <th class="linky" scope="col"><i class="@classAlertName" aria-hidden="true"></i> @Html.ActionLink("Alert Type", "ListAlerts", new { sortOrder = ViewBag.AlertTypeSortParm })</th>
 
 
-                <th scope="col">Active?</th>
+                <th scope="col"><i class="@classActive" aria-hidden="true"> @Html.ActionLink("Active", "ListAlerts", new { sortOrder = ViewBag.ActiveSortParm })</th>
                 <th class="linky" scope="col"><i class="@classStartDate" aria-hidden="true"></i> @Html.ActionLink("Start Date", "ListAlerts", new { sortOrder = ViewBag.StartSortParm })</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Comments</th>
@@ -131,33 +152,6 @@ else
             $('.age').text(age);
 
         }
-
-
-        // Hide Active column
-        //$('.showAllCols').on('click', function () {
-        //    $('.hideActive').css('display', 'block');
-        //    $('.hideStart').css('display', 'block');
-        //    $('.hideEnd').css('display', 'block');
-
-        //});
-
-        //$('.hideActive').on('click', function () {
-        //    $('.hideActive').css('display', 'none');
-        //});
-
-        //$('.hideStart').on('click', function () {
-        //    $('.hideStart').css('display', 'none');
-        //});
-
-        //$('.hideEnd').on('click', function () {
-        //    $('.hideEnd').css('display', 'none');
-        //});
-
-        //$('#downArrow').hide();
-        //$('#upArrow').hide();
-
-
-
 
     });
 

@@ -353,6 +353,7 @@ namespace IS_Proj_HIT.Controllers
             // New
             //ViewBag.CommentSortParm = String.IsNullOrEmpty(sortOrder) ? "byComments" : "byCommentsDesc";
             ViewBag.StartSortParm = sortOrder == "byStartDate" ? "byStartDateDesc" : "byStartDate";
+            ViewBag.ActiveSortParm = sortOrder == "byActive" ? "byActiveDesc" : "byActive";
             //ViewBag.LastModifiedTypeSortParm = sortOrder == "byLastModified" ? "byLastModified" : "";
             ViewBag.AlertTypeSortParm = sortOrder == "byAlertType" ? "byAlertTypeDesc" : "byAlertType";
 
@@ -379,6 +380,16 @@ namespace IS_Proj_HIT.Controllers
             else if (sortOrder == "byStartDateDesc" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
             {
                 TempData["msg"] = "Sort order is by Start Date Descending";
+            }
+
+            else if (sortOrder == "byActive" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
+            {
+                TempData["msg"] = "Sort order is by Active Ascending";
+            }
+
+            else if (sortOrder == "byActiveDesc" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
+            {
+                TempData["msg"] = "Sort order is by Active Descending";
             }
 
             else
@@ -432,6 +443,36 @@ namespace IS_Proj_HIT.Controllers
                 .OrderByDescending(p => p.AlertType.Name)
                 });
 
+            }
+
+            if(sortOrder == "byActive")
+            {
+                {
+                    sortOrder = "";
+                    return View(new ListAlertsViewModel
+                    {
+                     PatientAlerts = repository.PatientAlerts
+                    .Include(p => p.AlertType)
+                    .Where(p => p.Mrn == id)
+                    .OrderBy(p => p.IsActive)
+                    });
+
+                }
+            }
+
+            if (sortOrder == "byActiveDesc")
+            {
+                {
+                    sortOrder = "";
+                    return View(new ListAlertsViewModel
+                    {
+                        PatientAlerts = repository.PatientAlerts
+                    .Include(p => p.AlertType)
+                    .Where(p => p.Mrn == id)
+                    .OrderByDescending(p => p.IsActive)
+                    });
+
+                }
             }
             else
             {
@@ -689,6 +730,77 @@ namespace IS_Proj_HIT.Controllers
 
 
                 repository.AddAlert(model);
+                string myUrl = "ListAlerts/" + model.Mrn;
+                return Redirect(myUrl);
+
+            }
+            return View();
+        }
+
+        // Displays the Edit Patient page
+        public IActionResult EditPatientAlert(int id, string mrn)
+        {
+            ViewBag.myMrn = mrn;
+            //ViewBags for Patient Banner at top of page
+            ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).FirstName;
+            ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).MiddleName;
+            ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).LastName;
+            ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).Dob;
+
+            ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            ViewBag.AlertTypeId = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId ==id).AlertTypeId;
+
+            ViewBag.AlertType = repository.AlertTypes.OrderBy(a => a.Name).Select(a =>
+                    new SelectListItem
+                    {
+                        Value = a.AlertId.ToString(),
+                        Text = a.Name
+                    }).ToList();
+
+            ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
+                   new SelectListItem
+                   {
+                       Value = r.FallRiskId.ToString(),
+                       Text = r.Name
+                   }).ToList();
+
+            ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
+                        new SelectListItem
+                        {
+                            Value = r.RestrictionId.ToString(),
+                            Text = r.Name
+                        }).ToList();
+
+            ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
+            .Select(r =>
+               new SelectListItem
+               {
+                   Value = r.AllergenId.ToString(),
+                   Text = r.AllergenName
+               }).ToList();
+
+
+
+            return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
+
+        }
+
+
+        [HttpPost]
+        [ActionName("UpdateAlert")]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateAlert(PatientAlerts model, int id)
+        {
+            Console.WriteLine("Trying to save(PatientController)");
+            //ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            if (ModelState.IsValid)
+            {
+                model.LastModified = @DateTime.Now;
+                ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
+                ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
+                ViewBag.LastModified = @DateTime.Now;
+
+                repository.EditAlert(model);
                 string myUrl = "ListAlerts/" + model.Mrn;
                 return Redirect(myUrl);
 

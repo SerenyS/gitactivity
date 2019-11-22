@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IS_Proj_HIT.Models
 {
@@ -32,6 +33,7 @@ namespace IS_Proj_HIT.Models
         public byte? GenderId { get; set; }
         public bool DeceasedLiving { get; set; }
         public bool InterpreterNeeded { get; set; }
+
         public byte MaritalStatusId { get; set; }
         public byte EthnicityId { get; set; }
         public int? EmploymentId { get; set; }
