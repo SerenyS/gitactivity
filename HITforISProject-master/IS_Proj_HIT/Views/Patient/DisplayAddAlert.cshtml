@@ -21,27 +21,27 @@
             <label>Alert Type</label><br />
             @*<select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"><option value="">Select Marital Status</option></select>
             <span asp-validation-for="MaritalStatusId" class="text-danger"></span>*@
-            <select class="form-control chosen" id="alertType" asp-for="@Model.AlertTypeId" asp-items="ViewBag.AlertType"><option value="0">Select Alert Type</option></select>
+            <select class="form-control selectable chosen" id="alertType" asp-for="@Model.AlertTypeId" asp-items="ViewBag.AlertType"><option value="0">Select Alert Type</option></select>
         </div>
         <div class="form-group" id="fallRiskList">
             <label>Fall Risk</label><br />
             @*@Html.DropDownList("FallRiskId", (SelectList)ViewBag.PatientFallRisk, "--Select One--")*@
-            <select class="form-control chosen" required asp-for="@Model.FallRiskId" asp-items="ViewBag.PatientFallRisk"><option value="0">Select Fall Risk</option></select>
+            <select class="form-control selectable chosen" required asp-for="@Model.FallRiskId" asp-items="ViewBag.PatientFallRisk"><option value="0">Select Fall Risk</option></select>
             
         </div>
         <div class="form-group" id="restrictionList">
             <label>Restriction</label><br />
             @*@Html.DropDownList("RestrictionId", (SelectList)ViewBag.PatientRestriction, "--Select One--")*@
-            <select class="form-control chosen" asp-for="@Model.RestrictionTypeId" asp-items="ViewBag.Restriction"><option value="0">Select Restriction</option></select>
+            <select class="form-control selectable chosen" asp-for="@Model.RestrictionTypeId" asp-items="ViewBag.Restriction"><option value="0">Select Restriction</option></select>
         </div>
 
         <div class="form-group" id="allergenList">
             <label>Allergy</label><br />
-            <select class="form-control chosen" id="allergylist" asp-for="@Model.AllergenId" asp-items="ViewBag.Allergens"><option value="0">Select Allergen</option></select>
+            <select class="form-control selectable chosen" id="allergylist" asp-for="@Model.AllergenId" asp-items="ViewBag.Allergens"><option value="0">Select Allergen</option></select>
         </div>
         <div class="form-group" id="reactionList">
             <label>Reaction</label><br />
-            <select class="form-control chosen" id="reactionlist" asp-for="@Model.ReactionId" asp-items="ViewBag.Reactions"><option value="0">Select Reaction</option></select>
+            <select class="form-control selectable chosen" id="reactionlist" asp-for="@Model.ReactionId" asp-items="ViewBag.Reactions"><option value="0">Select Reaction</option></select>
         </div>
 
         <div class="form-group" hidden>
@@ -108,8 +108,17 @@
 
         });
 
-        $("select option:selected").each( function () {
-            $('#message').text('');
+        $('#allergylist').on('change', function () {
+            var reactions = $('#reactionlist').val();
+            if (reactions == '0') {
+                $('#message').text('Please select a Reaction.');
+            }
+        });
+
+        $('.selectable').on('change', function () {
+
+                $('#message').text('');
+            
         });
 
 
