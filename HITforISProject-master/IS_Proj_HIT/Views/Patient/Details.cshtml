@@ -4,13 +4,18 @@
 @{
     ViewData["Title"] = "Patient Details";
 }
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
-    <button type="button" class="btn btn-danger">
-        <h4>Patient:&nbsp;@Model.FirstName&nbsp;@Model.MiddleName&nbsp;@Model.LastName</h4>
-    </button><br />
-    <div class="dob patientBanner"><span class="heading">DOB: </span> @Model.Dob.ToShortDateString()</div>
-    <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
-    <br /><div class="patientBanner"><span class="heading">MRN: </span>@Model.Mrn</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient:&nbsp;@Model.FirstName&nbsp;@Model.MiddleName&nbsp;@Model.LastName</h4>
+            </button>
+        </li>
+        <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @Model.Dob.ToShortDateString()</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span>@Model.Mrn</li>
+    </ul>
 </nav>
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Patient Details</h4></div>

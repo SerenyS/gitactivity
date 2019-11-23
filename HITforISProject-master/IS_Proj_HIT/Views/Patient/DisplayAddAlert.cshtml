@@ -5,13 +5,18 @@
     ViewData["Title"] = "Add Patient Alert";
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
-    <button type="button" class="btn btn-danger">
-        <h4>Patient&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
-    </button><br />
-    <br /><div class="patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</div>
-    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
-    <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
+            </button>
+        </li>
+
+        <li class="nav-item menu-item dob patientBanner"><span class="heading">&nbsp;DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
+    </ul>
 </nav>
 <div id="alertDiv">
     <div class="form-group"><i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert</div>
@@ -67,7 +72,7 @@
             <label>Last Modified</label><br />
             <input asp-for="@Model.LastModified" type="text" id="longer" readonly value="@(ViewBag.LastModified ?? String.Empty)" />
         </div>
-        <button class="btn btn-outline-primary" type="button" id="chk4nulls">Check</button>
+        <button class="btn btn-primary" type="button" id="chk4nulls">Create Alert</button>
         <button class="btn btn-outline-primary" id="realSubmit" hidden type="submit">Create Alert</button>
         <a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details</a>
     </form>
