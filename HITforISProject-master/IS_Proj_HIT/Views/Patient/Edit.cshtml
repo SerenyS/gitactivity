@@ -26,7 +26,7 @@
 
 <hr />
 
-<a asp-action="Index" id="homeLink" class="btn btn-outline-primary">Home</a>
+<a asp-controller="home" asp-action="Index" id="homeLink" class="btn btn-outline-primary">Home</a>
 <a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Mrn"  class="btn btn-outline-primary mrn">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back To Details</a>
 
