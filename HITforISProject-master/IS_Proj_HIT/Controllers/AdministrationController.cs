@@ -53,9 +53,9 @@ namespace IS_Proj_HIT.Controllers
                 
                 return RedirectToRoute(new
                 {
-                    controller = "Administration",
-                    action = "EditRegisterDetails",
-                    model = "RegisterDetailsViewModel"
+                    controller = "Home",
+                    action = "Index",
+                    
                 });
             }  
 
@@ -63,21 +63,27 @@ namespace IS_Proj_HIT.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditRegisterDetails(UserTable model)
+        public IActionResult EditRegisterDetails()
         {
-            var updateDetails = new RegisterDetailsViewModel()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                ProgramEnrolledIn = model.ProgramEnrolledIn,
-                Instructor = model.Instructor
+            //find current user
+            var id = userManager.GetUserId(HttpContext.User);
 
-
-            };
-   
+            //select the information I want to display
+            ViewBag.FirstName = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).FirstName;
+            ViewBag.LastName = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).LastName;
+            ViewBag.Email = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).Email;
+            ViewBag.Program = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).ProgramEnrolledIn;
+                          
             ViewBag.LastModified = DateTime.Now;
-            return View(updateDetails);
+
+            return View(repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id));
+            
         }
+        //[HttpPost]
+        //public IActionResult EditRegisterDetails(UserTable mode)
+        //{
+
+        //}
 
         [HttpGet]
         public IActionResult CreateRole()
