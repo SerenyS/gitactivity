@@ -63,7 +63,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditRegisterDetails(RegisterDetailsViewModel model)
+        public IActionResult EditRegisterDetails(UserTable model)
         {
             var updateDetails = new RegisterDetailsViewModel()
             {
