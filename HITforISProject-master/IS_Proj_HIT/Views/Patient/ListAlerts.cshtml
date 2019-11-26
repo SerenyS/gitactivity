@@ -114,6 +114,7 @@ else
                 <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
                 <td class="hideComments" width="300px">@patientalerts.Comments</td>
                 <td class="hideMod">@patientalerts.LastModified</td>
+                <td><a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"class="btn btn-outline-primary">Details</a></td>
             </tr>
             }
         </tbody>

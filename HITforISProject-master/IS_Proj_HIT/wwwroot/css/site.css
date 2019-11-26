@@ -16,6 +16,10 @@ a.navbar-brand {
     font-weight: bold;
 }
 
+.takeawayborder {
+    border: none;
+}
+
 #mrn {
     text-align: center;
     border: none;

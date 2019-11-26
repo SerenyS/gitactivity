@@ -496,6 +496,13 @@ namespace IS_Proj_HIT.Controllers
             ID = id
         });
 
+        public RedirectToRouteResult BackToListAlerts(string id) =>
+        RedirectToRoute(new
+        {
+            controller = "Patient",
+            action = "ListAlerts",
+            ID = id
+        });
 
         //// Load page for adding patient alerts
         //public IActionResult DisplayAddAlert(string id)
@@ -747,8 +754,105 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).LastName;
             ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).Dob;
 
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.AlertTypeId = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId ==id).AlertTypeId;
+            //ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            ViewBag.AlertTypeId = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).AlertTypeId;
+
+
+            var myAlertType = (from pa in repository.PatientAlerts
+                              join at in repository.AlertTypes on pa.AlertTypeId equals at.AlertId
+                              where pa.PatientAlertId == id
+                              select new
+                              {
+                                  alertType = at.Name
+
+                              }).FirstOrDefault();
+
+            ViewBag.MyAlertType = myAlertType.alertType;
+
+            ViewBag.Comments = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).Comments;
+            ViewBag.StartDate = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).StartDate.ToString("MM/dd/yyyy");
+
+            ViewBag.EndDate = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).EndDate;
+            //ViewBag.EndDate = checkEndDate != null ? checkEndDate : "N/A";
+
+            var checkActive = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).IsActive;
+            ViewBag.Active = checkActive == true ? "Yes" : "No";
+
+            var myFallRisk = (from pa in repository.PatientAlerts
+                              join pf in repository.PatientFallRisks on pa.PatientAlertId equals pf.PatientAlertId
+                              join fr in repository.FallRisks on pf.FallRiskId equals fr.FallRiskId
+                              where pf.PatientAlertId == id
+                              select new
+                              {
+                                  fallrisk = fr.Name
+
+                              }).FirstOrDefault();
+
+            if(myFallRisk == null)
+            {
+                ViewBag.FallRisk = "";
+            } else
+            {
+                ViewBag.FallRisk = myFallRisk.fallrisk;
+            }
+
+
+            var myRestriction = (from pa in repository.PatientAlerts
+                              join pr in repository.PatientRestrictions on pa.PatientAlertId equals pr.PatientAlertId
+                              join re in repository.Restrictions on pr.RestrictionTypeId equals re.RestrictionId
+                              where pr.PatientAlertId == id
+                              select new
+                              {
+                                  theRestriction = re.Name
+
+                              }).FirstOrDefault();
+
+            if (myRestriction == null)
+            {
+                ViewBag.RestrictionValue = "";
+            }
+            else
+            {
+                ViewBag.RestrictionValue = myRestriction.theRestriction;
+            }
+
+            var myAllergen = (from pa in repository.PatientAlerts
+                              join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                              join al in repository.Allergens on pal.AllergenId equals al.AllergenId
+                              where pal.PatientAlertId == id
+                              select new
+                              {
+                                  allergen= al.AllergenName
+
+                              }).FirstOrDefault();
+
+            if (myAllergen == null)
+            {
+                ViewBag.AllergenValue = "";
+            }
+            else
+            {
+                ViewBag.AllergenValue = myAllergen.allergen;
+            }
+
+            var myReaction = (from pa in repository.PatientAlerts
+                              join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                              join rea in repository.Reactions on pal.ReactionId equals rea.ReactionId
+                              where pal.PatientAlertId == id
+                              select new
+                              {
+                                  reaction = rea.Name
+
+                              }).FirstOrDefault();
+
+            if (myReaction == null)
+            {
+                ViewBag.ReactionValue = "";
+            }
+            else
+            {
+                ViewBag.ReactionValue = myReaction.reaction;
+            }
 
             ViewBag.AlertType = repository.AlertTypes.OrderBy(a => a.Name).Select(a =>
                     new SelectListItem
@@ -757,27 +861,27 @@ namespace IS_Proj_HIT.Controllers
                         Text = a.Name
                     }).ToList();
 
-            ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
-                   new SelectListItem
-                   {
-                       Value = r.FallRiskId.ToString(),
-                       Text = r.Name
-                   }).ToList();
+            //ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
+            //       new SelectListItem
+            //       {
+            //           Value = r.FallRiskId.ToString(),
+            //           Text = r.Name
+            //       }).ToList();
 
-            ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
-                        new SelectListItem
-                        {
-                            Value = r.RestrictionId.ToString(),
-                            Text = r.Name
-                        }).ToList();
+            //ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
+            //            new SelectListItem
+            //            {
+            //                Value = r.RestrictionId.ToString(),
+            //                Text = r.Name
+            //            }).ToList();
 
-            ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
-            .Select(r =>
-               new SelectListItem
-               {
-                   Value = r.AllergenId.ToString(),
-                   Text = r.AllergenName
-               }).ToList();
+            //ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
+            //.Select(r =>
+            //   new SelectListItem
+            //   {
+            //       Value = r.AllergenId.ToString(),
+            //       Text = r.AllergenName
+            //   }).ToList();
 
 
 
