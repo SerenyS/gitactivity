@@ -74,9 +74,7 @@ namespace IS_Proj_HIT.Controllers
                 searchDOBBefore = new DateTime(2030, 1, 1);
             }
 
-            return View(new ListPatientsViewModel
-            {
-                Patients = repository.Patients
+            var patients = repository.Patients
                     .Include(p => p.Religion)
                     .Include(p => p.Gender)
                     .Include(p => p.Ethnicity)
@@ -86,8 +84,46 @@ namespace IS_Proj_HIT.Controllers
                         && p.Ssn.Contains(searchSSN)
                         && p.Mrn.Contains(searchMRN)
                         && p.Dob >= searchDOB
-                        && p.Dob <= searchDOBBefore)
-            });
+                        && p.Dob <= searchDOBBefore);
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.MrnSortParm = sortOrder == "mrn" ? "mrn_desc" : "mrn";
+            ViewBag.DobSortParm = sortOrder == "dob" ? "dob_desc" : "dob";
+
+            ViewBag.sortOrder = sortOrder;
+            ViewBag.searchLast = searchLast;
+            ViewBag.searchFirst = searchFirst;
+            ViewBag.searchSSN = searchSSN;
+            ViewBag.searchDOB = searchDOB;
+            ViewBag.searchDOBBefore = searchDOBBefore;
+
+            switch (sortOrder)
+            {
+                case "mrn":
+                    patients = patients.OrderBy(p => p.Mrn);
+                    break;
+                case "mrn_desc":
+                    patients = patients.OrderByDescending(p => p.Mrn);
+                    break;
+                case "dob":
+                    patients = patients.OrderBy(p => p.Dob);
+                    break;
+                case "dob_desc":
+                    patients = patients.OrderByDescending(p => p.Dob);
+                    break;
+                case "name_desc":
+                    patients = patients.OrderByDescending(p => p.LastName);
+                    break;
+                default:
+                    patients = patients.OrderBy(p => p.LastName);
+                    ViewBag.sortOrder = "name";
+                    break;
+            }
+
+            return View(new ListPatientsViewModel
+            {
+                Patients = patients
+            }) ;
 
         }
 

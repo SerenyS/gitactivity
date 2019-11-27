@@ -18,9 +18,72 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">MRN</th>
-                <th scope="col">Name</th>
-                <th scope="col">Date of Birth</th>
+                <th scope="col">
+                    @Html.ActionLink("MRN", "Index", new
+                    {
+                        sortOrder = ViewBag.MrnSortParm,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore
+                    })
+                    @{
+                        if (ViewBag.sortOrder == "mrn_desc")
+                        {
+                            <i class="fa fa-angle-up"></i>
+                        }
+                        else if (ViewBag.sortOrder == "mrn")
+                        {
+                            <i class="fa fa-angle-down"></i>
+                        }
+                    }
+                </th>
+                <th scope="col">
+                    @Html.ActionLink("Name", "Index", new
+                    {
+                        sortOrder = ViewBag.NameSortParm,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore
+                    })
+                    @{
+                        if (ViewBag.sortOrder == "name_desc")
+                        {
+                            <i class="fa fa-angle-up"></i>
+                        }
+                        else if (ViewBag.sortOrder == "name")
+                        {
+                            <i class="fa fa-angle-down"></i>
+                        }
+                    }
+                </th>
+                <th scope="col">
+                    @Html.ActionLink("Date of Birth", "Index", new
+                    {
+                        sortOrder = ViewBag.DobSortParm,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore
+                    })
+                    @{
+                        if (ViewBag.sortOrder == "dob_desc")
+                        {
+                            <i class="fa fa-angle-up"></i>
+                        }
+                        else if (ViewBag.sortOrder == "dob")
+                        {
+                            <i class="fa fa-angle-down"></i>
+                        }
+                    }
+                </th>
                 <th scope="col">Action</th>
             </tr>
         </thead>

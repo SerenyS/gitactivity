@@ -23,7 +23,7 @@ namespace IS_Proj_HIT.Controllers
         public int PageSize = 8;
         public EncounterController(IWCTCHealthSystemRepository repo) => repository = repo;
 
-        public ViewResult Index(int encounterPage = 1 /*, string searchString*/)
+        public ViewResult Index(string filter, int encounterPage = 1)
 
         {
             var patientEncounters = repository.Encounters
@@ -41,6 +41,20 @@ namespace IS_Proj_HIT.Controllers
                     DischargeDateTime = ((encounter.DischargeDate == null) || (encounter.DischargeTime == null)) ? "Patient has not yet been discharged" : "" + encounter.DischargeDate + " " + encounter.DischargeTime
 
                 }).ToList();
+
+            if (filter == "CheckedIn")
+            {
+                var tempList = patientEncounters;
+                foreach (var e in patientEncounters.ToList())
+                {
+                    if (e.DischargeDateTime != "Patient has not yet been discharged")
+                    {
+                        tempList.Remove(e);
+                    }
+                }
+                patientEncounters = tempList;
+            }
+
             List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
             for(int i = 0; i < patientEncounters.Count(); i++)
             {
