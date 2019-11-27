@@ -1,6 +1,7 @@
 ﻿@model IS_Proj_HIT.Models.Patient
 <link rel="stylesheet" href="~/css/site.css" />
 <div class="red">@Html.Raw(TempData["msg"])</div>
+<div class="red">@Html.Raw(TempData["msg1"])</div>
 @{
     ViewData["Title"] = "Patient Details";
 }
@@ -89,57 +90,62 @@
     Add Encounter
 </a>
 @* Hiding Delete Patient for Now *@
-@*<a asp-action="DeletePatient" asp-route-id="@Model.Mrn" class="btn btn-outline-primary">Delete Patient</a>*@
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-action="DeletePatient" asp-route-id="@Model.Mrn" class="btn btn-outline-primary">Delete Patient</a>
+    }
+}
+        <hr />
 
-<hr />
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+        <script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script>
+            // Calc age in div in Details page
+            $(function () {
+                var dob = $('.dob').html();
+                var dob1 = $('.dob').val();
+                if (dob != '') {
+                    var DateCreated = new Date(Date.parse(dob));
+                    var today = new Date();
 
-    // Calc age in div in Details page
-    $(function () {
-        var dob = $('.dob').html();
-        var dob1 = $('.dob').val();
-        if (dob != '') {
-            var DateCreated = new Date(Date.parse(dob));
-            var today = new Date();
+                    var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+                    var age = parseInt(dayDiff);
+                    $('.age').text(age);
 
-            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
-            var age = parseInt(dayDiff);
-            $('.age').text(age);
+                }
 
-        }
+                if (dob1 != '') {
+                    var DateCreated = new Date(Date.parse(dob1));
+                    var today = new Date();
 
-        if (dob1 != '') {
-            var DateCreated = new Date(Date.parse(dob1));
-            var today = new Date();
+                    var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
+                    var age = parseInt(dayDiff);
 
-            var dayDiff = Math.ceil(today - DateCreated) / (1000 * 60 * 60 * 24 * 365);
-            var age = parseInt(dayDiff);
+                    $('.age').text(age);
 
-            $('.age').text(age);
-
-        }
-
-
-
-
-        // When page loads, if SSN field is on there, this adds the dashes
-        $(function () {
-            var val = $('#Ssn').text();
-            val.replace(/\D/g, '');
-            val = val.replace(/^(\d{3})/, '$1-');
-            val = val.replace(/-(\d{2})/, '-$1-');
-            val = val.replace(/(\d)-(\d{4}).*/, '$1-$2');
-            $('#Ssn').html(val);
-        });
+                }
 
 
 
-        $('#formatSsnAndSubmitForm').hide();
 
-    });
-</script>
+                // When page loads, if SSN field is on there, this adds the dashes
+                $(function () {
+                    var val = $('#Ssn').text();
+                    val.replace(/\D/g, '');
+                    val = val.replace(/^(\d{3})/, '$1-');
+                    val = val.replace(/-(\d{2})/, '-$1-');
+                    val = val.replace(/(\d)-(\d{4}).*/, '$1-$2');
+                    $('#Ssn').html(val);
+                });
+
+
+
+                $('#formatSsnAndSubmitForm').hide();
+
+            });
+        </script>

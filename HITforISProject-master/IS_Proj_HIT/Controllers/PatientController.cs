@@ -170,15 +170,29 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.PatientAlertExists = repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id);
             if (ViewBag.PatientAlertExists != null)
             {
-                TempData["msg"] = "You cannot delete a patient with patient alerts.";
+                TempData["msg1"] = "You cannot delete a patient with patient alerts.";
+                return RedirectToRoute(new
+                {
+                    controller = "Patient",
+                    action = "Details",
+                    ID = id
+
+                });
 
             }
             else
             {
-                TempData["msg"] = "The selected patient was deleted.";
+                TempData["msg1"] = "The selected patient was deleted.";
                 repository.DeletePatient(repository.Patients.FirstOrDefault(b => b.Mrn == id));
+                return RedirectToRoute(new
+                {
+                    controller = "Home",
+                    action = "Index"
+
+                });
             }
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            
         }
 
 
