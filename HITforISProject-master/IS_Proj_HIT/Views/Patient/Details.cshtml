@@ -94,7 +94,7 @@
 {
     @if (User.IsInRole("Administrator"))
     {
-        <a asp-action="DeletePatient" asp-route-id="@Model.Mrn" class="btn btn-outline-primary">Delete Patient</a>
+        <a asp-action="DeletePatient" asp-route-id="@Model.Mrn" onclick="if (!confirm('Are you sure?')) return false" class="btn btn-outline-primary">Delete Patient</a>
     }
 }
         <hr />
