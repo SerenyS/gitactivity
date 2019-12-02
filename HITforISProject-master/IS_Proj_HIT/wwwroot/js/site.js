@@ -182,6 +182,83 @@ $(function () {
         }
     });
 
+    var admitDateTime;
+    $(document).ready(function () {
+        admitDateTime = $("#admitDateTime").val();
+    });
+    $("#editEncounter").on("submit", function () {
+        console.log(admitDateTime);
+        if ($("#admitDateTime").val() == '') {
+            $("#admitDateTime").val(admitDateTime);
+            console.log($("#admitDateTime").val());
+        }
+    });
+
+    $("form[name='encounter']").validate({
+        // Specify validation rules
+        rules: {
+            RoomNumber: "required",
+            ChiefComplaint: "required",
+            FacilityId: "required",
+            DepartmentId: "required",
+            PointOfOriginId: "required",
+            PlaceOfServiceId: "required",
+            AdmitTypeId: "required",
+            EncounterPhysiciansId: "required",
+            EncounterTypeId: "required"
+        },
+        // Specify validation error messages
+        messages: {
+            RoomNumber: "Please enter the room number the patient is in for their encounter",
+            ChiefComplaint: "Please enter the patients reason for coming to the hospitial",
+            FacilityId: "Select a Facility from the list",
+            DepartmentId: "Select a Department from the list",
+            PointOfOriginId: "Select a Point of Origin from the list",
+            PlaceOfServiceId: "Select a Place of Service from the list",
+            AdmitTypeId: "Select an Admission Types from the list",
+            EncounterPhysiciansId: "Select a Physician from the list",
+            EncounterTypeId: "Select an Encounter Type from the list"
+
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+
+    $("form[name='editEncounter']").validate({
+        // Specify validation rules
+        rules: {
+            RoomNumber: "required",
+            ChiefComplaint: "required",
+            FacilityId: "required",
+            DepartmentId: "required",
+            PointOfOriginId: "required",
+            PlaceOfServiceId: "required",
+            AdmitTypeId: "required",
+            EncounterPhysiciansId: "required",
+            EncounterTypeId: "required"
+        },
+        // Specify validation error messages
+        messages: {
+            RoomNumber: "Please enter the room number the patient is in for their encounter",
+            ChiefComplaint: "Please enter the patients reason for coming to the hospitial",
+            FacilityId: "Select a Facility from the list",
+            DepartmentId: "Select a Department from the list",
+            PointOfOriginId: "Select a Point of Origin from the list",
+            PlaceOfServiceId: "Select a Place of Service from the list",
+            AdmitTypeId: "Select an Admission Types from the list",
+            EncounterPhysiciansId: "Select a Physician from the list",
+            EncounterTypeId: "Select an Encounter Type from the list"
+
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
 
     // Calc age from DOB input in add/edit patient when leaving DOB field HELPMEIMDYING
     $('.dob').focusout(function () {

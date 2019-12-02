@@ -208,64 +208,44 @@ namespace IS_Proj_HIT.Controllers
             TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
             if (pAge.Days > 365)
             {
-                ViewBag.PatientAge = (pAge.Days / 365) + " Years";
+                ViewBag.CurrentPatientAge = (byte)(pAge.Days / 365);
+                ViewBag.PatientAge = ViewBag.CurrentPatientAge + " Years";
             }
             else
             {
+                ViewBag.CurrentPatientAge = 0;
                 ViewBag.PatientAge = pAge.Days + " Days";
             }
 
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
-            ViewBag.AdmitTypes = repository.AdmitTypes.Select(at =>
-                                new SelectListItem
-                                {
-                                    Value = at.AdmitTypeId.ToString(),
-                                    Text = at.Description,
+            var queryAdmitTypes = repository.AdmitTypes.Select(at => new { at.AdmitTypeId, at.Description });
+            queryAdmitTypes = queryAdmitTypes.OrderBy(n => n.Description);
+            ViewBag.AdmitTypes = new SelectList(queryAdmitTypes.AsEnumerable(), "AdmitTypeId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.Departments = repository.Departments.Select(dep =>
-                                new SelectListItem
-                                {
-                                    Value = dep.DepartmentId.ToString(),
-                                    Text = dep.Name,
+            var queryDepartments = repository.Departments.Select(dep => new { dep.DepartmentId, dep.Name });
+            queryDepartments = queryDepartments.OrderBy(n => n.Name);
+            ViewBag.Departments = new SelectList(queryDepartments.AsEnumerable(), "DepartmentId", "Name", 0);
 
-                                }).ToList();
-            ViewBag.EncounterTypes = repository.EncounterTypes.Select(ent =>
-                               new SelectListItem
-                               {
-                                   Value = ent.EncounterTypeId.ToString(),
-                                   Text = ent.Name,
+            var queryEncounterTypes = repository.EncounterTypes.Select(ent => new { ent.EncounterTypeId, ent.Name });
+            queryEncounterTypes = queryEncounterTypes.OrderBy(n => n.Name);
+            ViewBag.EncounterTypes = new SelectList(queryEncounterTypes.AsEnumerable(), "EncounterTypeId", "Name", 0);
 
-                               }).ToList();
-            ViewBag.PlacesOfService = repository.PlaceOfService.Select(pos =>
-                                new SelectListItem
-                                {
-                                    Value = pos.PlaceOfServiceId.ToString(),
-                                    Text = pos.Description,
+            var queryPlacesOfService = repository.PlaceOfService.Select(pos => new { pos.PlaceOfServiceId, pos.Description });
+            queryPlacesOfService = queryPlacesOfService.OrderBy(n => n.Description);
+            ViewBag.PlacesOfService = new SelectList(queryPlacesOfService.AsEnumerable(), "PlaceOfServiceId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.PointsOfOrigin = repository.PointOfOrigin.Select(poo =>
-                                new SelectListItem
-                                {
-                                    Value = poo.PointOfOriginId.ToString(),
-                                    Text = poo.Description,
+            var queryPointsOfOrigin = repository.PointOfOrigin.Select(poo => new { poo.PointOfOriginId, poo.Description });
+            queryPointsOfOrigin = queryPointsOfOrigin.OrderBy(n => n.Description);
+            ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin.AsEnumerable(), "PointOfOriginId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.Facility = repository.Facilities.Select(fac =>
-                                new SelectListItem
-                                {
-                                    Value = fac.FacilityId.ToString(),
-                                    Text = fac.Name,
+            var queryFacility = repository.Facilities.Select(fac => new { fac.FacilityId, fac.Name });
+            queryFacility = queryFacility.OrderBy(n => n.Name);
+            ViewBag.Facility = new SelectList(queryFacility.AsEnumerable(), "FacilityId", "Name", 0);
 
-                                }).ToList();
-            ViewBag.EncounterPhysicians = repository.EncounterPhysicians.Select(EnP =>
-                               new SelectListItem
-                               {
-                                   Value = EnP.EncounterPhysiciansId.ToString(),
-                                   Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
-
-                               }).ToList();
+            var queryEncounterPhysicians = repository.EncounterPhysicians.Select(EnP => new { EnP.EncounterPhysiciansId, Name = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName) });
+            queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
+            ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
             return View();
 
         }
@@ -346,6 +326,14 @@ namespace IS_Proj_HIT.Controllers
 
         }
 
+        // find all the encounters for a specific patient
+        public IActionResult allPatientEncounters(string MRN)
+        {
+            string myUrl = "/Encounter/PatientEncounters?patientMRN=" + MRN;
+            Debug.WriteLine("help - " + myUrl + MRN);
+            return Redirect(myUrl);
+
+        }
 
         // Pick record to send to Details page
         public IActionResult Details(string id)
@@ -356,6 +344,14 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.SexID = repository.Patients.Include(p => p.Sex).FirstOrDefault(p => p.Mrn == id);
             ViewBag.GenderID = repository.Patients.Include(p => p.Gender).FirstOrDefault(p => p.Mrn == id);
             ViewBag.EthnicityID = repository.Patients.Include(p => p.Ethnicity).FirstOrDefault(p => p.Mrn == id);
+            if(repository.Encounters.Where(e => e.Mrn == id).Count() > 0)
+            {
+                ViewBag.isThereEncounter = true;
+            }
+            else
+            {
+                ViewBag.isThereEncounter = false;
+            }
 
             return View(repository.Patients.FirstOrDefault(p => p.Mrn == id));
 
