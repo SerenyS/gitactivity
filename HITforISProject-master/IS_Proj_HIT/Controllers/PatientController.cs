@@ -110,18 +110,23 @@ namespace IS_Proj_HIT.Controllers
 
             // Do it this way if you need to have nothing selected as default
             var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
+            query = query.OrderBy(r => r.Name);
             ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
 
             var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
+            querySex = querySex.OrderBy(r => r.Name);
             ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
 
             var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
+            queryGender = queryGender.OrderBy(r => r.Name);
             ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
 
             var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
+            queryEthnicity = queryEthnicity.OrderBy(r => r.Name);
             ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
 
             var queryMaritalStatus = repository.MaritalStatuses.Select(r => new { r.MaritalStatusId, r.Name });
+            queryMaritalStatus = queryMaritalStatus.OrderBy(r => r.Name);
             ViewBag.MaritalStatus = new SelectList(queryMaritalStatus.AsEnumerable(), "MaritalStatusId", "Name", 0);
 
             //var queryEmployment = repository.Employment.Select(r => new { r.MaritalStatusId, r.Name });
@@ -308,18 +313,23 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
 
             var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
+            query = query.OrderBy(r => r.Name);
             ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
 
             var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
+            querySex = querySex.OrderBy(r => r.Name);
             ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
 
             var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
+            queryGender = queryGender.OrderBy(r => r.Name);
             ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
 
             var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
+            queryEthnicity = queryEthnicity.OrderBy(r => r.Name);
             ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
 
             var queryMaritalStatus = repository.MaritalStatuses.Select(r => new { r.MaritalStatusId, r.Name });
+            queryMaritalStatus = queryMaritalStatus.OrderBy(r => r.Name);
             ViewBag.MaritalStatus = new SelectList(queryMaritalStatus.AsEnumerable(), "MaritalStatusId", "Name", 0);
 
             return View(repository.Patients.FirstOrDefault(p => p.Mrn == id));
