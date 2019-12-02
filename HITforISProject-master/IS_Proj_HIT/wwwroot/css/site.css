@@ -16,12 +16,25 @@ a.navbar-brand {
     font-weight: bold;
 }
 
+.takeawayborder {
+    border: none;
+}
+
+#mrn {
+    text-align: center;
+    border: none;
+}
+
 .noborder {
     border: 0;
 }
 
 .heading{
     font-weight:bold;
+}
+
+#message{
+    color: red;
 }
 
 

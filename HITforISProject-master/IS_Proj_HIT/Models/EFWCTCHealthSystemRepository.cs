@@ -124,6 +124,12 @@ namespace isprojectHiT.Models
             context.SaveChanges();
         }
 
+        public void EditAlert(PatientAlerts alert)
+        {
+            context.Update(alert);
+            context.SaveChanges();
+        }
+
         public void EditEncounter(Encounter encounter)
         {
             context.Update(encounter);
@@ -145,29 +151,43 @@ namespace isprojectHiT.Models
             context.Attach(pa);
             context.SaveChanges();
             long patientAlertid = pa.PatientAlertId;
+            int? alertTypeid = pa.AlertTypeId;
 
-            PatientFallRisks pfr = new PatientFallRisks();
-            pfr.FallRiskId = alert.FallRiskId;
-            pfr.PatientAlertId = patientAlertid;
-            pfr.LastModified = alert.LastModified;
-            context.Attach(pfr);
+            // Based on the alertTypeid above, decide which db table to save to...
+            if (alertTypeid == 5)
+            {
+                PatientFallRisks pfr = new PatientFallRisks();
+                pfr.FallRiskId = alert.FallRiskId;
+                pfr.PatientAlertId = patientAlertid;
+                pfr.LastModified = alert.LastModified;
+                context.Attach(pfr);
+                context.SaveChanges();
+            }
+            else if (alertTypeid == 3)
+            {
 
-            context.SaveChanges();
 
-            PatientRestrictions pr = new PatientRestrictions();
-            pr.RestrictionTypeId = alert.RestrictionTypeId;
-            pr.PatientAlertId = patientAlertid;
-            pr.LastModified = alert.LastModified;
-            context.PatientRestrictions.Add(pr);
-            context.SaveChanges();
-
-            PatientAllergy pall = new PatientAllergy();
-            pall.AllergenId = alert.AllergenId;
-            pall.ReactionId = alert.ReactionId;
-            pall.PatientAlertId = patientAlertid;
-            pall.LastModified = alert.LastModified;
-            context.PatientAllergy.Add(pall);
-            context.SaveChanges();
+                PatientRestrictions pr = new PatientRestrictions();
+                pr.RestrictionTypeId = alert.RestrictionTypeId;
+                pr.PatientAlertId = patientAlertid;
+                pr.LastModified = alert.LastModified;
+                context.PatientRestrictions.Add(pr);
+                context.SaveChanges();
+            }
+            else if (alertTypeid == 4)
+            {
+                PatientAllergy pall = new PatientAllergy();
+                pall.AllergenId = alert.AllergenId;
+                pall.ReactionId = alert.ReactionId;
+                pall.PatientAlertId = patientAlertid;
+                pall.LastModified = alert.LastModified;
+                context.PatientAllergy.Add(pall);
+                context.SaveChanges();
+            }
+            else
+            {
+                //do nothing else (Advanced Directive and Clinical Reminder only use PatientAlerts table)
+            }
         }
 
     }

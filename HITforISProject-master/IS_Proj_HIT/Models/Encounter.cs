@@ -27,8 +27,7 @@ namespace IS_Proj_HIT.Models
         public int? DepartmentId { get; set; }
         public int PointOfOriginId { get; set; }
         public long? PaymentId { get; set; }
-        public DateTime? DischargeDate { get; set; }
-        public TimeSpan? DischargeTime { get; set; }
+        public DateTime? DischargeDateTime { get; set; }
         public int? DischargeDisposition { get; set; }
         public DateTime LastModified { get; set; }
 

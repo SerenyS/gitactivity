@@ -4,15 +4,19 @@
     ViewData["Title"] = "Patient Alerts";
 }
 @ViewBag.Message
-<nav class="navbar navbar-expand-lg bg-secondary">
-    <button type="button" class="btn btn-danger">
-        <span class="badge badge-danger">Patient</span>  <h4>@ViewBag.FirstName @ViewBag.MiddleName @ViewBag.LastName</h4>
-    </button><br />
-    @*<div class="patientBanner MRN"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />*@
 
-             <div class="patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</div>
-    <div class="dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</div>
-    <div class="patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient:&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
+            </button>
+        </li>
+        @*<div class="patientBanner MRN"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />*@
+        <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
+     </ul>
 </nav>
 <div class="card-header bg-primary text-white"><h4><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts</h4></div>
 <br />
@@ -20,18 +24,21 @@
     var classAlertName = "fa fa-angle-right";
     var classLastModified = "fa fa-angle-down";
     var classStartDate = "fa fa-angle-right";
+    var classActive = "fa fa-angle-right";
 
     if (TempData["msg"].Equals("Sort order is by Alert Type Ascending"))
     {
         classAlertName = "fa fa-angle-down";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-right";
     }
     else if (TempData["msg"].Equals("Sort order is by Alert Type Descending"))
     {
         classAlertName = "fa fa-angle-up";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-right";
     }
 
     else if (TempData["msg"].Equals("Sort order is by Start Date Ascending"))
@@ -39,6 +46,7 @@
         classAlertName = "fa fa-angle-right";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-down";
+        classActive = "fa fa-angle-right";
     }
 
     else if (TempData["msg"].Equals("Sort order is by Start Date Descending"))
@@ -46,6 +54,23 @@
         classAlertName = "fa fa-angle-right";
         classLastModified = "fa fa-angle-right";
         classStartDate = "fa fa-angle-up";
+        classActive = "fa fa-angle-right";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Active Ascending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-down";
+    }
+
+    else if (TempData["msg"].Equals("Sort order is by Active Descending"))
+    {
+        classAlertName = "fa fa-angle-right";
+        classLastModified = "fa fa-angle-right";
+        classStartDate = "fa fa-angle-right";
+        classActive = "fa fa-angle-up";
     }
 }
 
@@ -69,11 +94,12 @@ else
                 <th class="linky" scope="col"><i class="@classAlertName" aria-hidden="true"></i> @Html.ActionLink("Alert Type", "ListAlerts", new { sortOrder = ViewBag.AlertTypeSortParm })</th>
 
 
-                <th scope="col">Active?</th>
+                <th scope="col"><i class="@classActive" aria-hidden="true"></i> @Html.ActionLink("Active", "ListAlerts", new { sortOrder = ViewBag.ActiveSortParm })</th>
                 <th class="linky" scope="col"><i class="@classStartDate" aria-hidden="true"></i> @Html.ActionLink("Start Date", "ListAlerts", new { sortOrder = ViewBag.StartSortParm })</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Comments</th>
                 <th scope="col"><i class="@classLastModified" aria-hidden="true"></i> Last Modified</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -89,6 +115,7 @@ else
                 <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
                 <td class="hideComments" width="300px">@patientalerts.Comments</td>
                 <td class="hideMod">@patientalerts.LastModified</td>
+                <td><a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"class="btn btn-outline-primary">Details</a></td>
             </tr>
             }
         </tbody>
@@ -132,33 +159,6 @@ else
             $('.age').text(age);
 
         }
-
-
-        // Hide Active column
-        //$('.showAllCols').on('click', function () {
-        //    $('.hideActive').css('display', 'block');
-        //    $('.hideStart').css('display', 'block');
-        //    $('.hideEnd').css('display', 'block');
-
-        //});
-
-        //$('.hideActive').on('click', function () {
-        //    $('.hideActive').css('display', 'none');
-        //});
-
-        //$('.hideStart').on('click', function () {
-        //    $('.hideStart').css('display', 'none');
-        //});
-
-        //$('.hideEnd').on('click', function () {
-        //    $('.hideEnd').css('display', 'none');
-        //});
-
-        //$('#downArrow').hide();
-        //$('#upArrow').hide();
-
-
-
 
     });
 

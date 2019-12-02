@@ -38,11 +38,41 @@ namespace IS_Proj_HIT.Controllers
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
                     FacilityName = repository.Facilities.FirstOrDefault(b => b.FacilityId == encounter.FacilityId).Name,
-                    DischargeDateTime = ((encounter.DischargeDate == null) || (encounter.DischargeTime == null)) ? "Patient has not yet been discharged" : "" + encounter.DischargeDate + " " + encounter.DischargeTime
+                    DischargeDateTime = ((encounter.DischargeDateTime == null) ? "Patient has not yet been discharged" : encounter.DischargeDateTime.ToString())
 
                 }).ToList();
             List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
             for(int i = 0; i < patientEncounters.Count(); i++)
+            {
+                EncounterPatientViewModel thisPatientEncounter = new EncounterPatientViewModel(patientEncounters[i].Mrn,
+                    patientEncounters[i].EncounterId, patientEncounters[i].AdmitDateTime,
+                    patientEncounters[i].FirstName, patientEncounters[i].LastName, patientEncounters[i].FacilityName,
+                    patientEncounters[i].DischargeDateTime);
+                viewPatientEncounters.Add(thisPatientEncounter);
+            }
+            return View(viewPatientEncounters);
+        }
+
+        public ViewResult PatientEncounters(string patientMRN)
+        {
+            var patientEncounters = repository.Encounters
+                .Join(repository.Patients,
+                encounter => encounter.Mrn,
+                patient => patient.Mrn,
+                (encounter, patient) => new
+                {
+                    Mrn = encounter.Mrn,
+                    EncounterId = encounter.EncounterId,
+                    AdmitDateTime = encounter.AdmitDateTime,
+                    FirstName = patient.FirstName,
+                    LastName = patient.LastName,
+                    FacilityName = repository.Facilities.FirstOrDefault(b => b.FacilityId == encounter.FacilityId).Name,
+                    DischargeDateTime = ((encounter.DischargeDateTime == null) ? "Patient has not yet been discharged" : encounter.DischargeDateTime.ToString())
+
+                })
+                .Where(patientEncounterMRN => patientEncounterMRN.Mrn == patientMRN).ToList();
+            List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
+            for (int i = 0; i < patientEncounters.Count(); i++)
             {
                 EncounterPatientViewModel thisPatientEncounter = new EncounterPatientViewModel(patientEncounters[i].Mrn,
                     patientEncounters[i].EncounterId, patientEncounters[i].AdmitDateTime,
@@ -66,7 +96,12 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult EditEncounter(long encounterId)
         {
             ViewBag.EncounterId = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).EncounterId;
-            ViewBag.AdmitDateTime = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).AdmitDateTime;
+            DateTime encounterAdmitDateTime = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).AdmitDateTime;
+            ViewBag.AdmitDateTime = "" + encounterAdmitDateTime.Year + "-" +
+                ((encounterAdmitDateTime.Month < 10) ? "0" + encounterAdmitDateTime.Month.ToString() : encounterAdmitDateTime.Month.ToString()) + "-" +
+                ((encounterAdmitDateTime.Day < 10) ? "0" + encounterAdmitDateTime.Day.ToString() : encounterAdmitDateTime.Day.ToString()) + "T" +
+                ((encounterAdmitDateTime.Hour < 10) ? "0" + encounterAdmitDateTime.Hour.ToString() : encounterAdmitDateTime.Hour.ToString()) + ":" +
+                ((encounterAdmitDateTime.Minute < 10) ? "0" + encounterAdmitDateTime.Minute.ToString() : encounterAdmitDateTime.Minute.ToString());
             ViewBag.EncounterMRN = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).Mrn;
             string encounterMrn = ViewBag.EncounterMRN;
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
@@ -88,69 +123,52 @@ namespace IS_Proj_HIT.Controllers
             }
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
-            ViewBag.AdmitTypes = repository.AdmitTypes.Select(at =>
-                                new SelectListItem
-                                {
-                                    Value = at.AdmitTypeId.ToString(),
-                                    Text = at.Description,
+            //can also probably make these queries into a function if you can figure out how to make the respository types generic
+            var queryAdmitTypes = repository.AdmitTypes.Select(at => new { at.AdmitTypeId, at.Description });
+            queryAdmitTypes = queryAdmitTypes.OrderBy(n => n.Description);
+            ViewBag.AdmitTypes = new SelectList(queryAdmitTypes.AsEnumerable(), "AdmitTypeId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.Departments = repository.Departments.Select(dep =>
-                                new SelectListItem
-                                {
-                                    Value = dep.DepartmentId.ToString(),
-                                    Text = dep.Name,
+            var queryDepartments = repository.Departments.Select(dep => new { dep.DepartmentId, dep.Name });
+            queryDepartments = queryDepartments.OrderBy(n => n.Name);
+            ViewBag.Departments = new SelectList(queryDepartments.AsEnumerable(), "DepartmentId", "Name", 0);
 
-                                }).ToList();
-            ViewBag.Discharges = repository.Discharges.Select(dis =>
-                                new SelectListItem
-                                {
-                                    Value = dis.DischargeId.ToString(),
-                                    Text = dis.Name,
+            var queryDischarges = repository.Discharges.Select(dis => new { dis.DischargeId, dis.Name });
+            queryDischarges = queryDischarges.OrderBy(n => n.Name);
+            ViewBag.Discharges = new SelectList(queryDischarges.AsEnumerable(), "DischargeId", "Name", 0);
 
-                                }).ToList();
-            ViewBag.EncounterTypes = repository.EncounterTypes.Select(ent =>
-                               new SelectListItem
-                               {
-                                   Value = ent.EncounterTypeId.ToString(),
-                                   Text = ent.Name,
+            var queryEncounterTypes = repository.EncounterTypes.Select(ent => new { ent.EncounterTypeId, ent.Name });
+            queryEncounterTypes = queryEncounterTypes.OrderBy(n => n.Name);
+            ViewBag.EncounterTypes = new SelectList(queryEncounterTypes.AsEnumerable(), "EncounterTypeId", "Name", 0);
 
-                               }).ToList();
-            ViewBag.PlacesOfService = repository.PlaceOfService.Select(pos =>
-                                new SelectListItem
-                                {
-                                    Value = pos.PlaceOfServiceId.ToString(),
-                                    Text = pos.Description,
+            var queryPlacesOfService = repository.PlaceOfService.Select(pos => new { pos.PlaceOfServiceId, pos.Description });
+            queryPlacesOfService = queryPlacesOfService.OrderBy(n => n.Description);
+            ViewBag.PlacesOfService = new SelectList(queryPlacesOfService.AsEnumerable(), "PlaceOfServiceId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.PointsOfOrigin = repository.PointOfOrigin.Select(poo =>
-                                new SelectListItem
-                                {
-                                    Value = poo.PointOfOriginId.ToString(),
-                                    Text = poo.Description,
+            var queryPointsOfOrigin = repository.PointOfOrigin.Select(poo => new { poo.PointOfOriginId, poo.Description });
+            queryPointsOfOrigin = queryPointsOfOrigin.OrderBy(n => n.Description);
+            ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin.AsEnumerable(), "PointOfOriginId", "Description", 0);
 
-                                }).ToList();
-            ViewBag.Facility = repository.Facilities.Select(fac =>
-                                new SelectListItem
-                                {
-                                    Value = fac.FacilityId.ToString(),
-                                    Text = fac.Name,
+            var queryFacility = repository.Facilities.Select(fac => new { fac.FacilityId, fac.Name });
+            queryFacility = queryFacility.OrderBy(n => n.Name);
+            ViewBag.Facility = new SelectList(queryFacility.AsEnumerable(), "FacilityId", "Name", 0);
 
-                                }).ToList();
-            ViewBag.EncounterPhysicians = repository.EncounterPhysicians.Select(EnP =>
-                               new SelectListItem
-                               {
-                                   Value = EnP.EncounterPhysiciansId.ToString(),
-                                   Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
+            var queryEncounterPhysicians = repository.EncounterPhysicians.Select(EnP => new { EnP.EncounterPhysiciansId, Name = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName) });
+            queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
+            ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
 
-                               }).ToList();
+            //ViewBag.EncounterPhysicians = repository.EncounterPhysicians.Select(EnP =>
+            //                   new SelectListItem
+            //                   {
+            //                       Value = EnP.EncounterPhysiciansId.ToString(),
+            //                       Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
+
+            //                   }).ToList();
 
             return View(repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId));
         }
 
         // Save edits to patient record from Edit Patients page
         [HttpPost]
-        [ActionName("Update")]
         [ValidateAntiForgeryToken]
         public IActionResult EditEncounter(Encounter model, string id)
         {
@@ -159,7 +177,6 @@ namespace IS_Proj_HIT.Controllers
                 model.LastModified = @DateTime.Now;
                 repository.EditEncounter(model);
                 Debug.WriteLine("find me! " + Request);
-                // string myUrl = "Details/" + model.Mrn;
                 return Redirect("/Encounter");
             }
             return View();

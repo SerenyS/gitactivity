@@ -461,7 +461,9 @@ namespace IS_Proj_HIT.Models
 
                 entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
 
-                entity.Property(e => e.DischargeDate).HasColumnType("date");
+                entity.Property(e => e.DischargeDateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.EncounterPhysiciansId).HasColumnName("EncounterPhysiciansID");
 
