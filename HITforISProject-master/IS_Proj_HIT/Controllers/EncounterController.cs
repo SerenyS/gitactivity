@@ -93,8 +93,9 @@ namespace IS_Proj_HIT.Controllers
 
 
         // Displays the Edit Encounter page
-        public IActionResult EditEncounter(long encounterId)
+        public IActionResult EditEncounter(long encounterId, bool isPatientEncounter)
         {
+            ViewBag.isPatientEncounter = isPatientEncounter;
             ViewBag.EncounterId = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).EncounterId;
             DateTime encounterAdmitDateTime = repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).AdmitDateTime;
             ViewBag.AdmitDateTime = "" + encounterAdmitDateTime.Year + "-" +
@@ -156,14 +157,6 @@ namespace IS_Proj_HIT.Controllers
             queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
 
-            //ViewBag.EncounterPhysicians = repository.EncounterPhysicians.Select(EnP =>
-            //                   new SelectListItem
-            //                   {
-            //                       Value = EnP.EncounterPhysiciansId.ToString(),
-            //                       Text = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName),
-
-            //                   }).ToList();
-
             return View(repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId));
         }
 
@@ -178,6 +171,24 @@ namespace IS_Proj_HIT.Controllers
                 repository.EditEncounter(model);
                 Debug.WriteLine("find me! " + Request);
                 return Redirect("/Encounter");
+            }
+            return View();
+
+
+        }
+
+
+        // Save edits to patient record from Edit a specific Patients encounters page
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPatientEncounter(Encounter model, string id)
+        {
+            if (ModelState.IsValid)
+            {
+                model.LastModified = @DateTime.Now;
+                repository.EditEncounter(model);
+                string myUrl = "/Encounter/PatientEncounters?patientMRN=" + model.Mrn;
+                return Redirect(myUrl);
             }
             return View();
 

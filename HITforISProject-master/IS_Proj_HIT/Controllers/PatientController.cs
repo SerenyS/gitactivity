@@ -340,7 +340,6 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult allPatientEncounters(string MRN)
         {
             string myUrl = "/Encounter/PatientEncounters?patientMRN=" + MRN;
-            Debug.WriteLine("help - " + myUrl + MRN);
             return Redirect(myUrl);
 
         }
