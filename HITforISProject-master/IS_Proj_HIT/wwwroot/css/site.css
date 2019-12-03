@@ -25,6 +25,11 @@ a.navbar-brand {
     border: none;
 }
 
+.mrn {
+    font-size: large;
+    font-weight: bold;
+}
+
 .noborder {
     border: 0;
 }

@@ -36,7 +36,7 @@
             </tr>
             PatientMRN = encounter.Mrn;
         }
-
+        
     </tbody>
 </table>
 @if (PatientMRN != "")
@@ -44,15 +44,4 @@
     <a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@PatientMRN" class="btn btn-outline-primary">
         <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> View Patient Details
     </a>
-}
-@section Scripts{
-    <script>
-    function deleteCheck(firstName, lastName, time)
-    {
-        comfirm("hey howdy");
-        if (comfirm("Are you sure you want to delete the encounter of " + firstName + " " + lastName + " on " + time + "?")) {
-            $("#goDelete").click();
-        }
-    }
-    </script>
 }
