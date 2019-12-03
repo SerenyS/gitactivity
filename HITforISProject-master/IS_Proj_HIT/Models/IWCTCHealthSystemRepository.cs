@@ -38,6 +38,7 @@ namespace isprojectHiT.Models
         IQueryable<Allergen> Allergens { get; }
         IQueryable<Reaction> Reactions { get; }
         IQueryable<PatientAllergy> PatientAllergy { get; }
+        IQueryable<UserTable> UserTables { get; }
 
 
         void AddPatient(Patient patient);

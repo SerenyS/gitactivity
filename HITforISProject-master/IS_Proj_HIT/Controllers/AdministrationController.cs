@@ -44,7 +44,17 @@ namespace IS_Proj_HIT.Controllers
             //get AspNetUsersID Guid to use as a foreign key
             model.AspNetUsersID = userManager.GetUserId(HttpContext.User);
             //get email from current user
-            model.Email = User.Identity.Name;      
+            model.Email = User.Identity.Name;
+
+            //get program from dropdown 
+            //TODO make program table in future rev
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="HIT/MCS", Value = "HIT/MCS", Selected = true },
+                new SelectListItem{ Text="Nursing", Value = "Nursing" },
+                
+            };
+            
 
             if (ModelState.IsValid)
             {
@@ -53,9 +63,9 @@ namespace IS_Proj_HIT.Controllers
                 
                 return RedirectToRoute(new
                 {
-                    controller = "Administration",
-                    action = "EditRegisterDetails",
-                    model = "RegisterDetailsViewModel"
+                    controller = "Home",
+                    action = "Index",
+                    
                 });
             }  
 
@@ -63,20 +73,61 @@ namespace IS_Proj_HIT.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditRegisterDetails(RegisterDetailsViewModel model)
+        public IActionResult EditRegisterDetails()
         {
-            var updateDetails = new RegisterDetailsViewModel()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                ProgramEnrolledIn = model.ProgramEnrolledIn,
-                Instructor = model.Instructor
+            //find current user
+            var id = userManager.GetUserId(HttpContext.User);
 
+            //select the information I want to display
+            ViewBag.FirstName = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).FirstName;
+            ViewBag.LastName = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).LastName;
+            ViewBag.Email = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).Email;
+            //ViewBag.Program = repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id).ProgramEnrolledIn;
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="HIT/MCS", Value = "HIT/MCS", Selected = true },
+                new SelectListItem{ Text="Nursing", Value = "Nursing" },
 
             };
-   
+
             ViewBag.LastModified = DateTime.Now;
-            return View(updateDetails);
+
+            return View(repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id));
+            
+        }
+
+        [HttpPost]
+        public IActionResult EditRegisterDetails(UserTable model)
+        {
+            //get AspNetUsersID Guid to use as a foreign key
+            model.AspNetUsersID = userManager.GetUserId(HttpContext.User);
+            //get email from current user
+            model.Email = User.Identity.Name;
+
+            //get program from dropdown 
+            //TODO make program table in future rev
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="HIT/MCS", Value = "HIT/MCS", Selected = true },
+                new SelectListItem{ Text="Nursing", Value = "Nursing" },
+
+            };
+
+
+            if (ModelState.IsValid)
+            {
+                model.LastModified = @DateTime.Now;
+                repository.EditUser(model);
+
+                return RedirectToRoute(new
+                {
+                    controller = "Home",
+                    action = "Index",
+
+                });
+            }
+
+            return View();
         }
 
         [HttpGet]
