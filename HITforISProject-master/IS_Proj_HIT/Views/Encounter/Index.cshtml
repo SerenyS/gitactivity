@@ -28,8 +28,14 @@
                 <td>@encounter.FacilityName</td>
                 <td>@encounter.DischargeDateTime</td>
                 <td id="special">
-                    <a asp-action="EditEncounter" asp-route-encounterId="@encounter.EncounterId" class="btn btn-outline-primary">Edit</a>
-                    <a onclick="deleteCheck(@encounter.FirstName, @encounter.LastName, @encounter.AdmitDateTime)" asp-action="DeleteEncounter" asp-route-encounterId="@encounter.EncounterId" class="btn btn-danger">Delete</a>
+                    <a asp-action="EditEncounter" asp-route-encounterId="@encounter.EncounterId" asp-route-isPatientEncounter="@false" class="btn btn-outline-primary">Edit</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a asp-action="DeleteEncounter" asp-route-encounterId="@encounter.EncounterId" onclick="if (!confirm('Are you sure you want to delete this encounter?')) return false" class="btn btn-danger">Delete</a>
+                        }
+                    }
                     <a asp-action="DeleteEncounter" asp-route-encounterId="@encounter.EncounterId" id="goDelete" class="btn" hidden>hidden</a>
             <td></td>
             </tr>
@@ -37,14 +43,3 @@
 
     </tbody>
 </table>
-@section Scripts{ 
-<script>
-    function deleteCheck(firstName, lastName, time)
-    {
-        comfirm("hey howdy");
-        if (comfirm("Are you sure you want to delete the encounter of " + firstName + " " + lastName + " on " + time + "?")) {
-            $("#goDelete").click();
-        }
-    }
-</script>
-}
