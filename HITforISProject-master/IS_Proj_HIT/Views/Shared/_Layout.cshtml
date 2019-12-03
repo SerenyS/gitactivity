@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
-    <environment include="Development">
+    <environment include="Development, Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     </environment>
     <environment exclude="Development">
@@ -89,7 +89,7 @@
             &copy; 2019 - isprojectHiT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <environment include="Development">
+    <environment include="Development, Production">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
