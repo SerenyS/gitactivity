@@ -35,6 +35,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public bool PrivacyPolicyIsChecked { get; set; }
+
         public string ReturnUrl { get; set; }
 
         public class InputModel
