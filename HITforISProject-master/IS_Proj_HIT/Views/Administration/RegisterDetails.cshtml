@@ -7,19 +7,19 @@
 <form method="post" id="registerDetails" name="registerDetails" asp-action="RegisterDetails">
     <div class="container" @*asp-validation-summary="All" *@></div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="form-group">
             <label>First Name: </label><br />
             <textarea asp-for="@Model.FirstName" type="text">
             </textarea>
         </div>
-        <div class="col-sm-4">
+        <div class="form-group">
             <label>Last Name</label><br />
             <input asp-for="@Model.LastName" type="text" />
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="form-group">
             <label>Program Enrolled In:</label><br />
             <select class="form-control dropdowns" asp-for="@Model.ProgramEnrolledIn" asp-items="ViewBag.ProgramList"></select>
         </div>
@@ -38,11 +38,11 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label>Start Date</label><br />
+            <label>Start Date - required</label><br />
             <input asp-for="@Model.StartDate" type="date" class="startDate" id="longer" />
         </div>
         <div class="form-group">
-            <label>End Date</label><br />
+            <label>End Date</label - required><br />
             <input asp-for="@Model.EndDate" type="date" class="endDate" id="longer" />
         </div>
     </div>
