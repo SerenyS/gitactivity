@@ -12,10 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Content\Chosen\chosen-sprite.png" />
     <None Remove="Content\Chosen\chosen.min.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Content\Chosen\chosen-sprite.png" />
     <Content Include="Content\Chosen\chosen.min.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -38,6 +40,13 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\chosen.min.css" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\js\site.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

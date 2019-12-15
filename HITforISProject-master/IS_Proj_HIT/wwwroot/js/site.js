@@ -90,8 +90,8 @@ $(function () {
             Dob: {
                 required: "Please provide a valid date of birth",
                 date: "Please provide a valid date of birth",
-                maxDate: "Please provide a valid date of birth",
-                minDate: "Please provide a valid date of birth"
+                maxDate: "Invalid Date from the future!",
+                minDate: "Too far in the past!"
             },
             MiddleName: "Only one letter allowed",
             aliasFirstName: "Only letters allowed",

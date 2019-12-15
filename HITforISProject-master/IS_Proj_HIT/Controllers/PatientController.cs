@@ -383,6 +383,7 @@ namespace IS_Proj_HIT.Controllers
         // Pick record to send to Details page
         public IActionResult Details(string id)
         {
+            ViewBag.PatientAlertsCount = repository.PatientAlerts.Where(b => b.Mrn == id).Count();
             Debug.WriteLine("Trying to save(PatientController)"); //Look here
             ViewBag.ReligionID = repository.Patients.Include(p => p.Religion).FirstOrDefault(p => p.Mrn == id);
             ViewBag.MaritalID = repository.Patients.Include(p => p.MaritalStatus).FirstOrDefault(p => p.Mrn == id);
