@@ -25,7 +25,10 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.App">
+      <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+      <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.5.0" />
@@ -35,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Views\PCA\" />
   </ItemGroup>
 
 
@@ -42,11 +46,5 @@
     <None Include="wwwroot\css\chosen.min.css" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Content Update="wwwroot\js\site.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
 </Project>

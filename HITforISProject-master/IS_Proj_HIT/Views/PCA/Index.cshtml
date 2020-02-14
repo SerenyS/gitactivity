@@ -1,0 +1,737 @@
+﻿@using isprojectHiT.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<Ethnicity>
+@{
+    ViewData["Title"] = "Patient Care Assessment";
+}
+    <div class="container">
+        <div class="accordion" id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Level of Consciousness and Orientation
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5">
+                                Person:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Person" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Person" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Person" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Place:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Place" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Place" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Place" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Time:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Time" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Time" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Time" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Purpose:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Purpose" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Purpose" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Purpose" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            HEENT/ Neuro
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5">
+                                Head:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Head" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Head" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Head" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Eyes/ Vision:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Eyes/Vision" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Eyes/Vision" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Eyes/Vision" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Ears/ Hearing:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Ears/Hearing" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Ears/Hearing" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Ears/Hearing" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Nose:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Nose" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Nose" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Nose" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                Throat and Mouth:
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Throat and Mouth" id="notAssessed" checked>Not Assessed</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Throat and Mouth" id="wnl">WNL</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="radio-inline"><input type="radio" name="Throat and Mouth" id="abnormal">Abnormal</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Skin
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Wounds/ Breaks/ Rash/ Lesions:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Redness/ Irritation:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Redness/Irritation" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Redness/Irritation" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Redness/Irritation" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Ears/ Hearing:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Hearing" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Hearing" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Hearing" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Dryness/ Excess Moisture:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Sign of Breakdown
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sign of Breakdown" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sign of Breakdown" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sign of Breakdown" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingFour">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Lungs/ Thoracic
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Lung sounds:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Lung sounds" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Lung sounds" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Lung sounds" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Respiration depth:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiration depth" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiration depth" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiration depth" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Respiratory rate:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory rate" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory rate" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory rate" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Chest shape and appearance:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Chest shape and appearance" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Chest shape and appearance" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Chest shape and appearance" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Drains/ Lines/ Sutures/ Staples:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingFive">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                Cardiac/ Thoracic
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Heart sounds:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart sounds" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart sounds" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart sounds" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Heart rate:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rate" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rate" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rate" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Heart rhythm:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rhythm" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rhythm" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Heart rhythm" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Jugular venous pulse:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Jugular venous pulse" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Jugular venous pulse" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Jugular venous pulse" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Drains/ Lines/ Sutures/ Staples:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingSix">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Abdomen/ Coccyx/ Genitalia
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Abnormal shape and apperance:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Bowel sounds:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Bowel sounds" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Bowel sounds" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Bowel sounds" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Tenderness/ Lumps/ Bladder distension:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Tubes/ Drains/ Catheter sites:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Skin appearance:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Skin appearance" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Skin appearance" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Skin appearance" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingSeven">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                Extremities
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Temerature/ Color/ Capillary Refill:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Pulses/ Sensation:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Endema:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Endema" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Endema" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Endema" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    ROM:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="ROM" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="ROM" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="ROM" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Tubes/ Drains/ Staples/ Sutures/ Catheter sites:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingEight">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
+                                Psych/ Mental Health
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Mood/ Affect:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Mood/ Affect" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Mood/ Affect" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Mood/ Affect" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Cognition:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Cognition" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Cognition" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Cognition" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Thought Pattern:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Thought Pattern" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Thought Pattern" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Thought Pattern" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Sleep Pattern:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sleep Pattern" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sleep Pattern" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Sleep Pattern" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingNine">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                                General
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    Pain/ Discomfort:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Elimination:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Elimination" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Elimination" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Elimination" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Appetite:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Appetite" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Appetite" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Appetite" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    Activity:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Activity" id="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Activity" id="wnl">WNL</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Activity" id="abnormal">Abnormal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button type="button" id="PCAsubmit" class="btn btn-outline-primary">Submit</button>
+    </div>
+    
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+
+        <!-- Then put toasts within -->
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="..." class="rounded mr-2" alt="...">
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
