@@ -4,8 +4,6 @@
 // Write your JavaScript code.
 
 $(function () {
-    console.log('Hi');
-
 
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
@@ -308,6 +306,9 @@ $(function () {
 
     // When Edit page loads
     $(function () {
+        //TODO: THIS CODE IS BROKEN AND ALWAYS THROWS AN ERROR. 
+        //      IF YOU FIND WHAT THIS IS SUPPOSED TO DO, FIX IT MAYBE
+        if (true) return;
         // DOB in Edit page patient banner
         var dob = $('.dob').val();
         if (dob != '') {
@@ -338,8 +339,6 @@ $(function () {
         var month = str.substring(5, 7);
         var day = str.substring(8, 10);
         $('#calcDOB').text(month + '/' + day + '/' + year);
-
-
     });
 
     // Calc age in div in Details page

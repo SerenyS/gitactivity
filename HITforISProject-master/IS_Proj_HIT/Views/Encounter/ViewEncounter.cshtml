@@ -1,6 +1,4 @@
-﻿<link rel="stylesheet" href="~/css/forms.css" />
-@using Newtonsoft.Json
-@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+﻿@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
     <ul class="navbar-nav nav-fill w-100">
@@ -35,16 +33,16 @@
     <div class="card-body bg-light">
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-9 col-md-6">
                     <label>Chief Complaint: </label>
                     <span class="font-weight-bold">@Model.Encounter.ChiefComplaint</span>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3 col-md-6">
                     <label>Facility Registry Opt Out: </label>
                     <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div class="row">
                 <div class="col-sm-4">
                     <label>Department: </label>
@@ -59,49 +57,49 @@
                     <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Admission Type: </label>
                     <span class="font-weight-bold">@Model.Encounter.AdmitType.Description</span>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Admission Time: </label>
                     <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Physician: </label>
                     <span class="font-weight-bold">
                         @Model.Encounter.EncounterPhysicians.Physician.FirstName &nbsp;
                         @Model.Encounter.EncounterPhysicians.Physician.LastName
                     </span>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Encounter Types: </label>
                     <span class="font-weight-bold">@Model.Encounter.EncounterType.Name</span>
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Place of Service: </label>
                     <span class="font-weight-bold">@Model.Encounter.PlaceOfService.Description</span>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Point of Origin: </label>
                     <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Discharge Disposition: </label>
                     <span class="font-weight-bold">@(Model.Encounter.DischargeDispositionNavigation?.Name ?? "Not Discharged")</span>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label>Discharge Time: </label>
                     <span class="font-weight-bold">@(Model.Encounter.DischargeDateTime?.ToString() ?? "Not Discharged")</span>
                 </div>
@@ -124,52 +122,58 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.LastModified))
-            {
-                <div class="row">
-                    <div class="col-sm-2">
-                        <a asp-controller="PCA"
-                           asp-action="ViewAssessment"
-                           asp-route-assessmentId="@pca.Pcaid"
-                           class="btn btn-info btn-sm">
-                            View Assessment
-                        </a>
-                    </div>
-                    <div class="col-sm-2">
-                        <label>Assessment Id: </label>
-                        <span class="font-weight-bold">@pca.Pcaid</span>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>Date Vitals Taken: </label>
-                        <span class="font-weight-bold">@pca.DateVitalsAdded</span>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>Last Modified: </label>
-                        <span class="font-weight-bold">@pca.LastModified</span>
-                    </div>
-                </div>
-                @if (Model.Encounter.PcaRecords.Count > 1)
+            <table class="table table-bordered table-primary">
+                <thead>
+                <tr>
+                    <th>View</th>
+                    <th>Date Vitals Entered</th>
+                    <th>Temperature</th>
+                    <th>Respiration</th>
+                    <th>Blood Pressure</th>
+                    <th class="d-md-none d-lg-table-cell">Pulse</th>
+                    <th class="d-md-none d-lg-table-cell">Pulse Oximetry</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.LastModified))
                 {
-                    <hr />
+                    <tr>
+                        <td>
+                            <a asp-controller="PCA"
+                               asp-action="ViewAssessment"
+                               asp-route-assessmentId="@pca.Pcaid"
+                               class="btn btn-info btn-sm">
+                                View
+                            </a>
+                        </td>
+                        <td>@pca.DateVitalsAdded</td>
+                        <td>@(pca.Temperature?.ToString() ?? "N/A") *F</td>
+                        <td>@pca.Respiration /min</td>
+                        <td>@pca.SystolicBloodPressure / @pca.DiastolicBloodPressure</td>
+                        <td class="d-md-none d-lg-table-cell">@pca.Pulse /min</td>
+                        <td class="d-md-none d-lg-table-cell">@pca.PulseOximetry%</td>
+                    </tr>
                 }
-            }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<hr />
+<hr/>
 
 <a asp-action="Index"
-   class="btn btn-outline-primary">View <b>All</b> Encounters</a>
+   class="btn btn-outline-primary">
+    View <b>All</b> Encounters
+</a>
 
 <a asp-action="Index"
    asp-route-filter="CheckedIn"
-   class="btn btn-outline-primary m-l-1">View <b>Checked In</b> Encounters</a>
+   class="btn btn-outline-primary m-l-1">
+    View <b>Checked In</b> Encounters
+</a>
 
 <a asp-action="PatientEncounters"
    asp-route-patientMRN="@Model.Encounter.Mrn"
-   class="btn btn-outline-primary float-right">View All of <b>@Model.Patient.FirstName's</b> Encounters </a>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+   class="btn btn-outline-primary float-right">
+    View All of <b>@Model.Patient.FirstName's</b> Encounters
+</a>

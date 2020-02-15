@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - isprojectHiT</title>
+    <title>@ViewData["Title"] - ISProjectHiT</title>
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
@@ -39,12 +39,6 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                     </li>
-                    @*<li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Login</a>
-           </li>
-          <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="SignUp"><i class="fas fa-user-plus"></i> Sign Up</a>
-        </li>*@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
@@ -91,6 +85,7 @@
     </footer>
     <environment include="Development, Production">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
     <environment exclude="Development">

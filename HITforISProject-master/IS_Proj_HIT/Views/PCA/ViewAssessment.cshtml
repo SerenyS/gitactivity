@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
-            Confirm Patient Assessment Information
+            Patient Care Assessment Information
             <a asp-action="UpdateAssessment"
                asp-route-assessmentId="@Model.Assessment.Pcaid"
                class="btn btn-info btn-sm float-right">
@@ -31,22 +31,36 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <label>PCA Info 1: </label>
-                    <span class="font-weight-bold">@Model.Assessment.Pcaid</span>
-                </div>
-                <div class="col-sm-4">
-                    <label>PCA Info 2: </label>
-                    <span class="font-weight-bold">@Model.Assessment.OxygenFlow</span>
-                </div>
-                <div class="col-sm-4">
-                    <label>PCA Info 3: </label>
-                    <span class="font-weight-bold">@Model.Assessment.PainLevelActual</span>
-                </div>
-            </div>
+            <h5 class="row d-block">
+                <span class="float-left">Date Vitals Entered: @Model.Assessment.DateVitalsAdded</span>
+                <span class="float-right">Last Modified: @Model.Assessment.LastModified</span>
+            </h5>
+            <table class="table table-bordered table-primary">
+                <thead>
+                    <tr>
+                        <th>Temperature</th>
+                        <th>Respiration</th>
+                        <th>Blood Pressure</th>
+                        <th class="d-md-none d-lg-table-cell">Pulse</th>
+                        <th class="d-md-none d-lg-table-cell">Pulse Oximetry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>@(Model.Assessment.Temperature?.ToString() ?? "N/A") *F</td>
+                    <td>@Model.Assessment.Respiration /min</td>
+                    <td>@Model.Assessment.SystolicBloodPressure / @Model.Assessment.DiastolicBloodPressure</td>
+                    <td class="d-md-none d-lg-table-cell">@Model.Assessment.Pulse /min</td>
+                    <td class="d-md-none d-lg-table-cell">@Model.Assessment.PulseOximetry%</td>
+                </tr>
+                </tbody>
+            </table>
             <hr/>
-            <h5>More fields to be displayed here</h5>
+            <h5>General Health Data here (Height/Weight/Etc)</h5>
+            <hr/>
+            <h5>Pain Scale Info here</h5>
+            <hr/>
+            <h5>Systems Review here</h5>
         </div>
     </div>
 </div>

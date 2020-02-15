@@ -5,23 +5,18 @@
 }
 
 <div class="row my-3">
-    <div class="col-sm-3">
-        @if (ViewBag.Filter == "CheckedIn")
-        {
-            <a asp-action="Index"
-               class="btn btn-outline-primary">
-                View <b>All</b> Encounters
-            </a>
-        }
-        else
-        {
-            <a asp-action="Index"
-               asp-route-filter="CheckedIn"
-               class="btn btn-outline-primary">
-                Filter Only <b>Checked In</b> Encounters
-            </a>
-        }
-    </div>
+    @if (ViewBag.Filter == "CheckedIn")
+    {
+        <div class="col-sm-9">
+            <h3>Checked In Patient Encounters</h3>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-9">
+            <h3>All Patient Encounters</h3>
+        </div>
+    }
 </div>
 <div class="row">
     <div class="col-sm-12">
@@ -83,4 +78,25 @@
             </tbody>
         </table>
     </div>
+</div>
+<div class="row">
+    @if (ViewBag.Filter == "CheckedIn")
+    {
+        <div class="col-sm-3">
+            <a asp-action="Index"
+               class="btn btn-outline-primary">
+                Clear Encounters Filter
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-3">
+            <a asp-action="Index"
+               asp-route-filter="CheckedIn"
+               class="btn btn-outline-primary">
+                Filter Only <b>Checked In</b> Encounters
+            </a>
+        </div>
+    }
 </div>
