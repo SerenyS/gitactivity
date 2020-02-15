@@ -42,7 +42,8 @@ namespace IS_Proj_HIT.Controllers
                 patientEncounters = patientEncounters.Where(e => e.DischargeDateTime == null).ToList();
 
             var viewPatientEncounters =
-                patientEncounters.Select(e => new EncounterPatientViewModel(e.Mrn,
+                patientEncounters.OrderByDescending(e => e.AdmitDateTime)
+                                 .Select(e => new EncounterPatientViewModel(e.Mrn,
                                                                             e.EncounterId,
                                                                             e.AdmitDateTime,
                                                                             e.FirstName,

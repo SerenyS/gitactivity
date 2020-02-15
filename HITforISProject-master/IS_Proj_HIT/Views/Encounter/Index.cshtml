@@ -24,7 +24,7 @@
             <thead>
             <tr>
                 <th scope="col">MRN</th>
-                <th scope="col">Name</th>
+                <th scope="col">Patient Name</th>
                 <th scope="col">Admit Time</th>
                 <th scope="col">Facility</th>
                 @if (ViewBag.Filter == "CheckedIn")
@@ -43,7 +43,9 @@
             {
                 <tr>
                     <td>@encounter.Mrn</td>
-                    <td>@encounter.FirstName @encounter.LastName</td>
+                    <td>
+                        @(string.IsNullOrWhiteSpace(encounter.FirstName) ? "" : encounter.FirstName.Substring(0, 1)). @encounter.LastName
+                    </td>
                     <td>@encounter.AdmitDateTime</td>
                     <td>@encounter.FacilityName</td>
                     @if (ViewBag.Filter == "CheckedIn")
@@ -85,7 +87,7 @@
         <div class="col-sm-3">
             <a asp-action="Index"
                class="btn btn-outline-primary">
-                Clear Encounters Filter
+                View <b>All</b> Encounters
             </a>
         </div>
     }
