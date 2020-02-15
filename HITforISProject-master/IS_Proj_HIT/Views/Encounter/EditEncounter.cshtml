@@ -14,7 +14,17 @@
     </ul>
 </nav>
 <div class="card">
-    <div class="card-header bg-primary text-white"><h4>Edit Encounter</h4></div>
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Edit Encounter
+            <a asp-action="ViewEncounter"
+               asp-route-encounterId="@Model.EncounterId"
+               asp-route-isPatientEncounter="false"
+               class="btn btn-info btn-sm float-right">
+                Return to Encounter View
+            </a>
+        </h4>
+    </div>
     <div class="card-body bg-light">
         @if (!ViewBag.isPatientEncounter)
         {

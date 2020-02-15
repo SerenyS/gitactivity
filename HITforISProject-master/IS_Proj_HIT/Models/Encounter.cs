@@ -8,7 +8,7 @@ namespace IS_Proj_HIT.Models
         public Encounter()
         {
             EncounterAlerts = new HashSet<EncounterAlerts>();
-            Pcarecord = new HashSet<Pcarecord>();
+            PcaRecords = new HashSet<Pcarecord>();
         }
 
         public string Mrn { get; set; }
@@ -42,6 +42,6 @@ namespace IS_Proj_HIT.Models
         public virtual PlaceOfServiceOutPatient PlaceOfService { get; set; }
         public virtual PointOfOrigin PointOfOrigin { get; set; }
         public virtual ICollection<EncounterAlerts> EncounterAlerts { get; set; }
-        public virtual ICollection<Pcarecord> Pcarecord { get; set; }
+        public virtual ICollection<Pcarecord> PcaRecords { get; set; }
     }
 }

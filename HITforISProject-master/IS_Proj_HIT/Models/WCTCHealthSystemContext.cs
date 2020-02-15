@@ -157,6 +157,7 @@ namespace IS_Proj_HIT.Models
                     .IsRequired()
                     .HasMaxLength(1)
                     .IsUnicode(false);
+
             });
 
             modelBuilder.Entity<AdvancedDirectives>(entity =>
@@ -495,7 +496,7 @@ namespace IS_Proj_HIT.Models
 
                 entity.HasOne(d => d.AdmitType)
                     .WithMany(p => p.Encounter)
-                    .HasForeignKey(d => d.AdmitTypeId)
+                      .HasForeignKey(d => d.AdmitTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_AdmitTypeID");
 
@@ -1430,7 +1431,7 @@ namespace IS_Proj_HIT.Models
                 entity.Property(e => e.Temperature).HasColumnType("decimal(5, 2)");
 
                 entity.HasOne(d => d.Encounter)
-                    .WithMany(p => p.Pcarecord)
+                    .WithMany(p => p.PcaRecords)
                     .HasForeignKey(d => d.EncounterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PCARecord_EncounterID");

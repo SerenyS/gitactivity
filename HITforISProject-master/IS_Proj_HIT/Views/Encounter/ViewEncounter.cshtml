@@ -1,0 +1,150 @@
+﻿<link rel="stylesheet" href="~/css/forms.css" />
+@using Newtonsoft.Json
+@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient:&nbsp;@Model.Patient.FirstName&nbsp;@Model.Patient.MiddleName&nbsp;@Model.Patient.LastName</h4>
+            </button>
+        </li>
+        <li class="nav-item menu-item dob patientBanner">
+            <span class="heading">DOB: </span> @Model.Patient.Dob.ToShortDateString()
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">Age: </span> @Model.Encounter.PatientCurrentAge
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">MRN: </span>@(Model.Encounter.Mrn ?? string.Empty)
+        </li>
+    </ul>
+</nav>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Encounter Information
+            <a asp-action="EditEncounter"
+               asp-route-encounterId="@Model.Encounter.EncounterId"
+               asp-route-isPatientEncounter="@ViewBag.isPatientEncounter"
+               class="btn btn-info btn-sm float-right">
+                Edit
+            </a>
+        </h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Facility Registry Opt Out: </label>
+                    <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>Chief Complaint: </label>
+                    <span class="font-weight-bold">@Model.Encounter.ChiefComplaint</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Department: </label>
+                    <span class="font-weight-bold">@Model.Encounter.Department.Name</span>
+                </div>
+                <div class="col-sm-5">
+                    <label>Facility: </label>
+                    <span class="font-weight-bold">@Model.Encounter.Facility.Name</span>
+                </div>
+                <div class="col-sm-3">
+                    <label>Room Number: </label>
+                    <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Admission Type: </label>
+                    <span class="font-weight-bold">@Model.Encounter.AdmitType.Description</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>Admission Time: </label>
+                    <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Physician: </label>
+                    <span class="font-weight-bold">
+                        @Model.Encounter.EncounterPhysicians.Physician.FirstName &nbsp;
+                        @Model.Encounter.EncounterPhysicians.Physician.LastName
+                    </span>
+                </div>
+                <div class="col-sm-4">
+                    <label>Encounter Types: </label>
+                    <span class="font-weight-bold">@Model.Encounter.EncounterType.Name</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Place of Service: </label>
+                    <span class="font-weight-bold">@Model.Encounter.PlaceOfService.Description</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>Point of Origin: </label>
+                    <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Discharge Disposition: </label>
+                    <span class="font-weight-bold">@(Model.Encounter.DischargeDispositionNavigation?.Name ?? "Not Discharged")</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>Discharge Time: </label>
+                    <span class="font-weight-bold">@(Model.Encounter.DischargeDateTime?.ToString() ?? "Not Discharged")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Patient Care Assessments
+            <a asp-controller="PCA"
+               asp-action="CreateAssessment"
+               asp-route-encounter="@Model.Encounter"
+               asp-route-patient="@Model.Patient"
+               class="btn btn-info btn-sm float-right">
+                Create New PCA
+            </a>
+        </h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="container">
+            @foreach (var pca in Model.Encounter.PcaRecords)
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Placeholder Pca Info: </label>
+                        <span class="font-weight-bold">@pca</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<hr />
+@if (!ViewBag.isPatientEncounter)
+{
+    <a asp-action="Index" class="btn btn-outline-primary">Back to Encounters</a>
+    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Encounter.Mrn" class="btn btn-outline-primary float-right">See all Encounters for this patient</a>
+}
+
+@if (ViewBag.isPatientEncounter)
+{
+    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Encounter.Mrn" class="btn btn-outline-primary">Back to @Model.Patient.FirstName's Encounters</a>
+}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>

@@ -9,6 +9,11 @@ namespace isprojectHiT.Models
 {
     public interface IWCTCHealthSystemRepository
     {
+        #region IQueryables
+
+        IQueryable<Pcarecord> PcaRecords { get; }
+        IQueryable<Pcacomment> PcaComments { get; }
+        IQueryable<PcacommentType> PcaCommentTypes { get; }
         IQueryable<AdmitType> AdmitTypes { get; }
         IQueryable<Ethnicity> Ethnicities { get; }
         IQueryable<Gender> Genders { get; }
@@ -28,7 +33,6 @@ namespace isprojectHiT.Models
         IQueryable<PatientContactDetails> PatientContactDetails { get; }
         IQueryable<Physician> Physicians { get; }
         IQueryable<PhysicianRole> PhysicianRoles { get; }
-
         IQueryable<PatientAlerts> PatientAlerts { get; }
         IQueryable<AlertType> AlertTypes { get; }
         IQueryable<PatientRestrictions> PatientRestrictions { get; }
@@ -40,17 +44,21 @@ namespace isprojectHiT.Models
         IQueryable<PatientAllergy> PatientAllergy { get; }
         IQueryable<UserTable> UserTables { get; }
 
+        #endregion
+
 
         void AddPatient(Patient patient);
         void DeletePatient(Patient patient);
         void EditPatient(Patient patient);
+        
+        void AddEncounter(Encounter encounter);
         void EditEncounter(Encounter encounter);
         void DeleteEncounter(Encounter encounter);
 
         void AddAlert(AlertsViewModel alert);
         void EditAlert(PatientAlerts alert);
+
         void AddEmployment(Employment employment);
-        void AddEncounter(Encounter encounter);
 
         void AddUser(UserTable userTable);
         void DeleteUser(UserTable userTable);

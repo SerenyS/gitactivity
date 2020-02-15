@@ -1,115 +1,63 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace isprojectHiT.Models
 {
     public class EFWCTCHealthSystemRepository : IWCTCHealthSystemRepository
     {
-        private WCTCHealthSystemContext context;
-        public EFWCTCHealthSystemRepository(WCTCHealthSystemContext ctx)
-        {
-            context = ctx;
-        }
+        private readonly WCTCHealthSystemContext _context;
 
-        public IQueryable<AdmitType> AdmitTypes => context.AdmitType;
-        public IQueryable<Ethnicity> Ethnicities => context.Ethnicity;
-        public IQueryable<Gender> Genders => context.Gender;
+        public EFWCTCHealthSystemRepository(WCTCHealthSystemContext context) => _context = context;
 
-        public IQueryable<AspNetUsers> AspNetUsers => context.AspNetUsers;
+        #region IQueryable
 
-        public IQueryable<Departments> Departments => context.Departments;
-        public IQueryable<EncounterType> EncounterTypes => context.EncounterType;
+        public IQueryable<Pcarecord> PcaRecords => _context.Pcarecord;
+        public IQueryable<Pcacomment> PcaComments => _context.Pcacomment;
+        public IQueryable<PcacommentType> PcaCommentTypes => _context.PcacommentType;
+        public IQueryable<AdmitType> AdmitTypes => _context.AdmitType;
+        public IQueryable<Ethnicity> Ethnicities => _context.Ethnicity;
+        public IQueryable<Gender> Genders => _context.Gender;
+        public IQueryable<AspNetUsers> AspNetUsers => _context.AspNetUsers;
+        public IQueryable<Departments> Departments => _context.Departments;
+        public IQueryable<EncounterType> EncounterTypes => _context.EncounterType;
+        public IQueryable<Discharge> Discharges => _context.Discharge;
+        public IQueryable<Sex> Sexes => _context.Sex;
+        public IQueryable<Patient> Patients => _context.Patient;
+        public IQueryable<PlaceOfServiceOutPatient> PlaceOfService => _context.PlaceOfServiceOutPatient;
+        public IQueryable<PointOfOrigin> PointOfOrigin => _context.PointOfOrigin;
+        public IQueryable<Religion> Religions => _context.Religion;
+        public IQueryable<MaritalStatus> MaritalStatuses => _context.MaritalStatus;
+        public IQueryable<PatientContactDetails> PatientContactDetails => _context.PatientContactDetails;
+        public IQueryable<PatientAlerts> PatientAlerts => _context.PatientAlerts;
+        public IQueryable<AlertType> AlertTypes => _context.AlertType;
+        public IQueryable<PatientRestrictions> PatientRestrictions => _context.PatientRestrictions;
+        public IQueryable<Employment> Employments => _context.Employment;
+        public IQueryable<Encounter> Encounters => _context.Encounter;
+        public IQueryable<FallRisks> FallRisks => _context.FallRisks;
+        public IQueryable<Restrictions> Restrictions => _context.Restrictions;
+        public IQueryable<PatientFallRisks> PatientFallRisks => _context.PatientFallRisks;
+        public IQueryable<Allergen> Allergens => _context.Allergen;
+        public IQueryable<Reaction> Reactions => _context.Reaction;
+        public IQueryable<PatientAllergy> PatientAllergy => _context.PatientAllergy;
+        public IQueryable<EncounterPhysicians> EncounterPhysicians => _context.EncounterPhysicians;
+        public IQueryable<Facility> Facilities => _context.Facility;
+        public IQueryable<Physician> Physicians => _context.Physician;
+        public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRole;
+        public IQueryable<UserTable> UserTables => _context.UserTable;
 
-        public IQueryable<Discharge> Discharges => context.Discharge;
-        public IQueryable<Sex> Sexes => context.Sex;
-
-        public IQueryable<Patient> Patients => context.Patient;
-        public IQueryable<PlaceOfServiceOutPatient> PlaceOfService => context.PlaceOfServiceOutPatient;
-        public IQueryable<PointOfOrigin> PointOfOrigin => context.PointOfOrigin;
-
-        public IQueryable<Religion> Religions => context.Religion;
-
-        public IQueryable<MaritalStatus> MaritalStatuses => context.MaritalStatus;
-
-        public IQueryable<PatientContactDetails> PatientContactDetails => context.PatientContactDetails;
-
-        public IQueryable<PatientAlerts> PatientAlerts => context.PatientAlerts;
-
-        public IQueryable<AlertType> AlertTypes => context.AlertType;
-        public IQueryable<PatientRestrictions> PatientRestrictions => context.PatientRestrictions;
-
-        public IQueryable<Employment> Employments => context.Employment;
-        public IQueryable<Encounter> Encounters => context.Encounter;
-
-        public IQueryable<FallRisks> FallRisks => context.FallRisks;
-        public IQueryable<Restrictions> Restrictions => context.Restrictions;
-
-        public IQueryable<PatientFallRisks> PatientFallRisks => context.PatientFallRisks;
-
-
-        public IQueryable<Allergen> Allergens => context.Allergen;
-
-        public IQueryable<Reaction> Reactions => context.Reaction;
-
-        public IQueryable<PatientAllergy> PatientAllergy => context.PatientAllergy;
-        public IQueryable<EncounterPhysicians> EncounterPhysicians => context.EncounterPhysicians;
-        public IQueryable<Facility> Facilities => context.Facility;
-        public IQueryable<Physician> Physicians => context.Physician;
-        public IQueryable<PhysicianRole> PhysicianRoles => context.PhysicianRole;
-        public IQueryable<UserTable> UserTables => context.UserTable;
-
-
-        public void AddEmployment(Employment employment)
-        {
-            context.Add(employment);
-            context.SaveChanges();
-        }
-
-        public void AddEncounter(Encounter encounter)
-        {
-            context.Add(encounter);
-            context.SaveChanges();
-        }
+        #endregion
 
         public void AddPatient(Patient patient)
         {
-            context.Add(patient);
-            context.SaveChanges();
+            _context.Add(patient);
+            _context.SaveChanges();
         }
 
         public void DeletePatient(Patient patient)
         {
-            context.Remove(patient);
-            context.SaveChanges();
-        }
-
-        public void DeleteEncounter(Encounter encounter)
-        {
-            context.Remove(encounter);
-            context.SaveChanges();
-        }
-
-        public void AddUser(UserTable userTable)
-        {
-            context.Add(userTable);
-            context.SaveChanges();
-        }
-
-        public void DeleteUser(UserTable userTable)
-        {
-            context.Remove(userTable);
-            context.SaveChanges();
-        }
-
-        public void EditUser(UserTable userTable)
-        {
-            context.Update(userTable);
-            context.SaveChanges();
+            _context.Remove(patient);
+            _context.SaveChanges();
         }
 
         public void EditPatient(Patient patient)
@@ -120,23 +68,29 @@ namespace isprojectHiT.Models
             }
             else
             {*/
-            context.Update(patient);
+            _context.Update(patient);
             //}
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void EditAlert(PatientAlerts alert)
+        public void AddEncounter(Encounter encounter)
         {
-            context.Update(alert);
-            context.SaveChanges();
+            _context.Add(encounter);
+            _context.SaveChanges();
         }
 
         public void EditEncounter(Encounter encounter)
         {
-            context.Update(encounter);
+            _context.Update(encounter);
 
-            context.SaveChanges();
+            _context.SaveChanges();
+        }
+
+        public void DeleteEncounter(Encounter encounter)
+        {
+            _context.Remove(encounter);
+            _context.SaveChanges();
         }
 
         public void AddAlert(AlertsViewModel alert)
@@ -150,8 +104,8 @@ namespace isprojectHiT.Models
             pa.EndDate = alert.EndDate;
             pa.Comments = alert.Comments;
             //context.PatientAlerts.Add(pa);
-            context.Attach(pa);
-            context.SaveChanges();
+            _context.Attach(pa);
+            _context.SaveChanges();
             long patientAlertid = pa.PatientAlertId;
             int? alertTypeid = pa.AlertTypeId;
 
@@ -162,19 +116,17 @@ namespace isprojectHiT.Models
                 pfr.FallRiskId = alert.FallRiskId;
                 pfr.PatientAlertId = patientAlertid;
                 pfr.LastModified = alert.LastModified;
-                context.Attach(pfr);
-                context.SaveChanges();
+                _context.Attach(pfr);
+                _context.SaveChanges();
             }
             else if (alertTypeid == 3)
             {
-
-
                 PatientRestrictions pr = new PatientRestrictions();
                 pr.RestrictionTypeId = alert.RestrictionTypeId;
                 pr.PatientAlertId = patientAlertid;
                 pr.LastModified = alert.LastModified;
-                context.PatientRestrictions.Add(pr);
-                context.SaveChanges();
+                _context.PatientRestrictions.Add(pr);
+                _context.SaveChanges();
             }
             else if (alertTypeid == 4)
             {
@@ -183,8 +135,8 @@ namespace isprojectHiT.Models
                 pall.ReactionId = alert.ReactionId;
                 pall.PatientAlertId = patientAlertid;
                 pall.LastModified = alert.LastModified;
-                context.PatientAllergy.Add(pall);
-                context.SaveChanges();
+                _context.PatientAllergy.Add(pall);
+                _context.SaveChanges();
             }
             else
             {
@@ -192,5 +144,34 @@ namespace isprojectHiT.Models
             }
         }
 
+        public void EditAlert(PatientAlerts alert)
+        {
+            _context.Update(alert);
+            _context.SaveChanges();
+        }
+
+        public void AddEmployment(Employment employment)
+        {
+            _context.Add(employment);
+            _context.SaveChanges();
+        }
+
+        public void AddUser(UserTable userTable)
+        {
+            _context.Add(userTable);
+            _context.SaveChanges();
+        }
+
+        public void DeleteUser(UserTable userTable)
+        {
+            _context.Remove(userTable);
+            _context.SaveChanges();
+        }
+
+        public void EditUser(UserTable userTable)
+        {
+            _context.Update(userTable);
+            _context.SaveChanges();
+        }
     }
 }
