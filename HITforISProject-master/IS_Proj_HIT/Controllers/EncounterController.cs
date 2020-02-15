@@ -37,6 +37,7 @@ namespace IS_Proj_HIT.Controllers
                                                                     RoomNumber = encounter.RoomNumber
                                                                 }).ToList();
 
+            ViewBag.Filter = filter;
             if (filter == "CheckedIn")
                 patientEncounters = patientEncounters.Where(e => e.DischargeDateTime == null).ToList();
 
@@ -195,16 +196,12 @@ namespace IS_Proj_HIT.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditEncounter(Encounter model, string id)
         {
-            if (ModelState.IsValid)
-            {
-                model.LastModified = @DateTime.Now;
-                _repository.EditEncounter(model);
-                Debug.WriteLine("find me! " + Request);
-                return Redirect("/Encounter");
-            }
-            return View();
+            if (!ModelState.IsValid) return View();
 
-
+            model.LastModified = DateTime.Now;
+            _repository.EditEncounter(model);
+            return RedirectToAction("ViewEncounter",
+                new {encounterId = model.EncounterId, isPatientEncounter = false});
         }
 
         // Save edits to patient record from Edit a specific Patients encounters page
@@ -214,7 +211,7 @@ namespace IS_Proj_HIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.LastModified = @DateTime.Now;
+                model.LastModified = DateTime.Now;
                 _repository.EditEncounter(model);
                 string myUrl = "/Encounter/PatientEncounters?patientMRN=" + model.Mrn;
                 return Redirect(myUrl);

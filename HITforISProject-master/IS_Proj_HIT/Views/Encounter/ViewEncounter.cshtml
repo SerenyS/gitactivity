@@ -35,15 +35,16 @@
     <div class="card-body bg-light">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
-                    <label>Facility Registry Opt Out: </label>
-                    <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-9">
                     <label>Chief Complaint: </label>
                     <span class="font-weight-bold">@Model.Encounter.ChiefComplaint</span>
                 </div>
+                <div class="col-sm-3">
+                    <label>Facility Registry Opt Out: </label>
+                    <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
+                </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Department: </label>
@@ -58,6 +59,7 @@
                     <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
                 </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Admission Type: </label>
@@ -68,6 +70,7 @@
                     <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
                 </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Physician: </label>
@@ -81,6 +84,7 @@
                     <span class="font-weight-bold">@Model.Encounter.EncounterType.Name</span>
                 </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Place of Service: </label>
@@ -91,6 +95,7 @@
                     <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
                 </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Discharge Disposition: </label>
@@ -104,7 +109,6 @@
         </div>
     </div>
 </div>
-
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
@@ -120,29 +124,52 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            @foreach (var pca in Model.Encounter.PcaRecords)
+            @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.LastModified))
             {
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label>Placeholder Pca Info: </label>
-                        <span class="font-weight-bold">@pca</span>
+                    <div class="col-sm-2">
+                        <a asp-controller="PCA"
+                           asp-action="UpdateAssessment"
+                           asp-route-pca="@pca"
+                           asp-route-encounter="@Model.Encounter"
+                           asp-route-patient="@Model.Patient"
+                           class="btn btn-info btn-sm">
+                            Update Assessment
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Assessment Id: </label>
+                        <span class="font-weight-bold">@pca.Pcaid</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Date Vitals Taken: </label>
+                        <span class="font-weight-bold">@pca.DateVitalsAdded</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Last Modified: </label>
+                        <span class="font-weight-bold">@pca.LastModified</span>
                     </div>
                 </div>
+                @if (Model.Encounter.PcaRecords.Count > 1)
+                {
+                    <hr />
+                }
             }
         </div>
     </div>
 </div>
 <hr />
-@if (!ViewBag.isPatientEncounter)
-{
-    <a asp-action="Index" class="btn btn-outline-primary">Back to Encounters</a>
-    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Encounter.Mrn" class="btn btn-outline-primary float-right">See all Encounters for this patient</a>
-}
 
-@if (ViewBag.isPatientEncounter)
-{
-    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Encounter.Mrn" class="btn btn-outline-primary">Back to @Model.Patient.FirstName's Encounters</a>
-}
+<a asp-action="Index"
+   class="btn btn-outline-primary">View <b>All</b> Encounters</a>
+
+<a asp-action="Index"
+   asp-route-filter="CheckedIn"
+   class="btn btn-outline-primary m-l-1">View <b>Checked In</b> Encounters</a>
+
+<a asp-action="PatientEncounters"
+   asp-route-patientMRN="@Model.Encounter.Mrn"
+   class="btn btn-outline-primary float-right">View All of <b>@Model.Patient.FirstName's</b> Encounters </a>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

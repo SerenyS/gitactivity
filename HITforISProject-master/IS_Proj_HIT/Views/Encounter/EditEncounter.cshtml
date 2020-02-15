@@ -203,19 +203,21 @@
     </div>
 </div>
 <hr />
-@if (!ViewBag.isPatientEncounter)
-{
-    <a asp-action="Index" class="btn btn-outline-primary">Back to Encounters</a>
-    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Mrn" class="btn btn-outline-primary float-right">See all Encounters for this patient</a>
-}
 
-@if (ViewBag.isPatientEncounter)
-{
-    <a asp-action="PatientEncounters" asp-route-patientMRN="@Model.Mrn" class="btn btn-outline-primary">Back to  @ViewBag.PatientFirstName's Encounters</a>
-}
+<a asp-action="Index"
+   class="btn btn-outline-primary">View <b>All</b> Encounters</a>
+<a asp-action="Index"
+   asp-route-filter="CheckedIn"
+   class="btn btn-outline-primary m-l-1">View <b>Checked In</b> Encounters</a>
+
+<a asp-action="PatientEncounters"
+   asp-route-patientMRN="@Model.Mrn"
+   class="btn btn-outline-primary float-right">View All of <b>@ViewBag.PatientFirstName's</b> Encounters </a>
+
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
 
