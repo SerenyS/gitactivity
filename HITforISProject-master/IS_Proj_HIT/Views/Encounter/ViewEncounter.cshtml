@@ -115,8 +115,8 @@
             Patient Care Assessments
             <a asp-controller="PCA"
                asp-action="CreateAssessment"
-               asp-route-encounter="@Model.Encounter"
-               asp-route-patient="@Model.Patient"
+               asp-route-encounterId="@Model.Encounter.EncounterId"
+               asp-route-patientMrn="@Model.Patient.Mrn"
                class="btn btn-info btn-sm float-right">
                 Create New PCA
             </a>
@@ -129,12 +129,10 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <a asp-controller="PCA"
-                           asp-action="UpdateAssessment"
-                           asp-route-pca="@pca"
-                           asp-route-encounter="@Model.Encounter"
-                           asp-route-patient="@Model.Patient"
+                           asp-action="ViewAssessment"
+                           asp-route-assessmentId="@pca.Pcaid"
                            class="btn btn-info btn-sm">
-                            Update Assessment
+                            View Assessment
                         </a>
                     </div>
                     <div class="col-sm-2">

@@ -1,0 +1,61 @@
+﻿@model CareAssessmentPageModel;
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient:&nbsp;@Model.Patient.FirstName&nbsp;@Model.Patient.MiddleName&nbsp;@Model.Patient.LastName</h4>
+            </button>
+        </li>
+        <li class="nav-item menu-item dob patientBanner">
+            <span class="heading">DOB: </span> @Model.Patient.Dob.ToShortDateString()
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">Age: </span> @Model.Encounter.PatientCurrentAge
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">MRN: </span>@(Model.Encounter.Mrn ?? string.Empty)
+        </li>
+    </ul>
+</nav>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Confirm Patient Assessment Information
+            <a asp-action="UpdateAssessment"
+               asp-route-assessmentId="@Model.Assessment.Pcaid"
+               class="btn btn-info btn-sm float-right">
+                Update Patient Care Assessment
+            </a>
+        </h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>PCA Info 1: </label>
+                    <span class="font-weight-bold">@Model.Assessment.Pcaid</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>PCA Info 2: </label>
+                    <span class="font-weight-bold">@Model.Assessment.OxygenFlow</span>
+                </div>
+                <div class="col-sm-4">
+                    <label>PCA Info 3: </label>
+                    <span class="font-weight-bold">@Model.Assessment.PainLevelActual</span>
+                </div>
+            </div>
+            <hr/>
+            <h5>More fields to be displayed here</h5>
+        </div>
+    </div>
+</div>
+<hr/>
+
+<a asp-controller="Encounter"
+   asp-action="ViewEncounter"
+   asp-route-encounterId="@Model.Encounter.EncounterId"
+   asp-route-isPatientEncounter="false"
+   class="btn btn-outline-danger">
+    Return To Encounter
+</a>
