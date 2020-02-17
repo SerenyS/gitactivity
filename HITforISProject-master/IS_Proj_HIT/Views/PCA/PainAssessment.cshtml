@@ -1,0 +1,243 @@
+﻿@model IS_Proj_HIT.Models.Pcarecord
+<link rel="stylesheet" href="~/css/site.css" />
+
+@{
+    ViewData["Title"] = "PainAssessment";
+}
+
+<h1>Pain Assessment</h1>
+
+<div class="container">
+    <div class="accordion" id="accordion">
+        <div class="card">
+            <div class="card-header" id="WongBaker">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker">
+                        Wong-Baker Faces Scale
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <figure>
+                            <img src="~/img/Icon87.jpg" alt="Pain Scale 0 to 10">
+                        </figure>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            Pain:
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="WongBakerPain" id="noHurt" checked><br />
+                            <label class="radio-inline">No Hurt</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="WongBakerPain" id="hurtsALittle"><br />
+                            <label class="radio-inline">Hurts a Little</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">4</label><br />
+                            <input type="radio" name="WongBakerPain" id="hurtsALittleMore"><br />
+                            <label class="radio-inline">Hurts a Little More</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">6</label><br />
+                            <input type="radio" name="WongBakerPain" id="hurtsEvenMore"><br />
+                            <label class="radio-inline">Hurts Even More</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">8</label><br />
+                            <input type="radio" name="WongBakerPain" id="hurtsAWholeLot"><br />
+                            <label class="radio-inline" for="hurtsAWholeLot">Hurts a Whole Lot</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">10</label><br />
+                            <input type="radio" name="WongBakerPain" id="hurtsWorst"><br />
+                            <label class="radio-inline" for="hurtsWorst">Hurts Worst</label>
+                        </div>
+                    </div>
+                    <a href="https://www.vecteezy.com/" class="attribution"> Vectors by Vecteezy</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cries pain scale -->
+        <div class="card">
+            <div class="card-header" id="headingCries">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
+                        Cries Scale
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            Crying:
+                        </div>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Dropdown Example
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">HTML</a></li>
+                                    <li><a href="#">CSS</a></li>
+                                    <li><a href="#">JavaScript</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("criesCrying", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesCrying" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Requires O2 for SaO2<95%:
+                        </div>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Dropdown Example
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">HTML</a></li>
+                                    <li><a href="#">CSS</a></li>
+                                    <li><a href="#">JavaScript</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("criesO2", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesO2" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            Increased Vital Signs (BP & HR):
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("criesIncreasedVital", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesIncreasedVital" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Expression:
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("criesExpression", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesExpression" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Sleepless:
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("criesSleepless", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesSleepless" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Nonverbal pain assessment -->
+        <div class="card">
+            <div class="card-header" id="headingNonverbal">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
+                        Nonverbal pain assessment
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            Face:
+                        </div>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Dropdown Example
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">HTML</a></li>
+                                    <li><a href="#">CSS</a></li>
+                                    <li><a href="#">JavaScript</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("nonverbalFace", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalFace" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Activity:
+                        </div>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Dropdown Example
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">HTML</a></li>
+                                    <li><a href="#">CSS</a></li>
+                                    <li><a href="#">JavaScript</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("nonverbalActivity", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalActivity" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            Guarding:
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("nonverbalGuarding", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalGuarding" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Physiology:
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("nonverbalPhysiology", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalPhysiology" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            Respiratory:
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm">
+                            @Html.TextBox("nonverbalRespiratory", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalRespiratory" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>

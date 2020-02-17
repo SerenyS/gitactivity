@@ -77,5 +77,11 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ViewEncounter", "Encounter",
                 new {encounterId = pca.Encounter.EncounterId, isPatientEncounter = false});
         }
+
+        public IActionResult PainAssessment()
+        {
+            return View();
+        }
+
     }
 }
