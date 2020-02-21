@@ -199,4 +199,16 @@ a:hover {
         text-decoration: none;
         cursor: pointer;
     }
-    /*test*/
+
+/* PCA Detail Page Styles */
+#myTabContent dl {
+    margin-bottom: 0;
+}
+
+#myTab .nav-item {
+    border: 1px solid #dee2e6;
+}
+
+#myTab .nav-link:hover {
+    background-color: dodgerblue !important;
+}
