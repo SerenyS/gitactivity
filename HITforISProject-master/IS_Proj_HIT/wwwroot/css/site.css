@@ -1,6 +1,24 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+figure {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px;
+    padding: 0;
+}
+
+figure img {
+    vertical-align: top;
+    width: 600px;
+}
+
+figure figcaption {
+    text-align: right;
+    font-size: small;
+    padding: 5px;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -54,9 +72,9 @@ html {
     font-size: 14px;
 }
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
@@ -99,6 +117,10 @@ body {
 a:visited{
     color:black;
 }
+a:hover {
+    background-color: black;
+    color: white;
+}
 
 .patientBanner{
     color: white;
@@ -116,7 +138,6 @@ a:visited{
 #patientDetailsGroup{
     display:block;
 }
-
 
 #formatSsnAndSubmitForm {
     display: none;
@@ -146,12 +167,6 @@ a:visited{
     cursor: pointer;
     text-decoration: underline;
 }
-
-a:hover {
-    background-color:black;
-    color: white;
-}
-
 
 #longer {
     width: 250px;
@@ -185,6 +200,11 @@ a:hover {
     width: 150%; /* Could be more or less, depending on screen size */
 }
 
+.attribution {
+    text-align:right;
+    font-size:small;
+}
+
 /* The Close Button */
 .close {
     color: #aaa;
@@ -193,12 +213,12 @@ a:hover {
     font-weight: bold;
 }
 
-    .close:hover,
-    .close:focus {
-        color: orange;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.close:hover,
+.close:focus {
+    color: orange;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* PCA Detail Page Styles */
 #myTabContent dl {
@@ -211,4 +231,20 @@ a:hover {
 
 #myTab .nav-link:hover {
     background-color: dodgerblue !important;
+}
+
+/* Phone display */
+@media only screen and (max-width: 36em) {
+    figure {
+        margin: 2px;
+    }
+
+    figure img {
+        vertical-align: top;
+        width: 300px;
+    }
+    figure figcaption {
+        display: none;
+    }
+
 }

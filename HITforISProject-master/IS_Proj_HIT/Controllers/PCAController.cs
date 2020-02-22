@@ -78,6 +78,11 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = pca.Encounter.EncounterId, isPatientEncounter = false});
         }
 
+        /// <summary>
+        /// PainAssessment 
+        /// TODO: Integrate form into PCA flow
+        /// </summary>
+        /// <returns></returns>
         public IActionResult PainAssessment()
         {
             return View();

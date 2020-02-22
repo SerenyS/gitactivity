@@ -9,10 +9,20 @@
 
 <div class="container">
     <div class="accordion" id="accordion">
+
+        <!--Wong-Baker pain scale -->
         <div class="card">
             <div class="card-header" id="WongBaker">
                 <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="The FACES Instructions for Usage
+Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain.
+Face 0 doesn’t hurt at all.  Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain.
+Ask the person to choose the face that best depicts the pain they are experiencing.
+The FACES Scale Guidelines
+•	The FACES Scale is recommended for people ages three and older; it is not limited to children.
+•	This self-assessment tool must be understood by the patient, so they are able to choose the face that best illustrates the physical pain they are experiencing. The tool is not for use with infants or patients who are unresponsive; other tools have been provided for this purpose
+•	It is self-assessment tool and should not be used by a third person, parents, healthcare professionals, or caregivers, to assess the patient’s pain. There are other tools for those purposes.
+">
                         Wong-Baker Faces Scale
                     </button>
                 </h2>
@@ -21,7 +31,10 @@
                 <div class="card-body">
                     <div class="row">
                         <figure>
-                            <img src="~/img/Icon87.jpg" alt="Pain Scale 0 to 10">
+                            <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
+                            <figcaption>
+                                FACES licensed to Angela Lee February, 2020
+                            </figcaption>
                         </figure>
                     </div>
                     <div class="row">
@@ -29,8 +42,13 @@
                             Pain:
                         </div>
                         <div class="col-sm">
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="WongBakerPain" id="WongBakerPainNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+                        <div class="col-sm">
                             <label class="radio-inline">0</label><br />
-                            <input type="radio" name="WongBakerPain" id="noHurt" checked><br />
+                            <input type="radio" name="WongBakerPain" id="noHurt"><br />
                             <label class="radio-inline">No Hurt</label>
                         </div>
                         <div class="col-sm">
@@ -59,7 +77,10 @@
                             <label class="radio-inline" for="hurtsWorst">Hurts Worst</label>
                         </div>
                     </div>
-                    <a href="https://www.vecteezy.com/" class="attribution"> Vectors by Vecteezy</a>
+                    <div class="row">
+                        @Html.TextBox("wongBaker", null, new { @class = "form-control", @placeholder = "Describe", @id = "wongBaker" })
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -69,87 +90,158 @@
             <div class="card-header" id="headingCries">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
-                        Cries Scale
+                        CRIES Scale
                     </button>
                 </h2>
             </div>
             <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm" title="Characteristic cry of pain is high pitched.">
                             Crying:
                         </div>
                         <div class="col-sm">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    Dropdown Example
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">HTML</a></li>
-                                    <li><a href="#">CSS</a></li>
-                                    <li><a href="#">JavaScript</a></li>
-                                </ul>
-                            </div>
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Crying" id="cryingNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("criesCrying", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesCrying" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            Requires O2 for SaO2<95%:
+                            <label class="radio-inline"></label>0<br />
+                            <input type="radio" name="Crying" id="crying0"><br />
+                            <label class="radio-inline">No cry or cry that is not high-pitched</label>
                         </div>
                         <div class="col-sm">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    Dropdown Example
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">HTML</a></li>
-                                    <li><a href="#">CSS</a></li>
-                                    <li><a href="#">JavaScript</a></li>
-                                </ul>
-                            </div>
+                            <label class="radio-inline"></label>1<br />
+                            <input type="radio" name="Crying" id="crying1"><br />
+                            <label class="radio-inline">Cry high pitched but baby is easily consolable</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("criesO2", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesO2" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            Increased Vital Signs (BP & HR):
-                        </div>
-                        <div class="col-sm">
-                            @Html.TextBox("criesIncreasedVital", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesIncreasedVital" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            Expression:
-                        </div>
-                        <div class="col-sm">
-                        </div>
-                        <div class="col-sm">
-                            @Html.TextBox("criesExpression", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesExpression" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            Sleepless:
-                        </div>
-                        <div class="col-sm">
-                        </div>
-                        <div class="col-sm">
-                            @Html.TextBox("criesSleepless", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesSleepless" })
+                            <label class="radio-inline"></label>2<br />
+                            <input type="radio" name="Crying" id="crying2"><br />
+                            <label class="radio-inline">Cry high pitched but baby is inconsolable</label>
                         </div>
                     </div>
 
                 </div>
-            </div>
-        </div>
+                <div class="row">
+                    @Html.TextBox("criesCrying", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesCrying" })
+                </div>
+                <div class="row">
+                    <div class="col-sm" title="Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
+                        Requires O2 for SaO2 < 95%:
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label><br />
+                        <input type="radio" name="O2" id="O2NotAssessed" checked><br />
+                        <label class="radio-inline">Not Assessed</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>0<br />
+                        <input type="radio" name="O2" id="O20"><br />
+                        <label class="radio-inline">No oxygen required</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>1<br />
+                        <input type="radio" name="O2" id="O21"><br />
+                        <label class="radio-inline"> <= 30% oxygen required</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>2<br />
+                        <input type="radio" name="O2" id="O22"><br />
+                        <label class="radio-inline"> > 30% oxygen required </label>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.TextBox("criesO2", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesO2" })
+                </div>
+                <div class="row">
+                    <div class="col-sm" title="Take BP last as this may awaken child making other assessments difficult">
+                        Increased Vital Signs (BP & HR):
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label><br />
+                        <input type="radio" name="vitalIncrease" id="vitalIncreaseNotAssessed" checked><br />
+                        <label class="radio-inline">Not Assessed</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>0<br />
+                        <input type="radio" name="vitalIncrease" id="vitalIncrease0"><br />
+                        <label class="radio-inline">Both HR and BP unchanged or less than baseline</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>1<br />
+                        <input type="radio" name="vitalIncrease" id="vitalIncrease1"><br />
+                        <label class="radio-inline">HR or BP increased but increase <= 20% of baseline</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>2<br />
+                        <input type="radio" name="vitalIncrease" id="vitalIncrease2"><br />
+                        <label class="radio-inline">HR or BP is increased > 20% over baseline</label>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.TextBox("criesIncreasedVital", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesIncreasedVital" })
+                </div>
+                <div class="row">
+                    <div class="col-sm" title="The facial expression most often associated with pain is a grimace. A grimace may be characterized by brow lowering, eyes squeezed shut, deepening naso-labial furrow, or open lips and mouth">
+                        Expression:
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label><br />
+                        <input type="radio" name="Expression" id="expressionNotAssessed" checked><br />
+                        <label class="radio-inline">Not Assessed</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>0<br />
+                        <input type="radio" name="Expression" id="expression0"><br />
+                        <label class="radio-inline">No grimace present</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>1<br />
+                        <input type="radio" name="Expression" id="expression1"><br />
+                        <label class="radio-inline">Grimace alone is present</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>2<br />
+                        <input type="radio" name="Expression" id="expression2"><br />
+                        <label class="radio-inline">Grimace and non-cry vocalization grunt is present</label>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.TextBox("criesExpression", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesExpression" })
+                </div>
+                <div class="row">
+                    <div class="col-sm" title="Scored based upon the infant's state during the hour preceding this recorded score.">
+                        Sleepless:
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label><br />
+                        <input type="radio" name="Sleepless" id="sleeplessNotAssessed" checked><br />
+                        <label class="radio-inline">Not Assessed</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>0<br />
+                        <input type="radio" name="Sleepless" id="sleepless0"><br />
+                        <label class="radio-inline">Child has been continuously asleep</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>1<br />
+                        <input type="radio" name="Sleepless" id="sleepless1"><br />
+                        <label class="radio-inline">Child has awakened at frequent intervals</label>
+                    </div>
+                    <div class="col-sm">
+                        <label class="radio-inline"></label>2<br />
+                        <input type="radio" name="Sleepless" id="sleepless2"><br />
+                        <label class="radio-inline">Child has been awake constantly</label>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.TextBox("criesSleepless", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesSleepless" })
+                </div>
 
+            </div>
+            </div>
+        
 
         <!-- Nonverbal pain assessment -->
         <div class="card">
@@ -163,81 +255,158 @@
             <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm" title="Expression">
                             Face:
                         </div>
                         <div class="col-sm">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    Dropdown Example
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">HTML</a></li>
-                                    <li><a href="#">CSS</a></li>
-                                    <li><a href="#">JavaScript</a></li>
-                                </ul>
-                            </div>
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Face" id="faceNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="Face" id="face0"><br />
+                            <label class="radio-inline">Lying quietly, normal position</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("nonverbalFace", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalFace" })
+                            <label class="radio-inline">1</label><br />
+                            <input type="radio" name="Face" id="face1"><br />
+                            <label class="radio-inline">Seeking attention through movement or slow, cautious movement</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="Face" id="face2"><br />
+                            <label class="radio-inline">Restless, excessive activity and/or withdrawal reflexes</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-5">
+                        @Html.TextBox("nonverbalFace", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalFace" })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm" title="Movement">
                             Activity:
                         </div>
                         <div class="col-sm">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    Dropdown Example
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">HTML</a></li>
-                                    <li><a href="#">CSS</a></li>
-                                    <li><a href="#">JavaScript</a></li>
-                                </ul>
-                            </div>
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Activity" id="activityNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="Activity" id="activity0"><br />
+                            <label class="radio-inline">Lying quietly, normal position</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("nonverbalActivity", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalActivity" })
+                            <label class="radio-inline">1</label><br />
+                            <input type="radio" name="Activity" id="activity1"><br />
+                            <label class="radio-inline">Seeking attention through movement or slow, cautious movement</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="Activity" id="activity2"><br />
+                            <label class="radio-inline">Restless, excessive activity and/or withdrawal reflexes</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm">
+                        @Html.TextBox("nonverbalActivity", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalActivity" })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm" title="Guarding the body or reluctance to move">
                             Guarding:
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("nonverbalGuarding", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalGuarding" })
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Guarding" id="guardingNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="Guarding" id="guarding0"><br />
+                            <label class="radio-inline">Lying quietly, no positioning of hands over areas of the body</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">1</label><br />
+                            <input type="radio" name="Guarding" id="guarding1"><br />
+                            <label class="radio-inline">Splinting areas of the body, tense</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="Guarding" id="guarding2"><br />
+                            <label class="radio-inline">Rigid, stiff</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-5">
+                        @Html.TextBox("nonverbalGuarding", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalGuarding" })
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" title="Vital signs">
                             Physiology:
                         </div>
                         <div class="col-sm">
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Physiology" id="physiologyNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="Physiology" id="physiology0"><br />
+                            <label class="radio-inline">Baseline vitals unchanged</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("nonverbalPhysiology", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalPhysiology" })
+                            <label class="radio-inline">1</label><br />
+                            <input type="radio" name="Physiology" id="physiology1"><br />
+                            <label class="radio-inline">Change in SBP > 20 mmHg or HR > 20 bpm</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="Physiology" id="physiology2"><br />
+                            <label class="radio-inline">Change in SBP > 30 mmHg or HR > 25 bpm</label>
+                        </div>
+                        <div class="col-sm">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-5">
+                        @Html.TextBox("nonverbalPhysiology", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalPhysiology" })
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" title="Respiration">
                             Respiratory:
                         </div>
                         <div class="col-sm">
+                            <label class="radio-inline"></label><br />
+                            <input type="radio" name="Respiratory" id="RespiratoryNotAssessed" checked><br />
+                            <label class="radio-inline">Not Assessed</label>
+                        </div>
+
+                        <div class="col-sm">
+                            <label class="radio-inline">0</label><br />
+                            <input type="radio" name="Respiratory" id="respiratory0"><br />
+                            <label class="radio-inline">Baseline RR/SpO2 synchronous with ventilator</label>
                         </div>
                         <div class="col-sm">
-                            @Html.TextBox("nonverbalRespiratory", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalRespiratory" })
+                            <label class="radio-inline">1</label><br />
+                            <input type="radio" name="Respiratory" id="respiratory1"><br />
+                            <label class="radio-inline">RR > 10 bpm over baseline, 5% decrease Sp)2 or mild ventilator asynchrony</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="radio-inline">2</label><br />
+                            <input type="radio" name="Respiratory" id="respiratory2"><br />
+                            <label class="radio-inline">RR > 20 bpm over baseline, 10% decrease Sp)2 or severe ventilator asynchrony</label>
                         </div>
                     </div>
-
+                    <div class="col-sm">
+                        @Html.TextBox("nonverbalRespiratory", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalRespiratory" })
+                    </div>
                 </div>
             </div>
         </div>
 
 
-
     </div>
-    </div>
+</div>
