@@ -60,10 +60,13 @@ a.navbar-brand {
     color: red;
 }
 
-
 .container {
     font-size: 18px;
     min-width: 95%;
+}
+
+.m-b-0 {
+    margin-bottom: 0;
 }
 
 /* Sticky footer styles
@@ -225,14 +228,19 @@ a:hover {
     margin-bottom: 0;
 }
 
-#myTab .nav-item {
-    border: 1px solid #dee2e6;
+#myTab {
+    background-color: transparent !important;
+    border: 1px solid #ecf0f1 !important;
 }
 
-#myTab .nav-link:hover {
-    background-color: dodgerblue !important;
+#myTab .nav-link:hover, #myTab .nav-link.active {
+    background-color: #2C3E50 !important;
+    color: #FFFFFF !important;
 }
 
+#myTab .nav-link {
+    color: #3498DB !important;
+}
 /* Phone display */
 @media only screen and (max-width: 36em) {
     figure {

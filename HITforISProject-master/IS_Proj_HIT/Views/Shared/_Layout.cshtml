@@ -39,35 +39,17 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="PCA" asp-action="Index">PCA</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
                     {
-                        @if (User.IsInRole("Administrator"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Encounter" asp-action="Index">Encounters</a>
-                            </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-database"></i> Database Demos
-                            </a>
-                            <!-- Database Demo Dropdown-->
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Ethnicity">Ethnicity</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Gender">Gender</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Discharge">Discharge</a>
-                            </div>
-                    </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Admin Only =></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Encounter" asp-action="Index">Encounters</a>
+                        </li>
                     }
                 </ul>
                 <partial name="_LoginPartial" class="navbar-nav" />
@@ -83,7 +65,7 @@
     <footer class="border-top footer text-muted text-center">
         <div class="container">
             <img src="~/img/WCTMC Logo header.jpg" />
-            &copy; 2019 - isprojectHiT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - ISProjectHIT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <environment include="Development, Production">
@@ -107,6 +89,6 @@
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-<script src="~/js/chosen.jquery.min.js"></script>
+    <script src="~/js/chosen.jquery.min.js"></script>
 </body>
 </html>

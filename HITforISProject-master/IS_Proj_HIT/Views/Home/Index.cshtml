@@ -7,31 +7,31 @@
     ViewData["Title"] = "Home Page";
 }
 <div class="red">@Html.Raw(TempData["msg1"])</div>
-<br/>
+<br />
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="card-group text-center p-2">
-        <div class="card bg-secondary p-3">
-            <h2>
-                <i class="fas fa-search"></i>
-                <a asp-area="" asp-controller="Home" asp-action="PatientLookup">
+        <div class="card bg-primary p-3">
+            <h2 class="m-b-0">
+                <a class="page-link" asp-controller="Home" asp-action="PatientLookup">
+                    <i class="fas fa-search"></i>
                     Patient Search
                 </a>
             </h2>
         </div>
-        <div class="card bg-secondary p-3">
-            <h2>
-                <i class="fas fa-users"></i>
-                <a asp-area="" asp-controller="Encounter" asp-action="Index" asp-route-filter="CheckedIn">
+        <div class="card bg-primary p-3">
+            <h2 class="m-b-0">
+                <a class="page-link" asp-controller="Encounter" asp-action="Index" asp-route-filter="CheckedIn">
+                    <i class="fas fa-users"></i>
                     Checked in Patients
                 </a>
             </h2>
         </div>
-        <div class="card bg-secondary p-3">
-            <h2>
-                <i class="fas fa-seedling"></i>
-                <a href="http://britsystems.azurewebsites.net/">
-                    Brit Systems
+        <div class="card bg-primary p-3">
+            <h2 class="m-b-0">
+                <a class="page-link" asp-action="BritRedirect">
+                    <i class="fas fa-seedling"></i>
+                    BRIT Systems
                 </a>
             </h2>
         </div>
@@ -39,14 +39,16 @@
 }
 else
 {
-    <div class="card-group" style="height: 200px; text-align: center;">
-        <div class="card bg-secondary">
-            <h2 style="vertical-align: central">Welcome!</h2>
+    <div class="card-group text-center p-2 container text-white">
+        <div class="card bg-primary p-3 row">
+            <h2>Welcome</h2>
+            <hr />
             <h3>
                 Please
-                <a style="color: green" asp-area="Identity" asp-page="/Account/Login"> log in</a>
+                <a class="linky" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                 or
-                <a style="color: green" asp-area="Identity" asp-page="/Account/Register"> create a user account</a>
+                <a class="linky" asp-area="Identity" asp-page="/Account/Register"
+                   asp-route-returnUrl="@Url.Action("EditRegisterDetails", "Administration")">Create an Account</a>
                 to continue.
             </h3>
         </div>
