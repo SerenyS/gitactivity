@@ -51,7 +51,7 @@
                     <td>@(Model.Assessment.Respiration is 0 ? "N.A." : $"{Model.Assessment.Respiration} /min")</td>
                     <td>
                         @(Model.Assessment.SystolicBloodPressure is 0 || Model.Assessment.DiastolicBloodPressure is 0
-                            ? "N.A." : $"{Model.Assessment.Respiration} / {Model.Assessment.DiastolicBloodPressure}")
+                            ? "N.A." : $"{Model.Assessment.SystolicBloodPressure} / {Model.Assessment.DiastolicBloodPressure}")
                     </td>
                     <td>@(Model.Assessment.Pulse is 0 ? "N.A." : $"{Model.Assessment.Pulse} /min")</td>
                     <td>@(Model.Assessment.PulseOximetry is 0 ? "N.A." : $"{Model.Assessment.PulseOximetry}%")</td>

@@ -12,8 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\PCA\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Content\Chosen\chosen-sprite.png" />
     <None Remove="Content\Chosen\chosen.min.css" />
+    <None Remove="Views\PCA\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>

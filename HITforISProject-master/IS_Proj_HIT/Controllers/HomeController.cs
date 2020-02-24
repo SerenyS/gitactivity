@@ -14,6 +14,7 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult Index() => View();
 
+        //todo: move to patient controller
         public IActionResult PatientLookup() => View();
 
         public IActionResult BritRedirect() => Redirect("https://hcsdev.wctc.edu:4443");

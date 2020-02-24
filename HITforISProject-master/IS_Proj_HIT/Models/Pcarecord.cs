@@ -24,8 +24,8 @@ namespace IS_Proj_HIT.Models
         public byte? DiastolicBloodPressure { get; set; }
         public byte? PulseOximetry { get; set; }
         public string OxygenFlow { get; set; }
-        public byte? PainLevelGoal { get; set; }
-        public byte? PainLevelActual { get; set; }
+        //public byte? PainLevelGoal { get; set; }
+        //public byte? PainLevelActual { get; set; }
         public DateTime? DateVitalsAdded { get; set; }
         public DateTime LastModified { get; set; }
 
