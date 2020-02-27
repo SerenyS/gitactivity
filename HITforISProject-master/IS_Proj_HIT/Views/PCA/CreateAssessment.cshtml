@@ -6,111 +6,142 @@
 @{
     ViewData["Title"] = "Patient Care Assessment";
 }
-    
-      
-    
-    <div class="container">
 
-        
-        <div class="tab-content">
-            <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputHeight" class="col-sm-2 col-form-label">Height in Inches</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputHeight">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputWeight" class="col-sm-2 col-form-label">Weight in pounds</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputWeight">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Blood Pressure mmHg
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputCystolic" class="col-sm-2 col-form-label">Cystolic</label>
-                        <div class="col-sm-2">
-                            <input type="number" class="form-control" id="inputCystolic">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputDiastolic" class="col-sm-2 col-form-label">Diastolic</label>
-                        <div class="col-sm-2">
-                            <input type="number" class="form-control" id="inputDiastolic">
-                        </div>
-                    </div>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
+    <ul class="navbar-nav nav-fill w-100">
+        <li class="nav-item menu-item">
+            <button type="button" class="btn btn-danger">
+                <h4>Patient:&nbsp;@Model.Patient.FirstName&nbsp;@Model.Patient.MiddleName&nbsp;@Model.Patient.LastName</h4>
+            </button>
+        </li>
+        <li class="nav-item menu-item dob patientBanner">
+            <span class="heading">DOB: </span> @Model.Patient.Dob.ToShortDateString()
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">Age: </span> @Model.Encounter.PatientCurrentAge
+        </li>
+        <li class="nav-item menu-item patientBanner">
+            <span class="heading">MRN: </span>@(Model.Encounter.Mrn ?? string.Empty)
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="tab-content">
+        <!-- General tab -->
+        <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-General Systems <p class="float-right">Page 1</p></h4>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputTemperature" class="col-sm-2 col-form-label">Temperature (fahrenheit)</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputTemperature">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputPulse" class="col-sm-2 col-form-label">Pulse</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputPulse">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputPulseOxi" class="col-sm-2 col-form-label">Pulse Oximentry</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputPulseOxi">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputHead" class="col-sm-2 col-form-label">Head Circumference</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputHead">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputBMI" class="col-sm-2 col-form-label">Body Mass Index</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputBMI">
-                            </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputHeight" class="col-sm-2 col-form-label">Height in Inches</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputHeight">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="pain" role="tabpanel" aria-labelledby="pain-tab">
-                <div class="accordion" id="accordion">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputWeight" class="col-sm-2 col-form-label">Weight in pounds</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputWeight">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Blood Pressure mmHg
+                </div>
+                <div class="form-group row">
+                    <label for="inputCystolic" class="col-sm-2 col-form-label">Cystolic</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="inputCystolic">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputDiastolic" class="col-sm-2 col-form-label">Diastolic</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="inputDiastolic">
+                    </div>
+                </div>
 
-                    <!--Wong-Baker pain scale -->
-                    <div class="card">
-                        <div class="card-header" id="WongBaker">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="The FACES Instructions for Usage
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputTemperature" class="col-sm-2 col-form-label">Temperature (fahrenheit)</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputTemperature">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputPulse" class="col-sm-2 col-form-label">Pulse</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputPulse">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputPulseOxi" class="col-sm-2 col-form-label">Pulse Oximentry</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputPulseOxi">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputHead" class="col-sm-2 col-form-label">Head Circumference</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputHead">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputBMI" class="col-sm-2 col-form-label">Body Mass Index</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="inputBMI">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pain tab -->
+        <!-- TODO: Once one tool is chosen, lock out the other two -->
+        <div class="tab-pane" id="painTab" role="tabpanel" aria-labelledby="pain-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-Pain Assessment<p class="float-right">Page 2</p></h4>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordion">
+
+                <!--Wong-Baker pain scale -->
+                <div class="card">
+                    <div class="card-header" id="WongBaker">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="The FACES Instructions for Usage
 Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain.
 Face 0 doesn’t hurt at all.  Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain.
 Ask the person to choose the face that best depicts the pain they are experiencing.
@@ -119,523 +150,563 @@ The FACES Scale Guidelines
 •	This self-assessment tool must be understood by the patient, so they are able to choose the face that best illustrates the physical pain they are experiencing. The tool is not for use with infants or patients who are unresponsive; other tools have been provided for this purpose
 •	It is self-assessment tool and should not be used by a third person, parents, healthcare professionals, or caregivers, to assess the patient’s pain. There are other tools for those purposes.
 ">
-                                    Wong-Baker Faces Scale
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <figure>
-                                        <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
-                                        <figcaption>
-                                            FACES licensed to Angela Lee February, 2020
-                                        </figcaption>
-                                    </figure>
+                                Wong-Baker Faces Scale
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <figure>
+                                    <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
+                                    <figcaption>
+                                        FACES licensed to Angela Lee February, 2020
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    Pain:
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm">
-                                        Pain:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="WongBakerPain" id="WongBakerPainNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="WongBakerPain" id="noHurt"><br />
-                                        <label class="radio-inline">No Hurt</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="WongBakerPain" id="hurtsALittle"><br />
-                                        <label class="radio-inline">Hurts a Little</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">4</label><br />
-                                        <input type="radio" name="WongBakerPain" id="hurtsALittleMore"><br />
-                                        <label class="radio-inline">Hurts a Little More</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">6</label><br />
-                                        <input type="radio" name="WongBakerPain" id="hurtsEvenMore"><br />
-                                        <label class="radio-inline">Hurts Even More</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">8</label><br />
-                                        <input type="radio" name="WongBakerPain" id="hurtsAWholeLot"><br />
-                                        <label class="radio-inline" for="hurtsAWholeLot">Hurts a Whole Lot</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">10</label><br />
-                                        <input type="radio" name="WongBakerPain" id="hurtsWorst"><br />
-                                        <label class="radio-inline" for="hurtsWorst">Hurts Worst</label>
-                                    </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="WongBakerPainNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="row">
-                                    @Html.TextBox("wongBaker", null, new { @class = "form-control", @placeholder = "Describe", @id = "wongBaker" })
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="noHurt"> 0</label>
+                                    <label class="radio-inline">No Hurt</label>
                                 </div>
-
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsALittle"> 2</label>
+                                    <label class="radio-inline">Hurts a Little</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsALittleMore"> 4</label>
+                                    <label class="radio-inline">Hurts a Little More</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsEvenMore"> 6</label>
+                                    <label class="radio-inline">Hurts Even More</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsAWholeLot"> 8</label>
+                                    <label class="radio-inline" for="hurtsAWholeLot">Hurts a Whole Lot</label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsWorst"> 10</label>
+                                    <label class="radio-inline" for="hurtsWorst">Hurts Worst</label>
+                                </div>
+                            </div>
+                            <div class="row form-group m-0">
+                                <label><textarea id="wongBaker" placeholder="Describe" rows="1"></textarea></label>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Cries pain scale -->
-                    <div class="card">
-                        <div class="card-header" id="headingCries">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
-                                    CRIES Scale
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm" title="Characteristic cry of pain is high pitched.">
-                                        Crying:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Crying" id="cryingNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label>0<br />
-                                        <input type="radio" name="Crying" id="crying0"><br />
-                                        <label class="radio-inline">No cry or cry that is not high-pitched</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label>1<br />
-                                        <input type="radio" name="Crying" id="crying1"><br />
-                                        <label class="radio-inline">Cry high pitched but baby is easily consolable</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label>2<br />
-                                        <input type="radio" name="Crying" id="crying2"><br />
-                                        <label class="radio-inline">Cry high pitched but baby is inconsolable</label>
-                                    </div>
-                                </div>
-
-                            </div>
+                </div>
+                <!-- Cries pain scale -->
+                <div class="card">
+                    <div class="card-header" id="headingCries">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
+                                CRIES Scale
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
+                        <div class="card-body">
                             <div class="row">
-                                @Html.TextBox("criesCrying", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesCrying" })
-                            </div>
-                            <div class="row">
-                                <div class="col-sm" title="Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
-                                    Requires O2 for SaO2 < 95%:
+                                <div class="col-sm" title="Characteristic cry of pain is high pitched.">
+                                    Crying:
                                 </div>
                                 <div class="col-sm">
-                                    <label class="radio-inline"></label><br />
-                                    <input type="radio" name="O2" id="O2NotAssessed" checked><br />
+                                    <label class="radio-inline"><input type="radio" name="Crying" id="cryingNotAssessed" checked> NA</label>
                                     <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>0<br />
-                                    <input type="radio" name="O2" id="O20"><br />
-                                    <label class="radio-inline">No oxygen required</label>
+                                <div class="col-sm" title="No cry or cry that is not high-pitched">
+                                    <label class="radio-inline"><input type="radio" name="Crying" id="crying0"> 0</label>
+                                    <label class="radio-inline" >None</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>1<br />
-                                    <input type="radio" name="O2" id="O21"><br />
-                                    <label class="radio-inline"> <= 30% oxygen required</label>
+                                <div class="col-sm" title="Cry high pitched but baby is easily consolable">
+                                    <label class="radio-inline"><input type="radio" name="Crying" id="crying1"> 1</label>
+                                    <label class="radio-inline">Consolable</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>2<br />
-                                    <input type="radio" name="O2" id="O22"><br />
-                                    <label class="radio-inline"> > 30% oxygen required </label>
+                                <div class="col-sm" title="Cry high pitched but baby is inconsolable">
+                                    <label class="radio-inline"><input type="radio" name="Crying" id="crying2"> 2</label>
+                                    <label class="radio-inline">Inconsolable</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="criesCrying" placeholder="Describe" rows="1" cols="10"></textarea></label>
                                 </div>
                             </div>
                             <div class="row">
-                                @Html.TextBox("criesO2", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesO2" })
-                            </div>
-                            <div class="row">
-                                <div class="col-sm" title="Take BP last as this may awaken child making other assessments difficult">
-                                    Increased Vital Signs (BP & HR):
+                                <div class="col-sm" title="Requires O2 for SaO2 < 95%: Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
+                                    Requires O2:
                                 </div>
                                 <div class="col-sm">
-                                    <label class="radio-inline"></label><br />
-                                    <input type="radio" name="vitalIncrease" id="vitalIncreaseNotAssessed" checked><br />
+                                    <label class="radio-inline"><input type="radio" name="O2" id="O2NotAssessed" checked>NA</label>
                                     <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>0<br />
-                                    <input type="radio" name="vitalIncrease" id="vitalIncrease0"><br />
-                                    <label class="radio-inline">Both HR and BP unchanged or less than baseline</label>
+                                <div class="col-sm" title="No oxygen required">
+                                    <label class="radio-inline"><input type="radio" name="O2" id="O20"> 0</label>
+                                    <label class="radio-inline">None</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>1<br />
-                                    <input type="radio" name="vitalIncrease" id="vitalIncrease1"><br />
-                                    <label class="radio-inline">HR or BP increased but increase <= 20% of baseline</label>
+                                <div class="col-sm" title="<= 30% oxygen required">
+                                    <label class="radio-inline"><input type="radio" name="O2" id="O21"> 1</label>
+                                    <label class="radio-inline"><30% </label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>2<br />
-                                    <input type="radio" name="vitalIncrease" id="vitalIncrease2"><br />
-                                    <label class="radio-inline">HR or BP is increased > 20% over baseline</label>
+                                <div class="col-sm" title="> 30% oxygen required">
+                                    <label class="radio-inline"><input type="radio" name="O2" id="O22"> 2</label>
+                                    <label class="radio-inline">Over 30% </label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="criesO2" placeholder="Describe" rows="1" cols="10"></textarea></label>
                                 </div>
                             </div>
                             <div class="row">
-                                @Html.TextBox("criesIncreasedVital", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesIncreasedVital" })
+                                <div class="col-sm" title="Increased Vital Signs (BP & HR): Take BP last as this may awaken child making other assessments difficult">
+                                    Increased Vitals:
+                                </div>
+                                <div class="col-sm">
+                                    <input type="radio" name="vitalIncrease" id="vitalIncreaseNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
+                                </div>
+                                <div class="col-sm" title="Both HR and BP unchanged or less than baseline">
+                                    <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease0"> 0</label>
+                                    <label class="radio-inline">None</label>
+                                </div>
+                                <div class="col-sm" title="HR or BP increased but increase <= 20% of baseline">
+                                    <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease1"> 1</label>
+                                    <label class="radio-inline"> < 20% </label>
+                                </div>
+                                <div class="col-sm" title="HR or BP is increased > 20% over baseline">
+                                    <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease2"> 2</label>
+                                    <label class="radio-inline">Over 20%</label>
+                                </div>
+                                <div class="form-group col-sm m-0">
+                                    <label><textarea id="criesIncreasedVital" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm" title="The facial expression most often associated with pain is a grimace. A grimace may be characterized by brow lowering, eyes squeezed shut, deepening naso-labial furrow, or open lips and mouth">
                                     Expression:
                                 </div>
                                 <div class="col-sm">
-                                    <label class="radio-inline"></label><br />
-                                    <input type="radio" name="Expression" id="expressionNotAssessed" checked><br />
+                                    <label class="radio-inline"><input type="radio" name="Expression" id="expressionNotAssessed" checked> NA</label>
                                     <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>0<br />
-                                    <input type="radio" name="Expression" id="expression0"><br />
-                                    <label class="radio-inline">No grimace present</label>
+                                <div class="col-sm" title="No grimace present">
+                                    <label class="radio-inline"><input type="radio" name="Expression" id="expression0"> 0</label>
+                                    <label class="radio-inline">No grimace</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>1<br />
-                                    <input type="radio" name="Expression" id="expression1"><br />
-                                    <label class="radio-inline">Grimace alone is present</label>
+                                <div class="col-sm" title="Grimace alone is present">
+                                    <label class="radio-inline"><input type="radio" name="Expression" id="expression1"> 1</label>
+                                    <label class="radio-inline">Grimace only</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>2<br />
-                                    <input type="radio" name="Expression" id="expression2"><br />
-                                    <label class="radio-inline">Grimace and non-cry vocalization grunt is present</label>
+                                <div class="col-sm" title="Grimace and non-cry vocalization grunt is present">
+                                    <label class="radio-inline"><input type="radio" name="Expression" id="expression2"> 2</label>
+                                    <label class="radio-inline">Added grunt</label>
                                 </div>
-                            </div>
-                            <div class="row">
-                                @Html.TextBox("criesExpression", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesExpression" })
+                                <div class="form-group col-sm m-0">
+                                    <label><textarea id="criesExpression" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm" title="Scored based upon the infant's state during the hour preceding this recorded score.">
                                     Sleepless:
                                 </div>
                                 <div class="col-sm">
-                                    <label class="radio-inline"></label><br />
-                                    <input type="radio" name="Sleepless" id="sleeplessNotAssessed" checked><br />
+                                    <label class="radio-inline"><input type="radio" name="Sleepless" id="sleeplessNotAssessed" checked> NA</label>
                                     <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>0<br />
-                                    <input type="radio" name="Sleepless" id="sleepless0"><br />
-                                    <label class="radio-inline">Child has been continuously asleep</label>
+                                <div class="col-sm" title="Child has been continuously asleep">
+                                    <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless0"> 0</label>
+                                    <label class="radio-inline">Unbroken sleep</label>
+                                </div>
+                                <div class="col-sm" title="Child has awakened at frequent intervals">
+                                    <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless1"> 1</label>
+                                    <label class="radio-inline">Broken sleep</label>
+                                </div>
+                                <div class="col-sm" title="Child has been awake constantly">
+                                    <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless2"> 2</label>
+                                    <label class="radio-inline">Awake</label>
+                                </div>
+                                <div class="form-group col-sm m-0">
+                                    <label><textarea id="criesSleepless" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nonverbal pain assessment -->
+                <div class="card">
+                    <div class="card-header" id="headingNonverbal">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
+                                Nonverbal pain assessment
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm" title="Expression">
+                                    Face:
                                 </div>
                                 <div class="col-sm">
-                                    <label class="radio-inline"></label>1<br />
-                                    <input type="radio" name="Sleepless" id="sleepless1"><br />
-                                    <label class="radio-inline">Child has awakened at frequent intervals</label>
+                                    <label class="radio-inline"><input type="radio" name="Face" id="faceNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
                                 </div>
-                                <div class="col-sm">
-                                    <label class="radio-inline"></label>2<br />
-                                    <input type="radio" name="Sleepless" id="sleepless2"><br />
-                                    <label class="radio-inline">Child has been awake constantly</label>
+                                <div class="col-sm" title="No particular expression or smile">
+                                    <label class="radio-inline"><input type="radio" name="Face" id="face0"> 0</label>
+                                    <label class="radio-inline">None</label>
+                                </div>
+                                <div class="col-sm" title="Occasional grimace, tearing, frowning, wrinkled forehead">
+                                    <label class="radio-inline"><input type="radio" name="Face" id="face1"> 1</label>
+                                    <label class="radio-inline">Occasional</label>
+                                </div>
+                                <div class="col-sm" title="Frequent grimace, tearing, frowning, wrinkled forehead">
+                                    <label class="radio-inline"><input type="radio" name="Face" id="face2"> 2</label>
+                                    <label class="radio-inline">Frequent</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalFace" placeholder="Describe" rows="1" cols="10"></textarea></label>
                                 </div>
                             </div>
                             <div class="row">
-                                @Html.TextBox("criesSleepless", null, new { @class = "form-control", @placeholder = "Describe", @id = "criesSleepless" })
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- Nonverbal pain assessment -->
-                    <div class="card">
-                        <div class="card-header" id="headingNonverbal">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
-                                    Nonverbal pain assessment
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm" title="Expression">
-                                        Face:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Face" id="faceNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="Face" id="face0"><br />
-                                        <label class="radio-inline">Lying quietly, normal position</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">1</label><br />
-                                        <input type="radio" name="Face" id="face1"><br />
-                                        <label class="radio-inline">Seeking attention through movement or slow, cautious movement</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="Face" id="face2"><br />
-                                        <label class="radio-inline">Restless, excessive activity and/or withdrawal reflexes</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @Html.TextBox("nonverbalFace", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalFace" })
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm" title="Movement">
-                                        Activity:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Activity" id="activityNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="Activity" id="activity0"><br />
-                                        <label class="radio-inline">Lying quietly, normal position</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">1</label><br />
-                                        <input type="radio" name="Activity" id="activity1"><br />
-                                        <label class="radio-inline">Seeking attention through movement or slow, cautious movement</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="Activity" id="activity2"><br />
-                                        <label class="radio-inline">Restless, excessive activity and/or withdrawal reflexes</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @Html.TextBox("nonverbalActivity", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalActivity" })
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm" title="Guarding the body or reluctance to move">
-                                        Guarding:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Guarding" id="guardingNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="Guarding" id="guarding0"><br />
-                                        <label class="radio-inline">Lying quietly, no positioning of hands over areas of the body</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">1</label><br />
-                                        <input type="radio" name="Guarding" id="guarding1"><br />
-                                        <label class="radio-inline">Splinting areas of the body, tense</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="Guarding" id="guarding2"><br />
-                                        <label class="radio-inline">Rigid, stiff</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @Html.TextBox("nonverbalGuarding", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalGuarding" })
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Vital signs">
-                                        Physiology:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Physiology" id="physiologyNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="Physiology" id="physiology0"><br />
-                                        <label class="radio-inline">Baseline vitals unchanged</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">1</label><br />
-                                        <input type="radio" name="Physiology" id="physiology1"><br />
-                                        <label class="radio-inline">Change in SBP > 20 mmHg or HR > 20 bpm</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="Physiology" id="physiology2"><br />
-                                        <label class="radio-inline">Change in SBP > 30 mmHg or HR > 25 bpm</label>
-                                    </div>
-                                    <div class="col-sm">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @Html.TextBox("nonverbalPhysiology", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalPhysiology" })
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Respiration">
-                                        Respiratory:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"></label><br />
-                                        <input type="radio" name="Respiratory" id="RespiratoryNotAssessed" checked><br />
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <label class="radio-inline">0</label><br />
-                                        <input type="radio" name="Respiratory" id="respiratory0"><br />
-                                        <label class="radio-inline">Baseline RR/SpO2 synchronous with ventilator</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">1</label><br />
-                                        <input type="radio" name="Respiratory" id="respiratory1"><br />
-                                        <label class="radio-inline">RR > 10 bpm over baseline, 5% decrease Sp)2 or mild ventilator asynchrony</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline">2</label><br />
-                                        <input type="radio" name="Respiratory" id="respiratory2"><br />
-                                        <label class="radio-inline">RR > 20 bpm over baseline, 10% decrease Sp)2 or severe ventilator asynchrony</label>
-                                    </div>
+                                <div class="col-sm" title="Movement">
+                                    Activity:
                                 </div>
                                 <div class="col-sm">
-                                    @Html.TextBox("nonverbalRespiratory", null, new { @class = "form-control", @placeholder = "Describe", @id = "nonverbalRespiratory" })
+                                    <label class="radio-inline"><input type="radio" name="Movement" id="movementNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
+                                </div>
+                                <div class="col-sm" title="Lying quietly, normal position">
+                                    <label class="radio-inline"><input type="radio" name="Movement" id="movement0"> 0</label>
+                                    <label class="radio-inline">Quiet</label>
+                                </div>
+                                <div class="col-sm" title="Seeking attention through movement or slow, cautious movement">
+                                    <label class="radio-inline"><input type="radio" name="Movement" id="movement1"> 1</label>
+                                    <label class="radio-inline">Some movement</label>
+                                </div>
+                                <div class="col-sm" title="Restless, excessive activity and/or withdrawal reflexes">
+                                    <label class="radio-inline"><input type="radio" name="Movement" id="movement2"> 2</label>
+                                    <label class="radio-inline">Restless / withdrawn</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalMovement" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm" title="Guarding the body or reluctance to move">
+                                    Guarding:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Guarding" id="guardingNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
+                                </div>
+                                <div class="col-sm" title="Lying quietly, no positioning of hands over areas of the body">
+                                    <label class="radio-inline"><input type="radio" name="Guarding" id="guarding0"> 0</label>
+                                    <label class="radio-inline">None</label>
+                                </div>
+                                <div class="col-sm" title="Splinting areas of the body, tense">
+                                    <label class="radio-inline"><input type="radio" name="Guarding" id="guarding1"> 1</label>
+                                    <label class="radio-inline">Splinting</label>
+                                </div>
+                                <div class="col-sm" title="Rigid, stiff">
+                                    <label class="radio-inline"><input type="radio" name="Guarding" id="guarding2"> 2</label>
+                                    <label class="radio-inline">Rigid</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalGuarding" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm" title="Vital signs">
+                                    Physiology:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Physiology" id="physiologyNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
+                                </div>
+                                <div class="col-sm" title="Baseline vitals unchanged">
+                                    <label class="radio-inline"><input type="radio" name="Physiology" id="physiology0"> 0</label>
+                                    <label class="radio-inline">Unchanged</label>
+                                </div>
+                                <div class="col-sm" title="Change in SBP > 20 mmHg or HR > 20 bpm">
+                                    <label class="radio-inline"><input type="radio" name="Physiology" id="physiology1"> 1</label>
+                                    <label class="radio-inline">Some change</label>
+                                </div>
+                                <div class="col-sm" title="Change in SBP > 30 mmHg or HR > 25 bpm">
+                                    <label class="radio-inline"><input type="radio" name="Physiology" id="physiology2"> 2</label>
+                                    <label class="radio-inline">Definite change</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalPhysiology" placeholder="Describe" rows="1" cols="10"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm" title="Respiration">
+                                    Respiratory:
+                                </div>
+                                <div class="col-sm">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory" id="RespiratoryNotAssessed" checked> NA</label>
+                                    <label class="radio-inline">Not Assessed</label>
+                                </div>
+                                <div class="col-sm" title="Baseline RR/SpO2 synchronous with ventilator">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory0"> 0</label>
+                                    <label class="radio-inline">Baseline</label>
+                                </div>
+                                <div class="col-sm" title="RR > 10 bpm over baseline, 5% decrease SpO2 or mild ventilator asynchrony">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory1"> 1</label>
+                                    <label class="radio-inline">Some change</label>
+                                </div>
+                                <div class="col-sm" title="RR > 20 bpm over baseline, 10% decrease SpO2 or severe ventilator asynchrony">
+                                    <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory2"> 2</label>
+                                    <label class="radio-inline">Definite change</label>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalRespiratory" placeholder="Describe" rows="1" cols="10"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
-            <div class="tab-pane" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
-                <div class="accordion" id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingTwo">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Level of Consciousness and Orientation
-                                </button>
-                            </h2>
+        </div>
+
+        <!-- Vitals tab -->
+        <div class="tab-pane" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-Secondary Systems<p class="float-right">Page 3</p></h4>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Level of Consciousness and Orientation
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body ">
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Person:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" id="person" value="abnormal">Abnormal</label>
+                                </div>
+
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="personArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Place:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" id="place" value="abnormal">Abnormal</label>
+                                </div>
+
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="placeArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Time:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" id="time" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col-md">
+                                    <label><textarea class="d-none" id="timeArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Purpose:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" id="purpose" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col-md">
+                                    <label><textarea class="d-none" id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
                         </div>
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body ">
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Person:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHidePerson()" id="person" value="abnormal">Abnormal</label>
-                                    </div>
-
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="personArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                HEENT/ Neuro
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Head:
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Place:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHidePlace()" id="place" value="abnormal">Abnormal</label>
-                                    </div>
-
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="placeArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
-
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHideHead()" value="notAssessed" checked>Not Assessed</label>
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Time:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHideTime()" id="time" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col-md">
-                                        <label><textarea class="d-none" id="timeArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
-
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHideHead()" value="wnl">WNL</label>
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Purpose:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHidePurpose()" id="purpose" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col-md">
-                                        <label><textarea class="d-none" id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" id="head" onclick="ShowHideHead()" name="Head" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="headArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Eyes/ Vision:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHideEye()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHideEye()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" id="eye" name="Eyes/Vision" onclick="ShowHideEye()" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Ears/ Hearing:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHideEar()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHideEar()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" id="ear" name="Ears/Hearing" onclick="ShowHideEar()" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="earArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Nose:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHideNose()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHideNose()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" id="nose" name="Nose" onclick="ShowHideNose()" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="noseArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Throat and Mouth:
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHideMouth()" value="notAssessed" checked>Not Assessed</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHideMouth()" value="wnl">WNL</label>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <label class="radio-inline"><input type="radio" id="mouth" name="Throat and Mouth" onclick="ShowHideMouth()" value="abnormal">Abnormal</label>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" id="headingTwo">
+                        <div class="card-header" id="headingThree">
                             <h2 class="mb-0">
-                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    HEENT/ Neuro
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Skin
                                 </button>
                             </h2>
                         </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                             <div class="card-body">
                                 <div class="row m-2">
                                     <div class="col-3 mb-2">
-                                        Head:
+                                        Wounds/ Breaks/ Rash/ Lesions:
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHideHead()" value="notAssessed" checked>Not Assessed</label>
+                                        <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="notAssessed" checked>Not Assessed</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHideHead()" value="wnl">WNL</label>
+                                        <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="wnl">WNL</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="head" onclick="ShowHideHead()" name="Head" value="abnormal">Abnormal</label>
+                                        <label class="radio-inline"><input type="radio" id="rash" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="abnormal">Abnormal</label>
                                     </div>
                                     <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="headArea" placeholder="Describe" rows="1"></textarea></label>
+                                        <label><textarea class="d-none" id="rashArea" placeholder="Describe" rows="1"></textarea></label>
                                     </div>
                                 </div>
                                 <div class="row m-2">
                                     <div class="col-3 mb-2">
-                                        Eyes/ Vision:
+                                        Redness/ Irritation:
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHideEye()" value="notAssessed" checked>Not Assessed</label>
+                                        <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHideRed()" value="notAssessed" checked>Not Assessed</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHideEye()" value="wnl">WNL</label>
+                                        <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHideRed()" value="wnl">WNL</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="eye" name="Eyes/Vision" onclick="ShowHideEye()" value="abnormal">Abnormal</label>
+                                        <label class="radio-inline"><input type="radio" id="red" name="Redness/Irritation" onclick="ShowHideRed()" value="abnormal">Abnormal</label>
                                     </div>
                                     <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
+                                        <label><textarea class="d-none" id="redArea" placeholder="Describe" rows="1"></textarea></label>
                                     </div>
                                 </div>
                                 <div class="row m-2">
@@ -643,749 +714,661 @@ The FACES Scale Guidelines
                                         Ears/ Hearing:
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHideEar()" value="notAssessed" checked>Not Assessed</label>
+                                        <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHideHearing()" value="notAssessed" checked>Not Assessed</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHideEar()" value="wnl">WNL</label>
+                                        <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHideHearing()" value="wnl">WNL</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="ear" name="Ears/Hearing" onclick="ShowHideEar()" value="abnormal">Abnormal</label>
+                                        <label class="radio-inline"><input type="radio" id="hearing" onclick="ShowHideHearing()" name="Hearing" value="abnormal">Abnormal</label>
                                     </div>
                                     <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="earArea" placeholder="Describe" rows="1"></textarea></label>
+                                        <label><textarea class="d-none" id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
                                     </div>
                                 </div>
                                 <div class="row m-2">
                                     <div class="col-3 mb-2">
-                                        Nose:
+                                        Dryness/ Excess Moisture:
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHideNose()" value="notAssessed" checked>Not Assessed</label>
+                                        <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="notAssessed" checked>Not Assessed</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHideNose()" value="wnl">WNL</label>
+                                        <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="wnl">WNL</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="nose" name="Nose" onclick="ShowHideNose()" value="abnormal">Abnormal</label>
+                                        <label class="radio-inline"><input type="radio" id="dry" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="abnormal">Abnormal</label>
                                     </div>
                                     <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="noseArea" placeholder="Describe" rows="1"></textarea></label>
+                                        <label><textarea class="d-none" id="dryArea" placeholder="Describe" rows="1"></textarea></label>
                                     </div>
                                 </div>
                                 <div class="row m-2">
                                     <div class="col-3 mb-2">
-                                        Throat and Mouth:
+                                        Sign of Breakdown
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHideMouth()" value="notAssessed" checked>Not Assessed</label>
+                                        <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHideSign()" value="notAssessed" checked>Not Assessed</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHideMouth()" value="wnl">WNL</label>
+                                        <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHideSign()" value="wnl">WNL</label>
                                     </div>
                                     <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="mouth" name="Throat and Mouth" onclick="ShowHideMouth()" value="abnormal">Abnormal</label>
+                                        <label class="radio-inline"><input type="radio" id="sign" name="Sign of Breakdown" onclick="ShowHideSign()" value="abnormal">Abnormal</label>
                                     </div>
                                     <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
+                                        <label><textarea class="d-none" id="signArea" placeholder="Describe" rows="1"></textarea></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Skin
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Wounds/ Breaks/ Rash/ Lesions:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="rash" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHideRash()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="rashArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Redness/ Irritation:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHideRed()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHideRed()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="red" name="Redness/Irritation" onclick="ShowHideRed()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="redArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Ears/ Hearing:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHideHearing()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHideHearing()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="hearing" onclick="ShowHideHearing()" name="Hearing" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Dryness/ Excess Moisture:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="dry" name="Dryness/ Excess Moisture" onclick="ShowHideDry()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="dryArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Sign of Breakdown
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHideSign()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHideSign()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="sign" name="Sign of Breakdown" onclick="ShowHideSign()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="signArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingFour">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        Lungs/ Thoracic
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Lung sounds:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHideLung()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHideLung()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="lung" name="Lung sounds" onclick="ShowHideLung()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="lungArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Respiration depth:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHideDepth()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHideDepth()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="depth" name="Respiration depth" onclick="ShowHideDepth()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="depthArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Respiratory rate:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHideRate()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHideRate()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="rate" name="Respiratory rate" onclick="ShowHideRate()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="rateArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Chest shape and appearance:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHideChest()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHideChest()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="chest" name="Chest shape and appearance" onclick="ShowHideChest()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="chestArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Drains/ Lines/ Sutures/ Staples:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="line" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="lineArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingFive">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        Cardiac/ Thoracic
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Heart sounds:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHideHeart()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHideHeart()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="heart" name="Heart sounds" onclick="ShowHideHeart()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="heartArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Heart rate:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHideHrate()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHideHrate()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="Hrate" name="Heart rate" onclick="ShowHideHrate()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Heart rhythm:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHideRhythm()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHideRhythm()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="rhythm" name="Heart rhythm" onclick="ShowHideRhythm()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Jugular venous pulse:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHidePulse()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHidePulse()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="pulse" name="Jugular venous pulse" onclick="ShowHidePulse()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Drains/ Lines/ Sutures/ Staples:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="drain" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="drainArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingSix">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                        Abdomen/ Coccyx/ Genitalia
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Abnormal shape and apperance:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="abnormal" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Bowel sounds:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHideBowel()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHideBowel()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="bowel" name="Bowel sounds" onclick="ShowHideBowel()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Tenderness/ Lumps/ Bladder distension:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="lump" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Tubes/ Drains/ Catheter sites:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="tube" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Skin appearance:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHideSkin()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHideSkin()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="skin" name="Skin appearance" onclick="ShowHideSkin()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="skinArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingSeven">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                        Extremities
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Temerature/ Color/ Capillary Refill:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="color" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="colorArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Pulses/ Sensation:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="sensation" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Endema:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHideEndema()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHideEndema()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="endema" onclick="ShowHideEndema()" name="Endema" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            ROM:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHideRom()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHideRom()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="rom" name="ROM" onclick="ShowHideRom()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="romArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Tubes/ Drains/ Staples/ Sutures/ Catheter sites:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="staple" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingEight">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
-                                        Psych/ Mental Health
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Mood/ Affect:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHideMood()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHideMood()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="mood" name="Mood/ Affect" onclick="ShowHideMood()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="moodArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Cognition:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHideCognition()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHideCognition()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="cognition" name="Cognition" onclick="ShowHideCognition()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Thought Pattern:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHideThought()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHideThought()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="thought" name="Thought Pattern" onclick="ShowHideThought()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Sleep Pattern:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHideSleep()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHideSleep()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="sleep" name="Sleep Pattern" onclick="ShowHideSleep()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingNine">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
-                                        General
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Pain/ Discomfort:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHidePain()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHidePain()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="pain" name="Pain/ Discomfort" onclick="ShowHidePain()" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="painArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Elimination:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHideElimination()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHideElimination()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="elimination" onclick="ShowHideElimination()" name="Elimination" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Appetite:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHideAppetite()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHideAppetite()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="appetite" onclick="ShowHideAppetite()" name="Appetite" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                    <div class="row m-2">
-                                        <div class="col-3 mb-2">
-                                            Activity:
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHideActivity()" value="notAssessed" checked>Not Assessed</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHideActivity()" value="wnl">WNL</label>
-                                        </div>
-                                        <div class="col-md mb-2">
-                                            <label class="radio-inline"><input type="radio" id="activity" onclick="ShowHideActivity()" name="Activity" value="abnormal">Abnormal</label>
-                                        </div>
-                                        <div class="form-group col m-0">
-                                            <label><textarea class="d-none" id="activityArea" placeholder="Describe" rows="1"></textarea></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Lungs/ Thoracic
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Lung sounds:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHideLung()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHideLung()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="lung" name="Lung sounds" onclick="ShowHideLung()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="lungArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Respiration depth:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHideDepth()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHideDepth()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="depth" name="Respiration depth" onclick="ShowHideDepth()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="depthArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Respiratory rate:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHideRate()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHideRate()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="rate" name="Respiratory rate" onclick="ShowHideRate()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="rateArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Chest shape and appearance:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHideChest()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHideChest()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="chest" name="Chest shape and appearance" onclick="ShowHideChest()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="chestArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Drains/ Lines/ Sutures/ Staples:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="line" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHideLine()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="lineArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Cardiac/ Thoracic
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Heart sounds:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHideHeart()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHideHeart()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="heart" name="Heart sounds" onclick="ShowHideHeart()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="heartArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Heart rate:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHideHrate()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHideHrate()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="Hrate" name="Heart rate" onclick="ShowHideHrate()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Heart rhythm:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHideRhythm()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHideRhythm()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="rhythm" name="Heart rhythm" onclick="ShowHideRhythm()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Jugular venous pulse:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHidePulse()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHidePulse()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="pulse" name="Jugular venous pulse" onclick="ShowHidePulse()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Drains/ Lines/ Sutures/ Staples:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="drain" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHideDrain()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="drainArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingSix">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    Abdomen/ Coccyx/ Genitalia
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Abnormal shape and apperance:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="abnormal" name="Abnormal shape and apperance" onclick="ShowHideAbnormal()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Bowel sounds:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHideBowel()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHideBowel()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="bowel" name="Bowel sounds" onclick="ShowHideBowel()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Tenderness/ Lumps/ Bladder distension:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="lump" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHideLump()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Tubes/ Drains/ Catheter sites:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="tube" name="Tubes/ Drains/ Catheter sites" onclick="ShowHideTube()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Skin appearance:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHideSkin()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHideSkin()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="skin" name="Skin appearance" onclick="ShowHideSkin()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="skinArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingSeven">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    Extremities
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Temerature/ Color/ Capillary Refill:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="color" name="Temerature/ Color/ Capillary Refill" onclick="ShowHideColor()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="colorArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Pulses/ Sensation:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="sensation" name="Pulses/ Sensation" onclick="ShowHideSensation()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Endema:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHideEndema()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHideEndema()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="endema" onclick="ShowHideEndema()" name="Endema" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        ROM:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHideRom()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHideRom()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="rom" name="ROM" onclick="ShowHideRom()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="romArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Tubes/ Drains/ Staples/ Sutures/ Catheter sites:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="staple" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHideStaple()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingEight">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
+                                    Psych/ Mental Health
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Mood/ Affect:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHideMood()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHideMood()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="mood" name="Mood/ Affect" onclick="ShowHideMood()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="moodArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Cognition:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHideCognition()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHideCognition()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="cognition" name="Cognition" onclick="ShowHideCognition()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Thought Pattern:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHideThought()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHideThought()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="thought" name="Thought Pattern" onclick="ShowHideThought()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Sleep Pattern:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHideSleep()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHideSleep()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="sleep" name="Sleep Pattern" onclick="ShowHideSleep()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingNine">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                                    General
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Pain/ Discomfort:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHidePain()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHidePain()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="pain" name="Pain/ Discomfort" onclick="ShowHidePain()" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="painArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Elimination:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHideElimination()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHideElimination()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="elimination" onclick="ShowHideElimination()" name="Elimination" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Appetite:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHideAppetite()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHideAppetite()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="appetite" onclick="ShowHideAppetite()" name="Appetite" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                                <div class="row m-2">
+                                    <div class="col-3 mb-2">
+                                        Activity:
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHideActivity()" value="notAssessed" checked>Not Assessed</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHideActivity()" value="wnl">WNL</label>
+                                    </div>
+                                    <div class="col-md mb-2">
+                                        <label class="radio-inline"><input type="radio" id="activity" onclick="ShowHideActivity()" name="Activity" value="abnormal">Abnormal</label>
+                                    </div>
+                                    <div class="form-group col m-0">
+                                        <label><textarea class="d-none" id="activityArea" placeholder="Describe" rows="1"></textarea></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <button type="button" id="PCAsubmit" class="btn btn-outline-primary">Submit</button>
+        </div>
+
+        <!-- Submit tab -->
+        <div class="tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>
+                        Submit PCA
+                        <button type="button" id="PCAsubmit" class="btn btn-info float-right">Submit</button>
+                    </h4>
+                </div>
             </div>
         </div>
-        
-        <!--For navigating PCA-->
-        <!-- Tabstrip -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Systems</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pain-tab" data-toggle="tab" href="#pain" role="tab" aria-controls="pain" aria-selected="false">Pain System</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab" aria-controls="secondary" aria-selected="false">Secondary Systems</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">Submission</a>
-            </li>
-        </ul>
     </div>
 
+    <!--For navigating PCA-->
+    <!-- Tabstrip -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Systems</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pain-tab" data-toggle="tab" href="#painTab" role="tab" aria-controls="pain" aria-selected="false">Pain Assessment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab" aria-controls="secondary" aria-selected="false">Secondary Systems</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">Submission</a>
+        </li>
+    </ul>
+</div>
 
 
-        <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
 
-            <!-- Then put toasts within -->
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <img src="..." class="rounded mr-2" alt="...">
-                    <strong class="mr-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
-                </div>
-            </div>
+<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+
+    <!-- Then put toasts within -->
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded mr-2" alt="...">
+            <strong class="mr-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div>
