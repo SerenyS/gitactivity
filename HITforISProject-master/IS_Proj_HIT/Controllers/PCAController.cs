@@ -26,7 +26,7 @@ namespace IS_Proj_HIT.Controllers
                 .FirstOrDefault(pca => pca.Pcaid == assessmentId);
             if (assessment is null)
                 return RedirectToAction("Index", "Encounter",
-                    new {filter = "CheckedIn"});
+                    new { filter = "CheckedIn" });
 
             var model = new CareAssessmentPageModel
             {
@@ -44,17 +44,15 @@ namespace IS_Proj_HIT.Controllers
         /// <param name="patientMrn">Unique Identifier of patient</param>
         public IActionResult CreateAssessment(long encounterId, string patientMrn)
         {
-            var pca = new CareAssessmentPageModel
-            {
-                Assessment = new Pcarecord(),
-                Encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId),
-                Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn)
-            };
-            if (pca.Encounter is null || pca.Patient is null)
+            var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
+            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn);
+            if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
-                    new {encounterId = encounterId, isPatientEncounter = false});
+                    new { encounterId = encounterId, isPatientEncounter = false });
 
-            return View(pca);
+            ViewBag.Encounter = encounter;
+            ViewBag.Patient = patient;
+            return View(new Pcarecord());
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace IS_Proj_HIT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SaveAssessment(CareAssessmentPageModel pca)
+        public IActionResult SaveAssessment(Pcarecord pca)
         {
             //Todo: Mark notes, need to confirm if accurate
             //do a database save here
@@ -75,18 +73,7 @@ namespace IS_Proj_HIT.Controllers
             //And then check to see if it failed to save correctly, if it did then return to the edit form
             //otherwise, send user back to the encounter page?
             return RedirectToAction("ViewEncounter", "Encounter",
-                new {encounterId = pca.Encounter.EncounterId, isPatientEncounter = false});
+                new { encounterId = pca.EncounterId, isPatientEncounter = false });
         }
-
-        /// <summary>
-        /// PainAssessment 
-        /// TODO: Integrate form into PCA flow
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult PainAssessment()
-        {
-            return View();
-        }
-
     }
 }
