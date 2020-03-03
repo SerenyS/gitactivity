@@ -1,5 +1,6 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace isprojectHiT.Models
@@ -46,7 +47,11 @@ namespace isprojectHiT.Models
         public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRole;
         public IQueryable<UserTable> UserTables => _context.UserTable;
 
-        #endregion
+        public IQueryable<CareSystemAssessment> SystemAssessments => _context.CareSystemAssessment;
+
+        public IQueryable<CareSystemAssessmentType> SystemAssessmentTypes => _context.CareSystemAssessmentType;
+
+        #endregion IQueryable
 
         public void AddPatient(Patient patient)
         {
@@ -171,6 +176,48 @@ namespace isprojectHiT.Models
         public void EditUser(UserTable userTable)
         {
             _context.Update(userTable);
+            _context.SaveChanges();
+        }
+        
+        public void AddPcaRecord(Pcarecord pca)
+        {
+            _context.Add(pca);
+            _context.SaveChanges();
+        }
+
+        public void DeletePcaRecord(Pcarecord pca)
+        {
+            _context.Remove(pca);
+            _context.SaveChanges();
+        }
+
+        public void EditPcaRecord(Pcarecord pca)
+        {
+            _context.Update(pca);
+            _context.SaveChanges();
+        }
+
+        public void AddAssessment(CareSystemAssessment csa)
+        {
+            _context.Add(csa);
+            _context.SaveChanges();
+        }
+
+        public void AddAssessments(IList<CareSystemAssessment> csaList)
+        {
+            csaList.ToList().ForEach(a => _context.Add(a));
+            _context.SaveChanges();
+        }
+
+        public void DeleteAssessment(CareSystemAssessment csa)
+        {
+            _context.Remove(csa);
+            _context.SaveChanges();
+        }
+
+        public void EditAssessment(CareSystemAssessment csa)
+        {
+            _context.Update(csa);
             _context.SaveChanges();
         }
     }

@@ -1,9 +1,7 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace isprojectHiT.Models
 {
@@ -14,6 +12,8 @@ namespace isprojectHiT.Models
         IQueryable<Pcarecord> PcaRecords { get; }
         IQueryable<Pcacomment> PcaComments { get; }
         IQueryable<PcacommentType> PcaCommentTypes { get; }
+        IQueryable<CareSystemAssessment> SystemAssessments { get; }
+        IQueryable<CareSystemAssessmentType> SystemAssessmentTypes { get; }
         IQueryable<AdmitType> AdmitTypes { get; }
         IQueryable<Ethnicity> Ethnicities { get; }
         IQueryable<Gender> Genders { get; }
@@ -50,7 +50,7 @@ namespace isprojectHiT.Models
         void AddPatient(Patient patient);
         void DeletePatient(Patient patient);
         void EditPatient(Patient patient);
-        
+
         void AddEncounter(Encounter encounter);
         void EditEncounter(Encounter encounter);
         void DeleteEncounter(Encounter encounter);
@@ -63,5 +63,14 @@ namespace isprojectHiT.Models
         void AddUser(UserTable userTable);
         void DeleteUser(UserTable userTable);
         void EditUser(UserTable userTable);
+
+        void AddPcaRecord(Pcarecord pca);
+        void DeletePcaRecord(Pcarecord pca);
+        void EditPcaRecord(Pcarecord pca);
+        
+        void AddAssessment(CareSystemAssessment csa);
+        void AddAssessments(IList<CareSystemAssessment> csaList);
+        void DeleteAssessment(CareSystemAssessment csa);
+        void EditAssessment(CareSystemAssessment csa);
     }
 }

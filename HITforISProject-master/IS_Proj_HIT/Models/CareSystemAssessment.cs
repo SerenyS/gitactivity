@@ -15,5 +15,9 @@ namespace IS_Proj_HIT.Models
 
         public virtual CareSystemAssessmentType CareSystemAssessmentType { get; set; }
         public virtual Pcarecord Pca { get; set; }
+
+        public CareSystemAssessment() { }
+
+        public CareSystemAssessment(int typeId) => CareSystemAssessmentTypeId = typeId;
     }
 }
