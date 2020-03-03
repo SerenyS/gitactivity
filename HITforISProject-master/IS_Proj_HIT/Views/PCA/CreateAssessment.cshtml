@@ -23,8 +23,8 @@
 </nav>
 <form class="col" method="post" id="pca" name="pca" asp-action="SaveAssessment">
     <input type="hidden" asp-for="EncounterId" value="@ViewBag.Encounter.EncounterId" />
-<div class="tab-content">
-        <!-- General tab -->
+    <div class="tab-content">
+            <!-- General tab -->
         <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
 
             <div class="card">
@@ -32,103 +32,163 @@
                     <h4>PCA-General Systems <span class="float-right">Page 1</span></h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="form-group row">
-                                <label for="inputHeight" class="col-md col-form-label">Height (inches)</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputHeight" asp-for="Height">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputWeight" class="col-md col-form-label">Weight (pounds)</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputWeight" asp-for="Weight">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputBMI" class="col-md col-form-label">Body Mass Index</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputBMI" asp-for="BodyMassIndex">
-                                </div>
-                            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputWeight" class="col-md col-form-label">Weight (pounds)</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputWeight" asp-for="Weight">
                         </div>
+                        <div class="col-md">Unit dropdown placeholder</div>
+                        <div class="col-md">Qualifier dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="form-group row">
-                                <label for="inputTemperature" class="col-md col-form-label">Temperature (fahrenheit)</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputTemperature" max="999" asp-for="Temperature">
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label for="inputHeight" class="col-md col-form-label">Height (inches)</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputHeight" asp-for="Height">
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="form-group row">
-                                <label for="inputHead" class="col-md col-form-label">Head Circumference</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputHead" asp-for="HeadCircumference">
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-md">Unit dropdown placeholder</div>
+                        <div class="col-md">Qualifier dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
                     </div>
                 </div>
-                <div class="col-md">
-                    <div class="card">
-                        <div class="card-header">
-                            Blood Pressure mmHg
-                            <div class="form-group row">
-                                <label for="inputSystolic" class="col-md col-form-label">Systolic</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputSystolic" asp-for="SystolicBloodPressure">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputDiastolic" class="col-md col-form-label">Diastolic</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputDiastolic" asp-for="DiastolicBloodPressure">
-                                </div>
-                            </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputTemperature" class="col-md col-form-label">Temperature (fahrenheit)</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputTemperature" step="0.01" max="999.99" asp-for="Temperature">
                         </div>
+                        <div class="col-md">Unit dropdown placeholder</div>
+                        <div class="col-md">Location dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="form-group row">
-                                <label for="inputPulse" class="col-md col-form-label">Pulse</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputPulse" asp-for="Pulse">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputPulseOxi" class="col-md col-form-label">Pulse Oximentry</label>
-                                <div class="col-md">
-                                    <input type="number" class="form-control" id="inputPulseOxi" asp-for="PulseOximetry">
-                                </div>
-                            </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Blood Pressure mmHg
+                    <div class="form-group row">
+                        <label for="inputSystolic" class="col-md col-form-label">Systolic</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputSystolic" asp-for="SystolicBloodPressure">
                         </div>
+                        <div class="col-md">Location dropdown placeholder</div>
+                        <div class="col-md">Method dropdown placeholder</div>
+                        <div class="col-md">Position dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputDiastolic" class="col-md col-form-label">Diastolic</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputDiastolic" asp-for="DiastolicBloodPressure">
+                        </div>
+                        <div class="col-md">Location dropdown placeholder</div>
+                        <div class="col-md">Method dropdown placeholder</div>
+                        <div class="col-md">Position dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputPulse" class="col-md col-form-label">Pulse</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputPulse" asp-for="Pulse">
+                        </div>
+                        <div class="col-md">Location dropdown placeholder</div>
+                        <div class="col-md">Method dropdown placeholder</div>
+                        <div class="col-md">Position dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPulseOxi" class="col-md col-form-label">Pulse Oximentry</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputPulseOxi" asp-for="PulseOximetry">
+                        </div>
+                        <div class="col-md">Flow rate placeholder</div>
+                        <div class="col-md">O2 % placeholder</div>
+                        <div class="col-md">Method dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputRespiration" class="col-md col-form-label">Respiration</label>
+                        <div class="col-md">
+                            <!--TODO: Needs asp-for -->
+                            <input type="number" class="form-control" id="inputRespiration">
+                        </div>
+                        <div class="col-md">Method dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputHead" class="col-md col-form-label">Head Circumference</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputHead" asp-for="HeadCircumference">
+                        </div>
+                        <div class="col-md">Unit dropdown placeholder</div>
+                        <div class="col-md">Qualifier dropdown placeholder</div>
+                        <div class="col-md">Description placeholder</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group row">
+                        <label for="inputBMI" class="col-md col-form-label">Body Mass Index</label>
+                        <div class="col-md">
+                            <input type="number" class="form-control" id="inputBMI" asp-for="BodyMassIndex">
+                        </div>
+                        <div class="col-md">Description placeholder</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Pain tab -->
-        <!-- TODO: Once one tool is chosen, lock out the other two -->
         <div class="tab-pane" id="painTab" role="tabpanel" aria-labelledby="pain-tab">
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>PCA-Pain Assessment<span class="float-right">Page 2</span></h4>
                 </div>
             </div>
-            <div class="accordion" id="accordion">
+
+            <div class="row" id="selectPainScale">
+                <div class="radio-toolbar">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Select pain assessment type: </td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">WongBaker FACES</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">CRIES</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">Nonverbal Assessment</label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="accordion" id="painAccordion">
                 <!--Wong-Baker pain scale -->
                 <div class="card">
                     <div class="card-header" id="WongBaker">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="">
+                            <!-- removed data-toggle="collapse" to prevent on-click opening (use selection buttons above instead -->
+                            <button class="btn btn-link" type="button" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker">
                                 Wong-Baker Faces Scale
                             </button>
                             <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="WongBaker">
@@ -136,23 +196,15 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
+                    <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#painAccordion">
                         <div class="card-body">
-                            <div class="row">
-                                <figure>
-                                    <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
-                                    <figcaption>
-                                        FACES licensed to Angela Lee February, 2020
-                                    </figcaption>
-                                </figure>
-                            </div>
                             <div class="row">
                                 <div class="radio-toolbar">
                                     <table class="table">
                                         <tbody>
                                             <tr>
                                                 <td><input type="radio" name="WongBakerPain" id="WongBakerPainNA" checked><label for="WongBakerPainNA">NA</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="Hurt0"><label for="hurt0">0 - No Hurt</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt0"><label for="hurt0">0 - No Hurt</label></td>
                                                 <td><input type="radio" name="WongBakerPain" id="hurt2"><label for="hurt2">2 - Hurts a Little</label></td>
                                                 <td><input type="radio" name="WongBakerPain" id="hurt4"><label for="hurt4">4 - Hurts a Little More</label></td>
                                                 <td><input type="radio" name="WongBakerPain" id="hurt6"><label for="hurt6">6 - Hurts Even More</label></td>
@@ -166,6 +218,15 @@
                                     <label><textarea id="wongBaker" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <figure>
+                                    <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
+                                    <figcaption>
+                                        FACES licensed to Angela Lee February, 2020
+                                    </figcaption>
+                                </figure>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -173,7 +234,7 @@
                 <div class="card">
                     <div class="card-header" id="headingCries">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
+                            <button class="btn btn-link" type="button" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
                                 CRIES Scale
                             </button>
                             <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="cries">
@@ -181,7 +242,7 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
+                    <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#painAccordion">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md" title="Characteristic cry of pain is high pitched.">
@@ -306,7 +367,7 @@
                 <div class="card">
                     <div class="card-header" id="headingNonverbal">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
+                            <button class="btn btn-link" type="button" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
                                 Nonverbal pain assessment
                             </button>
                             <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbal">
@@ -314,7 +375,7 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
+                    <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#painAccordion">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md" title="Expression">
@@ -1281,25 +1342,6 @@
                     </div>
                     <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
                         <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Pain/ Discomfort:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="notAssessed" id="painNA" checked><label for="painNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="wnl" id="painWnl"><label for="painWnl">WNL</label></td>
-                                                <td><input type="radio" id="pain" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="abnormal"><label for="pain">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="painArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
                             <div class="row m-2">
                                 <div class="col-3 mb-2">
                                     Elimination:

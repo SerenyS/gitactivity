@@ -412,7 +412,16 @@ $(function () {
         // Get element that was clicked
         $('#cryingValue').text(this.value);
     });
-    // PCA information
+    // Lock/unlock selected pain assessment
+    $('.painAssessment').on('click', function (e) {
+        // First close all 
+        $('.painAssessment').each(function () {
+            $('#collapse' + $(this).attr("value")).removeClass('show');
+        });
+        // Now open the selected assessment
+        $('#collapse' + this.value).addClass('show');
+    });
+    // PCA informational messages
     $('#PcaInfoModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var infoSection = button.data('whatever') // Extract info from data-* attributes
@@ -425,12 +434,12 @@ $(function () {
         if (infoSection == "WongBaker") {
             ttl = "The FACES Instructions for Usage";
             msg = 
-            "Explain to the person that each face represents a person who has no pain(hurt), or some, or a lot of pain. Face 0 doesn’t hurt at all.Face 2 hurts just a little bit.Face 4 hurts a little bit more.Face 6 hurts even more.Face 8 hurts a whole lot.Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain.<br /><br />"+
-            "Ask the person to choose the face that best depicts the pain they are experiencing.<br />" +
                 "The FACES Scale Guidelines<br />" +
                 "•	The FACES Scale is recommended for people ages three and older; it is not limited to children.<br/>" +
-                "•	This self - assessment tool must be understood by the patient, so they are able to choose the face that best illustrates the physical pain they are experiencing.The tool is not for use with infants or patients who are unresponsive; other tools have been provided for this purpose<br/>" +
-                "•	It is self - assessment tool and should not be used by a third person, parents, healthcare professionals, or caregivers, to assess the patient’s pain.There are other tools for those purposes.<br/>"
+                "•	This self - assessment tool must be understood by the patient, so they are able to choose the face that best illustrates the physical pain they are experiencing. The tool is not for use with infants or patients who are unresponsive; other tools have been provided for this purpose.<br/>" +
+                "•	It is a self - assessment tool and should not be used by a third person, parents, healthcare professionals, or caregivers, to assess the patient’s pain.There are other tools for those purposes.<br/><br/>" + 
+                "Explain to the person that each face represents a person who has no pain(hurt), or some, or a lot of pain. Face 0 doesn’t hurt at all. Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain.<br /> <br />"+
+                "Ask the person to choose the face that best depicts the pain they are experiencing.<br />"
         } else if (infoSection == "cries") {
             msg = "CRIES assesses crying, oxygenation, vital signs, facial expression, and sleeplessness. It is often used for infants six months old and younger and is widely used in the neonatal intensive care setting."
         } else if (infoSection == "criesCrying") {

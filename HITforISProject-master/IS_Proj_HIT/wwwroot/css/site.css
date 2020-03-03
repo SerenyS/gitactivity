@@ -23,7 +23,7 @@ figure {
 
 figure img {
     vertical-align: top;
-    width: 600px;
+    width:100%;
 }
 
 figure figcaption {
@@ -45,6 +45,10 @@ figure figcaption {
     padding: 0;
     border: 0;
     float: left;
+}
+
+.painAssessment {
+
 }
 
 .red {
