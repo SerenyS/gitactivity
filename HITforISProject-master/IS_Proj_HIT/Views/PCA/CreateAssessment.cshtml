@@ -23,448 +23,428 @@
 </nav>
 <form class="col" method="post" id="pca" name="pca" asp-action="SaveAssessment">
     <input type="hidden" asp-for="EncounterId" value="@ViewBag.Encounter.EncounterId" />
-        <div class="tab-content">
-            <!-- General tab -->
-            <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h4>PCA-General Systems <p class="float-right">Page 1</p></h4>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputHeight" class="col-sm-2 col-form-label">Height in Inches</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputHeight">
-                            </div>
-                            <label for="inputWeight" class="col-sm-2 col-form-label">Weight in pounds</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputWeight">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Blood Pressure mmHg
-                        <div class="form-group row">
-                            <label for="inputCystolic" class="col-sm-2 col-form-label">Cystolic</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputCystolic">
-                            </div>
-                            <label for="inputDiastolic" class="col-sm-2 col-form-label">Diastolic</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputDiastolic">
-                            </div>
-                        </div>
-                    </div>
-                    
+    <div class="tab-content">
+        <!-- General tab -->
+        <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
 
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-General Systems <span class="float-right">Page 1</span></h4>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputTemperature" class="col-sm-2 col-form-label">Temperature (fahrenheit)</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputTemperature">
+            </div>            
+            <div class="row">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <label for="inputHeight" class="col-md col-form-label">Height in Inches</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputHeight">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputWeight" class="col-md col-form-label">Weight in pounds</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputWeight">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputBMI" class="col-md col-form-label">Body MassIndex</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputBMI">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <label for="inputTemperature" class="col-md col-form-label">Temperature (fahrenheit)</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputTemperature">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <label for="inputHead" class="col-md col-form-label">Head Circumference</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputHead">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputPulse" class="col-sm-2 col-form-label">Pulse</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputPulse">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-header">
+                            Blood Pressure mmHg
+                            <div class="form-group row">
+                                <label for="inputCystolic" class="col-md col-form-label">Cystolic</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputCystolic">
+                                </div>
                             </div>
-                            <label for="inputPulseOxi" class="col-sm-2 col-form-label">Pulse Oximentry</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputPulseOxi">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputHead" class="col-sm-2 col-form-label">Head Circumference</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputHead">
+                            <div class="form-group row">
+                                <label for="inputDiastolic" class="col-md col-form-label">Diastolic</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputDiastolic">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputBMI" class="col-sm-2 col-form-label">Body Mass Index</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="inputBMI">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <label for="inputPulse" class="col-md col-form-label">Pulse</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputPulse">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPulseOxi" class="col-md col-form-label">Pulse Oximentry</label>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" id="inputPulseOxi">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Pain tab -->
-            <!-- TODO: Once one tool is chosen, lock out the other two -->
-            <div class="tab-pane" id="painTab" role="tabpanel" aria-labelledby="pain-tab">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h4>PCA-Pain Assessment<p class="float-right">Page 2</p></h4>
-                    </div>
+        <!-- Pain tab -->
+        <!-- TODO: Once one tool is chosen, lock out the other two -->
+        <div class="tab-pane" id="painTab" role="tabpanel" aria-labelledby="pain-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-Pain Assessment<span class="float-right">Page 2</span></h4>
                 </div>
-
-                <div class="accordion" id="accordion">
-
-                    <!--Wong-Baker pain scale -->
-                    <div class="card">
-                        <div class="card-header" id="WongBaker">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="The FACES Instructions for Usage
-Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain.
-Face 0 doesn’t hurt at all.  Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain.
-Ask the person to choose the face that best depicts the pain they are experiencing.
-The FACES Scale Guidelines
-•	The FACES Scale is recommended for people ages three and older; it is not limited to children.
-•	This self-assessment tool must be understood by the patient, so they are able to choose the face that best illustrates the physical pain they are experiencing. The tool is not for use with infants or patients who are unresponsive; other tools have been provided for this purpose
-•	It is self-assessment tool and should not be used by a third person, parents, healthcare professionals, or caregivers, to assess the patient’s pain. There are other tools for those purposes.
-">
-                                    Wong-Baker Faces Scale
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <figure>
-                                        <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
-                                        <figcaption>
-                                            FACES licensed to Angela Lee February, 2020
-                                        </figcaption>
-                                    </figure>
+            </div>
+            <div class="accordion" id="accordion">
+                <!--Wong-Baker pain scale -->
+                <div class="card">
+                    <div class="card-header" id="WongBaker">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker" title="">
+                                Wong-Baker Faces Scale
+                            </button>
+                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="WongBaker">
+                                <i class="fas fa-info"></i>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <figure>
+                                    <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
+                                    <figcaption>
+                                        FACES licensed to Angela Lee February, 2020
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="row">
+                                <div class="radio-toolbar">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="WongBakerPain" id="WongBakerPainNA" checked><label for="WongBakerPainNA">NA</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="Hurt0"><label for="hurt0">0 - No Hurt</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt2"><label for="hurt2">2 - Hurts a Little</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt4"><label for="hurt4">4 - Hurts a Little More</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt6"><label for="hurt6">6 - Hurts Even More</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt8"><label for="hurt8">8 - Hurts a Whole Lot</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt10"><label for="hurt10">10 - Hurts Worst</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm">
-                                        Pain:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="WongBakerPainNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="noHurt"> 0</label>
-                                        <label class="radio-inline">No Hurt</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsALittle"> 2</label>
-                                        <label class="radio-inline">Hurts a Little</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsALittleMore"> 4</label>
-                                        <label class="radio-inline">Hurts a Little More</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsEvenMore"> 6</label>
-                                        <label class="radio-inline">Hurts Even More</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsAWholeLot"> 8</label>
-                                        <label class="radio-inline" for="hurtsAWholeLot">Hurts a Whole Lot</label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="WongBakerPain" id="hurtsWorst"> 10</label>
-                                        <label class="radio-inline" for="hurtsWorst">Hurts Worst</label>
-                                    </div>
-                                </div>
-                                <div class="row form-group m-0">
+                                <div class="form-group">
                                     <label><textarea id="wongBaker" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Cries pain scale -->
-                    <div class="card">
-                        <div class="card-header" id="headingCries">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
-                                    CRIES Scale
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm" title="Characteristic cry of pain is high pitched.">
-                                        Crying:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Crying" id="cryingNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="No cry or cry that is not high-pitched">
-                                        <label class="radio-inline"><input type="radio" name="Crying" id="crying0"> 0</label>
-                                        <label class="radio-inline">None</label>
-                                    </div>
-                                    <div class="col-sm" title="Cry high pitched but baby is easily consolable">
-                                        <label class="radio-inline"><input type="radio" name="Crying" id="crying1"> 1</label>
-                                        <label class="radio-inline">Consolable</label>
-                                    </div>
-                                    <div class="col-sm" title="Cry high pitched but baby is inconsolable">
-                                        <label class="radio-inline"><input type="radio" name="Crying" id="crying2"> 2</label>
-                                        <label class="radio-inline">Inconsolable</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="criesCrying" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                </div>
+                <!-- Cries pain scale -->
+                <div class="card">
+                    <div class="card-header" id="headingCries">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
+                                CRIES Scale
+                            </button>
+                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="cries">
+                                <i class="fas fa-info"></i>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md" title="Characteristic cry of pain is high pitched.">
+                                    &nbsp;Crying:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesCrying">
+                                        <i class="fas fa-info"></i>
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Requires O2 for SaO2 < 95%: Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
-                                        Requires O2:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="O2" id="O2NotAssessed" checked>NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="No oxygen required">
-                                        <label class="radio-inline"><input type="radio" name="O2" id="O20"> 0</label>
-                                        <label class="radio-inline">None</label>
-                                    </div>
-                                    <div class="col-sm" title="<= 30% oxygen required">
-                                        <label class="radio-inline"><input type="radio" name="O2" id="O21"> 1</label>
-                                        <label class="radio-inline"><30% </label>
-                                    </div>
-                                    <div class="col-sm" title="> 30% oxygen required">
-                                        <label class="radio-inline"><input type="radio" name="O2" id="O22"> 2</label>
-                                        <label class="radio-inline">Over 30% </label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="criesO2" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="crying" id="cryingNA" checked><label for="cryingNA">NA</label></td>
+                                                <td><input type="radio" name="crying" id="crying0"><label for="crying0">0 - None</label></td>
+                                                <td><input type="radio" name="crying" id="crying1"><label for="crying1">1 - Consolable</label></td>
+                                                <td><input type="radio" name="crying" id="crying2"><label for="crying2">2 - Not Consolable</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Increased Vital Signs (BP & HR): Take BP last as this may awaken child making other assessments difficult">
-                                        Increased Vitals:
-                                    </div>
-                                    <div class="col-sm">
-                                        <input type="radio" name="vitalIncrease" id="vitalIncreaseNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Both HR and BP unchanged or less than baseline">
-                                        <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease0"> 0</label>
-                                        <label class="radio-inline">None</label>
-                                    </div>
-                                    <div class="col-sm" title="HR or BP increased but increase <= 20% of baseline">
-                                        <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease1"> 1</label>
-                                        <label class="radio-inline"> < 20% </label>
-                                    </div>
-                                    <div class="col-sm" title="HR or BP is increased > 20% over baseline">
-                                        <label class="radio-inline"><input type="radio" name="vitalIncrease" id="vitalIncrease2"> 2</label>
-                                        <label class="radio-inline">Over 20%</label>
-                                    </div>
-                                    <div class="form-group col-sm m-0">
-                                        <label><textarea id="criesIncreasedVital" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="form-group col-md">
+                                    <textarea id="criesCrying" placeholder="Describe" rows="1"></textarea>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="The facial expression most often associated with pain is a grimace. A grimace may be characterized by brow lowering, eyes squeezed shut, deepening naso-labial furrow, or open lips and mouth">
-                                        Expression:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Expression" id="expressionNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="No grimace present">
-                                        <label class="radio-inline"><input type="radio" name="Expression" id="expression0"> 0</label>
-                                        <label class="radio-inline">No grimace</label>
-                                    </div>
-                                    <div class="col-sm" title="Grimace alone is present">
-                                        <label class="radio-inline"><input type="radio" name="Expression" id="expression1"> 1</label>
-                                        <label class="radio-inline">Grimace only</label>
-                                    </div>
-                                    <div class="col-sm" title="Grimace and non-cry vocalization grunt is present">
-                                        <label class="radio-inline"><input type="radio" name="Expression" id="expression2"> 2</label>
-                                        <label class="radio-inline">Added grunt</label>
-                                    </div>
-                                    <div class="form-group col-sm m-0">
-                                        <label><textarea id="criesExpression" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Requires O2 for SaO2 < 95%: Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
+                                    &nbsp;Requires O2:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesO2">
+                                        <i class="fas fa-info"></i>
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Scored based upon the infant's state during the hour preceding this recorded score.">
-                                        Sleepless:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Sleepless" id="sleeplessNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Child has been continuously asleep">
-                                        <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless0"> 0</label>
-                                        <label class="radio-inline">Unbroken sleep</label>
-                                    </div>
-                                    <div class="col-sm" title="Child has awakened at frequent intervals">
-                                        <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless1"> 1</label>
-                                        <label class="radio-inline">Broken sleep</label>
-                                    </div>
-                                    <div class="col-sm" title="Child has been awake constantly">
-                                        <label class="radio-inline"><input type="radio" name="Sleepless" id="sleepless2"> 2</label>
-                                        <label class="radio-inline">Awake</label>
-                                    </div>
-                                    <div class="form-group col-sm m-0">
-                                        <label><textarea id="criesSleepless" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="O2" id="O2NA" checked><label for="O2NA">NA</label></td>
+                                                <td><input type="radio" name="O2" id="O20"><label for="O20">0 - None</label></td>
+                                                <td><input type="radio" name="O2" id="O21"><label for="O21">1 - &lt;30%</label></td>
+                                                <td><input type="radio" name="O2" id="O22"><label for="O22">2 - &gt;30%</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                    
+                                </div>
+                                <div class="form-group col-md">
+                                    <label><textarea id="criesO2" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Increased Vital Signs (BP & HR): Take BP last as this may awaken child making other assessments difficult">
+                                    &nbsp;Increased Vitals:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesVitalIncrease">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="vitalIncrease" id="vitalIncreaseNA" checked><label for="vitalIncreaseNA">NA</label></td>
+                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease0"><label for="vitalIncrease0">0 - None</label></td>
+                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease1"><label for="vitalIncrease1">1 - &lt;20% </label></td>
+                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease2"><label for="vitalIncrease2">2 - &gt;20%</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="criesIncreasedVital" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="The facial expression most often associated with pain is a grimace. A grimace may be characterized by brow lowering, eyes squeezed shut, deepening naso-labial furrow, or open lips and mouth">
+                                    &nbsp;Expression:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesExpression">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Expression" id="expressionNA" checked><label for="expressionNA">NA</label></td>
+                                                <td><input type="radio" name="Expression" id="expression0"><label for="expression0">0 - No grimace</label></td>
+                                                <td><input type="radio" name="Expression" id="expression1"><label for="expression1">1 - Grimace only</label></td>
+                                                <td><input type="radio" name="Expression" id="expression2"><label for="expression2">2 - Added grunt</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="criesExpression" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Scored based upon the infant's state during the hour preceding this recorded score.">
+                                    &nbsp;Sleepless:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesSleepless">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Sleepless" id="sleeplessNA" checked><label for="sleeplessNA">NA</label></td>
+                                                <td><input type="radio" name="Sleepless" id="sleepless0"><label for="sleepless0">0 - Unbroken sleep</label></td>
+                                                <td><input type="radio" name="Sleepless" id="sleepless1"><label for="sleepless1">1 - Broken sleep</label></td>
+                                                <td><input type="radio" name="Sleepless" id="sleepless2"><label for="sleepless2">2 - Awake</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="form-group col-sm">
+                                    <label><textarea id="criesSleepless" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Nonverbal pain assessment -->
-                    <div class="card">
-                        <div class="card-header" id="headingNonverbal">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
-                                    Nonverbal pain assessment
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm" title="Expression">
-                                        Face:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Face" id="faceNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="No particular expression or smile">
-                                        <label class="radio-inline"><input type="radio" name="Face" id="face0"> 0</label>
-                                        <label class="radio-inline">None</label>
-                                    </div>
-                                    <div class="col-sm" title="Occasional grimace, tearing, frowning, wrinkled forehead">
-                                        <label class="radio-inline"><input type="radio" name="Face" id="face1"> 1</label>
-                                        <label class="radio-inline">Occasional</label>
-                                    </div>
-                                    <div class="col-sm" title="Frequent grimace, tearing, frowning, wrinkled forehead">
-                                        <label class="radio-inline"><input type="radio" name="Face" id="face2"> 2</label>
-                                        <label class="radio-inline">Frequent</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="nonverbalFace" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                </div>
+                <!-- Nonverbal pain assessment -->
+                <div class="card">
+                    <div class="card-header" id="headingNonverbal">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
+                                Nonverbal pain assessment
+                            </button>
+                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbal">
+                                <i class="fas fa-info"></i>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md" title="Expression">
+                                    &nbsp;Face:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalFace">
+                                        <i class="fas fa-info"></i>
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Movement">
-                                        Activity:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Movement" id="movementNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Lying quietly, normal position">
-                                        <label class="radio-inline"><input type="radio" name="Movement" id="movement0"> 0</label>
-                                        <label class="radio-inline">Quiet</label>
-                                    </div>
-                                    <div class="col-sm" title="Seeking attention through movement or slow, cautious movement">
-                                        <label class="radio-inline"><input type="radio" name="Movement" id="movement1"> 1</label>
-                                        <label class="radio-inline">Some movement</label>
-                                    </div>
-                                    <div class="col-sm" title="Restless, excessive activity and/or withdrawal reflexes">
-                                        <label class="radio-inline"><input type="radio" name="Movement" id="movement2"> 2</label>
-                                        <label class="radio-inline">Restless / withdrawn</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="nonverbalMovement" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-7">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Face" id="faceNA" checked><label for="faceNA">NA</label></td>
+                                                <td><input type="radio" name="Face" id="face0"><label for="face0">0 - None</label></td>
+                                                <td><input type="radio" name="Face" id="face1"><label for="face1">1 - Occasional</label></td>
+                                                <td><input type="radio" name="Face" id="face2"><label for="face2">2 - Frequent</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Guarding the body or reluctance to move">
-                                        Guarding:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Guarding" id="guardingNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Lying quietly, no positioning of hands over areas of the body">
-                                        <label class="radio-inline"><input type="radio" name="Guarding" id="guarding0"> 0</label>
-                                        <label class="radio-inline">None</label>
-                                    </div>
-                                    <div class="col-sm" title="Splinting areas of the body, tense">
-                                        <label class="radio-inline"><input type="radio" name="Guarding" id="guarding1"> 1</label>
-                                        <label class="radio-inline">Splinting</label>
-                                    </div>
-                                    <div class="col-sm" title="Rigid, stiff">
-                                        <label class="radio-inline"><input type="radio" name="Guarding" id="guarding2"> 2</label>
-                                        <label class="radio-inline">Rigid</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="nonverbalGuarding" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalFace" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Vital signs">
-                                        Physiology:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Physiology" id="physiologyNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Baseline vitals unchanged">
-                                        <label class="radio-inline"><input type="radio" name="Physiology" id="physiology0"> 0</label>
-                                        <label class="radio-inline">Unchanged</label>
-                                    </div>
-                                    <div class="col-sm" title="Change in SBP > 20 mmHg or HR > 20 bpm">
-                                        <label class="radio-inline"><input type="radio" name="Physiology" id="physiology1"> 1</label>
-                                        <label class="radio-inline">Some change</label>
-                                    </div>
-                                    <div class="col-sm" title="Change in SBP > 30 mmHg or HR > 25 bpm">
-                                        <label class="radio-inline"><input type="radio" name="Physiology" id="physiology2"> 2</label>
-                                        <label class="radio-inline">Definite change</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="nonverbalPhysiology" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Movement">
+                                    &nbsp;Activity:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalMovement">
+                                        <i class="fas fa-info"></i>
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm" title="Respiration">
-                                        Respiratory:
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory" id="RespiratoryNotAssessed" checked> NA</label>
-                                        <label class="radio-inline">Not Assessed</label>
-                                    </div>
-                                    <div class="col-sm" title="Baseline RR/SpO2 synchronous with ventilator">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory0"> 0</label>
-                                        <label class="radio-inline">Baseline</label>
-                                    </div>
-                                    <div class="col-sm" title="RR > 10 bpm over baseline, 5% decrease SpO2 or mild ventilator asynchrony">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory1"> 1</label>
-                                        <label class="radio-inline">Some change</label>
-                                    </div>
-                                    <div class="col-sm" title="RR > 20 bpm over baseline, 10% decrease SpO2 or severe ventilator asynchrony">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory" id="respiratory2"> 2</label>
-                                        <label class="radio-inline">Definite change</label>
-                                    </div>
-                                    <div class="form-group col-sm">
-                                        <label><textarea id="nonverbalRespiratory" placeholder="Describe" rows="1" cols="10"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-7">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Movement" id="movementNA" checked><label for="movementNA">NA</label></td>
+                                                <td><input type="radio" name="Movement" id="movement0"><label for="movement0">0 - Quiet</label></td>
+                                                <td><input type="radio" name="Movement" id="movement1"><label for="movement1">1 - Some Movement</label></td>
+                                                <td><input type="radio" name="Movement" id="movement2"><label for="movement2">2 - Restless/ withdrawn</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalMovement" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Guarding the body or reluctance to move">
+                                    &nbsp;Guarding:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalGuarding">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-7">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Guarding" id="guardingNA" checked><label for="guardingNA">NA</label></td>
+                                                <td><input type="radio" name="Guarding" id="guarding0"><label for="guarding0">0 - None</label></td>
+                                                <td><input type="radio" name="Guarding" id="guarding1"><label for="guarding1">1 - Splinting</label></td>
+                                                <td><input type="radio" name="Guarding" id="guarding2"><label for="guarding2">2 - Rigid</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalGuarding" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Vital signs">
+                                    &nbsp;Physiology:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalPhysiology">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-7">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Physiology" id="physiologyNA" checked><label for="physiologyNA">NA</label></td>
+                                                <td><input type="radio" name="Physiology" id="physiology0"><label for="physiology0">0 - Unchanged</label></td>
+                                                <td><input type="radio" name="Physiology" id="physiology1"><label for="physiology1">1 - Some change</label></td>
+                                                <td><input type="radio" name="Physiology" id="physiology2"><label for="physiology2">2 - Definite change</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalPhysiology" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md" title="Respiration">
+                                    &nbsp;Respiratory:
+                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalRespiratory">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="radio-toolbar col-7">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Respiratory" id="respiratoryNA" checked><label for="respiratoryNA">NA</label></td>
+                                                <td><input type="radio" name="Respiratory" id="respiratory0"><label for="respiratory0">0 - Baseline</label></td>
+                                                <td><input type="radio" name="Respiratory" id="respiratory1"><label for="respiratory1">1 - Some change</label></td>
+                                                <td><input type="radio" name="Respiratory" id="respiratory2"><label for="respiratory2">2 - Definite change</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col-sm">
+                                    <label><textarea id="nonverbalRespiratory" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Vitals tab -->
-            <div class="tab-pane" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h4>PCA-Secondary Systems<p class="float-right">Page 3</p></h4>
-                    </div>
+        <!-- Vitals tab -->
+        <div class="tab-pane" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>PCA-Secondary Systems<span class="float-right">Page 3</span></h4>
                 </div>
-                <div class="accordion" id="accordion">
+            </div>
+            <div class="accordion" id="accordion">
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
@@ -479,16 +459,17 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Person:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="notAssessed" checked>Not Assessed</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="notAssessed" id="personNA" checked><label for="personNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="wnl" id="personWnl"><label for="personWnl">WNL</label></td>
+                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" id="person" value="abnormal"><label for="person">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" id="person" value="abnormal">Abnormal</label>
-                                </div>
-
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="personArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
@@ -497,51 +478,54 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Place:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="notAssessed" checked>Not Assessed</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="notAssessed" id="placeNA" checked><label for="placeNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="wnl" id="placeWnl"><label for="placeWnl">WNL</label></td>
+                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" id="place" value="abnormal"><label for="place">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" id="place" value="abnormal">Abnormal</label>
-                                </div>
-
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="placeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
-
                             </div>
                             <div class="row m-2">
                                 <div class="col-3 mb-2">
                                     Time:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" id="time" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="notAssessed" id="timeNA" checked><label for="timeNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="wnl" id="timeWnl"><label for="timeWnl">WNL</label></td>
+                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" id="time" value="abnormal"><label for="time">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col-md">
                                     <label><textarea class="d-none" id="timeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
-
                             </div>
                             <div class="row m-2">
                                 <div class="col-3 mb-2">
                                     Purpose:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" id="purpose" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="notAssessed" id="purposeNA" checked><label for="purposeNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="wnl" id="purposeWnl"><label for="purposeWnl">WNL</label></td>
+                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" id="purpose" value="abnormal"><label for="purpose">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col-md">
                                     <label><textarea class="d-none" id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
@@ -564,14 +548,16 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Head:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" id="head" onclick="ShowHide('head', 'headArea')" name="Head" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="notAssessed" id="headNA" checked><label for="headNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="wnl" id="headWnl"><label for="headWnl">WNL</label></td>
+                                                <td><input type="radio" id="head" onclick="ShowHide('head', 'headArea')" name="Head" value="abnormal"><label for="head">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="headArea" placeholder="Describe" rows="1"></textarea></label>
@@ -581,14 +567,16 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Eyes/ Vision:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" id="eye" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="notAssessed" id="eyeNA" checked><label for="eyeNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="wnl" id="eyeWnl"><label for="eyeWnl">WNL</label></td>
+                                                <td><input type="radio" id="eye" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="abnormal"><label for="eye">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
@@ -598,14 +586,16 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Ears/ Hearing:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" id="ear" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="notAssessed" id="earNA" checked><label for="earNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="wnl" id="earWnl"><label for="earWnl">WNL</label></td>
+                                                <td><input type="radio" id="ear" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="abnormal"><label for="ear">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="earArea" placeholder="Describe" rows="1"></textarea></label>
@@ -615,14 +605,16 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Nose:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" id="nose" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="notAssessed"id="noseNA" checked><label for="noseNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="wnl" id="noseWnl"><label for="noseWnl">WNL</label></td>
+                                                <td><input type="radio" id="nose" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="abnormal"><label for="nose">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="noseArea" placeholder="Describe" rows="1"></textarea></label>
@@ -632,14 +624,16 @@ The FACES Scale Guidelines
                                 <div class="col-3 mb-2">
                                     Throat and Mouth:
                                 </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="notAssessed" checked>Not Assessed</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="wnl">WNL</label>
-                                </div>
-                                <div class="col-md mb-2">
-                                    <label class="radio-inline"><input type="radio" id="mouth" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="abnormal">Abnormal</label>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="notAssessed" id="mouthNA" checked><label for="mouthNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="wnl" id="mouthWnl"><label for="mouthWnl">WNL</label></td>
+                                                <td><input type="radio" id="mouth" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="abnormal"><label for="mouth">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="form-group col m-0">
                                     <label><textarea class="d-none" id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
@@ -647,105 +641,116 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header" id="headingThree">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Skin
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Wounds/ Breaks/ Rash/ Lesions:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="rash" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="rashArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                    </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Skin
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Wounds/ Breaks/ Rash/ Lesions:
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Redness/ Irritation:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="red" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="redArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="notAssessed" id="rashNA" checked><label for="rashNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="wnl" id="rashWnl"><label for="rashWnl">WNL</label></td>
+                                                <td><input type="radio" id="rash" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="abnormal"><label for="rash">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Ears/ Hearing:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="hearing" onclick="ShowHide('hearing', 'hearingArea')" name="Hearing" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="rashArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Dryness/ Excess Moisture:
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="dry" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="dryArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Redness/ Irritation:
                                 </div>
-                                <div class="row m-2">
-                                    <div class="col-3 mb-2">
-                                        Sign of Breakdown
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="sign" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="abnormal">Abnormal</label>
-                                    </div>
-                                    <div class="form-group col m-0">
-                                        <label><textarea class="d-none" id="signArea" placeholder="Describe" rows="1"></textarea></label>
-                                    </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="notAssessed" id="redNA" checked><label for="redNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="wnl" id="redWnl"><label for="redWnl">WNL</label></td>
+                                                <td><input type="radio" id="red" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="abnormal"><label for="red">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="redArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Ears/ Hearing:
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="notAssessed" id="hearingNA" checked><label for="hearingNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="wnl" id="hearingWnl"><label for="hearingWnl">WNL</label></td>
+                                                <td><input type="radio" id="hearing" onclick="ShowHide('hearing', 'hearingArea')" name="Hearing" value="abnormal"><label for="hearing">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Dryness/ Excess Moisture:
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="notAssessed" id="dryNA" checked><label for="dryNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="wnl" id="dryWnl"><label for="dryWnl">WNL</label></td>
+                                                <td><input type="radio" id="dry" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="abnormal"><label for="dry">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="dryArea" placeholder="Describe" rows="1"></textarea></label>
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-3 mb-2">
+                                    Sign of Breakdown
+                                </div>
+                                <div class="radio-toolbar col-6">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="notAssessed" id="signNA" checked><label for="signNA">Not Assessed</label></td>
+                                                <td><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="wnl" id="signWnl"><label for="signWnl">WNL</label></td>
+                                                <td><input type="radio" id="sign" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="abnormal"><label for="sign">Abnormal</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group col m-0">
+                                    <label><textarea class="d-none" id="signArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    </div>
+                <div class="card">
                         <div class="card-header" id="headingFour">
                             <h2 class="mb-0">
                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -759,14 +764,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Lung sounds:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="lung" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="notAssessed" id="lungNA" checked><label for="lungNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="wnl" id="lungWnl"><label for="lungWnl">WNL</label></td>
+                                                    <td><input type="radio" id="lung" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="abnormal"><label for="lung">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="lungArea" placeholder="Describe" rows="1"></textarea></label>
@@ -776,14 +783,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Respiration depth:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="depth" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="notAssessed" id="depthNA" checked><label for="depthNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="wnl" id="depthWnl"><label for="depthWnl">WNL</label></td>
+                                                    <td><input type="radio" id="depth" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="abnormal"><label for="depth">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="depthArea" placeholder="Describe" rows="1"></textarea></label>
@@ -793,14 +802,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Respiratory rate:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="rate" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="notAssessed" id="rateNA" checked><label for="rateNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="wnl" id="rateWnl"><label for="rateWnl">WNL</label></td>
+                                                    <td><input type="radio" id="rate" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="abnormal"><label for="rate">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="rateArea" placeholder="Describe" rows="1"></textarea></label>
@@ -810,14 +821,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Chest shape and appearance:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="chest" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="notAssessed" id="chestNA" checked><label for="chestNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="wnl" id="chestWnl"><label for="chestWnl">WNL</label></td>
+                                                    <td><input type="radio" id="chest" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="abnormal"><label for="chest">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="chestArea" placeholder="Describe" rows="1"></textarea></label>
@@ -827,14 +840,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Drains/ Lines/ Sutures/ Staples:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="line" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="notAssessed" id="lineNA" checked><label for="lineNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="wnl" id="lineWnl"><label for="lineWnl">WNL</label></td>
+                                                    <td><input type="radio" id="line" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="abnormal"><label for="line">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="lineArea" placeholder="Describe" rows="1"></textarea></label>
@@ -843,7 +858,7 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                <div class="card">
                         <div class="card-header" id="headingFive">
                             <h2 class="mb-0">
                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
@@ -857,14 +872,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Heart sounds:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="heart" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="notAssessed" id="heartNA" checked><label for="heartNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="wnl" id="heartWnl"><label for="heartWnl">WNL</label></td>
+                                                    <td><input type="radio" id="heart" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="abnormal"><label for="heart">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="heartArea" placeholder="Describe" rows="1"></textarea></label>
@@ -874,14 +891,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Heart rate:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="Hrate" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="notAssessed" id="HrateNA" checked><label for="HrateNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="wnl" id="HrateWnl"><label for="HrateWnl">WNL</label></td>
+                                                    <td><input type="radio" id="Hrate" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="abnormal"><label for="Hrate">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
@@ -891,14 +910,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Heart rhythm:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="rhythm" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="notAssessed" id="rhythmNA" checked><label for="rhythmNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="wnl" id="rhythmWnl"><label for="rhythmWnl">WNL</label></td>
+                                                    <td><input type="radio" id="rhythm" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="abnormal"><label for="rhythm">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
@@ -908,14 +929,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Jugular venous pulse:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="pulse" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="notAssessed" id="pulseNA" checked><label for="pulseNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="wnl" id="pulseWnl"><label for="pulseWnl">WNL</label></td>
+                                                    <td><input type="radio" id="pulse" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="abnormal"><label for="pulse">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
@@ -925,14 +948,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Drains/ Lines/ Sutures/ Staples:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="drain" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="notAssessed" id="drainNA" checked><label for="drainNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="wnl" id="drainWnl"><label for="drainWnl">WNL</label></td>
+                                                    <td><input type="radio" id="drain" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="abnormal"><label for="drain">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="drainArea" placeholder="Describe" rows="1"></textarea></label>
@@ -941,7 +966,7 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                <div class="card">
                         <div class="card-header" id="headingSix">
                             <h2 class="mb-0">
                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
@@ -955,14 +980,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Abnormal shape and apperance:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="abnormal" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="notAssessed" id="abnormalNA" checked><label for="abnormalNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="notAssessed" id="abnormalWnl"><label for="abnormalWnl">WNL</label></td>
+                                                    <td><input type="radio" id="abnormal" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="abnormal"><label for="abnormal">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
@@ -972,14 +999,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Bowel sounds:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="bowel" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="notAssessed" id="bowelNA" checked><label for="bowelNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="wnl" id="bowelWnl"><label for="bowelWnl">WNL</label></td>
+                                                    <td><input type="radio" id="bowel" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="abnormal"><label for="bowel">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
@@ -989,14 +1018,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Tenderness/ Lumps/ Bladder distension:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="lump" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="notAssessed" id="lumpNA" checked><label for="lumpNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="wnl" id="lumpWnl"><label for="lumpWnl">WNL</label></td>
+                                                    <td><input type="radio" id="lump" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="abnormal"><label for="lump">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1006,14 +1037,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Tubes/ Drains/ Catheter sites:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="tube" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="notAssessed" id="tubeNA" checked><label for="tubeNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="wnl" id="tubeWnl"><label for="tubeWnl">WNL</label></td>
+                                                    <td><input type="radio" id="tube" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="abnormal"><label for="tube">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1023,14 +1056,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Skin appearance:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="skin" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="notAssessed"id="skinNA" checked><label for="skinNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="wnl" id="skinWnl"><label for="skinWnl">WNL</label></td>
+                                                    <td><input type="radio" id="skin" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="abnormal"><label for="skin">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="skinArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1038,8 +1073,8 @@ The FACES Scale Guidelines
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
+                    </div>                
+                <div class="card">
                         <div class="card-header" id="headingSeven">
                             <h2 class="mb-0">
                                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
@@ -1053,14 +1088,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Temerature/ Color/ Capillary Refill:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="color" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="notAssessed" id="colorNA" checked><label for="colorNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="wnl" id="colorWnl"><label for="colorWnl">WNL</label></td>
+                                                    <td><input type="radio" id="color" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="abnormal"><label for="color">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="colorArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1070,14 +1107,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Pulses/ Sensation:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="sensation" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="notAssessed" id="sensationNA" checked><label for="sensationNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="wnl" id="sensationWnl"><label for="sensationWnl">WNL</label></td>
+                                                    <td><input type="radio" id="sensation" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="abnormal"><label for="sensation">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1087,14 +1126,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Endema:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="endema" onclick="ShowHide('endema', 'endemaArea')" name="Endema" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="notAssessed" id="endemaNA" checked><label for="endemaNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="wnl" id="endemaWnl"><label for="endemaWnl">WNL</label></td>
+                                                    <td><input type="radio" id="endema" onclick="ShowHide('endema', 'endemaArea')" name="Endema" value="abnormal"><label for="endema">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1104,14 +1145,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         ROM:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="rom" name="ROM" onclick="ShowHide('rom', 'romArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="notAssessed" id="romNA" checked><label for="romNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="wnl" id="romWnl"><label for="romWnl">WNL</label></td>
+                                                    <td><input type="radio" id="rom" name="ROM" onclick="ShowHide('rom', 'romArea')" value="abnormal"><label for="rom">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="romArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1121,14 +1164,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Tubes/ Drains/ Staples/ Sutures/ Catheter sites:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="staple" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="notAssessed" id="stapleNA" checked><label for="stapleNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="wnl" id="stapleWnl"><label for="stapleWnl">WNL</label></td>
+                                                    <td><input type="radio" id="staple" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="abnormal"><label for="staple">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1137,7 +1182,7 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                <div class="card">
                         <div class="card-header" id="headingEight">
                             <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
@@ -1151,14 +1196,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Mood/ Affect:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="mood" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="notAssessed" id="moodNA" checked><label for="moodNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="wnl" id="moodWnl"><label for="moodWnl">WNL</label></td>
+                                                    <td><input type="radio" id="mood" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="abnormal"><label for="mood">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="moodArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1168,14 +1215,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Cognition:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="cognition" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="notAssessed" id="cognitionNA" checked><label for="cognitionNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="wnl" id="cognitionWnl"><label for="cognitionWnl">WNL</label></td>
+                                                    <td><input type="radio" id="cognition" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="abnormal"><label for="cognition">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1185,14 +1234,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Thought Pattern:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="thought" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="notAssessed" id="thoughtNA" checked><label for="thoughtNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="wnl" id="thoughtWnl"><label for="thoughtWnl">WNL</label></td>
+                                                    <td><input type="radio" id="thought" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="abnormal"><label for="thought">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1202,14 +1253,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Sleep Pattern:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="sleep" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="notAssessed" id="sleepNA" checked><label for="sleepNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="wnl" id="sleepWnl"><label for="sleepWnl">WNL</label></td>
+                                                    <td><input type="radio" id="sleep" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="abnormal"><label for="sleep">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1218,7 +1271,7 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                <div class="card">
                         <div class="card-header" id="headingNine">
                             <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
@@ -1232,14 +1285,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Pain/ Discomfort:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="pain" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="notAssessed" id="painNA" checked><label for="painNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="wnl" id="painWnl"><label for="painWnl">WNL</label></td>
+                                                    <td><input type="radio" id="pain" name="Pain/ Discomfort" onclick="ShowHide('pain', 'painArea')" value="abnormal"><label for="pain">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="painArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1249,14 +1304,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Elimination:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="elimination" onclick="ShowHide('elimination', 'eliminationArea')" name="Elimination" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="notAssessed" id="eliminationNA" checked><label for="eliminationNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="wnl" id="eliminationWnl"><label for="eliminationWnl">WNL</label></td>
+                                                    <td><input type="radio" id="elimination" onclick="ShowHide('elimination', 'eliminationArea')" name="Elimination" value="abnormal"><label for="elimination">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1266,14 +1323,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Appetite:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="appetite" onclick="ShowHide('appetite', 'appetiteArea')" name="Appetite" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="notAssessed" id="appetiteNA" checked><label for="appetiteNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="wnl" id="appetiteWnl"><label for="appetiteWnl">WNL</label></td>
+                                                    <td><input type="radio" id="appetite" onclick="ShowHide('appetite', 'appetiteArea')" name="Appetite" value="abnormal"><label for="appetite">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1283,14 +1342,16 @@ The FACES Scale Guidelines
                                     <div class="col-3 mb-2">
                                         Activity:
                                     </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="notAssessed" checked>Not Assessed</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="wnl">WNL</label>
-                                    </div>
-                                    <div class="col-md mb-2">
-                                        <label class="radio-inline"><input type="radio" id="activity" onclick="ShowHide('activity', 'activityArea')" name="Activity" value="abnormal">Abnormal</label>
+                                    <div class="radio-toolbar col-6">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="notAssessed" id="activityNA" checked><label for="activityNA">Not Assessed</label></td>
+                                                    <td><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="wnl" id="activityWnl"><label for="activityWnl">WNL</label></td>
+                                                    <td><input type="radio" id="activity" onclick="ShowHide('activity', 'activityArea')" name="Activity" value="abnormal"><label for="activity">Abnormal</label></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col m-0">
                                         <label><textarea class="d-none" id="activityArea" placeholder="Describe" rows="1"></textarea></label>
@@ -1299,44 +1360,64 @@ The FACES Scale Guidelines
                             </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-            </div>
+             </div>            
         </div>
+    </div>
 
-        <!--For navigating PCA-->
-        <!-- Tabstrip -->
-        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Systems</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pain-tab" data-toggle="tab" href="#painTab" role="tab" aria-controls="pain" aria-selected="false">Pain Assessment</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab" aria-controls="secondary" aria-selected="false">Secondary Systems</a>
-            </li>
-        </ul>
+    <!--For navigating PCA-->
+    <!-- Tabstrip -->
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Systems</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pain-tab" data-toggle="tab" href="#painTab" role="tab" aria-controls="pain" aria-selected="false">Pain Assessment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab" aria-controls="secondary" aria-selected="false">Secondary Systems</a>
+        </li>
+    </ul>
     <button type="submit" class="btn btn-primary btn-block">Save & Close Assessment</button>
-    </form>
+</form>
 
 
 
-    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
 
-        <!-- Then put toasts within -->
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img src="..." class="rounded mr-2" alt="...">
-                <strong class="mr-auto">Bootstrap</strong>
-                <small>11 mins ago</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+    <!-- Then put toasts within -->
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded mr-2" alt="...">
+            <strong class="mr-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div>
+
+<!-- Modal for informational messages -->
+<div class="modal fade" id="PcaInfoModal" tabindex="-1" role="dialog" aria-labelledby="PcaInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PcaInfoModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="toast-body">
-                Hello, world! This is a toast message.
+            <div class="modal-body">
+                <p id="message-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Close
+                </button>
             </div>
         </div>
     </div>
+</div>
