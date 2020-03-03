@@ -1,9 +1,11 @@
-﻿using System.Linq;
-using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 using isprojectHiT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -13,8 +15,6 @@ namespace IS_Proj_HIT.Controllers
 
         public PCAController(IWCTCHealthSystemRepository repository) => _repository = repository;
 
-        public IActionResult Index() => View();
-
         /// <summary>
         ///     Show a detailed view of a single PCA
         /// </summary>
@@ -23,10 +23,11 @@ namespace IS_Proj_HIT.Controllers
         {
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
+                .Include(pca => pca.CareSystemAssessment)
                 .FirstOrDefault(pca => pca.Pcaid == assessmentId);
             if (assessment is null)
                 return RedirectToAction("Index", "Encounter",
-                    new { filter = "CheckedIn" });
+                    new {filter = "CheckedIn"});
 
             var model = new CareAssessmentPageModel
             {
@@ -48,11 +49,11 @@ namespace IS_Proj_HIT.Controllers
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn);
             if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
-                    new { encounterId = encounterId, isPatientEncounter = false });
+                    new {encounterId = encounterId, isPatientEncounter = false});
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
-            return View(new Pcarecord());
+            return View(new AssessmentFormPageModel());
         }
 
         /// <summary>
@@ -63,17 +64,48 @@ namespace IS_Proj_HIT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SaveAssessment(Pcarecord pca)
+        public IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
-            //Todo: Mark notes, need to confirm if accurate
-            //do a database save here
-            //save for the Pcarecord, Encounter (if anything changes there) and Patient (if anything changes there)
-            //DO NOT make unnecessary changes to Encounter/Patient if it's data that's stored on the PCA
-            //Maybe some validation before it saves
-            //And then check to see if it failed to save correctly, if it did then return to the edit form
-            //otherwise, send user back to the encounter page?
-            return RedirectToAction("ViewEncounter", "Encounter",
-                new { encounterId = pca.EncounterId, isPatientEncounter = false });
+            //Do whatever Asp.Net redirect back to form here, I don't remember it and I'm tired. :)
+            if (!ModelState.IsValid)
+                return View("CreateAssessment", formPca);
+
+            var pca = formPca.ToPcaRecord();
+            IList<CareSystemAssessment> assessments;
+            if (pca.Pcaid is 0)
+            {
+                //Create if pca from form does not include an ID
+                _repository.AddPcaRecord(pca);
+
+                assessments = formPca.ToSystemAssessments(pca.Pcaid);
+                _repository.AddAssessments(assessments);
+            }
+            else
+            {
+                //Update Pca and assessments
+                _repository.EditPcaRecord(pca);
+
+                assessments = _repository.SystemAssessments.Where(a => a.Pcaid == pca.Pcaid).ToList();
+
+                var formAssessments = formPca.ToSystemAssessments();
+                foreach (var current in assessments)
+                {
+                    var formVersion = formAssessments.FirstOrDefault(a =>
+                        a.CareSystemAssessmentTypeId == current.CareSystemAssessmentTypeId);
+                    if (formVersion is null) continue;
+                    if (current.CareSystemComment == formVersion.CareSystemComment) continue;
+
+                    //need to determine how to find Within Normal(Defined) limits
+                    //WdlEx = model.Height != null && model.Height != 0,
+                    current.CareSystemComment = formVersion.CareSystemComment;
+                    current.LastModified = formVersion.LastModified;
+                    current.WdlEx = formVersion.WdlEx;
+                    _repository.EditAssessment(current);
+                }
+            }
+
+            return RedirectToAction("ViewAssessment",
+                new {assessmentId = pca.Pcaid});
         }
     }
 }

@@ -69,10 +69,14 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>WIP</td>
-                    <td>WIP</td>
-                    <td>WIP</td>
-                    <td>WIP</td>
+                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
+                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Weight)?.CareSystemComment)</td>
+                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
+                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Height)?.CareSystemComment)</td>
+                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
+                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.HeadCircumference)?.CareSystemComment)</td>
+                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
+                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.BodyMassIndex)?.CareSystemComment)</td>
                 </tr>
                 </tbody>
             </table>
