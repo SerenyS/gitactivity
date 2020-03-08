@@ -35,8 +35,6 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public bool PrivacyPolicyIsChecked { get; set; }
-
         public string ReturnUrl { get; set; }
 
         public class InputModel
@@ -56,6 +54,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public bool PrivacyPolicyIsChecked { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -65,7 +65,9 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/Administration/RegisterDetails");
+            returnUrl = returnUrl ?? Url.Content("~/Administration/EditRegisterDetails");
+            if(!Input.PrivacyPolicyIsChecked)
+                ModelState.AddModelError("Privacy", "Privacy Policy must be reveiwed.");
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };

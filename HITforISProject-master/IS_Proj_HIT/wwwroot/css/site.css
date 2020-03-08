@@ -10,9 +10,6 @@ a:hover {
     background-color: black;
     color: white;
 }
-a:visited {
-    color: black;
-}
 
 figure {
     display: inline-block;

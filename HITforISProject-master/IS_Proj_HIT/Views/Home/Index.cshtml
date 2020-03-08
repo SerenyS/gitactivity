@@ -45,7 +45,8 @@ else
             <hr />
             <h3>
                 Please
-                <a class="linky" asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                <a class="linky" asp-area="Identity" asp-page="/Account/Login"
+                   asp-route-returnUrl="@Url.Action("Index", "Home")">Log In</a>
                 or
                 <a class="linky" asp-area="Identity" asp-page="/Account/Register"
                    asp-route-returnUrl="@Url.Action("EditRegisterDetails", "Administration")">Create an Account</a>
