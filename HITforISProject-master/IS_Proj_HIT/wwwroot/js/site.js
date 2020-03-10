@@ -507,10 +507,14 @@ $(function () {
 
 });
 
-//function to show / hide the textarea within the PCA form
+//function to show / hide the textarea within the PCA form and make description required for abnormal entries
 function ShowHide(id, idArea) {
     var yes = document.getElementById(id);
     var area = document.getElementById(idArea);
-    area.className = yes.checked ? 'form-control d-block mb-2' : 'd-none';
+//    area.className = yes.checked ? 'form-control d-block mb-2' : 'd-none';
+    if (yes.checked) {
+        $('#' + idArea).prop('required', true).focus();
+
+    }
 }
     
