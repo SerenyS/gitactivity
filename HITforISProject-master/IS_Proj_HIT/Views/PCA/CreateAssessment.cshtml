@@ -170,12 +170,9 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>Select pain assessment type: </td>
-                            </tr>
-                            <tr>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">WongBaker FACES</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">CRIES</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">Nonverbal Assessment</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">&nbsp;Select WongBaker FACES&nbsp;</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">&nbsp;Select CRIES&nbsp;</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">&nbsp;Select Nonverbal Assessment&nbsp;</label></td>
                             </tr>
                         </tbody>
                     </table>
@@ -209,7 +206,7 @@
                                                 <td><input type="radio" name="WongBakerPain" id="hurt4"><label for="hurt4">4 - Hurts a Little More</label></td>
                                                 <td><input type="radio" name="WongBakerPain" id="hurt6"><label for="hurt6">6 - Hurts Even More</label></td>
                                                 <td><input type="radio" name="WongBakerPain" id="hurt8"><label for="hurt8">8 - Hurts a Whole Lot</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt10"><label for="hurt10">10 - Hurts Worst</label></td>
+                                                <td><input type="radio" name="WongBakerPain" id="hurt10" onclick="ShowHide('hurt10', 'wongBaker')"><label for="hurt10">10 - Hurts Worst</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -258,7 +255,7 @@
                                                 <td><input type="radio" name="crying" id="cryingNA" checked><label for="cryingNA">NA</label></td>
                                                 <td><input type="radio" name="crying" id="crying0"><label for="crying0">0 - None</label></td>
                                                 <td><input type="radio" name="crying" id="crying1"><label for="crying1">1 - Consolable</label></td>
-                                                <td><input type="radio" name="crying" id="crying2"><label for="crying2">2 - Not Consolable</label></td>
+                                                <td><input type="radio" name="crying" id="crying2"  onclick="ShowHide('crying2', 'criesCrying')"><label for="crying2">2 - Not Consolable</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -281,7 +278,7 @@
                                                 <td><input type="radio" name="O2" id="O2NA" checked><label for="O2NA">NA</label></td>
                                                 <td><input type="radio" name="O2" id="O20"><label for="O20">0 - None</label></td>
                                                 <td><input type="radio" name="O2" id="O21"><label for="O21">1 - &lt;30%</label></td>
-                                                <td><input type="radio" name="O2" id="O22"><label for="O22">2 - &gt;30%</label></td>
+                                                <td><input type="radio" name="O2" id="O22"  onclick="ShowHide('O22', 'criesO2')"><label for="O22">2 - &gt;30%</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -304,13 +301,13 @@
                                                 <td><input type="radio" name="vitalIncrease" id="vitalIncreaseNA" checked><label for="vitalIncreaseNA">NA</label></td>
                                                 <td><input type="radio" name="vitalIncrease" id="vitalIncrease0"><label for="vitalIncrease0">0 - None</label></td>
                                                 <td><input type="radio" name="vitalIncrease" id="vitalIncrease1"><label for="vitalIncrease1">1 - &lt;20% </label></td>
-                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease2"><label for="vitalIncrease2">2 - &gt;20%</label></td>
+                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease2"  onclick="ShowHide('vitalIncrease2', 'criesVitalIncrease')"><label for="vitalIncrease2">2 - &gt;20%</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="form-group col-sm">
-                                    <label><textarea id="criesIncreasedVital" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="criesVitalIncrease" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row">
@@ -327,7 +324,7 @@
                                                 <td><input type="radio" name="Expression" id="expressionNA" checked><label for="expressionNA">NA</label></td>
                                                 <td><input type="radio" name="Expression" id="expression0"><label for="expression0">0 - No grimace</label></td>
                                                 <td><input type="radio" name="Expression" id="expression1"><label for="expression1">1 - Grimace only</label></td>
-                                                <td><input type="radio" name="Expression" id="expression2"><label for="expression2">2 - Added grunt</label></td>
+                                                <td><input type="radio" name="Expression" id="expression2"  onclick="ShowHide('expression2', 'criesExpression')"><label for="expression2">2 - Added grunt</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -350,7 +347,7 @@
                                                 <td><input type="radio" name="Sleepless" id="sleeplessNA" checked><label for="sleeplessNA">NA</label></td>
                                                 <td><input type="radio" name="Sleepless" id="sleepless0"><label for="sleepless0">0 - Unbroken sleep</label></td>
                                                 <td><input type="radio" name="Sleepless" id="sleepless1"><label for="sleepless1">1 - Broken sleep</label></td>
-                                                <td><input type="radio" name="Sleepless" id="sleepless2"><label for="sleepless2">2 - Awake</label></td>
+                                                <td><input type="radio" name="Sleepless" id="sleepless2"  onclick="ShowHide('sleepless2', 'criesSleepless')"><label for="sleepless2">2 - Awake</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -391,7 +388,7 @@
                                                 <td><input type="radio" name="Face" id="faceNA" checked><label for="faceNA">NA</label></td>
                                                 <td><input type="radio" name="Face" id="face0"><label for="face0">0 - None</label></td>
                                                 <td><input type="radio" name="Face" id="face1"><label for="face1">1 - Occasional</label></td>
-                                                <td><input type="radio" name="Face" id="face2"><label for="face2">2 - Frequent</label></td>
+                                                <td><input type="radio" name="Face" id="face2" onclick="ShowHide('face2', 'nonverbalFace')"><label for="face2">2 - Frequent</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -414,7 +411,7 @@
                                                 <td><input type="radio" name="Movement" id="movementNA" checked><label for="movementNA">NA</label></td>
                                                 <td><input type="radio" name="Movement" id="movement0"><label for="movement0">0 - Quiet</label></td>
                                                 <td><input type="radio" name="Movement" id="movement1"><label for="movement1">1 - Some Movement</label></td>
-                                                <td><input type="radio" name="Movement" id="movement2"><label for="movement2">2 - Restless/ withdrawn</label></td>
+                                                <td><input type="radio" name="Movement" id="movement2" onclick="ShowHide('movement2', 'nonverbalMovement')"><label for="movement2">2 - Restless/ withdrawn</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -437,7 +434,7 @@
                                                 <td><input type="radio" name="Guarding" id="guardingNA" checked><label for="guardingNA">NA</label></td>
                                                 <td><input type="radio" name="Guarding" id="guarding0"><label for="guarding0">0 - None</label></td>
                                                 <td><input type="radio" name="Guarding" id="guarding1"><label for="guarding1">1 - Splinting</label></td>
-                                                <td><input type="radio" name="Guarding" id="guarding2"><label for="guarding2">2 - Rigid</label></td>
+                                                <td><input type="radio" name="Guarding" id="guarding2" onclick="ShowHide('guarding2', 'nonverbalGuarding')"><label for="guarding2">2 - Rigid</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -460,7 +457,7 @@
                                                 <td><input type="radio" name="Physiology" id="physiologyNA" checked><label for="physiologyNA">NA</label></td>
                                                 <td><input type="radio" name="Physiology" id="physiology0"><label for="physiology0">0 - Unchanged</label></td>
                                                 <td><input type="radio" name="Physiology" id="physiology1"><label for="physiology1">1 - Some change</label></td>
-                                                <td><input type="radio" name="Physiology" id="physiology2"><label for="physiology2">2 - Definite change</label></td>
+                                                <td><input type="radio" name="Physiology" id="physiology2" onclick="ShowHide('physiology2', 'nonverbalPhysiology')"><label for="physiology2">2 - Definite change</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -483,7 +480,7 @@
                                                 <td><input type="radio" name="Respiratory" id="respiratoryNA" checked><label for="respiratoryNA">NA</label></td>
                                                 <td><input type="radio" name="Respiratory" id="respiratory0"><label for="respiratory0">0 - Baseline</label></td>
                                                 <td><input type="radio" name="Respiratory" id="respiratory1"><label for="respiratory1">1 - Some change</label></td>
-                                                <td><input type="radio" name="Respiratory" id="respiratory2"><label for="respiratory2">2 - Definite change</label></td>
+                                                <td><input type="radio" name="Respiratory" id="respiratory2" onclick="ShowHide('respiratory2', 'nonverbalRespiratory')"><label for="respiratory2">2 - Definite change</label></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -532,7 +529,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="personArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="personArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -551,7 +548,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="placeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="placeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -570,7 +567,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label><textarea class="d-none" id="timeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="timeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -589,7 +586,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label><textarea class="d-none" id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -621,7 +618,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="headArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="headArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -640,7 +637,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -659,7 +656,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="earArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="earArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -678,7 +675,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="noseArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="noseArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -697,7 +694,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -729,7 +726,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="rashArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="rashArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -748,7 +745,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="redArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="redArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -767,7 +764,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -786,7 +783,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="dryArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="dryArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -805,7 +802,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="signArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="signArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -837,7 +834,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="lungArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="lungArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -856,7 +853,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="depthArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="depthArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -875,7 +872,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="rateArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="rateArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -894,7 +891,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="chestArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="chestArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -913,7 +910,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="lineArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="lineArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -945,7 +942,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="heartArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="heartArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -964,7 +961,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -983,7 +980,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1002,7 +999,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1021,7 +1018,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="drainArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="drainArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -1053,7 +1050,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1072,7 +1069,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1091,7 +1088,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1110,7 +1107,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1129,7 +1126,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="skinArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="skinArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -1161,7 +1158,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="colorArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="colorArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1180,7 +1177,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1199,7 +1196,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1218,7 +1215,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="romArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="romArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1237,7 +1234,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -1269,7 +1266,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="moodArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="moodArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1288,7 +1285,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1307,7 +1304,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1326,7 +1323,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
@@ -1358,7 +1355,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1377,7 +1374,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                             <div class="row m-2">
@@ -1396,7 +1393,7 @@
                                     </table>
                                 </div>
                                 <div class="form-group col m-0">
-                                    <label><textarea class="d-none" id="activityArea" placeholder="Describe" rows="1"></textarea></label>
+                                    <label><textarea id="activityArea" placeholder="Describe" rows="1"></textarea></label>
                                 </div>
                             </div>
                         </div>
