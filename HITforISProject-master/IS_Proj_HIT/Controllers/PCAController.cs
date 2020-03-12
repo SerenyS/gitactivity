@@ -76,28 +76,9 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Patient = patient;
             ViewBag.Encounter = encounter;
            
-           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.Height).CareSystemComment, out var heightValue);
-           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.HeadCircumference).CareSystemComment, out var CircumValue);
-           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.BodyMassIndex).CareSystemComment, out var bMIValue);
-          //  decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.Weight).CareSystemComment, out var weightValue);
-            var model = new AssessmentFormPageModel
-            {
-            //    Weight = weightValue,
-            //    BodyMassIndex = bMIValue,
-            //    Height = heightValue,
-            //    HeadCircumference= CircumValue,
-                Temperature=assessment.Temperature,
-                TempRouteTypeId=assessment.TempRouteTypeId,
-                Pulse = assessment.Pulse,
-                PulseOximetry = assessment.PulseOximetry,
-                PulseRouteTypeId=assessment.PulseRouteTypeId,
-                Respiration = assessment.Respiration,
-                OxygenFlow= assessment.OxygenFlow,
-                O2deliveryTypeId = assessment.O2deliveryTypeId,
-                PainScaleTypeId= assessment.PainScaleTypeId,
-                SystolicBloodPressure=assessment.SystolicBloodPressure,
-                DiastolicBloodPressure=assessment.DiastolicBloodPressure,
-
+     
+            var model = new AssessmentFormPageModel(assessment)
+            { 
                
             };
             return View(model);
