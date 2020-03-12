@@ -53,6 +53,7 @@ namespace IS_Proj_HIT.Controllers
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
+
             return View(new AssessmentFormPageModel());
         }
 
@@ -60,7 +61,48 @@ namespace IS_Proj_HIT.Controllers
         /// todo: Expand this method to display the form to update an existing PCA, parameters are tenative
         /// </summary>
         /// <param name="assessmentId">PCA Id for Db Lookup</param>
-        public IActionResult UpdateAssessment(int assessmentId) => View();
+        ///  <param name="patientMrn">Unique Identifier of patient</param>
+        ///   <param name="encounterId">Unique Identifier of patient</param>
+        public IActionResult UpdateAssessment(int assessmentId,string patientMRN,long encounterId)
+        {
+           var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.Pcaid == assessmentId);
+            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
+            var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
+
+            if (assessment is null || patient is null) 
+                return RedirectToAction("ViewAssessment", "PCA",
+                    new {assessmentId = assessment.Pcaid });
+            ViewBag.PcaRecord = assessment;
+            ViewBag.Patient = patient;
+            ViewBag.Encounter = encounter;
+           
+           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.Height).CareSystemComment, out var heightValue);
+           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.HeadCircumference).CareSystemComment, out var CircumValue);
+           // decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.BodyMassIndex).CareSystemComment, out var bMIValue);
+          //  decimal.TryParse(assessment.CareSystemAssessment.FirstOrDefault(pc => pc.CareSystemAssessmentTypeId == (int)SystemAssessmentTypeEnum.Weight).CareSystemComment, out var weightValue);
+            var model = new AssessmentFormPageModel
+            {
+            //    Weight = weightValue,
+            //    BodyMassIndex = bMIValue,
+            //    Height = heightValue,
+            //    HeadCircumference= CircumValue,
+                Temperature=assessment.Temperature,
+                TempRouteTypeId=assessment.TempRouteTypeId,
+                Pulse = assessment.Pulse,
+                PulseOximetry = assessment.PulseOximetry,
+                PulseRouteTypeId=assessment.PulseRouteTypeId,
+                Respiration = assessment.Respiration,
+                OxygenFlow= assessment.OxygenFlow,
+                O2deliveryTypeId = assessment.O2deliveryTypeId,
+                PainScaleTypeId= assessment.PainScaleTypeId,
+                SystolicBloodPressure=assessment.SystolicBloodPressure,
+                DiastolicBloodPressure=assessment.DiastolicBloodPressure,
+
+               
+            };
+            return View(model);
+
+                }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
