@@ -1,4 +1,5 @@
 ﻿using IS_Proj_HIT.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -65,6 +66,6 @@ namespace IS_Proj_HIT.ViewModels
                             .BodyMassIndex)
                     ?.CareSystemComment, out var bodyMassIndex))
                 BodyMassIndex = bodyMassIndex;
-        }
+        } 
     }
 }

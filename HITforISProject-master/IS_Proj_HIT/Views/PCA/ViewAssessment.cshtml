@@ -24,6 +24,8 @@
             Patient Care Assessment Information
             <a asp-action="UpdateAssessment"
                asp-route-assessmentId="@Model.Assessment.Pcaid"
+               asp-route-patientMRN="@Model.Patient.Mrn"
+               asp-route-encounterId="@Model.Encounter.EncounterId"
                class="btn btn-info btn-sm float-right">
                 Update Patient Care Assessment
             </a>
