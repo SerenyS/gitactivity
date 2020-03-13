@@ -21,6 +21,7 @@ namespace IS_Proj_HIT.ViewModels
         public int? PainScaleTypeId { get; set; }
         public byte? SystolicBloodPressure { get; set; }
         public byte? DiastolicBloodPressure { get; set; }
+<<<<<<< HEAD
         public decimal? Height { get; set; }
         public decimal? Weight { get; set; }
         public decimal? HeadCircumference { get; set; }
@@ -67,5 +68,9 @@ namespace IS_Proj_HIT.ViewModels
                     ?.CareSystemComment, out var bodyMassIndex))
                 BodyMassIndex = bodyMassIndex;
         } 
+=======
+        public string BpLocationUnit { get; set; }
+        public string BpMethodUnit { get; set; }
+>>>>>>> CreateForm outline
     }
 }

@@ -54,7 +54,44 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
 
+<<<<<<< HEAD
             return View(new AssessmentFormPageModel());
+=======
+            ViewBag.WeightUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Kilograms", WeightUnit.Grams.ToString(), true),
+                new SelectListItem("Grams", WeightUnit.Grams.ToString()),
+                new SelectListItem("Pounds", WeightUnit.Pounds.ToString())
+            };
+            ViewBag.LengthUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Inches", LengthUnit.Inches.ToString(), true),
+                new SelectListItem("Feet", LengthUnit.Feet.ToString()),
+                new SelectListItem("Centimeters", LengthUnit.Centimeters.ToString()),
+                new SelectListItem("Meters", LengthUnit.Feet.ToString())
+            };
+            ViewBag.TempUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Fahrenheit", TempUnit.Fahrenheit.ToString(), true),
+                new SelectListItem("Celsius", TempUnit.Celsius.ToString())
+            };
+            ViewBag.TempRoutes = new List<SelectListItem>(
+                _repository.TempRouteTypes.ToList()
+                           .Select((r, i) =>
+                                       new SelectListItem(
+                                           r.TempRouteTypeName,
+                                           r.TempRouteTypeId.ToString(),
+                                           i == 0)));
+            ViewBag.BpLocation = new List<SelectListItem>(
+                _repository.SystemAssessmentTypes.ToList()
+                           .Select((r, i) =>
+                                        new SelectListItem(
+                                            r.CareSystemAssessmentTypeName,
+                                            r.CareSystemAssessmentTypeId.ToString(),
+                                            i == 0)));
+                
+            return View(formPca ?? new AssessmentFormPageModel());
+>>>>>>> CreateForm outline
         }
 
         /// <summary>
