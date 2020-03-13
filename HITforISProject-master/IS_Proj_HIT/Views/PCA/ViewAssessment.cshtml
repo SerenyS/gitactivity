@@ -33,10 +33,10 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            <h5 class="row d-block pb-1">
+            <h6 class="row d-block pb-1">
                 <span class="float-left">Date Vitals Entered: @Model.Assessment.DateVitalsAdded?.ToString("g")</span>
                 <span class="float-right">Last Modified: @Model.Assessment.LastModified.ToString("g")</span>
-            </h5>
+            </h6>
             <table class="table table-bordered table-primary">
                 <thead>
                 <tr>
@@ -50,13 +50,13 @@
                 <tbody>
                 <tr>
                     <td>@(Model.Assessment.Temperature is null ? "N.A." : $"{Model.Assessment.Temperature} *F")</td>
-                    <td>@(Model.Assessment.Respiration is 0 ? "N.A." : $"{Model.Assessment.Respiration} /min")</td>
+                    <td>@(Model.Assessment.Respiration is null ? "N.A." : $"{Model.Assessment.Respiration} /min")</td>
                     <td>
-                        @(Model.Assessment.SystolicBloodPressure is 0 || Model.Assessment.DiastolicBloodPressure is 0
+                        @(Model.Assessment.SystolicBloodPressure is null || Model.Assessment.DiastolicBloodPressure is null
                             ? "N.A." : $"{Model.Assessment.SystolicBloodPressure} / {Model.Assessment.DiastolicBloodPressure}")
                     </td>
-                    <td>@(Model.Assessment.Pulse is 0 ? "N.A." : $"{Model.Assessment.Pulse} /min")</td>
-                    <td>@(Model.Assessment.PulseOximetry is 0 ? "N.A." : $"{Model.Assessment.PulseOximetry}%")</td>
+                    <td>@(Model.Assessment.Pulse is null ? "N.A." : $"{Model.Assessment.Pulse} /min")</td>
+                    <td>@(Model.Assessment.PulseOximetry is null ? "N.A." : $"{Model.Assessment.PulseOximetry}%")</td>
                 </tr>
                 </tbody>
             </table>
@@ -64,21 +64,33 @@
                 <thead>
                 <tr>
                     <th>Weight</th>
-                    <th>Height/Length</th>
+                    <th>Height</th>
                     <th>Head Circumference</th>
                     <th>Body Mass Index</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
-                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Weight)?.CareSystemComment)</td>
-                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
-                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Height)?.CareSystemComment)</td>
-                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
-                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.HeadCircumference)?.CareSystemComment)</td>
-                    <td>@(Model.Assessment.CareSystemAssessment.FirstOrDefault(a => 
-                            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.BodyMassIndex)?.CareSystemComment)</td>
+                    <td>
+                        @(Model.Assessment.CareSystemAssessment
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
+                                                    is SystemAssessmentTypeEnum.Weight)?.CareSystemComment ?? "N/A") lb
+                    </td>
+                    <td>
+                        @(Model.Assessment.CareSystemAssessment
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
+                                                    is SystemAssessmentTypeEnum.Height)?.CareSystemComment ?? "N/A") in
+                    </td>
+                    <td>
+                        @(Model.Assessment.CareSystemAssessment
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
+                                                    is SystemAssessmentTypeEnum.HeadCircumference)?.CareSystemComment ?? "N/A") in
+                    </td>
+                    <td>
+                        @(Model.Assessment.CareSystemAssessment
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
+                                                    is SystemAssessmentTypeEnum.BodyMassIndex)?.CareSystemComment ?? "N/A")
+                    </td>
                 </tr>
                 </tbody>
             </table>

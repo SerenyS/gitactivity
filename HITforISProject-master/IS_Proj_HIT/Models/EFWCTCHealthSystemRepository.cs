@@ -13,6 +13,7 @@ namespace isprojectHiT.Models
 
         #region IQueryable
 
+        public IQueryable<TempRouteType> TempRouteTypes => _context.TempRouteType;
         public IQueryable<Pcarecord> PcaRecords => _context.Pcarecord;
         public IQueryable<Pcacomment> PcaComments => _context.Pcacomment;
         public IQueryable<PcacommentType> PcaCommentTypes => _context.PcacommentType;

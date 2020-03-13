@@ -9,6 +9,7 @@ namespace isprojectHiT.Models
     {
         #region IQueryables
 
+        IQueryable<TempRouteType> TempRouteTypes { get; }
         IQueryable<Pcarecord> PcaRecords { get; }
         IQueryable<Pcacomment> PcaComments { get; }
         IQueryable<PcacommentType> PcaCommentTypes { get; }
