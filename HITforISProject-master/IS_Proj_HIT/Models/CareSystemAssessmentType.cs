@@ -25,8 +25,6 @@ namespace IS_Proj_HIT.Models
         Height = 2,
         Weight = 3,
         HeadCircumference = 9,
-        BodyMassIndex = 10,
-        SystolicBloodPressure = 11,
-        DiastolicBloodPressure = 12,
+        BodyMassIndex = 10
     }
 }

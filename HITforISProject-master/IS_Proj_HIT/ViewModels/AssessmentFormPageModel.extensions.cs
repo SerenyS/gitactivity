@@ -41,8 +41,7 @@ namespace IS_Proj_HIT.ViewModels
                 {
                     Pcaid = id,
                     //WdlEx = model.Height != null && model.Height != 0,
-                    CareSystemComment = height.ToString(),
-                    LastModified = DateTime.Now
+                    CareSystemComment = height.ToString()
                 });
 
             var weight = ConversionService.ConvertWeight(Enum.Parse<WeightUnit>(model.WeightUnit),
@@ -52,8 +51,7 @@ namespace IS_Proj_HIT.ViewModels
                 {
                     Pcaid = id,
                     //WdlEx = model.Weight != null && model.Weight != 0,
-                    CareSystemComment = weight.ToString(),
-                    LastModified = DateTime.Now
+                    CareSystemComment = weight.ToString()
                 });
 
             var headCirc = ConversionService.ConvertLength(Enum.Parse<LengthUnit>(model.HeadCircUnit),
@@ -63,42 +61,18 @@ namespace IS_Proj_HIT.ViewModels
                 {
                     Pcaid = id,
                     //WdlEx = model.HeadCircumference != null && model.HeadCircumference != 0,
-                    CareSystemComment = headCirc.ToString(),
-                    LastModified = DateTime.Now
+                    CareSystemComment = headCirc.ToString()
                 });
 
 
             var bmi = model.BodyMassIndex;
-            
             if (bmi != null)
                 assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.BodyMassIndex)
                 {
                     Pcaid = id,
                     //WdlEx = model.BodyMassIndex != null && model.BodyMassIndex != 0,
-                    CareSystemComment = bmi.ToString(),
-                    LastModified = DateTime.Now
+                    CareSystemComment = bmi.ToString()
                 });
-
-            var sbp = model.SystolicBloodPressure;
-
-            if (sbp != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.SystolicBloodPressure)
-                {
-                    Pcaid = id,
-                    CareSystemComment = sbp.ToString(),
-                    LastModified = DateTime.Now
-                });
-
-            var dbp = model.DiastolicBloodPressure;
-
-            if (dbp != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.DiastolicBloodPressure)
-                {
-                    Pcaid = id,
-                    CareSystemComment = dbp.ToString(),
-                    LastModified = DateTime.Now
-                });
-
 
             return assessments;
         }
