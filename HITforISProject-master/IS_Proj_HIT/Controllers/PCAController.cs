@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IS_Proj_HIT.Models.Enum;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -43,7 +45,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="encounterId">Id of unique encounter</param>
         /// <param name="patientMrn">Unique Identifier of patient</param>
-        public IActionResult CreateAssessment(long encounterId, string patientMrn)
+        public IActionResult CreateAssessment(long encounterId, string patientMrn, AssessmentFormPageModel formPca = null)
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn);
@@ -54,9 +56,6 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
 
-<<<<<<< HEAD
-            return View(new AssessmentFormPageModel());
-=======
             ViewBag.WeightUnits = new List<SelectListItem>
             {
                 new SelectListItem("Kilograms", WeightUnit.Grams.ToString(), true),
@@ -91,7 +90,6 @@ namespace IS_Proj_HIT.Controllers
                                             i == 0)));
                 
             return View(formPca ?? new AssessmentFormPageModel());
->>>>>>> CreateForm outline
         }
 
         /// <summary>
@@ -112,15 +110,11 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.PcaRecord = assessment;
             ViewBag.Patient = patient;
             ViewBag.Encounter = encounter;
-           
-     
-            var model = new AssessmentFormPageModel(assessment)
-            { 
-               
-            };
-            return View(model);
 
-                }
+
+            var model = new AssessmentFormPageModel(assessment);
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -131,13 +125,18 @@ namespace IS_Proj_HIT.Controllers
                 return View("CreateAssessment", formPca);
 
             var pca = formPca.ToPcaRecord();
-            IList<CareSystemAssessment> assessments;
+            List<CareSystemAssessment> assessments;
             if (pca.Pcaid is 0)
             {
                 //Create if pca from form does not include an ID
                 _repository.AddPcaRecord(pca);
 
                 assessments = formPca.ToSystemAssessments(pca.Pcaid);
+                assessments.ForEach(a =>
+                {
+                    a.LastModified = DateTime.Now;
+                    a.DateCareSystemAdded = DateTime.Now;
+                });
                 _repository.AddAssessments(assessments);
             }
             else

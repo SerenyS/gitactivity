@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using IS_Proj_HIT.Models.Enum;
 
 namespace IS_Proj_HIT.ViewModels
 {
@@ -10,8 +11,23 @@ namespace IS_Proj_HIT.ViewModels
     {
         public int Pcaid { get; set; }
         [Required] public long EncounterId { get; set; }
+        [Required] public long PatientMrn { get; set; }
+
         public decimal? Temperature { get; set; }
+        public string TempUnit { get; set; }
         public int? TempRouteTypeId { get; set; }
+
+        public decimal? Height { get; set; }
+        public string HeightUnit { get; set; }
+
+        public decimal? Weight { get; set; }
+        public string WeightUnit { get; set; }
+
+        public decimal? HeadCircumference { get; set; }
+        public string HeadCircUnit { get; set; }
+
+        public decimal? BodyMassIndex { get; set; }
+
         public byte? Pulse { get; set; }
         public byte? PulseOximetry { get; set; }
         public int? PulseRouteTypeId { get; set; }
@@ -21,11 +37,6 @@ namespace IS_Proj_HIT.ViewModels
         public int? PainScaleTypeId { get; set; }
         public byte? SystolicBloodPressure { get; set; }
         public byte? DiastolicBloodPressure { get; set; }
-<<<<<<< HEAD
-        public decimal? Height { get; set; }
-        public decimal? Weight { get; set; }
-        public decimal? HeadCircumference { get; set; }
-        public decimal? BodyMassIndex { get; set; }
 
         public AssessmentFormPageModel()
         {
@@ -67,10 +78,6 @@ namespace IS_Proj_HIT.ViewModels
                             .BodyMassIndex)
                     ?.CareSystemComment, out var bodyMassIndex))
                 BodyMassIndex = bodyMassIndex;
-        } 
-=======
-        public string BpLocationUnit { get; set; }
-        public string BpMethodUnit { get; set; }
->>>>>>> CreateForm outline
+        }
     }
 }
