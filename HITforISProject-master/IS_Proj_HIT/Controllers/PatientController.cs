@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.ViewModels;
-using isprojectHiT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +14,7 @@ using IS_Proj_HIT.Extensions.Alerts;
 using IS_Proj_HIT.ViewModels;
 using System.Diagnostics;
 using System.Globalization;
+using IS_Proj_HIT.Models.Data;
 
 namespace IS_Proj_HIT.Controllers
 {

@@ -1,6 +1,5 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
-using isprojectHiT.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using IS_Proj_HIT.Models.Data;
 
 namespace IS_Proj_HIT.Controllers
 {

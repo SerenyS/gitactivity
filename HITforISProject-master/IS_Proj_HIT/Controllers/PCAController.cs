@@ -1,12 +1,13 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
-using isprojectHiT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.Enum;
+using IS_Proj_HIT.Models.PCA;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IS_Proj_HIT.Controllers
@@ -26,7 +27,7 @@ namespace IS_Proj_HIT.Controllers
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
                 .Include(pca => pca.CareSystemAssessment)
-                .FirstOrDefault(pca => pca.Pcaid == assessmentId);
+                .FirstOrDefault(pca => pca.PcaId == assessmentId);
             if (assessment is null)
                 return RedirectToAction("Index", "Encounter",
                     new {filter = "CheckedIn"});
@@ -81,14 +82,26 @@ namespace IS_Proj_HIT.Controllers
                                            r.TempRouteTypeName,
                                            r.TempRouteTypeId.ToString(),
                                            i == 0)));
+            ViewBag.PulseRoutes = new List<SelectListItem>(
+                _repository.PulseRouteTypes.ToList().Select((r, i) =>
+                                                                new SelectListItem(
+                                                                    r.PulseRouteTypeName,
+                                                                    r.PulseRouteTypeId.ToString(),
+                                                                    i == 0)));
+            ViewBag.O2DeliveryRoutes = new List<SelectListItem>(
+                _repository.O2DeliveryTypes.ToList().Select((r, i) => new SelectListItem(
+                                                                r.O2deliveryTypeName,
+                                                                r.O2deliveryTypeId.ToString(),
+                                                                i == 0)));
+            
+            //todo: replace with valid
             ViewBag.BpLocation = new List<SelectListItem>(
-                _repository.SystemAssessmentTypes.ToList()
-                           .Select((r, i) =>
-                                        new SelectListItem(
-                                            r.CareSystemAssessmentTypeName,
-                                            r.CareSystemAssessmentTypeId.ToString(),
-                                            i == 0)));
-                
+                _repository.SystemAssessmentTypes.ToList().Select((r, i) =>
+                                                                      new SelectListItem(
+                                                                          r.CareSystemAssessmentTypeName,
+                                                                          r.CareSystemAssessmentTypeId.ToString(),
+                                                                          i == 0)));
+
             return View(formPca ?? new AssessmentFormPageModel());
         }
 
@@ -100,13 +113,13 @@ namespace IS_Proj_HIT.Controllers
         ///   <param name="encounterId">Unique Identifier of patient</param>
         public IActionResult UpdateAssessment(int assessmentId,string patientMRN,long encounterId)
         {
-           var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.Pcaid == assessmentId);
+           var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.PcaId == assessmentId);
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
 
             if (assessment is null || patient is null) 
                 return RedirectToAction("ViewAssessment", "PCA",
-                    new {assessmentId = assessment.Pcaid });
+                    new {assessmentId = assessment.PcaId });
             ViewBag.PcaRecord = assessment;
             ViewBag.Patient = patient;
             ViewBag.Encounter = encounter;
@@ -126,25 +139,25 @@ namespace IS_Proj_HIT.Controllers
 
             var pca = formPca.ToPcaRecord();
             List<CareSystemAssessment> assessments;
-            if (pca.Pcaid is 0)
+            if (pca.PcaId is 0)
             {
                 //Create if pca from form does not include an ID
                 _repository.AddPcaRecord(pca);
 
-                assessments = formPca.ToSystemAssessments(pca.Pcaid);
+                assessments = formPca.ToSystemAssessments(pca.PcaId);
                 assessments.ForEach(a =>
                 {
                     a.LastModified = DateTime.Now;
                     a.DateCareSystemAdded = DateTime.Now;
                 });
-                _repository.AddAssessments(assessments);
+                _repository.AddSystemAssessments(assessments);
             }
             else
             {
                 //Update Pca and assessments
                 _repository.EditPcaRecord(pca);
 
-                assessments = _repository.SystemAssessments.Where(a => a.Pcaid == pca.Pcaid).ToList();
+                assessments = _repository.SystemAssessments.Where(a => a.PcaId == pca.PcaId).ToList();
 
                 var formAssessments = formPca.ToSystemAssessments();
                 foreach (var current in assessments)
@@ -159,12 +172,12 @@ namespace IS_Proj_HIT.Controllers
                     current.CareSystemComment = formVersion.CareSystemComment;
                     current.LastModified = formVersion.LastModified;
                     current.WdlEx = formVersion.WdlEx;
-                    _repository.EditAssessment(current);
+                    _repository.EditSystemAssessment(current);
                 }
             }
 
             return RedirectToAction("ViewAssessment",
-                new {assessmentId = pca.Pcaid});
+                new {assessmentId = pca.PcaId});
         }
     }
 }

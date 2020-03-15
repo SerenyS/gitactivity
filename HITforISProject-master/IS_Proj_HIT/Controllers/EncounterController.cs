@@ -1,12 +1,12 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
-using isprojectHiT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using IS_Proj_HIT.Models.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace IS_Proj_HIT.Controllers

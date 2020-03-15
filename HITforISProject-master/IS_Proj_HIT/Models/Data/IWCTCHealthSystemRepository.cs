@@ -1,18 +1,24 @@
-﻿using IS_Proj_HIT.Models;
-using IS_Proj_HIT.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.ViewModels;
 
-namespace isprojectHiT.Models
+namespace IS_Proj_HIT.Models.Data
 {
     public interface IWCTCHealthSystemRepository
     {
         #region IQueryables
 
+        IQueryable<PcaPainAssessment> PainAssessments { get; }
+        IQueryable<PainRating> PainRatings { get; }
+        IQueryable<PainParameter> PainParameters { get; }
+        IQueryable<PainScaleType> PainScaleTypes { get; }
+        IQueryable<O2deliveryType> O2DeliveryTypes { get; }
+        IQueryable<PulseRouteType> PulseRouteTypes { get; }
         IQueryable<TempRouteType> TempRouteTypes { get; }
-        IQueryable<Pcarecord> PcaRecords { get; }
-        IQueryable<Pcacomment> PcaComments { get; }
-        IQueryable<PcacommentType> PcaCommentTypes { get; }
+        IQueryable<PcaRecord> PcaRecords { get; }
+        IQueryable<PcaComment> PcaComments { get; }
+        IQueryable<PcaCommentType> PcaCommentTypes { get; }
         IQueryable<CareSystemAssessment> SystemAssessments { get; }
         IQueryable<CareSystemAssessmentType> SystemAssessmentTypes { get; }
         IQueryable<AdmitType> AdmitTypes { get; }
@@ -65,13 +71,17 @@ namespace isprojectHiT.Models
         void DeleteUser(UserTable userTable);
         void EditUser(UserTable userTable);
 
-        void AddPcaRecord(Pcarecord pca);
-        void DeletePcaRecord(Pcarecord pca);
-        void EditPcaRecord(Pcarecord pca);
+        void AddPcaRecord(PcaRecord pca);
+        void DeletePcaRecord(PcaRecord pca);
+        void EditPcaRecord(PcaRecord pca);
+
+        void AddSystemAssessment(CareSystemAssessment csa);
+        void AddSystemAssessments(IList<CareSystemAssessment> csaList);
+        void DeleteSystemAssessment(CareSystemAssessment csa);
+        void EditSystemAssessment(CareSystemAssessment csa);
         
-        void AddAssessment(CareSystemAssessment csa);
-        void AddAssessments(IList<CareSystemAssessment> csaList);
-        void DeleteAssessment(CareSystemAssessment csa);
-        void EditAssessment(CareSystemAssessment csa);
+        void AddPainAssessment(PcaPainAssessment pa);
+        void DeletePainAssessment(PcaPainAssessment pa);
+        void EditPainAssessment(PcaPainAssessment pa);
     }
 }

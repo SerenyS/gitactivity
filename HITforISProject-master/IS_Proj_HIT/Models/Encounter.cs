@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IS_Proj_HIT.Models.PCA;
 
 namespace IS_Proj_HIT.Models
 {
@@ -8,7 +9,7 @@ namespace IS_Proj_HIT.Models
         public Encounter()
         {
             EncounterAlerts = new HashSet<EncounterAlerts>();
-            PcaRecords = new HashSet<Pcarecord>();
+            PcaRecords = new HashSet<PcaRecord>();
         }
 
         public string Mrn { get; set; }
@@ -42,6 +43,6 @@ namespace IS_Proj_HIT.Models
         public virtual PlaceOfServiceOutPatient PlaceOfService { get; set; }
         public virtual PointOfOrigin PointOfOrigin { get; set; }
         public virtual ICollection<EncounterAlerts> EncounterAlerts { get; set; }
-        public virtual ICollection<Pcarecord> PcaRecords { get; set; }
+        public virtual ICollection<PcaRecord> PcaRecords { get; set; }
     }
 }

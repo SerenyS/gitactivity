@@ -1,9 +1,9 @@
-﻿using IS_Proj_HIT.Models;
-using IS_Proj_HIT.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.ViewModels;
 
-namespace isprojectHiT.Models
+namespace IS_Proj_HIT.Models.Data
 {
     public class EFWCTCHealthSystemRepository : IWCTCHealthSystemRepository
     {
@@ -13,10 +13,16 @@ namespace isprojectHiT.Models
 
         #region IQueryable
 
+        public IQueryable<PcaPainAssessment> PainAssessments => _context.PcaPainAssessments;
+        public IQueryable<PainRating> PainRatings => _context.PainRatings;
+        public IQueryable<PainParameter> PainParameters => _context.PainParameters;
+        public IQueryable<PainScaleType> PainScaleTypes => _context.PainScaleType;
+        public IQueryable<O2deliveryType> O2DeliveryTypes => _context.O2deliveryType;
+        public IQueryable<PulseRouteType> PulseRouteTypes => _context.PulseRouteType;
         public IQueryable<TempRouteType> TempRouteTypes => _context.TempRouteType;
-        public IQueryable<Pcarecord> PcaRecords => _context.Pcarecord;
-        public IQueryable<Pcacomment> PcaComments => _context.Pcacomment;
-        public IQueryable<PcacommentType> PcaCommentTypes => _context.PcacommentType;
+        public IQueryable<PcaRecord> PcaRecords => _context.Pcarecord;
+        public IQueryable<PcaComment> PcaComments => _context.Pcacomment;
+        public IQueryable<PcaCommentType> PcaCommentTypes => _context.PcacommentType;
         public IQueryable<AdmitType> AdmitTypes => _context.AdmitType;
         public IQueryable<Ethnicity> Ethnicities => _context.Ethnicity;
         public IQueryable<Gender> Genders => _context.Gender;
@@ -179,46 +185,64 @@ namespace isprojectHiT.Models
             _context.Update(userTable);
             _context.SaveChanges();
         }
-        
-        public void AddPcaRecord(Pcarecord pca)
+
+        public void AddPcaRecord(PcaRecord pca)
         {
             _context.Add(pca);
             _context.SaveChanges();
         }
 
-        public void DeletePcaRecord(Pcarecord pca)
+        public void DeletePcaRecord(PcaRecord pca)
         {
             _context.Remove(pca);
             _context.SaveChanges();
         }
 
-        public void EditPcaRecord(Pcarecord pca)
+        public void EditPcaRecord(PcaRecord pca)
         {
             _context.Update(pca);
             _context.SaveChanges();
         }
 
-        public void AddAssessment(CareSystemAssessment csa)
+        public void AddSystemAssessment(CareSystemAssessment csa)
         {
             _context.Add(csa);
             _context.SaveChanges();
         }
 
-        public void AddAssessments(IList<CareSystemAssessment> csaList)
+        public void AddSystemAssessments(IList<CareSystemAssessment> csaList)
         {
             csaList.ToList().ForEach(a => _context.Add(a));
             _context.SaveChanges();
         }
 
-        public void DeleteAssessment(CareSystemAssessment csa)
+        public void DeleteSystemAssessment(CareSystemAssessment csa)
         {
             _context.Remove(csa);
             _context.SaveChanges();
         }
 
-        public void EditAssessment(CareSystemAssessment csa)
+        public void EditSystemAssessment(CareSystemAssessment csa)
         {
             _context.Update(csa);
+            _context.SaveChanges();
+        }
+
+        public void AddPainAssessment(PcaPainAssessment pa)
+        {
+            _context.Add(pa);
+            _context.SaveChanges();
+        }
+
+        public void DeletePainAssessment(PcaPainAssessment pa)
+        {
+            _context.Remove(pa);
+            _context.SaveChanges();
+        }
+
+        public void EditPainAssessment(PcaPainAssessment pa)
+        {
+            _context.Update(pa);
             _context.SaveChanges();
         }
     }
