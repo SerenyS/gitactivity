@@ -93,14 +93,8 @@ namespace IS_Proj_HIT.Controllers
                                                                 r.O2deliveryTypeName,
                                                                 r.O2deliveryTypeId.ToString(),
                                                                 i == 0)));
-            
-            //todo: replace with valid
-            ViewBag.BpLocation = new List<SelectListItem>(
-                _repository.SystemAssessmentTypes.ToList().Select((r, i) =>
-                                                                      new SelectListItem(
-                                                                          r.CareSystemAssessmentTypeName,
-                                                                          r.CareSystemAssessmentTypeId.ToString(),
-                                                                          i == 0)));
+            var pca = _repository.PcaRecords.FirstOrDefault();
+            var painratings = _repository.PainRatings.ToList();
 
             return View(formPca ?? new AssessmentFormPageModel());
         }
@@ -148,7 +142,6 @@ namespace IS_Proj_HIT.Controllers
                 assessments.ForEach(a =>
                 {
                     a.LastModified = DateTime.Now;
-                    a.DateCareSystemAdded = DateTime.Now;
                 });
                 _repository.AddSystemAssessments(assessments);
             }
@@ -157,21 +150,21 @@ namespace IS_Proj_HIT.Controllers
                 //Update Pca and assessments
                 _repository.EditPcaRecord(pca);
 
-                assessments = _repository.SystemAssessments.Where(a => a.PcaId == pca.PcaId).ToList();
+                assessments = _repository.CareSystemAssessments.Where(a => a.PcaId == pca.PcaId).ToList();
 
                 var formAssessments = formPca.ToSystemAssessments();
                 foreach (var current in assessments)
                 {
                     var formVersion = formAssessments.FirstOrDefault(a =>
-                        a.CareSystemAssessmentTypeId == current.CareSystemAssessmentTypeId);
+                        a.CareSystemParameterId == current.CareSystemParameterId);
                     if (formVersion is null) continue;
-                    if (current.CareSystemComment == formVersion.CareSystemComment) continue;
+                    if (current.Comment == formVersion.Comment) continue;
 
                     //need to determine how to find Within Normal(Defined) limits
-                    //WdlEx = model.Height != null && model.Height != 0,
-                    current.CareSystemComment = formVersion.CareSystemComment;
+                    //IsWithinNormalLimits = model.Height != null && model.Height != 0,
+                    current.Comment = formVersion.Comment;
                     current.LastModified = formVersion.LastModified;
-                    current.WdlEx = formVersion.WdlEx;
+                    current.IsWithinNormalLimits = formVersion.IsWithinNormalLimits;
                     _repository.EditSystemAssessment(current);
                 }
             }

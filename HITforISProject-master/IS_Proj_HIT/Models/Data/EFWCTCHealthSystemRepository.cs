@@ -12,10 +12,16 @@ namespace IS_Proj_HIT.Models.Data
         public EFWCTCHealthSystemRepository(WCTCHealthSystemContext context) => _context = context;
 
         #region IQueryable
-
-        public IQueryable<PcaPainAssessment> PainAssessments => _context.PcaPainAssessments;
-        public IQueryable<PainRating> PainRatings => _context.PainRatings;
-        public IQueryable<PainParameter> PainParameters => _context.PainParameters;
+        
+        public IQueryable<CareSystemAssessment> CareSystemAssessments => _context.CareSystemAssessment;
+        public IQueryable<CareSystemType> CareSystemAssessmentTypes => _context.CareSystemType;
+        public IQueryable<CareSystemParameter> CareSystemParameters => _context.CareSystemParameter;
+        public IQueryable<BloodPressureRouteType> BloodPressureRouteTypes => _context.BloodPressureRouteType;
+        public IQueryable<BmiMethod> BmiMethods => _context.BmiMethod;
+        public IQueryable<PcaPainAssessment> PainAssessments => _context.PcaPainAssessment;
+        public IQueryable<PainRating> PainRatings => _context.PainRating;
+        public IQueryable<PainRatingImage> PainRatingImages => _context.PainRatingImage;
+        public IQueryable<PainParameter> PainParameters => _context.PainParameter;
         public IQueryable<PainScaleType> PainScaleTypes => _context.PainScaleType;
         public IQueryable<O2deliveryType> O2DeliveryTypes => _context.O2deliveryType;
         public IQueryable<PulseRouteType> PulseRouteTypes => _context.PulseRouteType;
@@ -54,9 +60,6 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRole;
         public IQueryable<UserTable> UserTables => _context.UserTable;
 
-        public IQueryable<CareSystemAssessment> SystemAssessments => _context.CareSystemAssessment;
-
-        public IQueryable<CareSystemAssessmentType> SystemAssessmentTypes => _context.CareSystemAssessmentType;
 
         #endregion IQueryable
 
