@@ -1,31 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IS_Proj_HIT.Models
+namespace IS_Proj_HIT.Models.PCA
 {
-    public partial class Pcarecord
+    public partial class PcaRecord
     {
-        public Pcarecord()
+        public PcaRecord()
         {
             CareSystemAssessment = new HashSet<CareSystemAssessment>();
-            Pcacomment = new HashSet<Pcacomment>();
+            Pcacomment = new HashSet<PcaComment>();
         }
 
-        public int Pcaid { get; set; }
+        public int PcaId { get; set; }
         public long EncounterId { get; set; }
+
         public int? TempRouteTypeId { get; set; }
         public int? PulseRouteTypeId { get; set; }
         public int? O2deliveryTypeId { get; set; }
         public int? PainScaleTypeId { get; set; }
+        public byte? PainLevelGoal { get; set; }
+        public int? BloodPressureRouteTypeId { get; set; }
+        public int? BmiMethodId { get; set; }
+
         public decimal? Temperature { get; set; }
         public byte? Pulse { get; set; }
+        public byte? PulseOximetry { get; set; }
         public byte? Respiration { get; set; }
+        public decimal? PercentOxygenDelivered { get; set; }
+        public string OxygenFlow { get; set; }
         public byte? SystolicBloodPressure { get; set; }
         public byte? DiastolicBloodPressure { get; set; }
-        public byte? PulseOximetry { get; set; }
-        public string OxygenFlow { get; set; }
-        //public byte? PainLevelGoal { get; set; }
-        //public byte? PainLevelActual { get; set; }
+        public decimal? Weight { get; set; }
+        public string WeightUnits { get; set; }
+        public decimal? Height { get; set; }
+        public string HeightUnits { get; set; }
+        public decimal? HeadCircumference { get; set; }
+        public string HeadCircumferenceUnits { get; set; }
+        public decimal? BodyMassIndex { get; set; }
         public DateTime? DateVitalsAdded { get; set; }
         public DateTime LastModified { get; set; }
 
@@ -35,6 +46,7 @@ namespace IS_Proj_HIT.Models
         public virtual PulseRouteType PulseRouteType { get; set; }
         public virtual TempRouteType TempRouteType { get; set; }
         public virtual ICollection<CareSystemAssessment> CareSystemAssessment { get; set; }
-        public virtual ICollection<Pcacomment> Pcacomment { get; set; }
+        public virtual ICollection<PcaPainAssessment> PainAssessment { get; set; }
+        public virtual ICollection<PcaComment> Pcacomment { get; set; }
     }
 }

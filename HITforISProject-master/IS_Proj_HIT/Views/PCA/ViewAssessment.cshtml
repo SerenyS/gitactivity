@@ -1,4 +1,5 @@
-﻿@model CareAssessmentPageModel;
+﻿@using IS_Proj_HIT.Models.PCA
+@model CareAssessmentPageModel;
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
     <ul class="navbar-nav nav-fill w-100">
@@ -23,7 +24,7 @@
         <h4>
             Patient Care Assessment Information
             <a asp-action="UpdateAssessment"
-               asp-route-assessmentId="@Model.Assessment.Pcaid"
+               asp-route-assessmentId="@Model.Assessment.PcaId"
                asp-route-patientMRN="@Model.Patient.Mrn"
                asp-route-encounterId="@Model.Encounter.EncounterId"
                class="btn btn-info btn-sm float-right">
@@ -71,7 +72,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
+                    @*<td>
                         @(Model.Assessment.CareSystemAssessment
                                .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
                                                     is SystemAssessmentTypeEnum.Weight)?.CareSystemComment ?? "N/A") lb
@@ -90,7 +91,7 @@
                         @(Model.Assessment.CareSystemAssessment
                                .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
                                                     is SystemAssessmentTypeEnum.BodyMassIndex)?.CareSystemComment ?? "N/A")
-                    </td>
+                    </td>*@
                 </tr>
                 </tbody>
             </table>

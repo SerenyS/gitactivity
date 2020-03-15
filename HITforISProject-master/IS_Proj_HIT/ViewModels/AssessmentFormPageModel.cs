@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using IS_Proj_HIT.Models.Enum;
+using IS_Proj_HIT.Models.PCA;
 
 namespace IS_Proj_HIT.ViewModels
 {
@@ -42,9 +43,9 @@ namespace IS_Proj_HIT.ViewModels
         {
         }
 
-        public AssessmentFormPageModel(Pcarecord pca)
+        public AssessmentFormPageModel(PcaRecord pca)
         {
-            Pcaid = pca.Pcaid;
+            Pcaid = pca.PcaId;
             EncounterId = pca.EncounterId;
             Temperature = pca.Temperature;
             TempRouteTypeId = pca.TempRouteTypeId;
@@ -57,27 +58,27 @@ namespace IS_Proj_HIT.ViewModels
             PainScaleTypeId = pca.PainScaleTypeId;
             SystolicBloodPressure = pca.SystolicBloodPressure;
             DiastolicBloodPressure = pca.DiastolicBloodPressure;
-            if (decimal.TryParse(
-                pca.CareSystemAssessment.FirstOrDefault(a =>
-                        (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Height)
-                    ?.CareSystemComment, out var height))
-                Height = height;
-            if (decimal.TryParse(
-                pca.CareSystemAssessment.FirstOrDefault(a =>
-                        (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Weight)
-                    ?.CareSystemComment, out var weight))
-                Weight = weight;
-            if (decimal.TryParse(
-                pca.CareSystemAssessment.FirstOrDefault(a =>
-                    (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum
-                        .HeadCircumference)?.CareSystemComment, out var headCircumference))
-                HeadCircumference = headCircumference;
-            if (decimal.TryParse(
-                pca.CareSystemAssessment.FirstOrDefault(a =>
-                        (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum
-                            .BodyMassIndex)
-                    ?.CareSystemComment, out var bodyMassIndex))
-                BodyMassIndex = bodyMassIndex;
+            //if (decimal.TryParse(
+            //    pca.CareSystemAssessment.FirstOrDefault(a =>
+            //            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Height)
+            //        ?.CareSystemComment, out var height))
+            //    Height = height;
+            //if (decimal.TryParse(
+            //    pca.CareSystemAssessment.FirstOrDefault(a =>
+            //            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum.Weight)
+            //        ?.CareSystemComment, out var weight))
+            //    Weight = weight;
+            //if (decimal.TryParse(
+            //    pca.CareSystemAssessment.FirstOrDefault(a =>
+            //        (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum
+            //            .HeadCircumference)?.CareSystemComment, out var headCircumference))
+            //    HeadCircumference = headCircumference;
+            //if (decimal.TryParse(
+            //    pca.CareSystemAssessment.FirstOrDefault(a =>
+            //            (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId is SystemAssessmentTypeEnum
+            //                .BodyMassIndex)
+            //        ?.CareSystemComment, out var bodyMassIndex))
+            //    BodyMassIndex = bodyMassIndex;
         }
     }
 }
