@@ -8,9 +8,15 @@ namespace IS_Proj_HIT.Models.Data
     public interface IWCTCHealthSystemRepository
     {
         #region IQueryables
-
+        
+        IQueryable<CareSystemAssessment> CareSystemAssessments { get; }
+        IQueryable<CareSystemType> CareSystemAssessmentTypes { get; }
+        IQueryable<CareSystemParameter> CareSystemParameters { get; }
+        IQueryable<BloodPressureRouteType> BloodPressureRouteTypes { get; }
+        IQueryable<BmiMethod> BmiMethods { get; }
         IQueryable<PcaPainAssessment> PainAssessments { get; }
         IQueryable<PainRating> PainRatings { get; }
+        IQueryable<PainRatingImage> PainRatingImages { get; }
         IQueryable<PainParameter> PainParameters { get; }
         IQueryable<PainScaleType> PainScaleTypes { get; }
         IQueryable<O2deliveryType> O2DeliveryTypes { get; }
@@ -19,8 +25,6 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<PcaRecord> PcaRecords { get; }
         IQueryable<PcaComment> PcaComments { get; }
         IQueryable<PcaCommentType> PcaCommentTypes { get; }
-        IQueryable<CareSystemAssessment> SystemAssessments { get; }
-        IQueryable<CareSystemAssessmentType> SystemAssessmentTypes { get; }
         IQueryable<AdmitType> AdmitTypes { get; }
         IQueryable<Ethnicity> Ethnicities { get; }
         IQueryable<Gender> Genders { get; }

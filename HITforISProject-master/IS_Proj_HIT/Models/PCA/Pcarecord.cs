@@ -8,7 +8,7 @@ namespace IS_Proj_HIT.Models.PCA
         public PcaRecord()
         {
             CareSystemAssessment = new HashSet<CareSystemAssessment>();
-            Pcacomment = new HashSet<PcaComment>();
+            PcaComment = new HashSet<PcaComment>();
         }
 
         public int PcaId { get; set; }
@@ -19,8 +19,8 @@ namespace IS_Proj_HIT.Models.PCA
         public int? O2deliveryTypeId { get; set; }
         public int? PainScaleTypeId { get; set; }
         public byte? PainLevelGoal { get; set; }
-        public int? BloodPressureRouteTypeId { get; set; }
-        public int? BmiMethodId { get; set; }
+        public byte? BloodPressureRouteTypeId { get; set; }
+        public byte? BmiMethodId { get; set; }
 
         public decimal? Temperature { get; set; }
         public byte? Pulse { get; set; }
@@ -28,8 +28,8 @@ namespace IS_Proj_HIT.Models.PCA
         public byte? Respiration { get; set; }
         public decimal? PercentOxygenDelivered { get; set; }
         public string OxygenFlow { get; set; }
-        public byte? SystolicBloodPressure { get; set; }
-        public byte? DiastolicBloodPressure { get; set; }
+        public short? SystolicBloodPressure { get; set; }
+        public short? DiastolicBloodPressure { get; set; }
         public decimal? Weight { get; set; }
         public string WeightUnits { get; set; }
         public decimal? Height { get; set; }
@@ -41,12 +41,14 @@ namespace IS_Proj_HIT.Models.PCA
         public DateTime LastModified { get; set; }
 
         public virtual Encounter Encounter { get; set; }
+        public virtual BmiMethod BmiMethod { get; set; }
+        public virtual BloodPressureRouteType BloodPressureRouteType { get; set; }
         public virtual O2deliveryType O2deliveryType { get; set; }
         public virtual PainScaleType PainScaleType { get; set; }
         public virtual PulseRouteType PulseRouteType { get; set; }
         public virtual TempRouteType TempRouteType { get; set; }
         public virtual ICollection<CareSystemAssessment> CareSystemAssessment { get; set; }
         public virtual ICollection<PcaPainAssessment> PainAssessment { get; set; }
-        public virtual ICollection<PcaComment> Pcacomment { get; set; }
+        public virtual ICollection<PcaComment> PcaComment { get; set; }
     }
 }

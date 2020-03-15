@@ -13,6 +13,7 @@ namespace IS_Proj_HIT.Models.PCA
 
         public int PainScaleTypeId { get; set; }
         public string PainScaleTypeName { get; set; }
+        public string UseDescription { get; set; }
         public DateTime LastModified { get; set; }
 
         public virtual ICollection<PcaRecord> Pcarecord { get; set; }

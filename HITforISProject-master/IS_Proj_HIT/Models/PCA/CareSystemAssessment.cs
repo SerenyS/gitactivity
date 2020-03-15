@@ -6,13 +6,12 @@ namespace IS_Proj_HIT.Models.PCA
     {
         public int CareSystemAssessmentId { get; set; }
         public int PcaId { get; set; }
-        public int CareSystemAssessmentTypeId { get; set; }
-        public bool WdlEx { get; set; }
-        public string CareSystemComment { get; set; }
-        public DateTime DateCareSystemAdded { get; set; }
+        public short CareSystemParameterId { get; set; }
+        public bool IsWithinNormalLimits { get; set; }
+        public string Comment { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual CareSystemAssessmentType CareSystemAssessmentType { get; set; }
+        public virtual CareSystemParameter CareSystemParameter { get; set; }
         public virtual PcaRecord Pca { get; set; }
     }
 }

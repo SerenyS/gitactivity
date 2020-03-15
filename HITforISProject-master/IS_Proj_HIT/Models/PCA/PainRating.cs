@@ -15,7 +15,8 @@ namespace IS_Proj_HIT.Models.PCA
         public byte Value { get; set; }
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
-
+        
+        public virtual PainRatingImage PainRatingImage { get; set; }
         public virtual PainParameter PainParameter { get; set; }
         public virtual ICollection<PcaPainAssessment> PainAssessments { get; set; }
     }

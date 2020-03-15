@@ -74,23 +74,23 @@
                 <tr>
                     @*<td>
                         @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
-                                                    is SystemAssessmentTypeEnum.Weight)?.CareSystemComment ?? "N/A") lb
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
+                                                    is SystemAssessmentTypeEnum.Weight)?.Comment ?? "N/A") lb
                     </td>
                     <td>
                         @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
-                                                    is SystemAssessmentTypeEnum.Height)?.CareSystemComment ?? "N/A") in
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
+                                                    is SystemAssessmentTypeEnum.Height)?.Comment ?? "N/A") in
                     </td>
                     <td>
                         @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
-                                                    is SystemAssessmentTypeEnum.HeadCircumference)?.CareSystemComment ?? "N/A") in
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
+                                                    is SystemAssessmentTypeEnum.HeadCircumference)?.Comment ?? "N/A") in
                     </td>
                     <td>
                         @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemAssessmentTypeId
-                                                    is SystemAssessmentTypeEnum.BodyMassIndex)?.CareSystemComment ?? "N/A")
+                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
+                                                    is SystemAssessmentTypeEnum.BodyMassIndex)?.Comment ?? "N/A")
                     </td>*@
                 </tr>
                 </tbody>
