@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IS_Proj_HIT.Models.Enum;
+using IS_Proj_HIT.Models.PCA;
 using IS_Proj_HIT.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,9 +10,9 @@ namespace IS_Proj_HIT.ViewModels
 {
     public static class AssessmentFormPageModelExtensions
     {
-        public static Pcarecord ToPcaRecord(this AssessmentFormPageModel model) => new Pcarecord
+        public static PcaRecord ToPcaRecord(this AssessmentFormPageModel model) => new PcaRecord
         {
-            Pcaid = model.Pcaid,
+            PcaId = model.Pcaid,
             EncounterId = model.EncounterId,
             TempRouteTypeId = model.TempRouteTypeId,
             PulseRouteTypeId = model.PulseRouteTypeId,
@@ -36,43 +37,19 @@ namespace IS_Proj_HIT.ViewModels
 
             var height = ConversionService.ConvertLength(Enum.Parse<LengthUnit>(model.HeightUnit),
                                                          LengthUnit.Inches, model.Height);
-            if (height != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.Height)
-                {
-                    Pcaid = id,
-                    //WdlEx = model.Height != null && model.Height != 0,
-                    CareSystemComment = height.ToString()
-                });
+            
 
             var weight = ConversionService.ConvertWeight(Enum.Parse<WeightUnit>(model.WeightUnit),
                                                          WeightUnit.Pounds, model.Weight);
-            if (weight != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.Weight)
-                {
-                    Pcaid = id,
-                    //WdlEx = model.Weight != null && model.Weight != 0,
-                    CareSystemComment = weight.ToString()
-                });
+
 
             var headCirc = ConversionService.ConvertLength(Enum.Parse<LengthUnit>(model.HeadCircUnit),
                                                            LengthUnit.Inches, model.HeadCircumference);
-            if (headCirc != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.HeadCircumference)
-                {
-                    Pcaid = id,
-                    //WdlEx = model.HeadCircumference != null && model.HeadCircumference != 0,
-                    CareSystemComment = headCirc.ToString()
-                });
+
 
 
             var bmi = model.BodyMassIndex;
-            if (bmi != null)
-                assessments.Add(new CareSystemAssessment(SystemAssessmentTypeEnum.BodyMassIndex)
-                {
-                    Pcaid = id,
-                    //WdlEx = model.BodyMassIndex != null && model.BodyMassIndex != 0,
-                    CareSystemComment = bmi.ToString()
-                });
+
 
             return assessments;
         }

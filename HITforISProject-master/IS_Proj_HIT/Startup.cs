@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using isprojectHiT.Models;
 using IS_Proj_HIT.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using IS_Proj_HIT.Models;
+using IS_Proj_HIT.Models.Data;
 
 namespace IS_Proj_HIT
 {
