@@ -32,6 +32,9 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index", "Encounter",
                     new {filter = "CheckedIn"});
 
+            var patientAlerts = _repository.PatientAlerts.Where(a => a.Mrn == assessment.Encounter.Mrn).Count();
+            ViewBag.PatientAlertsCount = patientAlerts;
+
             var model = new CareAssessmentPageModel
             {
                 Assessment = assessment,
@@ -50,12 +53,15 @@ namespace IS_Proj_HIT.Controllers
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn);
+            var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMrn).Count();
+
             if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
                     new {encounterId = encounterId, isPatientEncounter = false});
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
+            ViewBag.PatientAlertsCount = patientAlerts;
 
             ViewBag.WeightUnits = new List<SelectListItem>
             {
@@ -110,6 +116,7 @@ namespace IS_Proj_HIT.Controllers
            var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.PcaId == assessmentId);
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
+            var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMRN).Count();
 
             if (assessment is null || patient is null) 
                 return RedirectToAction("ViewAssessment", "PCA",
@@ -117,6 +124,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.PcaRecord = assessment;
             ViewBag.Patient = patient;
             ViewBag.Encounter = encounter;
+            ViewBag.PatientAlertsCount = patientAlerts;
 
 
             var model = new AssessmentFormPageModel(assessment);
@@ -127,9 +135,16 @@ namespace IS_Proj_HIT.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
+            // Get Patient Alerts for return view
+            string patientMrn = formPca.PatientMrn.ToString("D6");
+            var patientAlerts = _repository.PatientAlerts.Where(a => a.Mrn == patientMrn).Count();
+            ViewBag.PatientAlertsCount = patientAlerts;
+
             //Do whatever Asp.Net redirect back to form here, I don't remember it and I'm tired. :)
             if (!ModelState.IsValid)
+            {
                 return View("CreateAssessment", formPca);
+            }
 
             var pca = formPca.ToPcaRecord();
             List<CareSystemAssessment> assessments;
@@ -169,6 +184,7 @@ namespace IS_Proj_HIT.Controllers
                 }
             }
 
+            // Return to assessment view
             return RedirectToAction("ViewAssessment",
                 new {assessmentId = pca.PcaId});
         }

@@ -20,6 +20,16 @@
             <li class="nav-item menu-item patientBanner">
                 <span class="heading">MRN: </span>@(ViewBag.Encounter.Mrn ?? string.Empty)
             </li>
+            <li class="nav-item menu-item patientBanner">
+                @if (@ViewBag.PatientAlertsCount > 0)
+                {
+                    <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
+                        <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
+                            @ViewBag.PatientAlertsCount
+                        </span>
+                    </a>
+                }
+            </li>
         </ul>
     </nav>
     <input type="hidden" asp-for="EncounterId" value="@ViewBag.Encounter.EncounterId" />
@@ -283,9 +293,9 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">&nbsp;Select WongBaker FACES&nbsp;</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">&nbsp;Select CRIES&nbsp;</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">&nbsp;Select Nonverbal Assessment&nbsp;</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">&nbsp;WongBaker FACES&nbsp;</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">&nbsp;CRIES&nbsp;</label></td>
+                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">&nbsp;Nonverbal Assessment&nbsp;</label></td>
                             </tr>
                         </tbody>
                     </table>

@@ -368,8 +368,6 @@ namespace IS_Proj_HIT.Controllers
                 return Redirect(myUrl);
             }
             return View();
-
-
         }
 
         // find all the encounters for a specific patient
