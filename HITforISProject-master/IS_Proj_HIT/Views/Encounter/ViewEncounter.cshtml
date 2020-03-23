@@ -16,6 +16,17 @@
         <li class="nav-item menu-item patientBanner">
             <span class="heading">MRN: </span>@(Model.Encounter.Mrn ?? string.Empty)
         </li>
+        <li class="nav-item menu-item patientBanner">
+            @if (@ViewBag.PatientAlertsCount > 0)
+            {
+                <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@Model.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
+                    <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
+                        @ViewBag.PatientAlertsCount
+                    </span>
+                </a>
+            }
+        </li>
+
     </ul>
 </nav>
 <div class="card">

@@ -109,6 +109,8 @@ namespace IS_Proj_HIT.Controllers
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == encounter.Mrn);
 
             ViewBag.isPatientEncounter = isPatientEncounter;
+            ViewBag.PatientAlertsCount = _repository.PatientAlerts.Where(b => b.Mrn == patient.Mrn).Count();
+
             return View(new ViewEncounterPageModel
             {
                 Encounter = encounter,
@@ -154,6 +156,9 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.CurrentPatientAge = 0;
                 ViewBag.PatientAge = pAge.Days + " Days";
             }
+
+            ViewBag.PatientAlertsCount = _repository.PatientAlerts.Where(b => b.Mrn == encounterMrn).Count();
+
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
             //can also probably make these queries into a function if you can figure out how to make the respository types generic
