@@ -14,8 +14,18 @@
             </button>
         </li>
         <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @Model.Dob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span><span class="age"></span> years</li>
         <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span>@Model.Mrn</li>
+        <li class="nav-item menu-item patientBanner">
+            @if (@ViewBag.PatientAlertsCount>0) 
+            {
+                <a asp-action="ListAlerts" asp-route-id="@Model.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
+                    <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
+                        @ViewBag.PatientAlertsCount
+                    </span>
+                </a>
+            }
+        </li>
     </ul>
 </nav>
 <div class="card">
@@ -83,10 +93,6 @@
         </div>
     </div>
 </div>
-<a asp-action="ListAlerts" asp-route-id="@Model.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-    <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
-    @ViewBag.PatientAlertsCount</span>
-</a>
 <a asp-action="Edit" asp-route-id="@Model.Mrn" id="editButton" class="btn btn-outline-primary">Edit Patient</a>
 <a asp-controller="Home" asp-action="PatientLookup" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
 <a asp-action="AddEncounter" asp-route-id="@Model.Mrn" class="btn btn-outline-primary">
@@ -142,9 +148,6 @@
 
         }
 
-
-
-
         // When page loads, if SSN field is on there, this adds the dashes
         $(function () {
             var val = $('#Ssn').text();
@@ -154,8 +157,6 @@
             val = val.replace(/(\d)-(\d{4}).*/, '$1-$2');
             $('#Ssn').html(val);
         });
-
-
 
         $('#formatSsnAndSubmitForm').hide();
 

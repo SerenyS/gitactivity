@@ -354,8 +354,6 @@ $(function () {
             var age = parseInt(dayDiff);
 
             $('.age').text(age);
-            $('.age').css('background-color', 'gold');
-
         }
     });
 
