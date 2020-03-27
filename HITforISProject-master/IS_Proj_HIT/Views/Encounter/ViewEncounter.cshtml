@@ -20,7 +20,7 @@
             @if (@ViewBag.PatientAlertsCount > 0)
             {
                 <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@Model.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-                    <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
+                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
                         @ViewBag.PatientAlertsCount
                     </span>
                 </a>

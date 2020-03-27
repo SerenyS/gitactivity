@@ -17,7 +17,7 @@
         <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span><span class="age"></span> years</li>
         <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span>@Model.Mrn</li>
         <li class="nav-item menu-item patientBanner">
-            @if (@ViewBag.PatientAlertsCount>0) 
+            @if (@ViewBag.PatientAlertsCount > 0)
             {
                 <a asp-action="ListAlerts" asp-route-id="@Model.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
                     <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">

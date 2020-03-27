@@ -8,9 +8,20 @@
                 <h4>Patient:&nbsp;<span id="fullName"></span></h4>
             </button>
         </li>
-             <li class="nav-item menu-item patientBanner"><span class="heading">DOB: </span> <span id="calcDOB"></span></li>
-            <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age" type="date"></span> years</li>
-            <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> <span id="calcMRN" type="date"></span></li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">DOB: </span> <span id="calcDOB"></span></li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age" type="date"></span> years</li>
+        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> <span id="calcMRN" type="date"></span></li>
+        <li class="nav-item menu-item patientBanner">
+            @if (@ViewBag.PatientAlertsCount > 0)
+            {
+                <a asp-action="ListAlerts" asp-route-id="@Model.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
+                    <i class="fas fa-exclamation-triangle alertColor"></i> Existing Alerts <span class="btn btn-dark btn-warning">
+                        @ViewBag.PatientAlertsCount
+                    </span>
+                </a>
+            }
+        </li>
+
     </ul>
 </nav>
 <div class="card">
@@ -33,6 +44,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
 

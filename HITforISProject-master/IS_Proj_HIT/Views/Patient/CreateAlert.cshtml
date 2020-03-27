@@ -21,7 +21,7 @@
 <div id="alertDiv">
     <div class="form-group"><i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert</div>
     <div id="message"></div>
-    <form method="post" id="alert" name="alert" asp-action="AddAlert">
+    <form method="post" id="alert" name="alert" asp-action="CreateAlert" asp-route-returnUrl="@ViewBag.ReturnUrl" >
         <div class="form-group">
             <label>Alert Type</label><br />
             @*<select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"><option value="">Select Marital Status</option></select>
@@ -72,9 +72,9 @@
             <label>Last Modified</label><br />
             <input asp-for="@Model.LastModified" type="text" id="longer" readonly value="@(ViewBag.LastModified ?? String.Empty)" />
         </div>
-        <button class="btn btn-primary" type="button" id="chk4nulls">Create Alert</button>
-        <button class="btn btn-outline-primary" id="realSubmit" hidden type="submit">Create Alert</button>
-        <a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details</a>
+        <button class="btn btn-primary" type="button" id="chk4nulls" asp-route-returnUrl="@ViewBag.ReturnUrl">Create Alert</button>
+        <button class="btn btn-outline-primary" id="realSubmit" hidden type="submit" asp-route-returnUrl="@ViewBag.ReturnUrl">Create Alert</button>
+        <a asp-controller="Patient" asp-action="BackToCaller" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Return</a>
     </form>
 </div>
 
