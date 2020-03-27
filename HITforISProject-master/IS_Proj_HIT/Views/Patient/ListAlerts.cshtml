@@ -16,7 +16,7 @@
         <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
         <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
         <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
-     </ul>
+    </ul>
 </nav>
 <div class="card-header bg-primary text-white"><h4><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts</h4></div>
 <br />
@@ -105,29 +105,30 @@ else
         <tbody>
             @foreach (var patientalerts in Model.PatientAlerts)
             {
-            <tr>
-                <td>@patientalerts.AlertType.Name</td>
-                @*<td>@patientalerts.Mrn</td>*@
-                <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
-                @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
-                @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
-                <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
-                <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
-                <td class="hideComments" width="300px">@patientalerts.Comments</td>
-                <td class="hideMod">@patientalerts.LastModified</td>
-                <td><a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"class="btn btn-outline-primary">Details</a></td>
-            </tr>
+                <tr>
+                    <td>@patientalerts.AlertType.Name</td>
+                    @*<td>@patientalerts.Mrn</td>*@
+                    <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
+                    @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
+                    @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
+                    <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
+                    <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
+                    <td class="hideComments" width="300px">@patientalerts.Comments</td>
+                    <td class="hideMod">@patientalerts.LastModified</td>
+                    <td><a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a></td>
+                </tr>
             }
         </tbody>
     </table>
 }
 
-<a asp-action="DisplayAddAlert" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
+<a asp-action="CreateAlert" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
     <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert
 </a>
-<a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary">
-    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Details
+<a asp-controller="Patient" asp-action="BackToCaller" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Return
 </a>
+
 <hr />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
