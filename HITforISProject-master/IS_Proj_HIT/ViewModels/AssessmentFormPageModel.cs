@@ -28,16 +28,24 @@ namespace IS_Proj_HIT.ViewModels
         public string HeadCircUnit { get; set; }
 
         public decimal? BodyMassIndex { get; set; }
+        public string BodyMassIndexUnit { get; set; }
 
         public byte? Pulse { get; set; }
         public byte? PulseOximetry { get; set; }
         public int? PulseRouteTypeId { get; set; }
+        public string PulseUnit { get; set; }
+
         public byte? Respiration { get; set; }
+        public string RespUnit { get; set; }
         public string OxygenFlow { get; set; }
         public int? O2deliveryTypeId { get; set; }
+
         public int? PainScaleTypeId { get; set; }
+
         public short? SystolicBloodPressure { get; set; }
         public short? DiastolicBloodPressure { get; set; }
+        public string BpRouteUnit { get; set; }
+        public string BpLocationUnit { get; set; }
 
         public AssessmentFormPageModel()
         {

@@ -156,9 +156,7 @@
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
                         <div class="col-sm-12 col-lg-2">
-                            <select class="form-control">
-                                <option>Method</option>
-                            </select>
+                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="BodyMassIndexUnit"></select>
                         </div>
                         <div class="col-sm col-lg"></div>
                     </div>
@@ -186,15 +184,10 @@
                         <div class="col-sm-12 col-lg-3">
                         </div>
                         <div class="col-sm-4 col-lg-2">
-                            <select class="form-control"></select>
+                            <select class="form-control" asp-items="@ViewBag.BpLocation" asp-for="BpLocationUnit"></select>
                         </div>
                         <div class="col-sm-4 col-lg-2">
-                            <select class="form-control"></select>
-                        </div>
-                        <div class="col-sm-4 col-lg-2">
-                            <select class="form-control">
-                                <option>Position</option>
-                            </select>
+                            <select class="form-control" asp-items="@ViewBag.BloodPressureRoutes" asp-for="BpRouteUnit"></select>
                         </div>
                     </div>
                     <hr />
@@ -216,7 +209,7 @@
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3"></div>
                         <div class="col-sm-12 col-lg-4">
-                            <select class="form-control" asp-items="@ViewBag.PulseRoutes" asp-for="PulseRouteTypeId" />
+                            <select class="form-control" asp-items="@ViewBag.PulseRoute" asp-for="PulseUnit"></select>
                         </div>
                         <div class="col-sm-12 col-lg-5"></div>
                     </div>
@@ -239,11 +232,7 @@
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
                         </div>
-                        <div class="col-sm-4 col-lg-2">
-                            <select class="form-control">
-                                <option>Method</option>
-                            </select>
-                        </div>
+                       
                         <div class="col-sm-4 col-lg-2">
                             <input class="form-control" placeholder="O2 %" type="number">
                         </div>
@@ -270,9 +259,7 @@
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
                         <div class="col-sm-12 col-lg-2">
-                            <select class="form-control">
-                                <option>Method</option>
-                            </select>
+                            <select class="form-control" asp-items="@ViewBag.O2DeliveryRoutes" asp-for="RespUnit"></select>
                         </div>
                         <div class="col-sm col-lg"></div>
                     </div>
