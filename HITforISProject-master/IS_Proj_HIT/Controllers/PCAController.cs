@@ -81,6 +81,11 @@ namespace IS_Proj_HIT.Controllers
                 new SelectListItem("Fahrenheit", TempUnit.Fahrenheit.ToString(), true),
                 new SelectListItem("Celsius", TempUnit.Celsius.ToString())
             };
+            ViewBag.BpLocation = new List<SelectListItem>
+            {
+                new SelectListItem("Left", BpLocation.Left.ToString(), true),
+                new SelectListItem("Right", BpLocation.Right.ToString())
+            };
             ViewBag.TempRoutes = new List<SelectListItem>(
                 _repository.TempRouteTypes.ToList()
                            .Select((r, i) =>
@@ -88,17 +93,34 @@ namespace IS_Proj_HIT.Controllers
                                            r.TempRouteTypeName,
                                            r.TempRouteTypeId.ToString(),
                                            i == 0)));
-            ViewBag.PulseRoutes = new List<SelectListItem>(
-                _repository.PulseRouteTypes.ToList().Select((r, i) =>
-                                                                new SelectListItem(
-                                                                    r.PulseRouteTypeName,
-                                                                    r.PulseRouteTypeId.ToString(),
-                                                                    i == 0)));
+            
             ViewBag.O2DeliveryRoutes = new List<SelectListItem>(
                 _repository.O2DeliveryTypes.ToList().Select((r, i) => new SelectListItem(
                                                                 r.O2deliveryTypeName,
                                                                 r.O2deliveryTypeId.ToString(),
                                                                 i == 0)));
+            ViewBag.BloodPressureRoutes = new List<SelectListItem>(
+                _repository.BloodPressureRouteTypes.ToList()
+                            .Select((r, i) =>
+                                        new SelectListItem(
+                                            r.Name,
+                                            r.BloodPressureRouteTypeId.ToString(),
+                                            i == 0)));
+            ViewBag.PulseRoute = new List<SelectListItem>(
+                _repository.PulseRouteTypes.ToList()
+                           .Select((r, i) =>
+                                       new SelectListItem(
+                                           r.PulseRouteTypeName,
+                                           r.PulseRouteTypeId.ToString(),
+                                           i == 0)));
+            ViewBag.BodyMassIndexRoutes = new List<SelectListItem>(
+                _repository.BmiMethods.ToList()
+                           .Select((r, i) =>
+                                      new SelectListItem(
+                                          r.Name,
+                                          r.BmiMethodId.ToString(),
+                                          i == 0)));
+
             var pca = _repository.PcaRecords.FirstOrDefault();
             var painratings = _repository.PainRatings.ToList();
 
@@ -108,9 +130,9 @@ namespace IS_Proj_HIT.Controllers
         /// <summary>
         /// todo: Expand this method to display the form to update an existing PCA, parameters are tenative
         /// </summary>
-        /// <param name="assessmentId">PCA Id for Db Lookup</param>
-        ///  <param name="patientMrn">Unique Identifier of patient</param>
-        ///   <param name="encounterId">Unique Identifier of patient</param>
+        /// <param name = "assessmentId" > PCA Id for Db Lookup</param>
+        ///  <param name = "patientMrn" > Unique Identifier of patient</param>
+        ///   <param name = "encounterId" > Unique Identifier of patient</param>
         public IActionResult UpdateAssessment(int assessmentId,string patientMRN,long encounterId)
         {
            var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.PcaId == assessmentId);
