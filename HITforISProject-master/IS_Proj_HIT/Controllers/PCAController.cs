@@ -1,14 +1,15 @@
-﻿using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Models.Data;
+using IS_Proj_HIT.Models.Enum;
+using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Services;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.Enum;
-using IS_Proj_HIT.Models.PCA;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Transactions;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -32,7 +33,7 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index", "Encounter",
                     new {filter = "CheckedIn"});
 
-            var patientAlerts = _repository.PatientAlerts.Where(a => a.Mrn == assessment.Encounter.Mrn).Count();
+            var patientAlerts = _repository.PatientAlerts.Count(a => a.Mrn == assessment.Encounter.Mrn);
             ViewBag.PatientAlertsCount = patientAlerts;
 
             var model = new CareAssessmentPageModel
@@ -49,11 +50,11 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="encounterId">Id of unique encounter</param>
         /// <param name="patientMrn">Unique Identifier of patient</param>
-        public IActionResult CreateAssessment(long encounterId, string patientMrn, AssessmentFormPageModel formPca = null)
+        public IActionResult CreateAssessment(long encounterId, string mrn)
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
-            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMrn);
-            var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMrn).Count();
+            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == mrn);
+            var patientAlerts = _repository.PatientAlerts.Count(b => b.Mrn == mrn);
 
             if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
@@ -63,68 +64,55 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Patient = patient;
             ViewBag.PatientAlertsCount = patientAlerts;
 
-            ViewBag.WeightUnits = new List<SelectListItem>
-            {
-                new SelectListItem("Kilograms", WeightUnit.Grams.ToString(), true),
-                new SelectListItem("Grams", WeightUnit.Grams.ToString()),
-                new SelectListItem("Pounds", WeightUnit.Pounds.ToString())
-            };
-            ViewBag.LengthUnits = new List<SelectListItem>
-            {
-                new SelectListItem("Inches", LengthUnit.Inches.ToString(), true),
-                new SelectListItem("Feet", LengthUnit.Feet.ToString()),
-                new SelectListItem("Centimeters", LengthUnit.Centimeters.ToString()),
-                new SelectListItem("Meters", LengthUnit.Feet.ToString())
-            };
-            ViewBag.TempUnits = new List<SelectListItem>
-            {
-                new SelectListItem("Fahrenheit", TempUnit.Fahrenheit.ToString(), true),
-                new SelectListItem("Celsius", TempUnit.Celsius.ToString())
-            };
-            ViewBag.BpLocation = new List<SelectListItem>
-            {
-                new SelectListItem("Left", BpLocation.Left.ToString(), true),
-                new SelectListItem("Right", BpLocation.Right.ToString())
-            };
-            ViewBag.TempRoutes = new List<SelectListItem>(
-                _repository.TempRouteTypes.ToList()
-                           .Select((r, i) =>
-                                       new SelectListItem(
-                                           r.TempRouteTypeName,
-                                           r.TempRouteTypeId.ToString(),
-                                           i == 0)));
-            
-            ViewBag.O2DeliveryRoutes = new List<SelectListItem>(
-                _repository.O2DeliveryTypes.ToList().Select((r, i) => new SelectListItem(
-                                                                r.O2deliveryTypeName,
-                                                                r.O2deliveryTypeId.ToString(),
-                                                                i == 0)));
-            ViewBag.BloodPressureRoutes = new List<SelectListItem>(
-                _repository.BloodPressureRouteTypes.ToList()
-                            .Select((r, i) =>
-                                        new SelectListItem(
-                                            r.Name,
-                                            r.BloodPressureRouteTypeId.ToString(),
-                                            i == 0)));
-            ViewBag.PulseRoute = new List<SelectListItem>(
-                _repository.PulseRouteTypes.ToList()
-                           .Select((r, i) =>
-                                       new SelectListItem(
-                                           r.PulseRouteTypeName,
-                                           r.PulseRouteTypeId.ToString(),
-                                           i == 0)));
-            ViewBag.BodyMassIndexRoutes = new List<SelectListItem>(
-                _repository.BmiMethods.ToList()
-                           .Select((r, i) =>
-                                      new SelectListItem(
-                                          r.Name,
-                                          r.BmiMethodId.ToString(),
-                                          i == 0)));
+            AddUnites();
+            AddRoutes();
+            var painScales = _repository.PainScaleTypes
+                .Include(ps => ps.PainParameters)
+                .ThenInclude(pp => pp.PainRatings)
+                .ToList();
+            var painRatings = new Dictionary<int, int?>();
+            painScales.ForEach(ps =>
+                ps.PainParameters.ToList().ForEach(pp =>
+                    pp.PainRatings.ToList().ForEach(pr =>
+                        painRatings.Add(pr.PainRatingId, null))));
 
-            var pca = _repository.PcaRecords.FirstOrDefault();
-            var painratings = _repository.PainRatings.ToList();
+            var secondarySystems = _repository.CareSystemAssessmentTypes
+                .Include(cs => cs.CareSystemParameters)
+                .ToList();
+            var sysAssessments = new Dictionary<int, CareSystemAssessment>();
+            secondarySystems.ForEach(s =>
+                s.CareSystemParameters.ToList().ForEach(sp =>
+                    sysAssessments.Add(sp.CareSystemParameterId,
+                        new CareSystemAssessment
+                        {
+                            CareSystemParameterId = sp.CareSystemParameterId,
+                            IsWithinNormalLimits = null
+                        })));
 
-            return View(formPca ?? new AssessmentFormPageModel());
+            var newFormPca = new AssessmentFormPageModel
+            {
+                PainScales = painScales,
+                PainRatings = painRatings,
+                SecondarySystemTypes = secondarySystems,
+                Assessments = sysAssessments
+            };
+
+            return View(newFormPca);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateAssessment(AssessmentFormPageModel formPca)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == formPca.PcaRecord.EncounterId);
+                ViewBag.Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == formPca.PatientMrn);
+                ViewBag.PatientAlertsCount  = _repository.PatientAlerts.Count(b => b.Mrn == formPca.PatientMrn);
+                return View(formPca);
+            }
+
+            return SaveAssessment(formPca);
         }
 
         /// <summary>
@@ -149,66 +137,149 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.PatientAlertsCount = patientAlerts;
 
 
-            var model = new AssessmentFormPageModel(assessment);
+            var model = new AssessmentFormPageModel();
             return View(model);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SaveAssessment(AssessmentFormPageModel formPca)
+        
+        private IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
-            // Get Patient Alerts for return view
-            string patientMrn = formPca.PatientMrn.ToString("D6");
-            var patientAlerts = _repository.PatientAlerts.Where(a => a.Mrn == patientMrn).Count();
-            ViewBag.PatientAlertsCount = patientAlerts;
-
-            //Do whatever Asp.Net redirect back to form here, I don't remember it and I'm tired. :)
-            if (!ModelState.IsValid)
+            var pca = formPca.PcaRecord;
+            //Convert temp to F, if entered in other unit
+            if(pca.Temperature != null)
             {
-                return View("CreateAssessment", formPca);
+                Enum.TryParse<TempUnit>(formPca.TempUnit, out var tempUnit);
+                pca.Temperature = ConversionService.ConvertTemp(tempUnit, TempUnit.Fahrenheit, pca.Temperature);
             }
-
-            var pca = formPca.ToPcaRecord();
-            List<CareSystemAssessment> assessments;
+            
             if (pca.PcaId is 0)
             {
-                //Create if pca from form does not include an ID
-                _repository.AddPcaRecord(pca);
-
-                assessments = formPca.ToSystemAssessments(pca.PcaId);
-                assessments.ForEach(a =>
+                using (var tran = new TransactionScope())
                 {
-                    a.LastModified = DateTime.Now;
-                });
-                _repository.AddSystemAssessments(assessments);
+                    _repository.AddPcaRecord(pca);
+
+                    var vitalCommentTypeId = 0;
+                    foreach (var note in formPca.VitalNotes.Where(n => !string.IsNullOrWhiteSpace(n)))
+                    {
+                        if (vitalCommentTypeId is 0)
+                        {
+                            var comType =
+                                _repository.PcaCommentTypes.FirstOrDefault(t => t.PcaCommentTypeName == "Vitals");
+                            if (comType is null) break;
+                            vitalCommentTypeId = comType.PcaCommentTypeId;
+                        }
+
+                        _repository.AddPcaComment(new PcaComment
+                        {
+                            PcaId = pca.PcaId,
+                            PcaCommentTypeId = vitalCommentTypeId,
+                            Comment = note,
+                            DateCommentAdded = DateTime.Now
+                        });
+                    }
+
+                    var painScale = _repository.PainScaleTypes
+                        .Include(ps => ps.PainParameters)
+                        .ThenInclude(pp => pp.PainRatings)
+                        .FirstOrDefault(ps => ps.PainScaleTypeId == pca.PainScaleTypeId);
+                    if (painScale != null)
+                    {
+                        foreach (var (paramId, ratingId) in formPca.PainRatings)
+                        {
+                            if (painScale.PainParameters.Any(pp => pp.PainParameterId == paramId) && ratingId.HasValue)
+                            {
+                                _repository.AddPainAssessment(new PcaPainAssessment
+                                {
+                                    PcaId = pca.PcaId,
+                                    PainParameterId = paramId,
+                                    PainRatingId = (int) ratingId,
+                                    LastModified = DateTime.Now
+                                });
+                            }
+                        }
+                    }
+
+                    foreach (var (systemParamId, assessment) in formPca.Assessments.Where(a =>
+                        a.Value.IsWithinNormalLimits != null))
+                    {
+                        assessment.PcaId = pca.PcaId;
+                        assessment.CareSystemParameterId = (short) systemParamId;
+                        assessment.LastModified = DateTime.Now;
+                        _repository.AddSystemAssessment(assessment);
+                    }
+
+                    tran.Complete();
+                }
             }
             else
             {
                 //Update Pca and assessments
-                _repository.EditPcaRecord(pca);
-
-                assessments = _repository.CareSystemAssessments.Where(a => a.PcaId == pca.PcaId).ToList();
-
-                var formAssessments = formPca.ToSystemAssessments();
-                foreach (var current in assessments)
-                {
-                    var formVersion = formAssessments.FirstOrDefault(a =>
-                        a.CareSystemParameterId == current.CareSystemParameterId);
-                    if (formVersion is null) continue;
-                    if (current.Comment == formVersion.Comment) continue;
-
-                    //need to determine how to find Within Normal(Defined) limits
-                    //IsWithinNormalLimits = model.Height != null && model.Height != 0,
-                    current.Comment = formVersion.Comment;
-                    current.LastModified = formVersion.LastModified;
-                    current.IsWithinNormalLimits = formVersion.IsWithinNormalLimits;
-                    _repository.EditSystemAssessment(current);
-                }
+                //_repository.EditPcaRecord(pca);
             }
 
             // Return to assessment view
             return RedirectToAction("ViewAssessment",
-                new {assessmentId = pca.PcaId});
+                new {assessmentId = formPca.PcaRecord.PcaId});
         }
+
+        private void AddUnites()
+        {
+            ViewBag.WeightUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Kilograms", WeightUnit.Grams.ToString(), true),
+                new SelectListItem("Grams", WeightUnit.Grams.ToString()),
+                new SelectListItem("Pounds", WeightUnit.Pounds.ToString())
+            };
+            ViewBag.LengthUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Inches", LengthUnit.Inches.ToString(), true),
+                new SelectListItem("Feet", LengthUnit.Feet.ToString()),
+                new SelectListItem("Centimeters", LengthUnit.Centimeters.ToString()),
+                new SelectListItem("Meters", LengthUnit.Feet.ToString())
+            };
+            ViewBag.TempUnits = new List<SelectListItem>
+            {
+                new SelectListItem("Fahrenheit", TempUnit.Fahrenheit.ToString(), true),
+                new SelectListItem("Celsius", TempUnit.Celsius.ToString())
+            };
+        }
+
+        private void AddRoutes()
+        {
+            ViewBag.TempRoutes = new List<SelectListItem>(
+                _repository.TempRouteTypes.ToList()
+                    .Select((r, i) =>
+                        new SelectListItem(
+                            r.TempRouteTypeName,
+                            r.TempRouteTypeId.ToString(),
+                            i == 0)));
+            ViewBag.O2DeliveryRoutes = new List<SelectListItem>(
+                _repository.O2DeliveryTypes.ToList().Select((r, i) => new SelectListItem(
+                    r.O2deliveryTypeName,
+                    r.O2deliveryTypeId.ToString(),
+                    i == 0)));
+            ViewBag.BloodPressureRoutes = new List<SelectListItem>(
+                _repository.BloodPressureRouteTypes.ToList()
+                    .Select((r, i) =>
+                        new SelectListItem(
+                            r.Name,
+                            r.BloodPressureRouteTypeId.ToString(),
+                            i == 0)));
+            ViewBag.PulseRoute = new List<SelectListItem>(
+                _repository.PulseRouteTypes.ToList()
+                    .Select((r, i) =>
+                        new SelectListItem(
+                            r.PulseRouteTypeName,
+                            r.PulseRouteTypeId.ToString(),
+                            i == 0)));
+            ViewBag.BodyMassIndexRoutes = new List<SelectListItem>(
+                _repository.BmiMethods.ToList()
+                    .Select((r, i) =>
+                        new SelectListItem(
+                            r.Name,
+                            r.BmiMethodId.ToString(),
+                            i == 0)));
+
+        }
+
     }
 }

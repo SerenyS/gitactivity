@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-$(function () {
+﻿$(function () {
 
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
@@ -503,7 +498,16 @@ $(function () {
         modal.find('.modal-body p').html(msg)
     });
 
-
+    $('.painScaleRadio').on('change', e => {
+        $('.painScale').each((i, t) => {
+            if (!t.classList.contains('d-none'))
+                t.classList.add('d-none');
+        });
+        $('.painScale-' + e.target.value).each((i, t) => {
+            if (t.classList.contains('d-none'))
+                t.classList.remove('d-none');
+        });
+    });
 });
 
 //function to show / hide the textarea within the PCA form and make description required for abnormal entries

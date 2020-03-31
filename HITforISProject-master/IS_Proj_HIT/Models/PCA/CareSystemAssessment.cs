@@ -7,7 +7,7 @@ namespace IS_Proj_HIT.Models.PCA
         public int CareSystemAssessmentId { get; set; }
         public int PcaId { get; set; }
         public short CareSystemParameterId { get; set; }
-        public bool IsWithinNormalLimits { get; set; }
+        public bool? IsWithinNormalLimits { get; set; }
         public string Comment { get; set; }
         public DateTime LastModified { get; set; }
 

@@ -78,6 +78,10 @@ namespace IS_Proj_HIT.Models.Data
         void AddPcaRecord(PcaRecord pca);
         void DeletePcaRecord(PcaRecord pca);
         void EditPcaRecord(PcaRecord pca);
+        
+        void AddPcaComment(PcaComment pca);
+        void DeletePcaComment(PcaComment pca);
+        void EditPcaComment(PcaComment pca);
 
         void AddSystemAssessment(CareSystemAssessment csa);
         void AddSystemAssessments(IList<CareSystemAssessment> csaList);

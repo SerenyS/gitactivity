@@ -10,83 +10,29 @@ namespace IS_Proj_HIT.ViewModels
 {
     public class AssessmentFormPageModel
     {
-        public int Pcaid { get; set; }
-        [Required] public long EncounterId { get; set; }
-        [Required] public long PatientMrn { get; set; }
+        public PcaRecord PcaRecord { get; set; }
 
-        public decimal? Temperature { get; set; }
+        [Required] public string PatientMrn { get; set; }
+
         public string TempUnit { get; set; }
-        public int? TempRouteTypeId { get; set; }
+        public string[] VitalNotes { get; set; }
 
-        public decimal? Height { get; set; }
-        public string HeightUnit { get; set; }
+        public List<CareSystemType> SecondarySystemTypes { get; set; }
+        public Dictionary<int, CareSystemAssessment> Assessments { get; set; }
 
-        public decimal? Weight { get; set; }
-        public string WeightUnit { get; set; }
-
-        public decimal? HeadCircumference { get; set; }
-        public string HeadCircUnit { get; set; }
-
-        public decimal? BodyMassIndex { get; set; }
-        public string BodyMassIndexUnit { get; set; }
-
-        public byte? Pulse { get; set; }
-        public byte? PulseOximetry { get; set; }
-        public int? PulseRouteTypeId { get; set; }
-        public string PulseUnit { get; set; }
-
-        public byte? Respiration { get; set; }
-        public string RespUnit { get; set; }
-        public string OxygenFlow { get; set; }
-        public int? O2deliveryTypeId { get; set; }
-
-        public int? PainScaleTypeId { get; set; }
-
-        public short? SystolicBloodPressure { get; set; }
-        public short? DiastolicBloodPressure { get; set; }
-        public string BpRouteUnit { get; set; }
-        public string BpLocationUnit { get; set; }
+        public List<PainScaleType> PainScales { get; set; }
+        public Dictionary<int, int?> PainRatings { get; set; }
 
         public AssessmentFormPageModel()
         {
-        }
+            PcaRecord = new PcaRecord();
+            VitalNotes = new string[9];
 
-        public AssessmentFormPageModel(PcaRecord pca)
-        {
-            Pcaid = pca.PcaId;
-            EncounterId = pca.EncounterId;
-            Temperature = pca.Temperature;
-            TempRouteTypeId = pca.TempRouteTypeId;
-            Pulse = pca.Pulse;
-            PulseOximetry = pca.PulseOximetry;
-            PulseRouteTypeId = pca.PulseRouteTypeId;
-            Respiration = pca.Respiration;
-            OxygenFlow = pca.OxygenFlow;
-            O2deliveryTypeId = pca.O2deliveryTypeId;
-            PainScaleTypeId = pca.PainScaleTypeId;
-            SystolicBloodPressure = pca.SystolicBloodPressure;
-            DiastolicBloodPressure = pca.DiastolicBloodPressure;
-            //if (decimal.TryParse(
-            //    pca.CareSystemAssessment.FirstOrDefault(a =>
-            //            (SystemAssessmentTypeEnum) a.CareSystemParameterId is SystemAssessmentTypeEnum.Height)
-            //        ?.Comment, out var height))
-            //    Height = height;
-            //if (decimal.TryParse(
-            //    pca.CareSystemAssessment.FirstOrDefault(a =>
-            //            (SystemAssessmentTypeEnum) a.CareSystemParameterId is SystemAssessmentTypeEnum.Weight)
-            //        ?.Comment, out var weight))
-            //    Weight = weight;
-            //if (decimal.TryParse(
-            //    pca.CareSystemAssessment.FirstOrDefault(a =>
-            //        (SystemAssessmentTypeEnum) a.CareSystemParameterId is SystemAssessmentTypeEnum
-            //            .HeadCircumference)?.Comment, out var headCircumference))
-            //    HeadCircumference = headCircumference;
-            //if (decimal.TryParse(
-            //    pca.CareSystemAssessment.FirstOrDefault(a =>
-            //            (SystemAssessmentTypeEnum) a.CareSystemParameterId is SystemAssessmentTypeEnum
-            //                .BodyMassIndex)
-            //        ?.Comment, out var bodyMassIndex))
-            //    BodyMassIndex = bodyMassIndex;
+            SecondarySystemTypes = new List<CareSystemType>();
+            Assessments = new Dictionary<int, CareSystemAssessment>();
+
+            PainScales = new List<PainScaleType>();
+            PainRatings = new Dictionary<int, int?>();
         }
     }
 }

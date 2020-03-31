@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IS_Proj_HIT.Models.PCA
 {
@@ -12,7 +13,7 @@ namespace IS_Proj_HIT.Models.PCA
         }
 
         public int PcaId { get; set; }
-        public long EncounterId { get; set; }
+        [Required] public long EncounterId { get; set; }
 
         public int? TempRouteTypeId { get; set; }
         public int? PulseRouteTypeId { get; set; }
