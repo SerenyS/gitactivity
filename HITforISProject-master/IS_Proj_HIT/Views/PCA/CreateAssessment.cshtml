@@ -3,7 +3,7 @@
     ViewData["Title"] = "Patient Care Assessment";
 }
 
-<form class="col" method="post" id="pca" name="pca" asp-action="SaveAssessment">
+<form asp-action="CreateAssessment" class="col" id="pca" method="post" name="pca">
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
         <ul class="navbar-nav nav-fill w-100">
             <li class="nav-item menu-item">
@@ -24,7 +24,8 @@
                 @if (@ViewBag.PatientAlertsCount > 0)
                 {
                     <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-                        <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
+                        <i class="fas fa-exclamation-triangle alertColor"></i> Alerts
+                        <span class="btn btn-dark btn-warning">
                             @ViewBag.PatientAlertsCount
                         </span>
                     </a>
@@ -32,12 +33,11 @@
             </li>
         </ul>
     </nav>
-    <input type="hidden" asp-for="EncounterId" value="@ViewBag.Encounter.EncounterId" />
+    <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <div class="tab-content">
-            <!-- General tab -->
-        <div class="tab-pane active" id="general" role="tabpanel" aria-labelledby="general-tab">
-
+        <!-- General tab -->
+        <div aria-labelledby="general-tab" class="tab-pane active" id="general" role="tabpanel">
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>Patient Care Assessment - General Systems <span class="float-right">Page 1</span></h4>
@@ -52,21 +52,20 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputTemperature" placeholder="Temperature"
-                                   step="0.01" max="999.99" asp-for="Temperature">
+                                   step="0.01" min="-999.99" max="999.99" asp-for="PcaRecord.Temperature">
                         </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                        <div class="col-sm-6 col-lg-2">
+                            <select class="form-control" asp-items="@ViewBag.TempUnits" asp-for="TempUnit"></select>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <select class="form-control" asp-items="@ViewBag.TempRoutes" asp-for="PcaRecord.TempRouteTypeId"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3"></div>
-                        <div class="col-sm-6 col-lg-2 ">
-                            <select class="form-control" asp-items="@ViewBag.TempUnits" asp-for="TempUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[0]" />
                         </div>
-                        <div class="col-sm-6 col-lg-2 ">
-                            <select class="form-control" asp-items="@ViewBag.TempRoutes" asp-for="TempRouteTypeId"></select>
-                        </div>
-                        <div class="col-sm-12 col-lg"></div>
                     </div>
                     <hr />
                     <div class="form-group row">
@@ -78,18 +77,17 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputWeight" placeholder="Weight"
-                                   min="0" step="0.01" asp-for="Weight">
+                                   min="0" max="99999999.99" step="0.01" asp-for="PcaRecord.Weight">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <select class="form-control" asp-items="@ViewBag.WeightUnits" asp-for="PcaRecord.WeightUnits"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-2 ">
-                            <select class="form-control" asp-items="@ViewBag.WeightUnits" asp-for="WeightUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[1]" />
                         </div>
-                        <div class="col-sm col-lg"></div>
                     </div>
                     <hr />
                     <div class="form-group row">
@@ -101,18 +99,17 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputHeight" placeholder="Height/Length"
-                                   min="0" step="0.01" asp-for="Height">
+                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.Height">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeightUnits"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-2 ">
-                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="HeightUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[2]" />
                         </div>
-                        <div class="col-sm col-lg"></div>
                     </div>
                     <hr />
                     <div class="form-group row">
@@ -124,18 +121,17 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputHead" placeholder="Head Circ."
-                                   min="0" step="0.01" asp-for="HeadCircumference">
+                                   min="0" max="9999.999" step="0.01" asp-for="PcaRecord.HeadCircumference">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeadCircumferenceUnits"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-2 ">
-                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="HeadCircUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[3]" />
                         </div>
-                        <div class="col-sm col-lg"></div>
                     </div>
                     <hr />
                     <div class="form-group row">
@@ -147,18 +143,17 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputBMI" placeholder="BMI"
-                                   min="0" step="0.01" asp-for="BodyMassIndex">
+                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.BodyMassIndex">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="PcaRecord.BmiMethodId"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-2">
-                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="BodyMassIndexUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[4]" />
                         </div>
-                        <div class="col-sm col-lg"></div>
                     </div>
                     <hr />
                     <div class="form-group row">
@@ -166,28 +161,25 @@
                             <button class="btn btn-primary m-r" type="button">
                                 <i class="fas fa-info"></i>
                             </button>
-                            <label class="form-label" for="inputSystolic">Systolic / Diastolic</label>
+                            <label class="form-label" for="inputSystolic">Blood Pressure</label>
                         </div>
                         <div class="col-sm-12 col-lg-2">
                             <input type="number" class="form-control" id="inputSystolic" placeholder="Systolic"
-                                   min="0" step="0.01" asp-for="SystolicBloodPressure">
+                                   min="0" max="999" step="0.01" asp-for="PcaRecord.SystolicBloodPressure">
                         </div>
                         <div class="col-sm-12 col-lg-2">
                             <input type="number" class="form-control" id="inputDiastolic" placeholder="Diastolic"
-                                   min="0" step="0.01" asp-for="DiastolicBloodPressure">
+                                   min="0" max="999" step="0.01" asp-for="PcaRecord.DiastolicBloodPressure">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <select class="form-control" asp-items="@ViewBag.BloodPressureRoutes" asp-for="PcaRecord.BloodPressureRouteTypeId"></select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
                         </div>
-                        <div class="col-sm-4 col-lg-2">
-                            <select class="form-control" asp-items="@ViewBag.BpLocation" asp-for="BpLocationUnit"></select>
-                        </div>
-                        <div class="col-sm-4 col-lg-2">
-                            <select class="form-control" asp-items="@ViewBag.BloodPressureRoutes" asp-for="BpRouteUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[5]" />
                         </div>
                     </div>
                     <hr />
@@ -196,24 +188,19 @@
                             <button class="btn btn-primary m-r" type="button">
                                 <i class="fas fa-info"></i>
                             </button>
-                            <label for="inputPulse" class="form-label">Pulse</label>
+                            <label class="form-label" for="inputPulse">Pulse</label>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-6 col-lg-2">
                             <input type="number" class="form-control" id="inputPulse" placeholder="Pulse"
-                                   min="0" step="0.01" asp-for="Pulse">
+                                   min="0" max="127" step="0.01" asp-for="PcaRecord.Pulse">
+                        </div>
+                        <div class="col-sm-6 col-lg-2">
+                            <select class="form-control" asp-items="@ViewBag.PulseRoute" asp-for="PcaRecord.PulseRouteTypeId"></select>
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[6]" />
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-4">
-                            <select class="form-control" asp-items="@ViewBag.PulseRoute" asp-for="PulseUnit"></select>
-                        </div>
-                        <div class="col-sm-12 col-lg-5"></div>
-                    </div>
-                    <hr />
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
                             <button class="btn btn-primary m-r" type="button">
@@ -223,21 +210,10 @@
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputPulseOxi" placeholder="Pulse Oxim"
-                                   min="0" step="0.01" asp-for="PulseOximetry">
+                                   min="0" max="127" step="0.01" asp-for="PcaRecord.PulseOximetry">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3">
-                        </div>
-                       
-                        <div class="col-sm-4 col-lg-2">
-                            <input class="form-control" placeholder="O2 %" type="number">
-                        </div>
-                        <div class="col-sm-4 col-lg-2">
-                            <input class="form-control" placeholder="Flow Rate" type="number">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[7]" />
                         </div>
                     </div>
                     <hr />
@@ -246,1267 +222,198 @@
                             <button class="btn btn-primary m-r" type="button">
                                 <i class="fas fa-info"></i>
                             </button>
-                            <label for="inputRespiration" class="form-label">Respiration</label>
+                            <label class="form-label" for="inputRespiration">Respiration</label>
                         </div>
-                        <div class="col-sm-12 col-lg-4">
+                        <div class="col-sm-6 col-lg-2">
                             <input type="number" class="form-control" id="inputRespiration" placeholder="Respiration"
-                                   min="0" step="0.01" asp-for="Respiration">
+                                   min="0" max="127" step="0.01" asp-for="PcaRecord.Respiration">
                         </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" />
+                        <div class="col-sm-6 col-lg-2">
+                            <select class="form-control" asp-items="@ViewBag.O2DeliveryRoutes" asp-for="PcaRecord.O2deliveryTypeId"></select>
+                        </div>
+                        <div class="col-sm-6 col-lg-2">
+                            <input class="form-control" placeholder="Flow Rate"type="text" asp-for="PcaRecord.OxygenFlow">
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <input class="form-control" placeholder="O2 %"
+                                   min="0" max="9.9999" step="0.01"
+                                   type="number" asp-for="PcaRecord.PercentOxygenDelivered">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-2">
-                            <select class="form-control" asp-items="@ViewBag.O2DeliveryRoutes" asp-for="RespUnit"></select>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[8]" />
                         </div>
-                        <div class="col-sm col-lg"></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Pain tab -->
-        <div class="tab-pane" id="painTab" role="tabpanel" aria-labelledby="pain-tab">
+        <div aria-labelledby="pain-tab" class="tab-pane" id="painTab" role="tabpanel">
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>Patient Care Assessment - Pain<span class="float-right">Page 2</span></h4>
                 </div>
-            </div>
-
-            <div class="row" id="selectPainScale">
-                <div class="radio-toolbar">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectWongBakerPain" value="WongBaker"><label for="selectWongBakerPain">&nbsp;WongBaker FACES&nbsp;</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectCries" value="Cries"><label for="selectCries">&nbsp;CRIES&nbsp;</label></td>
-                                <td><input type="radio" class="painAssessment" name="selectPain" id="selectNonverbalPain" value="Nonverbal"><label for="selectNonverbalPain">&nbsp;Nonverbal Assessment&nbsp;</label></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="accordion" id="painAccordion">
-                <!--Wong-Baker pain scale -->
-                <div class="card">
-                    <div class="card-header" id="WongBaker">
-                        <h2 class="mb-0">
-                            <!-- removed data-toggle="collapse" to prevent on-click opening (use selection buttons above instead -->
-                            <button class="btn btn-link" type="button" data-target="#collapseWongBaker" aria-expanded="true" aria-controls="collapseWongBaker">
-                                Wong-Baker Faces Scale
-                            </button>
-                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="WongBaker">
-                                <i class="fas fa-info"></i>
-                            </button>
-                        </h2>
+                <div class="card-body">
+                    <div class="form-group row">
+                        @foreach (var painScaleType in Model.PainScales)
+                        {
+                            <div class="col-sm-6 col-lg-3 mb-1">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-info"></i>
+                                </button>
+                                <input id="@(painScaleType.PainScaleTypeName + painScaleType.PainScaleTypeId)"
+                                       class="painScaleRadio"
+                                       type="radio"
+                                       asp-for="PcaRecord.PainScaleTypeId"
+                                       value="@painScaleType.PainScaleTypeId">
+                                <label class="btn btn-outline-primary w-75 mb-0"
+                                       for="@(painScaleType.PainScaleTypeName + painScaleType.PainScaleTypeId)">
+                                    @painScaleType.PainScaleTypeName
+                                </label>
+                            </div>
+                        }
                     </div>
-                    <div id="collapseWongBaker" class="collapse" aria-labelledby="WongBaker" data-parent="#painAccordion">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="radio-toolbar">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="WongBakerPain" id="WongBakerPainNA" checked><label for="WongBakerPainNA">NA</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt0"><label for="hurt0">0 - No Hurt</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt2"><label for="hurt2">2 - Hurts a Little</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt4"><label for="hurt4">4 - Hurts a Little More</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt6"><label for="hurt6">6 - Hurts Even More</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt8"><label for="hurt8">8 - Hurts a Whole Lot</label></td>
-                                                <td><input type="radio" name="WongBakerPain" id="hurt10" onclick="ShowHide('hurt10', 'wongBaker')"><label for="hurt10">10 - Hurts Worst</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group">
-                                    <label><textarea id="wongBaker" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <figure>
-                                    <img src="~/img/FACES_English_Black.jpg" alt="Pain Scale 0 to 10">
-                                    <figcaption>
-                                        FACES licensed to Angela Lee February, 2020
-                                    </figcaption>
-                                </figure>
-                            </div>
-
+                    <div class="form-group row">
+                        <div class="col-sm-6 col-lg-3">
+                            <label class="form-label mb-0" for="painLevelGoal">
+                                Pain Level Goal
+                            </label>
+                            <input id="painLevelGoal"
+                                   class="form-control"
+                                   type="number"
+                                   min="0" max="10" step="1"
+                                   asp-for="PcaRecord.PainLevelGoal">
                         </div>
                     </div>
-                </div>
-                <!-- Cries pain scale -->
-                <div class="card">
-                    <div class="card-header" id="headingCries">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-target="#collapseCries" aria-expanded="true" aria-controls="collapseCries">
-                                CRIES Scale
-                            </button>
-                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="cries">
-                                <i class="fas fa-info"></i>
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseCries" class="collapse" aria-labelledby="headingCries" data-parent="#painAccordion">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md" title="Characteristic cry of pain is high pitched.">
-                                    &nbsp;Crying:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesCrying">
+                    <hr />
+                    @foreach (var painScaleType in Model.PainScales)
+                    {
+                        @foreach (var painParam in painScaleType.PainParameters)
+                        {
+                            <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
+                                <div class="col-sm-12 col-lg-3">
+                                    <button class="btn btn-primary" type="button">
                                         <i class="fas fa-info"></i>
                                     </button>
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="crying" id="cryingNA" checked><label for="cryingNA">NA</label></td>
-                                                <td><input type="radio" name="crying" id="crying0"><label for="crying0">0 - None</label></td>
-                                                <td><input type="radio" name="crying" id="crying1"><label for="crying1">1 - Consolable</label></td>
-                                                <td><input type="radio" name="crying" id="crying2"  onclick="ShowHide('crying2', 'criesCrying')"><label for="crying2">2 - Not Consolable</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-md">
-                                    <textarea id="criesCrying" placeholder="Describe" rows="1"></textarea>
+                                    <label class="form-label">@painParam.ParameterName</label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md" title="Requires O2 for SaO2 < 95%: Babies experiencing pain manifest decreased oxygenation. Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax.">
-                                    &nbsp;Requires O2:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesO2">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="O2" id="O2NA" checked><label for="O2NA">NA</label></td>
-                                                <td><input type="radio" name="O2" id="O20"><label for="O20">0 - None</label></td>
-                                                <td><input type="radio" name="O2" id="O21"><label for="O21">1 - &lt;30%</label></td>
-                                                <td><input type="radio" name="O2" id="O22"  onclick="ShowHide('O22', 'criesO2')"><label for="O22">2 - &gt;30%</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-md">
-                                    <label><textarea id="criesO2" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
+                            <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
+                                @foreach (var painRating in painParam.PainRatings)
+                                {
+                                    <div class="col-sm-4 col-lg-2 mb-1">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-info"></i>
+                                        </button>
+                                        <input id="@(painParam.ParameterName + painParam.PainParameterId + painRating.PainRatingId)"
+                                               type="radio"
+                                               asp-for="PainRatings[painParam.PainParameterId]"
+                                               value="@painRating.PainRatingId">
+                                        <label class="btn btn-outline-primary w-50 mb-0"
+                                               for="@(painParam.ParameterName + painParam.PainParameterId + painRating.PainRatingId)">
+                                            @painRating.Value
+                                        </label>
+                                    </div>
+                                }
+                                @if (painScaleType.PainScaleTypeName is "Wong-Baker")
+                                {
+                                    <figure>
+                                        <img alt="Pain Scale 0 to 10" src="~/img/FACES_English_Black.jpg">
+                                        <figcaption>
+                                            FACES licensed to Angela Lee February, 2020
+                                        </figcaption>
+                                    </figure>
+                                }
                             </div>
-                            <div class="row">
-                                <div class="col-md" title="Increased Vital Signs (BP & HR): Take BP last as this may awaken child making other assessments difficult">
-                                    &nbsp;Increased Vitals:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesVitalIncrease">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="vitalIncrease" id="vitalIncreaseNA" checked><label for="vitalIncreaseNA">NA</label></td>
-                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease0"><label for="vitalIncrease0">0 - None</label></td>
-                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease1"><label for="vitalIncrease1">1 - &lt;20% </label></td>
-                                                <td><input type="radio" name="vitalIncrease" id="vitalIncrease2"  onclick="ShowHide('vitalIncrease2', 'criesVitalIncrease')"><label for="vitalIncrease2">2 - &gt;20%</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="criesVitalIncrease" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="The facial expression most often associated with pain is a grimace. A grimace may be characterized by brow lowering, eyes squeezed shut, deepening naso-labial furrow, or open lips and mouth">
-                                    &nbsp;Expression:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesExpression">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Expression" id="expressionNA" checked><label for="expressionNA">NA</label></td>
-                                                <td><input type="radio" name="Expression" id="expression0"><label for="expression0">0 - No grimace</label></td>
-                                                <td><input type="radio" name="Expression" id="expression1"><label for="expression1">1 - Grimace only</label></td>
-                                                <td><input type="radio" name="Expression" id="expression2"  onclick="ShowHide('expression2', 'criesExpression')"><label for="expression2">2 - Added grunt</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="criesExpression" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="Scored based upon the infant's state during the hour preceding this recorded score.">
-                                    &nbsp;Sleepless:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="criesSleepless">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Sleepless" id="sleeplessNA" checked><label for="sleeplessNA">NA</label></td>
-                                                <td><input type="radio" name="Sleepless" id="sleepless0"><label for="sleepless0">0 - Unbroken sleep</label></td>
-                                                <td><input type="radio" name="Sleepless" id="sleepless1"><label for="sleepless1">1 - Broken sleep</label></td>
-                                                <td><input type="radio" name="Sleepless" id="sleepless2"  onclick="ShowHide('sleepless2', 'criesSleepless')"><label for="sleepless2">2 - Awake</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="form-group col-sm">
-                                    <label><textarea id="criesSleepless" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Nonverbal pain assessment -->
-                <div class="card">
-                    <div class="card-header" id="headingNonverbal">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-target="#collapseNonverbal" aria-expanded="true" aria-controls="collapseNonverbal">
-                                Nonverbal pain assessment
-                            </button>
-                            <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbal">
-                                <i class="fas fa-info"></i>
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseNonverbal" class="collapse" aria-labelledby="headingNonverbal" data-parent="#painAccordion">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md" title="Expression">
-                                    &nbsp;Face:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalFace">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-7">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Face" id="faceNA" checked><label for="faceNA">NA</label></td>
-                                                <td><input type="radio" name="Face" id="face0"><label for="face0">0 - None</label></td>
-                                                <td><input type="radio" name="Face" id="face1"><label for="face1">1 - Occasional</label></td>
-                                                <td><input type="radio" name="Face" id="face2" onclick="ShowHide('face2', 'nonverbalFace')"><label for="face2">2 - Frequent</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="nonverbalFace" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="Movement">
-                                    &nbsp;Activity:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalMovement">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-7">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Movement" id="movementNA" checked><label for="movementNA">NA</label></td>
-                                                <td><input type="radio" name="Movement" id="movement0"><label for="movement0">0 - Quiet</label></td>
-                                                <td><input type="radio" name="Movement" id="movement1"><label for="movement1">1 - Some Movement</label></td>
-                                                <td><input type="radio" name="Movement" id="movement2" onclick="ShowHide('movement2', 'nonverbalMovement')"><label for="movement2">2 - Restless/ withdrawn</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="nonverbalMovement" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="Guarding the body or reluctance to move">
-                                    &nbsp;Guarding:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalGuarding">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-7">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Guarding" id="guardingNA" checked><label for="guardingNA">NA</label></td>
-                                                <td><input type="radio" name="Guarding" id="guarding0"><label for="guarding0">0 - None</label></td>
-                                                <td><input type="radio" name="Guarding" id="guarding1"><label for="guarding1">1 - Splinting</label></td>
-                                                <td><input type="radio" name="Guarding" id="guarding2" onclick="ShowHide('guarding2', 'nonverbalGuarding')"><label for="guarding2">2 - Rigid</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="nonverbalGuarding" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="Vital signs">
-                                    &nbsp;Physiology:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalPhysiology">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-7">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Physiology" id="physiologyNA" checked><label for="physiologyNA">NA</label></td>
-                                                <td><input type="radio" name="Physiology" id="physiology0"><label for="physiology0">0 - Unchanged</label></td>
-                                                <td><input type="radio" name="Physiology" id="physiology1"><label for="physiology1">1 - Some change</label></td>
-                                                <td><input type="radio" name="Physiology" id="physiology2" onclick="ShowHide('physiology2', 'nonverbalPhysiology')"><label for="physiology2">2 - Definite change</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="nonverbalPhysiology" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md" title="Respiration">
-                                    &nbsp;Respiratory:
-                                    <button type="button" class="btn btn-primary iconButton" data-toggle="modal" data-target="#PcaInfoModal" data-whatever="nonVerbalRespiratory">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                </div>
-                                <div class="radio-toolbar col-7">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Respiratory" id="respiratoryNA" checked><label for="respiratoryNA">NA</label></td>
-                                                <td><input type="radio" name="Respiratory" id="respiratory0"><label for="respiratory0">0 - Baseline</label></td>
-                                                <td><input type="radio" name="Respiratory" id="respiratory1"><label for="respiratory1">1 - Some change</label></td>
-                                                <td><input type="radio" name="Respiratory" id="respiratory2" onclick="ShowHide('respiratory2', 'nonverbalRespiratory')"><label for="respiratory2">2 - Definite change</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-sm">
-                                    <label><textarea id="nonverbalRespiratory" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <hr class="painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none" />
+                        }
+                    }
                 </div>
             </div>
         </div>
 
         <!-- Vitals tab -->
-        <div class="tab-pane" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
+        <div aria-labelledby="secondary-tab" class="tab-pane" id="secondary" role="tabpanel">
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>Patient Care Assessment - Secondary Systems<span class="float-right">Page 3</span></h4>
                 </div>
-            </div>
-            <div class="accordion" id="accordion">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Level of Consciousness and Orientation
-                            </button>
-                        </h2>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <ul class="nav nav-tabs nav-fill small font-weight-bold border" id="myTab" role="tablist">
+                            @foreach (var careSystem in Model.SecondarySystemTypes)
+                            {
+                                <li class="nav-item">
+                                    <a aria-controls="careSystem-@(careSystem.CareSystemTypeId)" aria-selected="false"
+                                       id="careSystem-@(careSystem.CareSystemTypeId)-tab" class="nav-link"
+                                       data-toggle="tab" href="#careSystem-@(careSystem.CareSystemTypeId)" role="tab">
+                                        @careSystem.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                     </div>
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body ">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Person:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="notAssessed" id="personNA" checked><label for="personNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" value="wnl" id="personWnl"><label for="personWnl">WNL</label></td>
-                                                <td><input type="radio" name="Person" onclick="ShowHide('person', 'personArea')" id="person" value="abnormal"><label for="person">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="personArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
+                    <div class="tab-content border p-3" id="careSystemTabContent">
+                        @foreach (var careSystem in Model.SecondarySystemTypes)
+                        {
+                            <div aria-labelledby="careSystem-@(careSystem.CareSystemTypeId)-tab" class="tab-pane fade show"
+                                 id="careSystem-@(careSystem.CareSystemTypeId)" role="tabpanel">
+                                @foreach (var careParam in careSystem.CareSystemParameters)
+                                {
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 col-lg-5">
+                                            <button class="btn btn-primary m-r" type="button">
+                                                <i class="fas fa-info"></i>
+                                            </button>
+                                            <label class="form-label">@careParam.Name</label>
+                                        </div>
+                                        <div class="col-sm-4 col-lg-2 mb-1">
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-na"
+                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                                   value=""
+                                                   type="radio" checked>
+                                            <label class="btn btn-outline-primary w-90 mb-0"
+                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-na">
+                                                Not Assessed
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-lg-3 mb-1">
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-f"
+                                                   type="radio"
+                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                                   value="true">
+                                            <label class="btn btn-outline-primary w-90 mb-0"
+                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-f">
+                                                Within Normal Limits
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-lg-2 mb-1">
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
+                                                   type="radio"
+                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                                   value="false">
+                                            <label class="btn btn-outline-primary w-90 mb-0"
+                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-t">
+                                                Abnormal
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 col-lg-12 mb-1">
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
+                                                   class="form-control"
+                                                   type="text"
+                                                   asp-for="Assessments[careParam.CareSystemParameterId].Comment"
+                                                   placeholder="Comment">
+                                        </div>
+                                    </div>
+                                    <hr />
+                                }
                             </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Place:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="notAssessed" id="placeNA" checked><label for="placeNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" value="wnl" id="placeWnl"><label for="placeWnl">WNL</label></td>
-                                                <td><input type="radio" name="Place" onclick="ShowHide('place', 'placeArea')" id="place" value="abnormal"><label for="place">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="placeArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Time:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="notAssessed" id="timeNA" checked><label for="timeNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" value="wnl" id="timeWnl"><label for="timeWnl">WNL</label></td>
-                                                <td><input type="radio" name="Time" onclick="ShowHide('time', 'timeArea')" id="time" value="abnormal"><label for="time">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-md">
-                                    <label><textarea id="timeArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Purpose:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="notAssessed" id="purposeNA" checked><label for="purposeNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" value="wnl" id="purposeWnl"><label for="purposeWnl">WNL</label></td>
-                                                <td><input type="radio" name="Purpose" onclick="ShowHide('purpose', 'purposeArea')" id="purpose" value="abnormal"><label for="purpose">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col-md">
-                                    <label><textarea id="purposeArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                HEENT/ Neuro
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Head:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="notAssessed" id="headNA" checked><label for="headNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Head" onclick="ShowHide('head', 'headArea')" value="wnl" id="headWnl"><label for="headWnl">WNL</label></td>
-                                                <td><input type="radio" id="head" onclick="ShowHide('head', 'headArea')" name="Head" value="abnormal"><label for="head">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="headArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Eyes/ Vision:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="notAssessed" id="eyeNA" checked><label for="eyeNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="wnl" id="eyeWnl"><label for="eyeWnl">WNL</label></td>
-                                                <td><input type="radio" id="eye" name="Eyes/Vision" onclick="ShowHide('eye', 'eyeArea')" value="abnormal"><label for="eye">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="eyeArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Ears/ Hearing:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="notAssessed" id="earNA" checked><label for="earNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="wnl" id="earWnl"><label for="earWnl">WNL</label></td>
-                                                <td><input type="radio" id="ear" name="Ears/Hearing" onclick="ShowHide('ear', 'earArea')" value="abnormal"><label for="ear">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="earArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Nose:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="notAssessed" id="noseNA" checked><label for="noseNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="wnl" id="noseWnl"><label for="noseWnl">WNL</label></td>
-                                                <td><input type="radio" id="nose" name="Nose" onclick="ShowHide('nose', 'noseArea')" value="abnormal"><label for="nose">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="noseArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Throat and Mouth:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="notAssessed" id="mouthNA" checked><label for="mouthNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="wnl" id="mouthWnl"><label for="mouthWnl">WNL</label></td>
-                                                <td><input type="radio" id="mouth" name="Throat and Mouth" onclick="ShowHide('mouth', 'mouthArea')" value="abnormal"><label for="mouth">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="mouthArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Skin
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Wounds/ Breaks/ Rash/ Lesions:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="notAssessed" id="rashNA" checked><label for="rashNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="wnl" id="rashWnl"><label for="rashWnl">WNL</label></td>
-                                                <td><input type="radio" id="rash" name="Wounds/Breaks/Rash/Lesions" onclick="ShowHide('rash', 'rashArea')" value="abnormal"><label for="rash">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="rashArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Redness/ Irritation:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="notAssessed" id="redNA" checked><label for="redNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="wnl" id="redWnl"><label for="redWnl">WNL</label></td>
-                                                <td><input type="radio" id="red" name="Redness/Irritation" onclick="ShowHide('red', 'redArea')" value="abnormal"><label for="red">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="redArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Ears/ Hearing:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="notAssessed" id="hearingNA" checked><label for="hearingNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Hearing" onclick="ShowHide('hearing', 'hearingArea')" value="wnl" id="hearingWnl"><label for="hearingWnl">WNL</label></td>
-                                                <td><input type="radio" id="hearing" onclick="ShowHide('hearing', 'hearingArea')" name="Hearing" value="abnormal"><label for="hearing">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="hearingArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Dryness/ Excess Moisture:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="notAssessed" id="dryNA" checked><label for="dryNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="wnl" id="dryWnl"><label for="dryWnl">WNL</label></td>
-                                                <td><input type="radio" id="dry" name="Dryness/ Excess Moisture" onclick="ShowHide('dry', 'dryArea')" value="abnormal"><label for="dry">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="dryArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Sign of Breakdown
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="notAssessed" id="signNA" checked><label for="signNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="wnl" id="signWnl"><label for="signWnl">WNL</label></td>
-                                                <td><input type="radio" id="sign" name="Sign of Breakdown" onclick="ShowHide('sign', 'signArea')" value="abnormal"><label for="sign">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="signArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingFour">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Lungs/ Thoracic
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Lung sounds:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="notAssessed" id="lungNA" checked><label for="lungNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="wnl" id="lungWnl"><label for="lungWnl">WNL</label></td>
-                                                <td><input type="radio" id="lung" name="Lung sounds" onclick="ShowHide('lung', 'lungArea')" value="abnormal"><label for="lung">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="lungArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Respiration depth:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="notAssessed" id="depthNA" checked><label for="depthNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="wnl" id="depthWnl"><label for="depthWnl">WNL</label></td>
-                                                <td><input type="radio" id="depth" name="Respiration depth" onclick="ShowHide('depth', 'depthArea')" value="abnormal"><label for="depth">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="depthArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Respiratory rate:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="notAssessed" id="rateNA" checked><label for="rateNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="wnl" id="rateWnl"><label for="rateWnl">WNL</label></td>
-                                                <td><input type="radio" id="rate" name="Respiratory rate" onclick="ShowHide('rate', 'rateArea')" value="abnormal"><label for="rate">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="rateArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Chest shape and appearance:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="notAssessed" id="chestNA" checked><label for="chestNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="wnl" id="chestWnl"><label for="chestWnl">WNL</label></td>
-                                                <td><input type="radio" id="chest" name="Chest shape and appearance" onclick="ShowHide('chest', 'chestArea')" value="abnormal"><label for="chest">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="chestArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Drains/ Lines/ Sutures/ Staples:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="notAssessed" id="lineNA" checked><label for="lineNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="wnl" id="lineWnl"><label for="lineWnl">WNL</label></td>
-                                                <td><input type="radio" id="line" name="Drains/ Lines/ Sutures/ Staples" onclick="ShowHide('line', 'lineArea')" value="abnormal"><label for="line">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="lineArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingFive">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                Cardiac/ Thoracic
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Heart sounds:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="notAssessed" id="heartNA" checked><label for="heartNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="wnl" id="heartWnl"><label for="heartWnl">WNL</label></td>
-                                                <td><input type="radio" id="heart" name="Heart sounds" onclick="ShowHide('heart', 'heartArea')" value="abnormal"><label for="heart">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="heartArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Heart rate:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="notAssessed" id="HrateNA" checked><label for="HrateNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="wnl" id="HrateWnl"><label for="HrateWnl">WNL</label></td>
-                                                <td><input type="radio" id="Hrate" name="Heart rate" onclick="ShowHide('Hrate', 'HrateArea')" value="abnormal"><label for="Hrate">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="HrateArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Heart rhythm:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="notAssessed" id="rhythmNA" checked><label for="rhythmNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="wnl" id="rhythmWnl"><label for="rhythmWnl">WNL</label></td>
-                                                <td><input type="radio" id="rhythm" name="Heart rhythm" onclick="ShowHide('rhythm', 'rhythmArea')" value="abnormal"><label for="rhythm">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="rhythmArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Jugular venous pulse:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="notAssessed" id="pulseNA" checked><label for="pulseNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="wnl" id="pulseWnl"><label for="pulseWnl">WNL</label></td>
-                                                <td><input type="radio" id="pulse" name="Jugular venous pulse" onclick="ShowHide('pulse', 'pulseArea')" value="abnormal"><label for="pulse">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="pulseArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Drains/ Lines/ Sutures/ Staples:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="notAssessed" id="drainNA" checked><label for="drainNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="wnl" id="drainWnl"><label for="drainWnl">WNL</label></td>
-                                                <td><input type="radio" id="drain" name="Drains/ Sutures/ Lines/ Staples" onclick="ShowHide('drain', 'drainArea')" value="abnormal"><label for="drain">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="drainArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingSix">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                Abdomen/ Coccyx/ Genitalia
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Abnormal shape and apperance:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="notAssessed" id="abnormalNA" checked><label for="abnormalNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="notAssessed" id="abnormalWnl"><label for="abnormalWnl">WNL</label></td>
-                                                <td><input type="radio" id="abnormal" name="Abnormal shape and apperance" onclick="ShowHide('abnormal', 'abnormalArea')" value="abnormal"><label for="abnormal">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="abnormalArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Bowel sounds:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="notAssessed" id="bowelNA" checked><label for="bowelNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="wnl" id="bowelWnl"><label for="bowelWnl">WNL</label></td>
-                                                <td><input type="radio" id="bowel" name="Bowel sounds" onclick="ShowHide('bowel', 'bowelArea')" value="abnormal"><label for="bowel">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="bowelArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Tenderness/ Lumps/ Bladder distension:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="notAssessed" id="lumpNA" checked><label for="lumpNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="wnl" id="lumpWnl"><label for="lumpWnl">WNL</label></td>
-                                                <td><input type="radio" id="lump" name="Tenderness/ Lumps/ Bladder distension" onclick="ShowHide('lump', 'lumpArea')" value="abnormal"><label for="lump">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="lumpArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Tubes/ Drains/ Catheter sites:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="notAssessed" id="tubeNA" checked><label for="tubeNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="wnl" id="tubeWnl"><label for="tubeWnl">WNL</label></td>
-                                                <td><input type="radio" id="tube" name="Tubes/ Drains/ Catheter sites" onclick="ShowHide('tube', 'tubeArea')" value="abnormal"><label for="tube">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="tubeArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Skin appearance:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="notAssessed" id="skinNA" checked><label for="skinNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="wnl" id="skinWnl"><label for="skinWnl">WNL</label></td>
-                                                <td><input type="radio" id="skin" name="Skin appearance" onclick="ShowHide('skin', 'skinArea')" value="abnormal"><label for="skin">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="skinArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingSeven">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                Extremities
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Temerature/ Color/ Capillary Refill:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="notAssessed" id="colorNA" checked><label for="colorNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="wnl" id="colorWnl"><label for="colorWnl">WNL</label></td>
-                                                <td><input type="radio" id="color" name="Temerature/ Color/ Capillary Refill" onclick="ShowHide('color', 'colorArea')" value="abnormal"><label for="color">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="colorArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Pulses/ Sensation:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="notAssessed" id="sensationNA" checked><label for="sensationNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="wnl" id="sensationWnl"><label for="sensationWnl">WNL</label></td>
-                                                <td><input type="radio" id="sensation" name="Pulses/ Sensation" onclick="ShowHide('sensation', 'sensationArea')" value="abnormal"><label for="sensation">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="sensationArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Endema:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="notAssessed" id="endemaNA" checked><label for="endemaNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Endema" onclick="ShowHide('endema', 'endemaArea')" value="wnl" id="endemaWnl"><label for="endemaWnl">WNL</label></td>
-                                                <td><input type="radio" id="endema" onclick="ShowHide('endema', 'endemaArea')" name="Endema" value="abnormal"><label for="endema">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="endemaArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    ROM:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="notAssessed" id="romNA" checked><label for="romNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="ROM" onclick="ShowHide('rom', 'romArea')" value="wnl" id="romWnl"><label for="romWnl">WNL</label></td>
-                                                <td><input type="radio" id="rom" name="ROM" onclick="ShowHide('rom', 'romArea')" value="abnormal"><label for="rom">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="romArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Tubes/ Drains/ Staples/ Sutures/ Catheter sites:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="notAssessed" id="stapleNA" checked><label for="stapleNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="wnl" id="stapleWnl"><label for="stapleWnl">WNL</label></td>
-                                                <td><input type="radio" id="staple" name="Tubes/ Drains/ Staples/ Sutures/ Catheter sites" onclick="ShowHide('staple', 'stapleArea')" value="abnormal"><label for="staple">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="stapleArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingEight">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
-                                Psych/ Mental Health
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Mood/ Affect:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="notAssessed" id="moodNA" checked><label for="moodNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="wnl" id="moodWnl"><label for="moodWnl">WNL</label></td>
-                                                <td><input type="radio" id="mood" name="Mood/ Affect" onclick="ShowHide('mood', 'moodArea')" value="abnormal"><label for="mood">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="moodArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Cognition:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="notAssessed" id="cognitionNA" checked><label for="cognitionNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="wnl" id="cognitionWnl"><label for="cognitionWnl">WNL</label></td>
-                                                <td><input type="radio" id="cognition" name="Cognition" onclick="ShowHide('cognition', 'cognitionArea')" value="abnormal"><label for="cognition">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="cognitionArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Thought Pattern:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="notAssessed" id="thoughtNA" checked><label for="thoughtNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="wnl" id="thoughtWnl"><label for="thoughtWnl">WNL</label></td>
-                                                <td><input type="radio" id="thought" name="Thought Pattern" onclick="ShowHide('thought', 'thoughtArea')" value="abnormal"><label for="thought">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="thoughtArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Sleep Pattern:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="notAssessed" id="sleepNA" checked><label for="sleepNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="wnl" id="sleepWnl"><label for="sleepWnl">WNL</label></td>
-                                                <td><input type="radio" id="sleep" name="Sleep Pattern" onclick="ShowHide('sleep', 'sleepArea')" value="abnormal"><label for="sleep">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="sleepArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingNine">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
-                                General
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Elimination:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="notAssessed" id="eliminationNA" checked><label for="eliminationNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Elimination" onclick="ShowHide('elimination', 'eliminationArea')" value="wnl" id="eliminationWnl"><label for="eliminationWnl">WNL</label></td>
-                                                <td><input type="radio" id="elimination" onclick="ShowHide('elimination', 'eliminationArea')" name="Elimination" value="abnormal"><label for="elimination">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="eliminationArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Appetite:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="notAssessed" id="appetiteNA" checked><label for="appetiteNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Appetite" onclick="ShowHide('appetite', 'appetiteArea')" value="wnl" id="appetiteWnl"><label for="appetiteWnl">WNL</label></td>
-                                                <td><input type="radio" id="appetite" onclick="ShowHide('appetite', 'appetiteArea')" name="Appetite" value="abnormal"><label for="appetite">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="appetiteArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                            <div class="row m-2">
-                                <div class="col-3 mb-2">
-                                    Activity:
-                                </div>
-                                <div class="radio-toolbar col-6">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="notAssessed" id="activityNA" checked><label for="activityNA">Not Assessed</label></td>
-                                                <td><input type="radio" name="Activity" onclick="ShowHide('activity', 'activityArea')" value="wnl" id="activityWnl"><label for="activityWnl">WNL</label></td>
-                                                <td><input type="radio" id="activity" onclick="ShowHide('activity', 'activityArea')" name="Activity" value="abnormal"><label for="activity">Abnormal</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="form-group col m-0">
-                                    <label><textarea id="activityArea" placeholder="Describe" rows="1"></textarea></label>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -1514,32 +421,28 @@
     </div>
 
     <!--For navigating PCA-->
-    <!-- Tabstrip -->
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Systems</a>
+            <a aria-controls="general" aria-selected="true" class="nav-link active" data-toggle="tab" href="#general" id="general-tab" role="tab">General Systems</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pain-tab" data-toggle="tab" href="#painTab" role="tab" aria-controls="pain" aria-selected="false">Pain Assessment</a>
+            <a aria-controls="pain" aria-selected="false" class="nav-link" data-toggle="tab" href="#painTab" id="pain-tab" role="tab">Pain Assessment</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="secondary-tab" data-toggle="tab" href="#secondary" role="tab" aria-controls="secondary" aria-selected="false">Secondary Systems</a>
+            <a aria-controls="secondary" aria-selected="false" class="nav-link" data-toggle="tab" href="#secondary" id="secondary-tab" role="tab">Secondary Systems</a>
         </li>
     </ul>
-    <button type="submit" class="btn btn-primary btn-block">Save & Close Assessment</button>
+    <button class="btn btn-primary btn-block" type="submit">Save & Close Assessment</button>
 </form>
 
-
-
-<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
-
+<div aria-atomic="true" aria-live="polite" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
     <!-- Then put toasts within -->
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div aria-atomic="true" aria-live="assertive" class="toast" role="alert">
         <div class="toast-header">
-            <img src="..." class="rounded mr-2" alt="...">
+            <img alt="..." class="rounded mr-2" src="...">
             <strong class="mr-auto">Bootstrap</strong>
             <small>11 mins ago</small>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -1550,12 +453,12 @@
 </div>
 
 <!-- Modal for informational messages -->
-<div class="modal fade" id="PcaInfoModal" tabindex="-1" role="dialog" aria-labelledby="PcaInfoModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="PcaInfoModalLabel" class="modal fade" id="PcaInfoModal" role="dialog" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="PcaInfoModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -1563,7 +466,7 @@
                 <p id="message-text"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
                     Close
                 </button>
             </div>

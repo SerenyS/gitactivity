@@ -292,7 +292,7 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.Property(e => e.CareSystemParameterId).HasColumnName("CareSystemParameterID");
                 
-                entity.Property(e => e.IsWithinNormalLimits).HasColumnName("IsWithinNormalLimits");
+                entity.Property(e => e.IsWithinNormalLimits).IsRequired(false).HasColumnName("IsWithinNormalLimits");
 
                 entity.Property(e => e.Comment).IsUnicode(false);
                 

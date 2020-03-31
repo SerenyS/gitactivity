@@ -206,7 +206,24 @@ namespace IS_Proj_HIT.Models.Data
             _context.Update(pca);
             _context.SaveChanges();
         }
+        
+        public void AddPcaComment(PcaComment com)
+        {
+            _context.Add(com);
+            _context.SaveChanges();
+        }
 
+        public void DeletePcaComment(PcaComment com)
+        {
+            _context.Remove(com);
+            _context.SaveChanges();
+        }
+
+        public void EditPcaComment(PcaComment com)
+        {
+            _context.Update(com);
+            _context.SaveChanges();
+        }
         public void AddSystemAssessment(CareSystemAssessment csa)
         {
             _context.Add(csa);

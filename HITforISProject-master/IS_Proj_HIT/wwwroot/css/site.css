@@ -331,3 +331,7 @@ body {
 .m-b {
     margin-bottom: 10px;
 }
+
+.w-90 {
+    width: 90% !important;
+}
