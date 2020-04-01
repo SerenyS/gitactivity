@@ -27,7 +27,20 @@ namespace IS_Proj_HIT.Controllers
         {
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
+                .Include(pca => pca.PcaComment)
                 .Include(pca => pca.CareSystemAssessment)
+                .ThenInclude(ca => ca.CareSystemParameter)
+                .ThenInclude(cp => cp.CareSystemType)
+                .Include(pca => pca.PainAssessment)
+                .ThenInclude(pa => pa.PainParameter)
+                .Include(pca => pca.PainAssessment)
+                .ThenInclude(pa => pa.PainRating)
+                .Include(pca => pca.PainScaleType)
+                .Include(pca => pca.TempRouteType)
+                .Include(pca => pca.BmiMethod)
+                .Include(pca => pca.BloodPressureRouteType)
+                .Include(pca => pca.PulseRouteType)
+                .Include(pca => pca.O2deliveryType)
                 .FirstOrDefault(pca => pca.PcaId == assessmentId);
             if (assessment is null)
                 return RedirectToAction("Index", "Encounter",
@@ -35,14 +48,9 @@ namespace IS_Proj_HIT.Controllers
 
             var patientAlerts = _repository.PatientAlerts.Count(a => a.Mrn == assessment.Encounter.Mrn);
             ViewBag.PatientAlertsCount = patientAlerts;
-
-            var model = new CareAssessmentPageModel
-            {
-                Assessment = assessment,
-                Encounter = assessment.Encounter,
-                Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn)
-            };
-            return View(model);
+            ViewBag.Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn);
+            
+            return View(assessment);
         }
 
         /// <summary>
@@ -155,6 +163,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 using (var tran = new TransactionScope())
                 {
+                    pca.DateVitalsAdded = DateTime.Now;
                     _repository.AddPcaRecord(pca);
 
                     var vitalCommentTypeId = 0;

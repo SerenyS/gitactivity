@@ -1,15 +1,15 @@
 ﻿@using IS_Proj_HIT.Models.PCA
-@model CareAssessmentPageModel;
+@model PcaRecord;
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
     <ul class="navbar-nav nav-fill w-100">
         <li class="nav-item menu-item">
             <button class="btn btn-danger" type="button">
-                <h4>Patient:&nbsp;@Model.Patient.FirstName&nbsp;@Model.Patient.MiddleName&nbsp;@Model.Patient.LastName</h4>
+                <h4>Patient:&nbsp;@ViewBag.Patient.FirstName&nbsp;@ViewBag.Patient.MiddleName&nbsp;@ViewBag.Patient.LastName</h4>
             </button>
         </li>
         <li class="nav-item menu-item dob patientBanner">
-            <span class="heading">DOB: </span> @Model.Patient.Dob.ToShortDateString()
+            <span class="heading">DOB: </span> @ViewBag.Patient.Dob.ToShortDateString()
         </li>
         <li class="nav-item menu-item patientBanner">
             <span class="heading">Age: </span> @Model.Encounter.PatientCurrentAge
@@ -21,7 +21,8 @@
             @if (@ViewBag.PatientAlertsCount > 0)
             {
                 <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@Model.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
+                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts
+                    <span class="btn btn-dark btn-warning">
                         @ViewBag.PatientAlertsCount
                     </span>
                 </a>
@@ -35,8 +36,8 @@
         <h4>
             Patient Care Assessment Information
             <a asp-action="UpdateAssessment"
-               asp-route-assessmentId="@Model.Assessment.PcaId"
-               asp-route-patientMRN="@Model.Patient.Mrn"
+               asp-route-assessmentId="@Model.PcaId"
+               asp-route-patientMRN="@ViewBag.Patient.Mrn"
                asp-route-encounterId="@Model.Encounter.EncounterId"
                class="btn btn-info btn-sm float-right">
                 Update Patient Care Assessment
@@ -45,36 +46,14 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            <h6 class="row d-block pb-1">
-                <span class="float-left">Date Vitals Entered: @Model.Assessment.DateVitalsAdded?.ToString("g")</span>
-                <span class="float-right">Last Modified: @Model.Assessment.LastModified.ToString("g")</span>
-            </h6>
+            <h5 class="d-block pb-1 mb-2">
+                <span class="float-left">Date Vitals Entered: <b>@Model.DateVitalsAdded?.ToString("g")</b></span>
+                <span class="float-right">Last Modified: <b>@Model.LastModified.ToString("g")</b></span>
+            </h5>
             <table class="table table-bordered table-primary">
                 <thead>
                 <tr>
                     <th>Temperature</th>
-                    <th>Respiration</th>
-                    <th>Blood Pressure</th>
-                    <th>Pulse</th>
-                    <th>Pulse Oximetry</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>@(Model.Assessment.Temperature is null ? "N.A." : $"{Model.Assessment.Temperature} *F")</td>
-                    <td>@(Model.Assessment.Respiration is null ? "N.A." : $"{Model.Assessment.Respiration} /min")</td>
-                    <td>
-                        @(Model.Assessment.SystolicBloodPressure is null || Model.Assessment.DiastolicBloodPressure is null
-                            ? "N.A." : $"{Model.Assessment.SystolicBloodPressure} / {Model.Assessment.DiastolicBloodPressure}")
-                    </td>
-                    <td>@(Model.Assessment.Pulse is null ? "N.A." : $"{Model.Assessment.Pulse} /min")</td>
-                    <td>@(Model.Assessment.PulseOximetry is null ? "N.A." : $"{Model.Assessment.PulseOximetry}%")</td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered table-primary">
-                <thead>
-                <tr>
                     <th>Weight</th>
                     <th>Height</th>
                     <th>Head Circumference</th>
@@ -83,400 +62,96 @@
                 </thead>
                 <tbody>
                 <tr>
-                    @*<td>
-                        @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
-                                                    is SystemAssessmentTypeEnum.Weight)?.Comment ?? "N/A") lb
-                    </td>
-                    <td>
-                        @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
-                                                    is SystemAssessmentTypeEnum.Height)?.Comment ?? "N/A") in
-                    </td>
-                    <td>
-                        @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
-                                                    is SystemAssessmentTypeEnum.HeadCircumference)?.Comment ?? "N/A") in
-                    </td>
-                    <td>
-                        @(Model.Assessment.CareSystemAssessment
-                               .FirstOrDefault(a => (SystemAssessmentTypeEnum) a.CareSystemParameterId
-                                                    is SystemAssessmentTypeEnum.BodyMassIndex)?.Comment ?? "N/A")
-                    </td>*@
+                    <td>@(Model.Temperature is null ? "N.A." : $"{Model.Temperature} *F ({Model.TempRouteType.TempRouteTypeName})")</td>
+                    <td>@(Model.Weight is null ? "N.A." : $"{Model.Weight} {Model.WeightUnits}")</td>
+                    <td>@(Model.Height is null ? "N.A." : $"{Model.Height} {Model.HeightUnits}")</td>
+                    <td>@(Model.HeadCircumference is null ? "N.A." : $"{Model.HeadCircumference} {Model.HeadCircumferenceUnits}")</td>
+                    <td>@(Model.BodyMassIndex is null ? "N.A." : $"{Model.BodyMassIndex} ({Model.BmiMethod.Name})")</td>
                 </tr>
                 </tbody>
             </table>
-            <hr />
-            <h5>Pain Scale Info here</h5>
-            <hr />
-            <ul class="nav nav-tabs nav-fill small font-weight-bold border" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a aria-controls="general" aria-selected="false" class="nav-link active"
-                       data-toggle="tab" href="#general" id="general-tab"
-                       role="tab">
-                        General
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="consciousness" aria-selected="true" class="nav-link"
-                       data-toggle="tab" href="#consciousness" id="consciousness-tab"
-                       role="tab">
-                        Consciousness
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="mental" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#mental" id="mental-tab"
-                       role="tab">
-                        Mental
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="skin" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#skin" id="skin-tab"
-                       role="tab">
-                        Skin
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="extremities" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#extremities" id="extremities-tab"
-                       role="tab">
-                        Extremities
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="profile" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#heent" id="heent-tab"
-                       role="tab">
-                        H.E.E.N.T.
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="lungs" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#lungs" id="lungs-tab"
-                       role="tab">
-                        Lungs
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="cardiac" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#cardiac" id="cardiac-tab"
-                       role="tab">
-                        Cardiac
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a aria-controls="abdomen" aria-selected="false" class="nav-link"
-                       data-toggle="tab" href="#abdomen" id="abdomen-tab"
-                       role="tab">
-                        Abdomen/Coccyx/Genitalia
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content border p-3" id="myTabContent">
-                <div aria-labelledby="general-tab" class="tab-pane fade show active"
-                     id="general" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Pain/Discomfort</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Elimination</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Appetite</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Tubes/Drains/Catheter Sites</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Activity</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="consciousness-tab" class="tab-pane fade"
-                     id="consciousness" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Person</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Place</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Time</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Purpose</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="mental-tab" class="tab-pane fade"
-                     id="mental" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Mood/Affect</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Cognition</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Thought Pattern</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Sleep Pattern</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="skin-tab" class="tab-pane fade"
-                     id="skin" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Wounds/Breaks/Rash/Lesions</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Redness/Irritation</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Ears/Hearing</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Dryness/Excess Moisture</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Sign of Breakdown</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="extremities-tab" class="tab-pane fade"
-                     id="extremities" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Temperature/Color/Capillary Refill</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Pulses/ Sensation</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Enema</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">ROM</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Tubes/Drains/Staples/Sutures/Catheter Sites</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="heent-tab" class="tab-pane fade"
-                     id="heent" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Head</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Eyes/Vision</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Ears/Hearing</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Nose</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Throat/Mouth</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="lungs-tab" class="tab-pane fade"
-                     id="lungs" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Lung Sounds</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Respiration Depth</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Respiration Rate</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Chest Shape And Appearance</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Drains/Lines/Sutures/Staples</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="cardiac-tab" class="tab-pane fade"
-                     id="cardiac" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Heart Sounds</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Heart Rate</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Heart Rhythm</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Jugular Venous Pulse</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Drains/Lines/Sutures/Staples</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-                <div aria-labelledby="abdomen-tab" class="tab-pane fade"
-                     id="abdomen" role="tabpanel">
-                    <div class="row">
-                        <h4 class="col-sm-6 col-lg-4">Abnormal Shape & Appearance</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Bowel Sounds</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Tenderness/Lumps/Bladder Distensions</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Tubes/Drains/Catheter Sites</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-
-                        <div class="col-sm-12">
-                            <hr />
-                        </div>
-
-                        <h4 class="col-sm-6 col-lg-4">Skin Appearance</h4>
-                        <p class="col-sm-6 col-lg-8">N.A.</p>
-                    </div>
-                </div>
-            </div>
+            <table class="table table-bordered table-primary">
+                <thead>
+                <tr>
+                    <th>Blood Pressure</th>
+                    <th>Pulse</th>
+                    <th>Pulse Oximetry</th>
+                    <th>Respiration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        @(Model.SystolicBloodPressure is null || Model.DiastolicBloodPressure is null ? "N.A." :
+                            $"{Model.SystolicBloodPressure} / {Model.DiastolicBloodPressure} ({Model.BmiMethod.Name})")
+                    </td>
+                    <td>@(Model.Pulse is null ? "N.A." : $"{Model.Pulse} /min ({Model.PulseRouteType.PulseRouteTypeName})")</td>
+                    <td>@(Model.PulseOximetry is null ? "N.A." : $"{Model.PulseOximetry}%")</td>
+                    <td>@(Model.Respiration is null ? "N.A." : $"{Model.Respiration} /min ({Model.O2deliveryType.O2deliveryTypeName})")</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-primary">
+                <thead>
+                <tr>
+                    @if (Model.PainLevelGoal != null)
+                    {
+                        <th>Goal: @Model.PainLevelGoal / 10</th>
+                    }
+                    <th class="text-center" colspan="99">Pain Assessment - @Model.PainScaleType.PainScaleTypeName</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var pa in Model.PainAssessment)
+                {
+                    <tr>
+                        <td>@pa.PainParameter.ParameterName</td>
+                        <td>@pa.PainRating.Value</td>
+                        <td>@pa.PainRating.Description</td>
+                    </tr>
+                }
+                @if (Model.PainScaleType.PainScaleTypeName is "Wong-Baker")
+                {
+                    <tr>
+                        <td colspan="99">
+                            <figure>
+                                <img alt="Pain Scale 0 to 10" src="~/img/FACES_English_Black.jpg">
+                                <figcaption>
+                                    FACES licensed to Angela Lee February, 2020
+                                </figcaption>
+                            </figure>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @if (Model.CareSystemAssessment != null && Model.CareSystemAssessment.Count > 0)
+            {
+                <table class="table table-bordered table-primary">
+                    <thead>
+                    <tr>
+                        <th class="text-center" colspan="99">Secondary System Assessments</th>
+                    </tr>
+                    <tr>
+                        <th>Group</th>
+                        <th>Parameter</th>
+                        <th>Within Normal Limits</th>
+                        <th>Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var sa in Model.CareSystemAssessment)
+                    {
+                        <tr>
+                            <td>@sa.CareSystemParameter.CareSystemType.Name</td>
+                            <td>@sa.CareSystemParameter.Name</td>
+                            <td>@((bool)sa.IsWithinNormalLimits ? "Within Normal Limits" : "Abnormal")</td>
+                            <td>@sa.Comment</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 </div>
