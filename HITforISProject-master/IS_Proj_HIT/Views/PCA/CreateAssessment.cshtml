@@ -304,17 +304,14 @@
                             <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
                                 @foreach (var painRating in painParam.PainRatings)
                                 {
-                                    <div class="col-sm-4 col-lg-2 mb-1">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-info"></i>
-                                        </button>
+                                    <div class="col-sm-4 col-lg-4 mb-1">
                                         <input id="@(painParam.ParameterName + painParam.PainParameterId + painRating.PainRatingId)"
                                                type="radio"
                                                asp-for="PainRatings[painParam.PainParameterId]"
                                                value="@painRating.PainRatingId">
-                                        <label class="btn btn-outline-primary w-50 mb-0"
+                                        <label class="btn btn-outline-primary w-90 mb-0"
                                                for="@(painParam.ParameterName + painParam.PainParameterId + painRating.PainRatingId)">
-                                            @painRating.Value
+                                            @painRating.Value - @painRating.Description
                                         </label>
                                     </div>
                                 }
