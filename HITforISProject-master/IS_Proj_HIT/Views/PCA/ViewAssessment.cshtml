@@ -91,40 +91,68 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered table-primary">
-                <thead>
-                <tr>
-                    @if (Model.PainLevelGoal != null)
+            @if (Model.PcaComment != null && Model.PcaComment.Count > 0)
+            {
+                <table class="table table-bordered table-primary">
+                    <thead>
+                    <tr>
+                        <th class="text-center" colspan="99">General Assessment Comments</th>
+                    </tr>
+                    <tr>
+                        <th>Comment Type</th>
+                        <th colspan="2">Content</th>
+                        <th class="d-sm-none d-lg-table-cell">Date Added</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var com in Model.PcaComment)
                     {
-                        <th>Goal: @Model.PainLevelGoal / 10</th>
+                        <tr>
+                            <td>@com.PcacommentType.PcaCommentTypeName</td>
+                            <td colspan="2">@com.Comment</td>
+                            <td class="d-sm-none d-lg-table-cell">@com.DateCommentAdded?.ToString("g")</td>
+                        </tr>
                     }
-                    <th class="text-center" colspan="99">Pain Assessment - @Model.PainScaleType.PainScaleTypeName</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var pa in Model.PainAssessment)
-                {
+                    </tbody>
+                </table>
+            }
+            @if (Model.PainScaleType != null && Model.PainAssessment != null && Model.PainAssessment.Count > 0)
+            {
+                <table class="table table-bordered table-primary">
+                    <thead>
                     <tr>
-                        <td>@pa.PainParameter.ParameterName</td>
-                        <td>@pa.PainRating.Value</td>
-                        <td>@pa.PainRating.Description</td>
+                        @if (Model.PainLevelGoal != null)
+                        {
+                            <th>Goal: @Model.PainLevelGoal / 10</th>
+                        }
+                        <th class="text-center" colspan="99">Pain Assessment - @Model.PainScaleType.PainScaleTypeName</th>
                     </tr>
-                }
-                @if (Model.PainScaleType.PainScaleTypeName is "Wong-Baker")
-                {
-                    <tr>
-                        <td colspan="99">
-                            <figure>
-                                <img alt="Pain Scale 0 to 10" src="~/img/FACES_English_Black.jpg">
-                                <figcaption>
-                                    FACES licensed to Angela Lee February, 2020
-                                </figcaption>
-                            </figure>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach (var pa in Model.PainAssessment)
+                    {
+                        <tr>
+                            <td>@pa.PainParameter.ParameterName</td>
+                            <td>@pa.PainRating.Value</td>
+                            <td>@pa.PainRating.Description</td>
+                        </tr>
+                    }
+                    @if (Model.PainScaleType.PainScaleTypeName is "Wong-Baker")
+                    {
+                        <tr>
+                            <td colspan="99">
+                                <figure>
+                                    <img alt="Pain Scale 0 to 10" src="~/img/FACES_English_Black.jpg">
+                                    <figcaption>
+                                        FACES licensed to Angela Lee February, 2020
+                                    </figcaption>
+                                </figure>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
             @if (Model.CareSystemAssessment != null && Model.CareSystemAssessment.Count > 0)
             {
                 <table class="table table-bordered table-primary">
@@ -145,7 +173,7 @@
                         <tr>
                             <td>@sa.CareSystemParameter.CareSystemType.Name</td>
                             <td>@sa.CareSystemParameter.Name</td>
-                            <td>@((bool)sa.IsWithinNormalLimits ? "Within Normal Limits" : "Abnormal")</td>
+                            <td>@((bool) sa.IsWithinNormalLimits ? "Within Normal Limits" : "Abnormal")</td>
                             <td>@sa.Comment</td>
                         </tr>
                     }

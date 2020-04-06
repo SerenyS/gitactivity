@@ -28,6 +28,7 @@ namespace IS_Proj_HIT.Controllers
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
                 .Include(pca => pca.PcaComment)
+                .ThenInclude(com => com.PcacommentType)
                 .Include(pca => pca.CareSystemAssessment)
                 .ThenInclude(ca => ca.CareSystemParameter)
                 .ThenInclude(cp => cp.CareSystemType)
