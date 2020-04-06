@@ -48,31 +48,6 @@
                             <button class="btn btn-primary m-r" type="button">
                                 <i class="fas fa-info"></i>
                             </button>
-                            <label class="form-label" for="inputTemperature">Temperature</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputTemperature" placeholder="Temperature"
-                                   step="0.01" min="-999.99" max="999.99" asp-for="PcaRecord.Temperature">
-                        </div>
-                        <div class="col-sm-6 col-lg-2">
-                            <select class="form-control" asp-items="@ViewBag.TempUnits" asp-for="TempUnit"></select>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <select class="form-control" asp-items="@ViewBag.TempRoutes" asp-for="PcaRecord.TempRouteTypeId"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[0]" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
                             <label class="form-label" for="inputWeight">Weight</label>
                         </div>
                         <div class="col-sm-12 col-lg-4">
@@ -86,7 +61,7 @@
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
                         <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[1]" />
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[0]" />
                         </div>
                     </div>
                     <hr />
@@ -108,7 +83,7 @@
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
                         <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[2]" />
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[1]" />
                         </div>
                     </div>
                     <hr />
@@ -130,7 +105,7 @@
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
                         <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[3]" />
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[2]" />
                         </div>
                     </div>
                     <hr />
@@ -151,6 +126,31 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm col-lg-3"></div>
+                        <div class="col-sm-12 col-lg-9">
+                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[3]" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3 ">
+                            <button class="btn btn-primary m-r" type="button">
+                                <i class="fas fa-info"></i>
+                            </button>
+                            <label class="form-label" for="inputTemperature">Temperature</label>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <input type="number" class="form-control" id="inputTemperature" placeholder="Temperature"
+                                   step="0.01" min="-999.99" max="999.99" asp-for="PcaRecord.Temperature">
+                        </div>
+                        <div class="col-sm-6 col-lg-2">
+                            <select class="form-control" asp-items="@ViewBag.TempUnits" asp-for="TempUnit"></select>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <select class="form-control" asp-items="@ViewBag.TempRoutes" asp-for="PcaRecord.TempRouteTypeId"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3"></div>
                         <div class="col-sm-12 col-lg-9">
                             <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[4]" />
                         </div>
@@ -232,7 +232,7 @@
                             <select class="form-control" asp-items="@ViewBag.O2DeliveryRoutes" asp-for="PcaRecord.O2deliveryTypeId"></select>
                         </div>
                         <div class="col-sm-6 col-lg-2">
-                            <input class="form-control" placeholder="Flow Rate"type="text" asp-for="PcaRecord.OxygenFlow">
+                            <input class="form-control" placeholder="Flow Rate" type="text" asp-for="PcaRecord.OxygenFlow">
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <input class="form-control" placeholder="O2 %"
@@ -279,7 +279,7 @@
                     <div class="form-group row">
                         <div class="col-sm-6 col-lg-3">
                             <label class="form-label mb-0" for="painLevelGoal">
-                                Pain Level Goal
+                                Pain Level Goal (Out of 10)
                             </label>
                             <input id="painLevelGoal"
                                    class="form-control"
@@ -404,7 +404,7 @@
                                                    class="form-control"
                                                    type="text"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].Comment"
-                                                   placeholder="Comment">
+                                                   placeholder="Describe">
                                         </div>
                                     </div>
                                     <hr />

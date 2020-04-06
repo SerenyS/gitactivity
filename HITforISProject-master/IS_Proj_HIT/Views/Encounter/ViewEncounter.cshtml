@@ -141,8 +141,8 @@
                     <th>Temperature</th>
                     <th>Respiration</th>
                     <th>Blood Pressure</th>
-                    <th class="d-md-none d-lg-table-cell">Pulse</th>
-                    <th class="d-md-none d-lg-table-cell">Pulse Oximetry</th>
+                    <th class="d-sm-none d-lg-table-cell">Pulse</th>
+                    <th class="d-sm-none d-lg-table-cell">Pulse Oximetry</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -161,8 +161,8 @@
                         <td>@(pca.Temperature?.ToString() ?? "N/A") *F</td>
                         <td>@pca.Respiration /min</td>
                         <td>@pca.SystolicBloodPressure / @pca.DiastolicBloodPressure</td>
-                        <td class="d-md-none d-lg-table-cell">@pca.Pulse /min</td>
-                        <td class="d-md-none d-lg-table-cell">@pca.PulseOximetry%</td>
+                        <td class="d-sm-none d-lg-table-cell">@pca.Pulse /min</td>
+                        <td class="d-sm-none d-lg-table-cell">@pca.PulseOximetry%</td>
                     </tr>
                 }
                 </tbody>
