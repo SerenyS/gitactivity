@@ -75,5 +75,19 @@ namespace IS_Proj_HIT.Services
                     throw new ArgumentOutOfRangeException(nameof(src), src, null);
             }
         }
+
+        /// <summary>
+        ///     Converts a date into an int representing how old the person born on that date is
+        /// </summary>
+        /// <param name="dateOfBirth">Date of birth</param>
+        /// <returns>Years old</returns>
+        public static int ConvertDobToCurrentAge(DateTime dateOfBirth)
+        {
+            var years = DateTime.Now.Year - dateOfBirth.Year;
+            if (DateTime.Now.Month > dateOfBirth.Month && DateTime.Now.Day > dateOfBirth.Day)
+                years += 1;
+
+            return years;
+        }
     }
 }

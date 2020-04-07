@@ -3,35 +3,7 @@
     ViewData["Title"] = "Update Care Assessment";
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button class="btn btn-danger" type="button">
-                <h4>Patient:&nbsp;@ViewBag.Patient.FirstName&nbsp;@ViewBag.Patient.MiddleName&nbsp;@ViewBag.Patient.LastName</h4>
-            </button>
-        </li>
-        <li class="nav-item menu-item dob patientBanner">
-            <span class="heading">DOB: </span> @ViewBag.Patient.Dob.ToShortDateString()
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            <span class="heading">Age: </span> @ViewBag.Encounter.PatientCurrentAge
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            <span class="heading">MRN: </span>@(ViewBag.Encounter.Mrn ?? string.Empty)
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            @if (@ViewBag.PatientAlertsCount > 0)
-            {
-                <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
-                        @ViewBag.PatientAlertsCount
-                    </span>
-                </a>
-            }
-        </li>
-
-    </ul>
-</nav>
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <form class="col" method="post" id="pca" name="pca" asp-action="SaveAssessment">
     @*<input type="hidden" asp-for="EncounterId" value="@ViewBag.Encounter.EncounterId" />
         <div class="tab-content">

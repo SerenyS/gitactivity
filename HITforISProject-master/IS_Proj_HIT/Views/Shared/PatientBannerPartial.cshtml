@@ -1,0 +1,35 @@
+﻿@using IS_Proj_HIT.Services
+@model Patient
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-5 my-auto">
+                    <h3>Patient:&nbsp;@Model.FirstName&nbsp;@(string.IsNullOrWhiteSpace(Model.MiddleName) ? "" : $"{Model.MiddleName}&nbsp;")@Model.LastName</h3>
+                </div>
+                <div class="col-sm-3 col-lg-2 my-auto">
+                    <span class="heading">MRN: </span>@Model.Mrn
+                </div>
+                <div class="col-sm-3 col-lg-2 my-auto">
+                    <span class="heading">DOB: </span> @Model.Dob.ToShortDateString()
+                </div>
+                <div class="col-sm-3 col-lg-2 my-auto">
+                    <span class="heading">Age: </span> @ConversionService.ConvertDobToCurrentAge(Model.Dob)
+                </div>
+                <div class="col-sm-3 col-lg-1 my-auto">
+                    @if (Model.PatientAlerts != null && Model.PatientAlerts.Count > 0)
+                    {
+                        <a asp-controller="Patient"
+                           asp-action="ListAlerts"
+                           asp-route-id="@Model.Mrn"
+                           id="listAlertsButton" class="btn btn-outline-danger float-right">
+                            <i class="fas fa-exclamation-triangle alertColor"></i> Alerts
+                            @Model.PatientAlerts.Count
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

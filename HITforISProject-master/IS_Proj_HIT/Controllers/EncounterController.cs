@@ -106,10 +106,9 @@ namespace IS_Proj_HIT.Controllers
                                                        .Include(p => p.Physician)
                                                        .FirstOrDefault(p => p.EncounterPhysiciansId == encounter.EncounterPhysiciansId);
 
-            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == encounter.Mrn);
+            var patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == encounter.Mrn);
 
             ViewBag.isPatientEncounter = isPatientEncounter;
-            ViewBag.PatientAlertsCount = _repository.PatientAlerts.Where(b => b.Mrn == patient.Mrn).Count();
 
             return View(new ViewEncounterPageModel
             {
@@ -130,35 +129,17 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult EditEncounter(long encounterId, bool isPatientEncounter)
         {
             ViewBag.isPatientEncounter = isPatientEncounter;
-            ViewBag.EncounterId = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).EncounterId;
-            DateTime encounterAdmitDateTime = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).AdmitDateTime;
-            ViewBag.AdmitDateTime = "" + encounterAdmitDateTime.Year + "-" +
-                ((encounterAdmitDateTime.Month < 10) ? "0" + encounterAdmitDateTime.Month.ToString() : encounterAdmitDateTime.Month.ToString()) + "-" +
-                ((encounterAdmitDateTime.Day < 10) ? "0" + encounterAdmitDateTime.Day.ToString() : encounterAdmitDateTime.Day.ToString()) + "T" +
-                ((encounterAdmitDateTime.Hour < 10) ? "0" + encounterAdmitDateTime.Hour.ToString() : encounterAdmitDateTime.Hour.ToString()) + ":" +
-                ((encounterAdmitDateTime.Minute < 10) ? "0" + encounterAdmitDateTime.Minute.ToString() : encounterAdmitDateTime.Minute.ToString());
-            ViewBag.EncounterMRN = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId).Mrn;
-            string encounterMrn = ViewBag.EncounterMRN;
+            var encounter = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId);
+            ViewBag.EncounterId = encounterId;
+            ViewBag.AdmitDateTime = "" + encounter.AdmitDateTime.Year + "-" +
+                ((encounter.AdmitDateTime.Month < 10) ? "0" + encounter.AdmitDateTime.Month.ToString() : encounter.AdmitDateTime.Month.ToString()) + "-" +
+                ((encounter.AdmitDateTime.Day < 10) ? "0" + encounter.AdmitDateTime.Day.ToString() : encounter.AdmitDateTime.Day.ToString()) + "T" +
+                ((encounter.AdmitDateTime.Hour < 10) ? "0" + encounter.AdmitDateTime.Hour.ToString() : encounter.AdmitDateTime.Hour.ToString()) + ":" +
+                ((encounter.AdmitDateTime.Minute < 10) ? "0" + encounter.AdmitDateTime.Minute.ToString() : encounter.AdmitDateTime.Minute.ToString());
+            ViewBag.EncounterMRN = encounter.Mrn;
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.PatientFirstName = _repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).FirstName;
-            ViewBag.PatientMiddleName = _repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).MiddleName;
-            ViewBag.PatientLastName = _repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).LastName;
-            ViewBag.PatientDob = _repository.Patients.FirstOrDefault(b => b.Mrn == encounterMrn).Dob;
-            DateTime now = DateTime.Now;
-            TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
-            if (pAge.Days > 365)
-            {
-                ViewBag.CurrentPatientAge = (byte)(pAge.Days / 365);
-                ViewBag.PatientAge = ViewBag.CurrentPatientAge + " Years";
-            }
-            else
-            {
-                ViewBag.CurrentPatientAge = 0;
-                ViewBag.PatientAge = pAge.Days + " Days";
-            }
-
-            ViewBag.PatientAlertsCount = _repository.PatientAlerts.Where(b => b.Mrn == encounterMrn).Count();
-
+            ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == encounter.Mrn);
+            
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
             //can also probably make these queries into a function if you can figure out how to make the respository types generic
@@ -194,7 +175,7 @@ namespace IS_Proj_HIT.Controllers
             queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
 
-            return View(_repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId));
+            return View(encounter);
         }
 
         // Save edits to patient record from Edit Patients page
