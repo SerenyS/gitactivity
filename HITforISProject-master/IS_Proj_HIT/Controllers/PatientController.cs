@@ -239,25 +239,8 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult AddEncounter(string id)
         {
-            ViewBag.EncounterMRN = repository.Patients.FirstOrDefault(b => b.Mrn == id).Mrn;
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.PatientFirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.PatientMiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.PatientLastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.PatientDob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
-            DateTime now = DateTime.Now;
-            TimeSpan pAge = now.Subtract(ViewBag.PatientDob);
-            if (pAge.Days > 365)
-            {
-                ViewBag.CurrentPatientAge = (byte)(pAge.Days / 365);
-                ViewBag.PatientAge = ViewBag.CurrentPatientAge + " Years";
-            }
-            else
-            {
-                ViewBag.CurrentPatientAge = 0;
-                ViewBag.PatientAge = pAge.Days + " Days";
-            }
-
+            ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == id);
+            
             //If you wanted to get the tool tips, you'd need to do this:
             //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
             var queryAdmitTypes = repository.AdmitTypes.Select(at => new { at.AdmitTypeId, at.Description });
@@ -309,7 +292,7 @@ namespace IS_Proj_HIT.Controllers
                     Debug.WriteLine("Facility: " + model.FacilityId);
                     Debug.WriteLine("EncounterType: " + model.EncounterTypeId);
                     repository.AddEncounter(model);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ViewEncounter", "Encounter", new { encounterId = model.EncounterId });
                 }
             }
             return View();
@@ -325,7 +308,6 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
             ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
             ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
-            ViewBag.PatientAlertsCount = repository.PatientAlerts.Where(b => b.Mrn == id).Count();
             
             ViewBag.LastModified = DateTime.Today.AddYears(-1);
 
@@ -349,7 +331,7 @@ namespace IS_Proj_HIT.Controllers
             queryMaritalStatus = queryMaritalStatus.OrderBy(r => r.Name);
             ViewBag.MaritalStatus = new SelectList(queryMaritalStatus.AsEnumerable(), "MaritalStatusId", "Name", 0);
 
-            return View(repository.Patients.FirstOrDefault(p => p.Mrn == id));
+            return View(repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == id));
 
         }
 
@@ -382,7 +364,6 @@ namespace IS_Proj_HIT.Controllers
         // Pick record to send to Details page
         public IActionResult Details(string id)
         {
-            ViewBag.PatientAlertsCount = repository.PatientAlerts.Where(b => b.Mrn == id).Count();
             ViewBag.ReligionID = repository.Patients.Include(p => p.Religion).FirstOrDefault(p => p.Mrn == id);
             ViewBag.MaritalID = repository.Patients.Include(p => p.MaritalStatus).FirstOrDefault(p => p.Mrn == id);
             ViewBag.SexID = repository.Patients.Include(p => p.Sex).FirstOrDefault(p => p.Mrn == id);
@@ -397,7 +378,7 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.isThereEncounter = false;
             }
 
-            return View(repository.Patients.FirstOrDefault(p => p.Mrn == id));
+            return View(repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == id));
 
         }
 

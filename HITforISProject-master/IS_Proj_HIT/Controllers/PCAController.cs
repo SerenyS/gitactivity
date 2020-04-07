@@ -47,9 +47,7 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index", "Encounter",
                     new {filter = "CheckedIn"});
 
-            var patientAlerts = _repository.PatientAlerts.Count(a => a.Mrn == assessment.Encounter.Mrn);
-            ViewBag.PatientAlertsCount = patientAlerts;
-            ViewBag.Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn);
+            ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn);
             
             return View(assessment);
         }
@@ -62,8 +60,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult CreateAssessment(long encounterId, string mrn)
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
-            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == mrn);
-            var patientAlerts = _repository.PatientAlerts.Count(b => b.Mrn == mrn);
+            var patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == mrn);
 
             if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
@@ -71,7 +68,6 @@ namespace IS_Proj_HIT.Controllers
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
-            ViewBag.PatientAlertsCount = patientAlerts;
 
             AddUnites();
             AddRoutes();

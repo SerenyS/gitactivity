@@ -1,24 +1,15 @@
 ﻿<link rel="stylesheet" href="~/css/forms.css" />
+@using IS_Proj_HIT.Services
 @model IS_Proj_HIT.Models.Encounter
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient:&nbsp;@ViewBag.PatientFirstName&nbsp;@ViewBag.PatientMiddleName&nbsp;@ViewBag.PatientLastName</h4>
-            </button>
-        </li>
-        <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @ViewBag.PatientDob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> @ViewBag.PatientAge</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span>@(ViewBag.EncounterMRN ?? String.Empty)</li>
-    </ul>
-</nav>
+
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Add Encounter</h4></div>
     <div class="card-body bg-light">
         <form method="post" id="encounter" name="encounter" asp-action="AddEncounter">
             <div class="container" asp-validation-summary="All"></div>
-            <input asp-for="@Model.PatientCurrentAge" name="PatientCurrentAge" type="hidden" value="@ViewBag.CurrentPatientAge" />
-            <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
+            <input asp-for="@Model.PatientCurrentAge" name="PatientCurrentAge" type="hidden" value="@ConversionService.ConvertDobToCurrentAge(ViewBag.Patient.Dob)" />
+            <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.Patient.Mrn" />
             <div class="row">
                 <div class="col-sm-4">
                     <br /><label>Facility Registry Opt Out</label>
@@ -78,16 +69,9 @@
                 </div>
             </div>
             <br />
-            <input asp-for="@Model.LastModified" type="text" readonly hidden value="@(ViewBag.LastModified ?? String.Empty)" />
             <button class="btn-primary" type="submit">Create</button>
         </form>
     </div>
 </div>
-        <hr />
-        <a asp-action="Index">Home</a>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"</script>
-
-
+<hr />
+<a asp-action="Index">Home</a>

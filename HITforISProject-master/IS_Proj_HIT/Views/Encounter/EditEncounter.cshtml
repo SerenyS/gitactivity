@@ -1,29 +1,8 @@
 ﻿<link rel="stylesheet" href="~/css/forms.css" />
+@using IS_Proj_HIT.Services
 @model IS_Proj_HIT.Models.Encounter
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient:&nbsp;@ViewBag.PatientFirstName&nbsp;@ViewBag.PatientMiddleName&nbsp;@ViewBag.PatientLastName</h4>
-            </button>
-        </li>
-        <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @ViewBag.PatientDob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> @ViewBag.PatientAge</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span>@(ViewBag.EncounterMRN ?? String.Empty)</li>
-        <li class="nav-item menu-item patientBanner">
-            @if (@ViewBag.PatientAlertsCount > 0)
-            {
-                <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.EncounterMrn" id="listAlertsButton" class="btn btn-outline-primary">
-                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
-                        @ViewBag.PatientAlertsCount
-                    </span>
-                </a>
-            }
-        </li>
-
-    </ul>
-</nav>
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
@@ -41,7 +20,7 @@
         {
             <form method="post" id="editEncounter" name="editEncounter" asp-action="EditEncounter">
                 <div class="container" asp-validation-summary="All"></div>
-                <input asp-for="@Model.PatientCurrentAge" type="hidden" value="@ViewBag.CurrentPatientAge" />
+                <input asp-for="@Model.PatientCurrentAge" type="hidden" value="@ConversionService.ConvertDobToCurrentAge(ViewBag.Patient.Dob)" />
                 <input asp-for="@Model.Mrn" name="MRN" type="hidden" value="@ViewBag.EncounterMRN" />
                 <input asp-for="@Model.EncounterId" name="EncounterId" type="hidden" value="@ViewBag.EncounterId" />
                 <div class="row">

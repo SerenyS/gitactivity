@@ -1,34 +1,6 @@
 ﻿@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient:&nbsp;@Model.Patient.FirstName&nbsp;@Model.Patient.MiddleName&nbsp;@Model.Patient.LastName</h4>
-            </button>
-        </li>
-        <li class="nav-item menu-item dob patientBanner">
-            <span class="heading">DOB: </span> @Model.Patient.Dob.ToShortDateString()
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            <span class="heading">Age: </span> @Model.Encounter.PatientCurrentAge
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            <span class="heading">MRN: </span>@(Model.Encounter.Mrn ?? string.Empty)
-        </li>
-        <li class="nav-item menu-item patientBanner">
-            @if (@ViewBag.PatientAlertsCount > 0)
-            {
-                <a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@Model.Encounter.Mrn" id="listAlertsButton" class="btn btn-outline-primary">
-                    <i class="fas fa-exclamation-triangle alertColor"></i> Alerts <span class="btn btn-dark btn-warning">
-                        @ViewBag.PatientAlertsCount
-                    </span>
-                </a>
-            }
-        </li>
-
-    </ul>
-</nav>
+<partial name="PatientBannerPartial" model="Model.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
@@ -53,7 +25,7 @@
                     <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="col-sm-4">
                     <label>Department: </label>
@@ -68,7 +40,7 @@
                     <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="col-sm-6">
                     <label>Admission Type: </label>
@@ -79,7 +51,7 @@
                     <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="col-sm-6">
                     <label>Physician: </label>
@@ -93,7 +65,7 @@
                     <span class="font-weight-bold">@Model.Encounter.EncounterType.Name</span>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="col-sm-6">
                     <label>Place of Service: </label>
@@ -104,7 +76,7 @@
                     <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
                 <div class="col-sm-6">
                     <label>Discharge Disposition: </label>
@@ -135,56 +107,45 @@
         <div class="container">
             <table class="table table-bordered table-primary">
                 <thead>
-                <tr>
-                    <th>View</th>
-                    <th>Date Vitals Entered</th>
-                    <th>Temperature</th>
-                    <th>Respiration</th>
-                    <th>Blood Pressure</th>
-                    <th class="d-sm-none d-lg-table-cell">Pulse</th>
-                    <th class="d-sm-none d-lg-table-cell">Pulse Oximetry</th>
-                </tr>
+                    <tr>
+                        <th>View</th>
+                        <th>Date Vitals Entered</th>
+                        <th>Temperature</th>
+                        <th>Respiration</th>
+                        <th>Blood Pressure</th>
+                        <th class="d-sm-none d-lg-table-cell">Pulse</th>
+                        <th class="d-sm-none d-lg-table-cell">Pulse Oximetry</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.LastModified))
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="PCA"
-                               asp-action="ViewAssessment"
-                               asp-route-assessmentId="@pca.PcaId"
-                               class="btn btn-info btn-sm">
-                                View
-                            </a>
-                        </td>
-                        <td>@pca.DateVitalsAdded</td>
-                        <td>@(pca.Temperature?.ToString() ?? "N/A") *F</td>
-                        <td>@pca.Respiration /min</td>
-                        <td>@pca.SystolicBloodPressure / @pca.DiastolicBloodPressure</td>
-                        <td class="d-sm-none d-lg-table-cell">@pca.Pulse /min</td>
-                        <td class="d-sm-none d-lg-table-cell">@pca.PulseOximetry%</td>
-                    </tr>
-                }
+                    @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.LastModified))
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="PCA"
+                                   asp-action="ViewAssessment"
+                                   asp-route-assessmentId="@pca.PcaId"
+                                   class="btn btn-info btn-sm">
+                                    View
+                                </a>
+                            </td>
+                            <td>@pca.DateVitalsAdded</td>
+                            <td>@(pca.Temperature?.ToString() ?? "N/A") *F</td>
+                            <td>@pca.Respiration /min</td>
+                            <td>@pca.SystolicBloodPressure / @pca.DiastolicBloodPressure</td>
+                            <td class="d-sm-none d-lg-table-cell">@pca.Pulse /min</td>
+                            <td class="d-sm-none d-lg-table-cell">@pca.PulseOximetry%</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<hr/>
-
-<a asp-action="Index"
-   class="btn btn-outline-primary">
-    View <b>All</b> Encounters
-</a>
+<hr />
 
 <a asp-action="Index"
    asp-route-filter="CheckedIn"
    class="btn btn-outline-primary m-l-1">
     View <b>Checked In</b> Encounters
-</a>
-
-<a asp-action="PatientEncounters"
-   asp-route-patientMRN="@Model.Encounter.Mrn"
-   class="btn btn-outline-primary float-right">
-    View All of <b>@Model.Patient.FirstName's</b> Encounters
 </a>
