@@ -397,10 +397,9 @@ namespace IS_Proj_HIT.Controllers
             // Existing
             ViewBag.myMrn = id;
             //ViewBags for Patient Banner at top of page
-            ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
+            ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == id);
+
+
             if (sortOrder == "byAlertType" && repository.PatientAlerts.Where(b => b.Mrn == id).Count() > 0)
             {
                 TempData["msg"] = "Sort order is by Alert Type Ascending";
@@ -561,10 +560,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.LastModified = DateTime.Today;
             //ViewBags for Patient Banner at top of page
-            ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
+            ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == id);
 
             if (repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id) == null)
             {
@@ -666,10 +662,7 @@ namespace IS_Proj_HIT.Controllers
                 //                 return Redirect(myUrl);
                 //ViewBags for Patient Banner at top of page
                 string id = model.Mrn;
-                ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-                ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-                ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-                ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
+                ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == model.Mrn);
 
                 return Redirect(ViewBag.ReturnUrl);
 
@@ -683,10 +676,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.myMrn = mrn;
             ViewBag.ReturnUrl = returnUrl;
             //ViewBags for Patient Banner at top of page
-            ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).FirstName;
-            ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).MiddleName;
-            ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).LastName;
-            ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == mrn).Dob;
+            ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == mrn);
 
             //ViewBag.LastModified = DateTime.Today.AddYears(-1);
             ViewBag.AlertTypeId = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).AlertTypeId;

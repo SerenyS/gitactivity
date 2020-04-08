@@ -5,20 +5,7 @@
     ViewData["Title"] = "Patient Alert Detail";
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
-            </button>
-        </li>
-
-        <li class="nav-item menu-item dob patientBanner"><span class="heading">&nbsp;DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
-    </ul>
-</nav>
-
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Patient Alert Details</h4></div>
     <div class="card-body bg-light">

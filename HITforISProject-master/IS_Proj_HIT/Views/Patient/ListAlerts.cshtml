@@ -5,19 +5,7 @@
 }
 @ViewBag.Message
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient:&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
-            </button>
-        </li>
-        @*<div class="patientBanner MRN"><span class="heading">MRN:</span><br /> @ViewBag.myMrn</div><br />*@
-        <li class="nav-item menu-item dob patientBanner"><span class="heading">DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
-    </ul>
-</nav>
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card-header bg-primary text-white"><h4><i class="fas fa-exclamation-triangle alertColor"></i> Patient Alerts</h4></div>
 <br />
 @{
