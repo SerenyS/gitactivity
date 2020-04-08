@@ -5,34 +5,22 @@
     ViewData["Title"] = "Add Patient Alert";
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary nav-fill w-100 widely">
-    <ul class="navbar-nav nav-fill w-100">
-        <li class="nav-item menu-item">
-            <button type="button" class="btn btn-danger">
-                <h4>Patient&nbsp;@ViewBag.FirstName&nbsp;@ViewBag.MiddleName&nbsp;@ViewBag.LastName</h4>
-            </button>
-        </li>
-
-        <li class="nav-item menu-item dob patientBanner"><span class="heading">&nbsp;DOB: </span> @ViewBag.Dob.ToShortDateString()</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">Age: </span> <span class="age"></span> years</li>
-        <li class="nav-item menu-item patientBanner"><span class="heading">MRN: </span> @ViewBag.myMrn</li>
-    </ul>
-</nav>
+<partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div id="alertDiv">
     <div class="form-group"><i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert</div>
     <div id="message"></div>
-    <form method="post" id="alert" name="alert" asp-action="CreateAlert" asp-route-returnUrl="@ViewBag.ReturnUrl" >
+    <form method="post" id="alert" name="alert" asp-action="CreateAlert" asp-route-returnUrl="@ViewBag.ReturnUrl">
         <div class="form-group">
             <label>Alert Type</label><br />
             @*<select class="form-control dropdowns" asp-for="@Model.MaritalStatusId" asp-items="ViewBag.MaritalStatus"><option value="">Select Marital Status</option></select>
-            <span asp-validation-for="MaritalStatusId" class="text-danger"></span>*@
+                <span asp-validation-for="MaritalStatusId" class="text-danger"></span>*@
             <select class="form-control selectable chosen" id="alertType" asp-for="@Model.AlertTypeId" asp-items="ViewBag.AlertType"><option value="0">Select Alert Type</option></select>
         </div>
         <div class="form-group" id="fallRiskList">
             <label>Fall Risk</label><br />
             @*@Html.DropDownList("FallRiskId", (SelectList)ViewBag.PatientFallRisk, "--Select One--")*@
             <select class="form-control selectable chosen" required asp-for="@Model.FallRiskId" asp-items="ViewBag.PatientFallRisk"><option value="0">Select Fall Risk</option></select>
-            
+
         </div>
         <div class="form-group" id="restrictionList">
             <label>Restriction</label><br />
@@ -94,7 +82,7 @@
             var restrictions = $('#RestrictionTypeId').val();
             var fallrisks = $('#FallRiskId').val();
             $('#message').text('');
-        
+
             if (alerttypevalue == '0') {
                 $('#message').text('Please select an Alert Type.');
                 //alert('Please select an Alert Type');
@@ -122,8 +110,8 @@
 
         $('.selectable').on('change', function () {
 
-                $('#message').text('');
-            
+            $('#message').text('');
+
         });
 
 

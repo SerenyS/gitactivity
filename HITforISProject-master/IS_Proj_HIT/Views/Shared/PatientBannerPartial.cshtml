@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-5 my-auto">
-                    <h3>Patient:&nbsp;@Model.FirstName&nbsp;@(string.IsNullOrWhiteSpace(Model.MiddleName) ? "" : $"{Model.MiddleName}&nbsp;")@Model.LastName</h3>
+                    <h3>Patient: @Model.FirstName @Model.MiddleName @Model.LastName</h3>
                 </div>
                 <div class="col-sm-3 col-lg-2 my-auto">
                     <span class="heading">MRN: </span>@Model.Mrn
@@ -18,14 +18,15 @@
                     <span class="heading">Age: </span> @ConversionService.ConvertDobToCurrentAge(Model.Dob)
                 </div>
                 <div class="col-sm-3 col-lg-1 my-auto">
-                    @if (Model.PatientAlerts != null && Model.PatientAlerts.Count > 0)
+                    @if (Model.PatientAlerts != null)
                     {
                         <a asp-controller="Patient"
                            asp-action="ListAlerts"
                            asp-route-id="@Model.Mrn"
-                           id="listAlertsButton" class="btn btn-outline-danger float-right">
-                            <i class="fas fa-exclamation-triangle alertColor"></i> Alerts
-                            @Model.PatientAlerts.Count
+                           id="listAlertsButton" class="btn @(Model.PatientAlerts.Count > 0 ? "btn-outline-danger" : "btn-outline-warning")">
+                            <h5 class="font-weight-bold m-0">
+                                <i class="fas fa-exclamation-triangle"></i> Alerts @Model.PatientAlerts.Count
+                            </h5>
                         </a>
                     }
                 </div>
