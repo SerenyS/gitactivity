@@ -1,0 +1,50 @@
+﻿@page
+@model IS_Proj_HIT.EditModelPainRating
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PainRating</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PainRating.PainRatingId" />
+            <div class="form-group">
+                <label asp-for="PainRating.PainParameterId" class="control-label"></label>
+                <select asp-for="PainRating.PainParameterId" class="form-control" asp-items="ViewBag.PainParameterId"></select>
+                <span asp-validation-for="PainRating.PainParameterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PainRating.Value" class="control-label"></label>
+                <input asp-for="PainRating.Value" class="form-control" />
+                <span asp-validation-for="PainRating.Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PainRating.Description" class="control-label"></label>
+                <input asp-for="PainRating.Description" class="form-control" />
+                <span asp-validation-for="PainRating.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PainRating.LastModified" class="control-label"></label>
+                <input asp-for="PainRating.LastModified" class="form-control" />
+                <span asp-validation-for="PainRating.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

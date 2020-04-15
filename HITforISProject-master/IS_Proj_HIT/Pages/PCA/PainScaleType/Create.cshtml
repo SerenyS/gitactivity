@@ -1,0 +1,39 @@
+﻿@page
+@model IS_Proj_HIT.CreateModelPainScaleType
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PainScaleType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PainScaleType.PainScaleTypeName" class="control-label"></label>
+                <input asp-for="PainScaleType.PainScaleTypeName" class="form-control" />
+                <span asp-validation-for="PainScaleType.PainScaleTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PainScaleType.UseDescription" class="control-label"></label>
+                <input asp-for="PainScaleType.UseDescription" class="form-control" />
+                <span asp-validation-for="PainScaleType.UseDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

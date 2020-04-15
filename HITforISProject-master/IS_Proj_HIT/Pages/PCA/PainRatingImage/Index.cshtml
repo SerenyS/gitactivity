@@ -1,0 +1,49 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelPainRatingImage
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PainRatingImage[0].Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PainRatingImage[0].LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PainRatingImage[0].PainRating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PainRatingImage)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PainRating.Description)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.PainRatingId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.PainRatingId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.PainRatingId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
