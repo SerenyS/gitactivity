@@ -14,31 +14,33 @@ namespace IS_Proj_HIT
 {
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public class EditModelPainScaleType : PageModel
+    public class EditModelCareSystemParameter : PageModel
     {
         private readonly IS_Proj_HIT.Models.Data.WCTCHealthSystemContext _context;
 
-        public EditModelPainScaleType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
+        public EditModelCareSystemParameter(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public PainScaleType PainScaleType { get; set; }
+        public CareSystemParameter CareSystemParameter { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(short? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            CareSystemParameter = await _context.CareSystemParameter
+                .Include(c => c.CareSystemType).FirstOrDefaultAsync(m => m.CareSystemParameterId == id);
 
-            if (PainScaleType == null)
+            if (CareSystemParameter == null)
             {
                 return NotFound();
             }
+           ViewData["CareSystemTypeId"] = new SelectList(_context.CareSystemType, "CareSystemTypeId", "Name", "NormalLimitsDescription");
             return Page();
         }
 
@@ -49,16 +51,16 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Attach(PainScaleType).State = EntityState.Modified;
+            _context.Attach(CareSystemParameter).State = EntityState.Modified;
 
             try
             {
-                PainScaleType.LastModified = DateTime.Now;
+                CareSystemParameter.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PainScaleTypeExists(PainScaleType.PainScaleTypeId))
+                if (!CareSystemParameterExists(CareSystemParameter.CareSystemParameterId))
                 {
                     return NotFound();
                 }
@@ -71,9 +73,9 @@ namespace IS_Proj_HIT
             return RedirectToPage("./Index");
         }
 
-        private bool PainScaleTypeExists(int id)
+        private bool CareSystemParameterExists(short id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.CareSystemParameter.Any(e => e.CareSystemParameterId == id);
         }
     }
 }

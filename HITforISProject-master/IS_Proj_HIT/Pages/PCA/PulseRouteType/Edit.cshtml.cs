@@ -14,17 +14,18 @@ namespace IS_Proj_HIT
 {
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public class EditModelPainScaleType : PageModel
+
+    public class EditModelPulseRouteType : PageModel
     {
         private readonly IS_Proj_HIT.Models.Data.WCTCHealthSystemContext _context;
 
-        public EditModelPainScaleType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
+        public EditModelPulseRouteType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public PainScaleType PainScaleType { get; set; }
+        public PulseRouteType PulseRouteType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -33,9 +34,9 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            PulseRouteType = await _context.PulseRouteType.FirstOrDefaultAsync(m => m.PulseRouteTypeId == id);
 
-            if (PainScaleType == null)
+            if (PulseRouteType == null)
             {
                 return NotFound();
             }
@@ -49,16 +50,16 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Attach(PainScaleType).State = EntityState.Modified;
+            _context.Attach(PulseRouteType).State = EntityState.Modified;
 
             try
             {
-                PainScaleType.LastModified = DateTime.Now;
+                PulseRouteType.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PainScaleTypeExists(PainScaleType.PainScaleTypeId))
+                if (!PulseRouteTypeExists(PulseRouteType.PulseRouteTypeId))
                 {
                     return NotFound();
                 }
@@ -71,9 +72,9 @@ namespace IS_Proj_HIT
             return RedirectToPage("./Index");
         }
 
-        private bool PainScaleTypeExists(int id)
+        private bool PulseRouteTypeExists(int id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.PulseRouteType.Any(e => e.PulseRouteTypeId == id);
         }
     }
 }

@@ -313,7 +313,8 @@ namespace IS_Proj_HIT.Models.Data
                 entity.Property(e => e.CareSystemParameterId).HasColumnName("CareSystemParameterID");
 
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100).IsUnicode(false);
-                
+                entity.Property(e => e.NormalLimitsDescription).IsUnicode(false);
+
                 entity.Property(e => e.CareSystemTypeId).HasColumnName("CareSystemTypeID");
 
                 entity.Property(e => e.LastModified).HasColumnType("datetime").HasDefaultValueSql("(getdate())");

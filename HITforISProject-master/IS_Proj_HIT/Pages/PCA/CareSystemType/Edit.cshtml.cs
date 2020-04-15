@@ -14,28 +14,28 @@ namespace IS_Proj_HIT
 {
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public class EditModelPainScaleType : PageModel
+    public class EditModelCareSystemType : PageModel
     {
         private readonly IS_Proj_HIT.Models.Data.WCTCHealthSystemContext _context;
 
-        public EditModelPainScaleType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
+        public EditModelCareSystemType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public PainScaleType PainScaleType { get; set; }
+        public CareSystemType CareSystemType { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(short? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            CareSystemType = await _context.CareSystemType.FirstOrDefaultAsync(m => m.CareSystemTypeId == id);
 
-            if (PainScaleType == null)
+            if (CareSystemType == null)
             {
                 return NotFound();
             }
@@ -49,16 +49,16 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Attach(PainScaleType).State = EntityState.Modified;
+            _context.Attach(CareSystemType).State = EntityState.Modified;
 
             try
             {
-                PainScaleType.LastModified = DateTime.Now;
+                CareSystemType.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PainScaleTypeExists(PainScaleType.PainScaleTypeId))
+                if (!CareSystemTypeExists(CareSystemType.CareSystemTypeId))
                 {
                     return NotFound();
                 }
@@ -71,9 +71,9 @@ namespace IS_Proj_HIT
             return RedirectToPage("./Index");
         }
 
-        private bool PainScaleTypeExists(int id)
+        private bool CareSystemTypeExists(short id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.CareSystemType.Any(e => e.CareSystemTypeId == id);
         }
     }
 }

@@ -14,17 +14,18 @@ namespace IS_Proj_HIT
 {
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public class EditModelPainScaleType : PageModel
+
+    public class EditModelTempRouteType : PageModel
     {
         private readonly IS_Proj_HIT.Models.Data.WCTCHealthSystemContext _context;
 
-        public EditModelPainScaleType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
+        public EditModelTempRouteType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public PainScaleType PainScaleType { get; set; }
+        public TempRouteType TempRouteType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -33,9 +34,9 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            TempRouteType = await _context.TempRouteType.FirstOrDefaultAsync(m => m.TempRouteTypeId == id);
 
-            if (PainScaleType == null)
+            if (TempRouteType == null)
             {
                 return NotFound();
             }
@@ -49,16 +50,16 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Attach(PainScaleType).State = EntityState.Modified;
+            _context.Attach(TempRouteType).State = EntityState.Modified;
 
             try
             {
-                PainScaleType.LastModified = DateTime.Now;
+                TempRouteType.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PainScaleTypeExists(PainScaleType.PainScaleTypeId))
+                if (!TempRouteTypeExists(TempRouteType.TempRouteTypeId))
                 {
                     return NotFound();
                 }
@@ -71,9 +72,9 @@ namespace IS_Proj_HIT
             return RedirectToPage("./Index");
         }
 
-        private bool PainScaleTypeExists(int id)
+        private bool TempRouteTypeExists(int id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.TempRouteType.Any(e => e.TempRouteTypeId == id);
         }
     }
 }

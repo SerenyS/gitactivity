@@ -1,0 +1,43 @@
+﻿@page
+@model IS_Proj_HIT.DetailsModelCareSystemParameter
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>CareSystemParameter</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CareSystemParameter.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CareSystemParameter.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CareSystemParameter.NormalLimitsDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CareSystemParameter.NormalLimitsDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CareSystemParameter.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CareSystemParameter.LastModified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CareSystemParameter.CareSystemType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CareSystemParameter.CareSystemType.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.CareSystemParameter.CareSystemParameterId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

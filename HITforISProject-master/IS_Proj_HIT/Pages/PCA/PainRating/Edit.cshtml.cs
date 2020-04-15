@@ -55,6 +55,7 @@ namespace IS_Proj_HIT
 
             try
             {
+                PainRating.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

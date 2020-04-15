@@ -1,0 +1,40 @@
+﻿@page
+@model IS_Proj_HIT.EditModelTempRouteType
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TempRouteType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TempRouteType.TempRouteTypeId" />
+            <div class="form-group">
+                <label asp-for="TempRouteType.TempRouteTypeName" class="control-label"></label>
+                <input asp-for="TempRouteType.TempRouteTypeName" class="form-control" />
+                <span asp-validation-for="TempRouteType.TempRouteTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TempRouteType.LastModified" class="control-label"></label>
+                <input asp-for="TempRouteType.LastModified" class="form-control" readonly />
+                <span asp-validation-for="TempRouteType.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,28 +14,28 @@ namespace IS_Proj_HIT
 {
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public class EditModelPainScaleType : PageModel
+    public class EditModelBloodPressureRouteType : PageModel
     {
         private readonly IS_Proj_HIT.Models.Data.WCTCHealthSystemContext _context;
 
-        public EditModelPainScaleType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
+        public EditModelBloodPressureRouteType(IS_Proj_HIT.Models.Data.WCTCHealthSystemContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public PainScaleType PainScaleType { get; set; }
+        public BloodPressureRouteType BloodPressureRouteType { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            BloodPressureRouteType = await _context.BloodPressureRouteType.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
 
-            if (PainScaleType == null)
+            if (BloodPressureRouteType == null)
             {
                 return NotFound();
             }
@@ -49,16 +49,16 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Attach(PainScaleType).State = EntityState.Modified;
+            _context.Attach(BloodPressureRouteType).State = EntityState.Modified;
 
             try
             {
-                PainScaleType.LastModified = DateTime.Now;
+                BloodPressureRouteType.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PainScaleTypeExists(PainScaleType.PainScaleTypeId))
+                if (!BloodPressureRouteTypeExists(BloodPressureRouteType.BloodPressureRouteTypeId))
                 {
                     return NotFound();
                 }
@@ -71,9 +71,9 @@ namespace IS_Proj_HIT
             return RedirectToPage("./Index");
         }
 
-        private bool PainScaleTypeExists(int id)
+        private bool BloodPressureRouteTypeExists(byte id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.BloodPressureRouteType.Any(e => e.BloodPressureRouteTypeId == id);
         }
     }
 }

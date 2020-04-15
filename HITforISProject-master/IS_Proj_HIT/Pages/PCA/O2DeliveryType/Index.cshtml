@@ -1,0 +1,42 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelO2deliveryType
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.O2deliveryType[0].O2deliveryTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.O2deliveryType[0].LastModified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.O2deliveryType) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.O2deliveryTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.O2deliveryTypeId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.O2deliveryTypeId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.O2deliveryTypeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
