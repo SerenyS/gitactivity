@@ -1,4 +1,5 @@
 ﻿$(function () {
+    $('[data-toggle="tooltip"]').tooltip(); 
 
     $.validator.addMethod("alphabetsnspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]*$/.test(value);

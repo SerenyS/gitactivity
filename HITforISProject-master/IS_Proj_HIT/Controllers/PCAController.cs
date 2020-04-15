@@ -47,8 +47,9 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index", "Encounter",
                     new {filter = "CheckedIn"});
 
-            ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn);
-            
+            ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == assessment.Encounter.Mrn);
+
             return View(assessment);
         }
 
@@ -69,38 +70,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
 
-            AddUnites();
-            AddRoutes();
-            var painScales = _repository.PainScaleTypes
-                .Include(ps => ps.PainParameters)
-                .ThenInclude(pp => pp.PainRatings)
-                .ToList();
-            var painRatings = new Dictionary<int, int?>();
-            painScales.ForEach(ps =>
-                ps.PainParameters.ToList().ForEach(pp =>
-                    pp.PainRatings.ToList().ForEach(pr =>
-                        painRatings.Add(pr.PainRatingId, null))));
-
-            var secondarySystems = _repository.CareSystemAssessmentTypes
-                .Include(cs => cs.CareSystemParameters)
-                .ToList();
-            var sysAssessments = new Dictionary<int, CareSystemAssessment>();
-            secondarySystems.ForEach(s =>
-                s.CareSystemParameters.ToList().ForEach(sp =>
-                    sysAssessments.Add(sp.CareSystemParameterId,
-                        new CareSystemAssessment
-                        {
-                            CareSystemParameterId = sp.CareSystemParameterId,
-                            IsWithinNormalLimits = null
-                        })));
-
-            var newFormPca = new AssessmentFormPageModel
-            {
-                PainScales = painScales,
-                PainRatings = painRatings,
-                SecondarySystemTypes = secondarySystems,
-                Assessments = sysAssessments
-            };
+            var newFormPca = PrepareAssessmentFormPageModel();
 
             return View(newFormPca);
         }
@@ -111,9 +81,13 @@ namespace IS_Proj_HIT.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == formPca.PcaRecord.EncounterId);
-                ViewBag.Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == formPca.PatientMrn);
-                ViewBag.PatientAlertsCount  = _repository.PatientAlerts.Count(b => b.Mrn == formPca.PatientMrn);
+                ViewBag.Encounter = _repository.Encounters
+                    .FirstOrDefault(e => e.EncounterId == formPca.PcaRecord.EncounterId);
+                ViewBag.Patient = _repository.Patients
+                    .Include(p => p.PatientAlerts)
+                    .FirstOrDefault(p => p.Mrn == formPca.PatientMrn);
+
+                formPca = PrepareAssessmentFormPageModel(formPca);
                 return View(formPca);
             }
 
@@ -126,16 +100,18 @@ namespace IS_Proj_HIT.Controllers
         /// <param name = "assessmentId" > PCA Id for Db Lookup</param>
         ///  <param name = "patientMrn" > Unique Identifier of patient</param>
         ///   <param name = "encounterId" > Unique Identifier of patient</param>
-        public IActionResult UpdateAssessment(int assessmentId,string patientMRN,long encounterId)
+        public IActionResult UpdateAssessment(int assessmentId, string patientMRN, long encounterId)
         {
-           var assessment = _repository.PcaRecords.Include(pc => pc.CareSystemAssessment).FirstOrDefault(pc => pc.PcaId == assessmentId);
+            var assessment = _repository.PcaRecords
+                .Include(pc => pc.CareSystemAssessment)
+                .FirstOrDefault(pc => pc.PcaId == assessmentId);
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
             var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMRN).Count();
 
-            if (assessment is null || patient is null) 
+            if (assessment is null || patient is null)
                 return RedirectToAction("ViewAssessment", "PCA",
-                    new {assessmentId = assessment.PcaId });
+                    new {assessmentId = assessment.PcaId});
             ViewBag.PcaRecord = assessment;
             ViewBag.Patient = patient;
             ViewBag.Encounter = encounter;
@@ -145,41 +121,52 @@ namespace IS_Proj_HIT.Controllers
             var model = new AssessmentFormPageModel();
             return View(model);
         }
-        
+
         private IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
             var pca = formPca.PcaRecord;
             //Convert temp to F, if entered in other unit
-            if(pca.Temperature != null)
+            if (pca.Temperature != null)
             {
                 Enum.TryParse<TempUnit>(formPca.TempUnit, out var tempUnit);
                 pca.Temperature = ConversionService.ConvertTemp(tempUnit, TempUnit.Fahrenheit, pca.Temperature);
             }
-            
+
             if (pca.PcaId is 0)
             {
                 using (var tran = new TransactionScope())
                 {
                     pca.DateVitalsAdded = DateTime.Now;
+                    pca.LastModified = DateTime.Now;
                     _repository.AddPcaRecord(pca);
 
-                    var vitalCommentTypeId = 0;
-                    foreach (var note in formPca.VitalNotes.Where(n => !string.IsNullOrWhiteSpace(n)))
+                    if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
                     {
-                        if (vitalCommentTypeId is 0)
-                        {
-                            var comType =
-                                _repository.PcaCommentTypes.FirstOrDefault(t => t.PcaCommentTypeName == "Vitals");
-                            if (comType is null) break;
-                            vitalCommentTypeId = comType.PcaCommentTypeId;
-                        }
+                        var vNote = _repository.PcaCommentTypes
+                            .FirstOrDefault(t => t.PcaCommentTypeName == "Vitals Notes");
 
                         _repository.AddPcaComment(new PcaComment
                         {
                             PcaId = pca.PcaId,
-                            PcaCommentTypeId = vitalCommentTypeId,
-                            Comment = note,
-                            DateCommentAdded = DateTime.Now
+                            PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 11,
+                            Comment = formPca.VitalNote,
+                            DateCommentAdded = DateTime.Now,
+                            LastModified = DateTime.Now
+                        });
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
+                    {
+                        var vNote = _repository.PcaCommentTypes
+                            .FirstOrDefault(t => t.PcaCommentTypeName == "Pain Assessment Notes");
+
+                        _repository.AddPcaComment(new PcaComment
+                        {
+                            PcaId = pca.PcaId,
+                            PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 12,
+                            Comment = formPca.PainNote,
+                            DateCommentAdded = DateTime.Now,
+                            LastModified = DateTime.Now
                         });
                     }
 
@@ -227,7 +214,62 @@ namespace IS_Proj_HIT.Controllers
                 new {assessmentId = formPca.PcaRecord.PcaId});
         }
 
-        private void AddUnites()
+        private AssessmentFormPageModel PrepareAssessmentFormPageModel(AssessmentFormPageModel formPca = null)
+        {
+            if (formPca is null)
+                formPca = new AssessmentFormPageModel();
+
+            AddTooltips();
+            AddUnits();
+            AddRoutes();
+
+            formPca.PainScales = _repository.PainScaleTypes
+                .Include(ps => ps.PainParameters)
+                .ThenInclude(pp => pp.PainRatings)
+                .ToList();
+            formPca.PainScales.ForEach(ps =>
+                ps.PainParameters.ToList().ForEach(pp =>
+                    pp.PainRatings.ToList().ForEach(pr =>
+                    {
+                        if (!formPca.PainRatings.ContainsKey(pr.PainRatingId))
+                            formPca.PainRatings.Add(pr.PainRatingId, null);
+                    })));
+
+            formPca.SecondarySystemTypes = _repository.CareSystemAssessmentTypes
+                .Include(cs => cs.CareSystemParameters)
+                .ToList();
+            formPca.SecondarySystemTypes.ForEach(s =>
+                s.CareSystemParameters.ToList().ForEach(sp =>
+                {
+                    if (!formPca.Assessments.ContainsKey(sp.CareSystemParameterId))
+                        formPca.Assessments.Add(sp.CareSystemParameterId,
+                            new CareSystemAssessment
+                            {
+                                CareSystemParameterId = sp.CareSystemParameterId,
+                                IsWithinNormalLimits = null
+                            });
+                }));
+
+            return formPca;
+        }
+
+        private void AddTooltips()
+        {
+            ViewBag.TempWnl = "WNL: 97°F or higher AND  no higher than 101°F";
+            ViewBag.BpWnl =
+                "WNL: Less than 120 over 80(120/80); ELEVATED: 120-129/less than 80 STAGE 1 HIGH BP: 130-139/80-89 STAGE 1 HIGH BP: 140 and above/90 and above HYPERTENSION CRISIS: higher than 180/higher than 120";
+            ViewBag.PulseWnl = "WNL: 60 BPM or higher AND  no higher than 100 BPM";
+            ViewBag.RespWnl = "WNL: 15/min or higher AND  no higher than 30/min";
+            ViewBag.PulseOxWnl = "WNL: 90% or higher";
+            ViewBag.WeightWnl =
+                "Document whether the patient has experienced any unusual/unexplained weight loss or weight gain";
+            ViewBag.FacesExplaination =
+                "•	Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain. " +
+                "•	Face 0 doesn’t hurt at all.  Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain. " +
+                "•	Ask the person to choose the face that best depicts the pain they are experiencing.";
+        }
+
+        private void AddUnits()
         {
             ViewBag.WeightUnits = new List<SelectListItem>
             {
@@ -284,8 +326,6 @@ namespace IS_Proj_HIT.Controllers
                             r.Name,
                             r.BmiMethodId.ToString(),
                             i == 0)));
-
         }
-
     }
 }

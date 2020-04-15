@@ -15,7 +15,8 @@ namespace IS_Proj_HIT.ViewModels
         [Required] public string PatientMrn { get; set; }
 
         public string TempUnit { get; set; }
-        public string[] VitalNotes { get; set; }
+        public string VitalNote { get; set; }
+        public string PainNote { get; set; }
 
         public List<CareSystemType> SecondarySystemTypes { get; set; }
         public Dictionary<int, CareSystemAssessment> Assessments { get; set; }
@@ -26,7 +27,6 @@ namespace IS_Proj_HIT.ViewModels
         public AssessmentFormPageModel()
         {
             PcaRecord = new PcaRecord();
-            VitalNotes = new string[9];
 
             SecondarySystemTypes = new List<CareSystemType>();
             Assessments = new Dictionary<int, CareSystemAssessment>();

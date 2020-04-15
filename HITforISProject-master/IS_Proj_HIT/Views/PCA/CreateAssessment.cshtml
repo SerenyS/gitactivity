@@ -4,115 +4,28 @@
 }
 
 <form asp-action="CreateAssessment" class="col" id="pca" method="post" name="pca">
-    <partial name="PatientBannerPartial" model="ViewBag.Patient" />
+    <partial model="ViewBag.Patient" name="PatientBannerPartial" />
     <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <div class="tab-content">
-        <!-- General tab -->
-        <div aria-labelledby="general-tab" class="tab-pane active" id="general" role="tabpanel">
+        <!-- Vitals tab -->
+        <div aria-labelledby="vitals-tab" class="tab-pane active" id="vital" role="tabpanel">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4>Patient Care Assessment - General Systems <span class="float-right">Page 1</span></h4>
+                    <h4>Patient Care Assessment - Vitals <span class="float-right">Page 1</span></h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <label class="form-label" for="inputWeight">Weight</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputWeight" placeholder="Weight"
-                                   min="0" max="99999999.99" step="0.01" asp-for="PcaRecord.Weight">
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <select class="form-control" asp-items="@ViewBag.WeightUnits" asp-for="PcaRecord.WeightUnits"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[0]" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <label class="form-label" for="inputHeight">Height/Length</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputHeight" placeholder="Height/Length"
-                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.Height">
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeightUnits"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[1]" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <label class="form-label" for="inputHead">Head Circumference</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputHead" placeholder="Head Circ."
-                                   min="0" max="9999.999" step="0.01" asp-for="PcaRecord.HeadCircumference">
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeadCircumferenceUnits"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[2]" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <label class="form-label" for="inputBMI">Body Mass Index</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputBMI" placeholder="BMI"
-                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.BodyMassIndex">
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="PcaRecord.BmiMethodId"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[3]" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3 ">
-                            <button class="btn btn-primary m-r" type="button">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.TempWnl">
                                 <i class="fas fa-info"></i>
                             </button>
                             <label class="form-label" for="inputTemperature">Temperature</label>
                         </div>
                         <div class="col-sm-12 col-lg-4">
                             <input type="number" class="form-control" id="inputTemperature" placeholder="Temperature"
-                                   step="0.01" min="-999.99" max="999.99" asp-for="PcaRecord.Temperature">
+                                   step="0.01" min="0" max="125" asp-for="PcaRecord.Temperature">
                         </div>
                         <div class="col-sm-6 col-lg-2">
                             <select class="form-control" asp-items="@ViewBag.TempUnits" asp-for="TempUnit"></select>
@@ -121,84 +34,56 @@
                             <select class="form-control" asp-items="@ViewBag.TempRoutes" asp-for="PcaRecord.TempRouteTypeId"></select>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3"></div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[4]" />
-                        </div>
-                    </div>
                     <hr />
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
-                            <button class="btn btn-primary m-r" type="button">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.BpWnl">
                                 <i class="fas fa-info"></i>
                             </button>
                             <label class="form-label" for="inputSystolic">Blood Pressure</label>
                         </div>
                         <div class="col-sm-12 col-lg-2">
                             <input type="number" class="form-control" id="inputSystolic" placeholder="Systolic"
-                                   min="0" max="999" step="0.01" asp-for="PcaRecord.SystolicBloodPressure">
+                                   min="0" max="250" step="0.01" asp-for="PcaRecord.SystolicBloodPressure">
                         </div>
                         <div class="col-sm-12 col-lg-2">
                             <input type="number" class="form-control" id="inputDiastolic" placeholder="Diastolic"
-                                   min="0" max="999" step="0.01" asp-for="PcaRecord.DiastolicBloodPressure">
+                                   min="0" max="250" step="0.01" asp-for="PcaRecord.DiastolicBloodPressure">
                         </div>
                         <div class="col-sm-12 col-lg-5">
                             <select class="form-control" asp-items="@ViewBag.BloodPressureRoutes" asp-for="PcaRecord.BloodPressureRouteTypeId"></select>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3">
-                        </div>
-                        <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[5]" />
-                        </div>
-                    </div>
                     <hr />
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
-                            <button class="btn btn-primary m-r" type="button">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.PulseWnl">
                                 <i class="fas fa-info"></i>
                             </button>
                             <label class="form-label" for="inputPulse">Pulse</label>
                         </div>
-                        <div class="col-sm-6 col-lg-2">
-                            <input type="number" class="form-control" id="inputPulse" placeholder="Pulse"
+                        <div class="col-sm-6 col-lg-4">
+                            <input type="number" class="form-control" id="inputPulse" placeholder="Beats Per Minute"
                                    min="0" max="127" step="0.01" asp-for="PcaRecord.Pulse">
                         </div>
-                        <div class="col-sm-6 col-lg-2">
+                        <div class="col-sm-6 col-lg-5">
                             <select class="form-control" asp-items="@ViewBag.PulseRoute" asp-for="PcaRecord.PulseRouteTypeId"></select>
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[6]" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-3">
-                            <button class="btn btn-primary m-r" type="button">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <label class="form-label" for="inputPulseOxi">Pulse Oximentry</label>
-                        </div>
-                        <div class="col-sm-12 col-lg-4">
-                            <input type="number" class="form-control" id="inputPulseOxi" placeholder="Pulse Oxim"
-                                   min="0" max="127" step="0.01" asp-for="PcaRecord.PulseOximetry">
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[7]" />
                         </div>
                     </div>
                     <hr />
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
-                            <button class="btn btn-primary m-r" type="button">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.RespWnl">
                                 <i class="fas fa-info"></i>
                             </button>
                             <label class="form-label" for="inputRespiration">Respiration</label>
                         </div>
                         <div class="col-sm-6 col-lg-2">
-                            <input type="number" class="form-control" id="inputRespiration" placeholder="Respiration"
-                                   min="0" max="127" step="0.01" asp-for="PcaRecord.Respiration">
+                            <input type="number" class="form-control" id="inputRespiration" placeholder="Breaths Per Minute"
+                                   min="0" max="60" step="0.01" asp-for="PcaRecord.Respiration">
                         </div>
                         <div class="col-sm-6 col-lg-2">
                             <select class="form-control" asp-items="@ViewBag.O2DeliveryRoutes" asp-for="PcaRecord.O2deliveryTypeId"></select>
@@ -212,10 +97,87 @@
                                    type="number" asp-for="PcaRecord.PercentOxygenDelivered">
                         </div>
                     </div>
+                    <hr />
                     <div class="form-group row">
-                        <div class="col-sm col-lg-3"></div>
+                        <div class="col-sm-12 col-lg-3">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.PulseOxWnl">
+                                <i class="fas fa-info"></i>
+                            </button>
+                            <label class="form-label" for="inputPulseOxi">Pulse Oximentry</label>
+                        </div>
                         <div class="col-sm-12 col-lg-9">
-                            <input class="form-control" placeholder="Notes" type="text" asp-for="VitalNotes[8]" />
+                            <input type="number" class="form-control" id="inputPulseOxi" placeholder="Pulse Oxim"
+                                   min="0" max="127" step="0.01" asp-for="PcaRecord.PulseOximetry">
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3 ">
+                            <button class="btn btn-primary m-r" type="button"
+                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.WeightWnl">
+                                <i class="fas fa-info"></i>
+                            </button>
+                            <label class="form-label" for="inputWeight">Weight</label>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <input type="number" class="form-control" id="inputWeight" placeholder="Weight"
+                                   min="0" max="99999999.99" step="0.01" asp-for="PcaRecord.Weight">
+                        </div>
+                        <div class="col-sm-12 col-lg-5">
+                            <select class="form-control" asp-items="@ViewBag.WeightUnits" asp-for="PcaRecord.WeightUnits"></select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3 ">
+                            <a class="btn btn-primary m-r"
+                               data-placement="right" data-toggle="tooltip" href="https://www.nhlbi.nih.gov/health/educational/lose_wt/BMI/bmicalc.htm"
+                               rel="noopener noreferrer" target="_blank"
+                               title="Link to BMI Calculator">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <label class="form-label" for="inputBMI">Body Mass Index</label>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <input type="number" class="form-control" id="inputBMI" placeholder="BMI"
+                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.BodyMassIndex">
+                        </div>
+                        <div class="col-sm-12 col-lg-5">
+                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="PcaRecord.BmiMethodId"></select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3 ">
+                            <label class="form-label ml-5" for="inputHeight">Height/Length</label>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <input type="number" class="form-control" id="inputHeight" placeholder="Height/Length"
+                                   min="0" max="9999.99" step="0.01" asp-for="PcaRecord.Height">
+                        </div>
+                        <div class="col-sm-12 col-lg-5">
+                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeightUnits"></select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-3 ">
+                            <label class="form-label ml-5" for="inputHead">Head Circumference</label>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <input type="number" class="form-control" id="inputHead" placeholder="Head Circ."
+                                   min="0" max="9999.999" step="0.01" asp-for="PcaRecord.HeadCircumference">
+                        </div>
+                        <div class="col-sm-12 col-lg-5">
+                            <select class="form-control" asp-items="@ViewBag.LengthUnits" asp-for="PcaRecord.HeadCircumferenceUnits"></select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-12">
+                            <label class="form-label ml-5" for="inputVitalNote">Vital Notes</label>
+                            <textarea class="form-control w-100" id="inputVitalNote" rows="4" asp-for="VitalNote"></textarea>
                         </div>
                     </div>
                 </div>
@@ -233,7 +195,8 @@
                         @foreach (var painScaleType in Model.PainScales)
                         {
                             <div class="col-sm-6 col-lg-3 mb-1">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="button"
+                                        data-toggle="tooltip" data-placement="right" title="@painScaleType.UseDescription">
                                     <i class="fas fa-info"></i>
                                 </button>
                                 <input id="@(painScaleType.PainScaleTypeName + painScaleType.PainScaleTypeId)"
@@ -247,36 +210,46 @@
                                 </label>
                             </div>
                         }
-                    </div>
-                    <div class="form-group row">
                         <div class="col-sm-6 col-lg-3">
-                            <label class="form-label mb-0" for="painLevelGoal">
-                                Pain Level Goal (Out of 10)
-                            </label>
-                            <input id="painLevelGoal"
-                                   class="form-control"
-                                   type="number"
-                                   min="0" max="10" step="1"
-                                   asp-for="PcaRecord.PainLevelGoal">
+                            <div class="float-right">
+                                <label class="form-label mb-0" for="painLevelGoal">
+                                    Pain Goal:
+                                </label>
+                                <input id="painLevelGoal"
+                                       class="form-control d-inline-block w-50"
+                                       placeholder="0 to 10"
+                                       type="number"
+                                       min="0" max="10" step="1"
+                                       asp-for="PcaRecord.PainLevelGoal">
+                            </div>
                         </div>
                     </div>
-                    <hr />
                     @foreach (var painScaleType in Model.PainScales)
                     {
                         @foreach (var painParam in painScaleType.PainParameters)
                         {
                             <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
-                                <div class="col-sm-12 col-lg-3">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-info"></i>
-                                    </button>
-                                    <label class="form-label">@painParam.ParameterName</label>
-                                </div>
+                                @if (painScaleType.PainScaleTypeName is "Wong-Baker")
+                                {
+                                    <div class="col-sm-12 col-lg-3">
+                                        <button class="btn btn-primary m-r" type="button"
+                                                data-toggle="tooltip" data-placement="right" title="@ViewBag.FacesExplaination">
+                                            <i class="fas fa-info"></i>
+                                        </button>
+                                        <label class="form-label mb-0">@painParam.ParameterName</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-12 col-lg-3">
+                                        <label class="form-label ml-5 mb-0">@painParam.ParameterName</label>
+                                    </div>
+                                }
                             </div>
                             <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
                                 @foreach (var painRating in painParam.PainRatings)
                                 {
-                                    <div class="col-sm-4 col-lg-4 mb-1">
+                                    <div class="col-sm-12 col-lg-4 mb-1">
                                         <input id="@(painParam.ParameterName + painParam.PainParameterId + painRating.PainRatingId)"
                                                type="radio"
                                                asp-for="PainRatings[painParam.PainParameterId]"
@@ -300,24 +273,32 @@
                             <hr class="painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none" />
                         }
                     }
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-lg-12">
+                            <label class="form-label ml-5" for="inputPainNote">Pain Assessment Notes</label>
+                            <textarea class="form-control w-100" id="inputPainNote" rows="4" asp-for="PainNote"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Vitals tab -->
-        <div aria-labelledby="secondary-tab" class="tab-pane" id="secondary" role="tabpanel">
+        <!-- Systems Review tab -->
+        <div aria-labelledby="systems-tab" class="tab-pane" id="systems" role="tabpanel">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4>Patient Care Assessment - Secondary Systems<span class="float-right">Page 3</span></h4>
+                    <h4>Patient Care Assessment - Systems Review<span class="float-right">Page 3</span></h4>
                 </div>
                 <div class="card-body">
+                    <p class="text-center text-body">Indicate whether the assessment was within normal limits (WNL) or abnormal. Document any abnormal findings or concerns. Document any interventions</p>
                     <div class="form-group row">
                         <ul class="nav nav-tabs nav-fill small font-weight-bold border" id="myTab" role="tablist">
                             @foreach (var careSystem in Model.SecondarySystemTypes)
                             {
                                 <li class="nav-item">
                                     <a aria-controls="careSystem-@(careSystem.CareSystemTypeId)" aria-selected="false"
-                                       id="careSystem-@(careSystem.CareSystemTypeId)-tab" class="nav-link"
+                                       id="careSystem-@(careSystem.CareSystemTypeId)-tab"
+                                       class="nav-link @(Model.SecondarySystemTypes.FirstOrDefault() == careSystem ? "active" : "")"
                                        data-toggle="tab" href="#careSystem-@(careSystem.CareSystemTypeId)" role="tab">
                                         @careSystem.Name
                                     </a>
@@ -328,18 +309,19 @@
                     <div class="tab-content border p-3" id="careSystemTabContent">
                         @foreach (var careSystem in Model.SecondarySystemTypes)
                         {
-                            <div aria-labelledby="careSystem-@(careSystem.CareSystemTypeId)-tab" class="tab-pane fade show"
+                            <div aria-labelledby="careSystem-@(careSystem.CareSystemTypeId)-tab"
+                                 class="tab-pane fade show @(Model.SecondarySystemTypes.FirstOrDefault() == careSystem ? "active" : "")"
                                  id="careSystem-@(careSystem.CareSystemTypeId)" role="tabpanel">
                                 @foreach (var careParam in careSystem.CareSystemParameters)
                                 {
                                     <div class="form-group row">
-                                        <div class="col-sm-12 col-lg-5">
+                                        <div class="col-sm-12 col-lg-12">
                                             <button class="btn btn-primary m-r" type="button">
                                                 <i class="fas fa-info"></i>
                                             </button>
                                             <label class="form-label">@careParam.Name</label>
                                         </div>
-                                        <div class="col-sm-4 col-lg-2 mb-1">
+                                        <div class="col-sm-12 col-lg-4 mb-1">
                                             <input id="@(careSystem.Name + careParam.CareSystemParameterId)-na"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
                                                    value=""
@@ -349,7 +331,7 @@
                                                 Not Assessed
                                             </label>
                                         </div>
-                                        <div class="col-sm-4 col-lg-3 mb-1">
+                                        <div class="col-sm-12 col-lg-4 mb-1">
                                             <input id="@(careSystem.Name + careParam.CareSystemParameterId)-f"
                                                    type="radio"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
@@ -359,7 +341,7 @@
                                                 Within Normal Limits
                                             </label>
                                         </div>
-                                        <div class="col-sm-4 col-lg-2 mb-1">
+                                        <div class="col-sm-12 col-lg-4 mb-1">
                                             <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
                                                    type="radio"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
@@ -369,8 +351,6 @@
                                                 Abnormal
                                             </label>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <div class="col-sm-12 col-lg-12 mb-1">
                                             <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
                                                    class="form-control"
@@ -379,7 +359,10 @@
                                                    placeholder="Describe">
                                         </div>
                                     </div>
-                                    <hr />
+                                    @if (careParam != careSystem.CareSystemParameters.LastOrDefault())
+                                    {
+                                        <hr />
+                                    }
                                 }
                             </div>
                         }
@@ -392,53 +375,14 @@
     <!--For navigating PCA-->
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
-            <a aria-controls="general" aria-selected="true" class="nav-link active" data-toggle="tab" href="#general" id="general-tab" role="tab">General Systems</a>
+            <a aria-controls="vital" aria-selected="true" class="nav-link active" data-toggle="tab" href="#vital" id="vital-tab" role="tab">Vitals</a>
         </li>
         <li class="nav-item">
             <a aria-controls="pain" aria-selected="false" class="nav-link" data-toggle="tab" href="#painTab" id="pain-tab" role="tab">Pain Assessment</a>
         </li>
         <li class="nav-item">
-            <a aria-controls="secondary" aria-selected="false" class="nav-link" data-toggle="tab" href="#secondary" id="secondary-tab" role="tab">Secondary Systems</a>
+            <a aria-controls="systems" aria-selected="false" class="nav-link" data-toggle="tab" href="#systems" id="systems-tab" role="tab">Systems Review</a>
         </li>
     </ul>
     <button class="btn btn-primary btn-block" type="submit">Save & Close Assessment</button>
 </form>
-
-<div aria-atomic="true" aria-live="polite" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
-    <!-- Then put toasts within -->
-    <div aria-atomic="true" aria-live="assertive" class="toast" role="alert">
-        <div class="toast-header">
-            <img alt="..." class="rounded mr-2" src="...">
-            <strong class="mr-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
-            <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
-    </div>
-</div>
-
-<!-- Modal for informational messages -->
-<div aria-hidden="true" aria-labelledby="PcaInfoModalLabel" class="modal fade" id="PcaInfoModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="PcaInfoModalLabel">New message</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="message-text"></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" type="button">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-</div>

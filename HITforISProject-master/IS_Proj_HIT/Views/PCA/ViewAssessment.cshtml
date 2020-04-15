@@ -4,8 +4,12 @@
 <partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
-        <h4>
-            Patient Care Assessment Information
+        <h4 class="mb-0">
+            Patient Care Assessment
+            <button class="btn-sm btn-outline-primary mb-0" type="button"
+                    data-toggle="tooltip" data-placement="right" title="N.A. means that a value was not assessed.">
+                <i class="fas fa-info"></i>
+            </button>
             <a asp-action="UpdateAssessment"
                asp-route-assessmentId="@Model.PcaId"
                asp-route-patientMRN="@ViewBag.Patient.Mrn"
@@ -67,21 +71,15 @@
                 <table class="table table-bordered table-primary">
                     <thead>
                     <tr>
-                        <th class="text-center" colspan="99">General Assessment Comments</th>
-                    </tr>
-                    <tr>
-                        <th>Comment Type</th>
-                        <th colspan="2">Content</th>
-                        <th class="d-sm-none d-lg-table-cell">Date Added</th>
+                        <th class="text-center" colspan="2">Notes</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var com in Model.PcaComment)
                     {
                         <tr>
-                            <td>@com.PcacommentType.PcaCommentTypeName</td>
-                            <td colspan="2">@com.Comment</td>
-                            <td class="d-sm-none d-lg-table-cell">@com.DateCommentAdded?.ToString("g")</td>
+                            <td>@com.PcacommentType.PcaCommentTypeName - @com.Comment</td>
+                            <td class="d-sm-none d-lg-table-cell">Date Added: @com.DateCommentAdded?.ToString("g")</td>
                         </tr>
                     }
                     </tbody>
@@ -91,13 +89,18 @@
             {
                 <table class="table table-bordered table-primary">
                     <thead>
-                    <tr>
-                        @if (Model.PainLevelGoal != null)
-                        {
-                            <th>Goal: @Model.PainLevelGoal / 10</th>
-                        }
-                        <th class="text-center" colspan="99">Pain Assessment - @Model.PainScaleType.PainScaleTypeName</th>
-                    </tr>
+                        <tr>
+                            <th colspan="99" class="text-center">
+                                <span class="font-weight-normal float-left">
+                                    <button class="btn-sm btn-outline-primary mb-0" type="button"
+                                            data-toggle="tooltip" data-placement="top" title="Goal / Current | Current value is based on the cumulative rating from the assessed pain scale.">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                    Pain Level: @(Model.PainLevelGoal.HasValue ? Model.PainLevelGoal?.ToString() : "N.A.") / @Model.PainAssessment.Sum(a => a.PainRating.Value)
+                                </span>
+                                Pain Assessment - @Model.PainScaleType.PainScaleTypeName
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach (var pa in Model.PainAssessment)
@@ -129,7 +132,7 @@
                 <table class="table table-bordered table-primary">
                     <thead>
                     <tr>
-                        <th class="text-center" colspan="99">Secondary System Assessments</th>
+                        <th class="text-center" colspan="99">System Review</th>
                     </tr>
                     <tr>
                         <th>Group</th>
