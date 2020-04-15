@@ -257,15 +257,24 @@ namespace IS_Proj_HIT.Controllers
         {
             ViewBag.TempWnl = "WNL: 97°F or higher AND  no higher than 101°F";
             ViewBag.BpWnl =
-                "WNL: Less than 120 over 80(120/80); ELEVATED: 120-129/less than 80 STAGE 1 HIGH BP: 130-139/80-89 STAGE 1 HIGH BP: 140 and above/90 and above HYPERTENSION CRISIS: higher than 180/higher than 120";
+                "WNL: <br />Less than 120 / 80;<br />" +
+                "ELEVATED: <br />120-129 / less than 80 <br />" +
+                "STAGE 1 HIGH BP: <br />130-139 / 80-89 <br />" +
+                "STAGE 1 HIGH BP: <br />140 and above<br /> / 90 and above <br />" +
+                "HYPERTENSION CRISIS: <br />Higher than 180<br /> / higher than 120";
             ViewBag.PulseWnl = "WNL: 60 BPM or higher AND  no higher than 100 BPM";
             ViewBag.RespWnl = "WNL: 15/min or higher AND  no higher than 30/min";
             ViewBag.PulseOxWnl = "WNL: 90% or higher";
             ViewBag.WeightWnl =
                 "Document whether the patient has experienced any unusual/unexplained weight loss or weight gain";
             ViewBag.FacesExplaination =
-                "•	Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain. " +
-                "•	Face 0 doesn’t hurt at all.  Face 2 hurts just a little bit. Face 4 hurts a little bit more. Face 6 hurts even more. Face 8 hurts a whole lot. Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain. " +
+                "•	Explain to the person that each face represents a person who has no pain (hurt), or some, or a lot of pain. <br />" +
+                "•	Face 0 doesn’t hurt at all. <br />" +
+                "•	Face 2 hurts just a little bit. <br />" +
+                "•	Face 4 hurts a little bit more. <br />" +
+                "•	Face 6 hurts even more. <br />" +
+                "•	Face 8 hurts a whole lot. <br />" +
+                "•	Face 10 hurts as much as you can imagine although you don’t have to be crying to have this worst pain. <br />" +
                 "•	Ask the person to choose the face that best depicts the pain they are experiencing.";
         }
 

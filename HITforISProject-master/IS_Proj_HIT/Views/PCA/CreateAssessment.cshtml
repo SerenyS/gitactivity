@@ -38,7 +38,7 @@
                     <div class="form-group row">
                         <div class="col-sm-12 col-lg-3">
                             <button class="btn btn-primary m-r" type="button"
-                                    data-toggle="tooltip" data-placement="right" title="@ViewBag.BpWnl">
+                                    data-toggle="tooltip" data-placement="right" data-html="true" title="@ViewBag.BpWnl">
                                 <i class="fas fa-info"></i>
                             </button>
                             <label class="form-label" for="inputSystolic">Blood Pressure</label>
@@ -233,7 +233,7 @@
                                 {
                                     <div class="col-sm-12 col-lg-3">
                                         <button class="btn btn-primary m-r" type="button"
-                                                data-toggle="tooltip" data-placement="right" title="@ViewBag.FacesExplaination">
+                                                data-toggle="tooltip" data-placement="right" data-html="true" title="@ViewBag.FacesExplaination">
                                             <i class="fas fa-info"></i>
                                         </button>
                                         <label class="form-label mb-0">@painParam.ParameterName</label>
@@ -316,7 +316,8 @@
                                 {
                                     <div class="form-group row">
                                         <div class="col-sm-12 col-lg-12">
-                                            <button class="btn btn-primary m-r" type="button">
+                                            <button class="btn btn-primary m-r" type="button"
+                                                    data-toggle="tooltip" data-placement="right" title="@careParam.NormalLimitsDescription">
                                                 <i class="fas fa-info"></i>
                                             </button>
                                             <label class="form-label">@careParam.Name</label>

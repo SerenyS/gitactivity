@@ -29,6 +29,10 @@ figure figcaption {
     padding: 5px;
 }
 
+.tooltip-inner {
+    text-align: left !important;
+    font-size: medium;
+}
 
 .error {
     color: red;

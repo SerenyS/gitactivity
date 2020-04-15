@@ -1,47 +1,34 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@model IEnumerable<IdentityRole>
-@{
-    ViewBag.Title = "All Roles";
-
+﻿@{
+    ViewBag.Title = "Administration";
 }
 
-<h1>Security Roles</h1>
+<h1>Administration Tools</h1>
 
-@if (Model.Any())
-{
-    <div class="container">
-        <div class="row">
-            <h3 class="mb-3">
-                <a class="btn btn-outline-primary" style="width: auto"
-                   asp-controller="administration" asp-action="CreateRole">Create Role</a>
-            </h3>
-        </div>
-        <div class="row">
-            @foreach (var role in Model)
-            {
-                <div class="col-sm-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@role.Name</h5>
-                        </div>
-                        <div class="card-footer">
-                            <a class="btn btn-outline-primary" asp-action="EditRole" asp-route-id="@role.Id">Edit Role</a>
-                        </div>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <a asp-action="ViewRoles" class="btn btn-outline-primary">
+                        <h5 class="card-title mb-0">Security Roles</h5>
+                    </a>
                 </div>
-            }
+                <div class="card-footer">
+                    <p class="mb-0">Management pages for security roles</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <a asp-action="DataEntry" class="btn btn-outline-primary">
+                        <h5 class="card-title mb-0">Data Entry Management</h5>
+                    </a>
+                </div>
+                <div class="card-footer">
+                    <p class="mb-0">CRUD pages for managed database tables</p>
+                </div>
+            </div>
         </div>
     </div>
-}
-else
-{
-    <div class="card">
-        <div class="card-header">
-            No roles created yet.
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Use the button below to create a role.</h5>
-            <a class="btn btn-primary" style="width: auto" asp-action="CreateRole">Create Role</a>
-        </div>
-    </div>
-}
+</div>

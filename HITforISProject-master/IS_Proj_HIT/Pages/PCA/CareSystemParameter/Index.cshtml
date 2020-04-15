@@ -5,7 +5,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>
+    <a class="btn btn-primary" asp-controller="Administration" asp-action="DataEntry">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+    Index
+</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -31,25 +36,25 @@
     <tbody>
         @foreach (var item in Model.CareSystemParameter)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NormalLimitsDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModified)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CareSystemType.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.CareSystemParameterId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.CareSystemParameterId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.CareSystemParameterId">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NormalLimitsDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CareSystemType.Name)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CareSystemParameterId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CareSystemParameterId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CareSystemParameterId">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
