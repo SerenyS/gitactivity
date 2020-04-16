@@ -385,5 +385,19 @@
             <a aria-controls="systems" aria-selected="false" class="nav-link" data-toggle="tab" href="#systems" id="systems-tab" role="tab">Systems Review</a>
         </li>
     </ul>
-    <button class="btn btn-primary btn-block" type="submit">Save & Close Assessment</button>
+    <button class="btn btn-primary btn-block" onclick="setFormSubmit()" type="submit">Save & Close Assessment</button>
 </form>
+<script>
+    var formSubmit = false;
+    var setFormSubmit = function () { formSubmit = true; };
+
+    window.onload = function () {
+        window.addEventListener("beforeunload", function (e) {
+            if (formSubmit) {
+                return undefined;
+            }
+            var message = "If you leave before saving, your changes will be lost.";
+            e.returnValue = message;
+        });
+    };
+</script>
