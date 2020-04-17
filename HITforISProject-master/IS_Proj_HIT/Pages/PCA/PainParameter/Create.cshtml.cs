@@ -38,6 +38,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
+            PainParameter.LastModified = DateTime.Now;
             _context.PainParameter.Add(PainParameter);
             await _context.SaveChangesAsync();
 

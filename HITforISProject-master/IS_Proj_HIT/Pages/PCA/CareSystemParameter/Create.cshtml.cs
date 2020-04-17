@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,8 +39,10 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
+            CareSystemParameter.LastModified = DateTime.Now;
             _context.CareSystemParameter.Add(CareSystemParameter);
             await _context.SaveChangesAsync();
+
 
             return RedirectToPage("./Index");
         }

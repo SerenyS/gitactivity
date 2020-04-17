@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<string>
+@using IS_Proj_HIT.Services
+
 @{
     ViewBag.Title = "Admin Data Entry";
 }
@@ -17,7 +19,7 @@
             <div class="col-sm-4 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-body text-center">
-                        <a class="btn btn-outline-primary" asp-page="/PCA/@entityName/Index">@entityName</a>
+                        <a class="btn btn-outline-primary" asp-page="/PCA/@entityName/Index">@ConversionService.ConvertTableName(@entityName)</a>
                     </div>
                 </div>
             </div>
