@@ -387,6 +387,15 @@
     </ul>
     <button class="btn btn-primary btn-block" onclick="setFormSubmit()" type="submit">Save & Close Assessment</button>
 </form>
+<hr />
+
+<a asp-controller="Encounter"
+   asp-action="ViewEncounter"
+   asp-route-encounterId="@ViewBag.Encounter.EncounterId"
+   class="btn btn-outline-primary">
+    <i class="fas fa-arrow-left"></i> Return To Encounter
+</a>
+
 <script>
     var formSubmit = false;
     var setFormSubmit = function () { formSubmit = true; };

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -12,9 +7,6 @@ namespace IS_Proj_HIT.Controllers
         public HomeController() { }
 
         public IActionResult Index() => View();
-
-        //todo: move to patient controller
-        public IActionResult PatientLookup() => View();
 
         public IActionResult BritRedirect() => Redirect("https://hcsdev.wctc.edu:4443");
 

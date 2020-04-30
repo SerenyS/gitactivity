@@ -5,6 +5,7 @@
 
 <form asp-action="CreateAssessment" class="col" id="pca" method="post" name="pca">
     <partial model="ViewBag.Patient" name="PatientBannerPartial" />
+    <input type="hidden" asp-for="PcaRecord.PcaId" value="@Model.PcaRecord.PcaId" />
     <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <div class="tab-content">
@@ -191,23 +192,25 @@
                     <h4>Patient Care Assessment - Pain<span class="float-right">Page 2</span></h4>
                 </div>
                 <div class="card-body">
-                    <div class="form-group row">
+                    @if (Model.PcaRecord.PainScaleType != null)
+                    {
+                        <div class="form-group row">
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="float-right">
-                                <label class="form-label mb-0" for="painLevelGoal">
-                                    Pain Goal:
-                                </label>
-                                <input id="painLevelGoal"
-                                       class="form-control d-inline-block w-50"
-                                       placeholder="0 to 10"
-                                       type="number"
-                                       min="0" max="10" step="1"
-                                       asp-for="PcaRecord.PainLevelGoal">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="float-right">
+                                    <label class="form-label mb-0" for="painLevelGoal">
+                                        Pain Goal:
+                                    </label>
+                                    <input id="painLevelGoal"
+                                           class="form-control d-inline-block w-50"
+                                           placeholder="0 to 10"
+                                           type="number"
+                                           min="0" max="10" step="1"
+                                           asp-for="PcaRecord.PainLevelGoal">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- this is where the chosen pain assessment info goes. Should only be able to modify notes while showing the pain assessment info-->
+                        <!-- this is where the chosen pain assessment info goes. Should only be able to modify notes while showing the pain assessment info-->
                         <table class="table table-bordered table-primary">
                             <thead>
                                 <tr>
@@ -240,15 +243,21 @@
                                 }
                             </tbody>
                         </table>
-                    
-
-
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-lg-12">
-                            <label class="form-label ml-5" for="inputPainNote">Pain Assessment Notes</label>
-                            <textarea class="form-control w-100" id="inputPainNote" rows="4" asp-for="PainNote"></textarea>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-lg-12">
+                                <label class="form-label ml-5" for="inputPainNote">Pain Assessment Notes</label>
+                                <textarea class="form-control w-100" id="inputPainNote" rows="4" asp-for="PainNote"></textarea>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <h3 class="text-center">No Pain Assessment Made</h3>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

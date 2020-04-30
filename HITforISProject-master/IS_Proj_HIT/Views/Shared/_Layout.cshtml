@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ISProjectHiT</title>
+    <title>@ViewData["Title"] - WCTC HCS</title>
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
@@ -27,20 +27,14 @@
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
-                    {
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Admin Only =></a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a>
+                        <a class="nav-link" asp-controller="Patient" asp-action="PatientSearch"><i class="fas fa-search"></i> Patient Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Encounter" asp-action="Index">Encounters</a>
+                        <a class="nav-link" asp-controller="Encounter" asp-action="CheckedIn"><i class="fas fa-users"></i> Checked in Patients</a>
                     </li>
-                    }
                 </ul>
                 <partial name="_LoginPartial" class="navbar-nav" />
             </div>
@@ -55,7 +49,7 @@
     <footer class="border-top footer text-muted text-center">
         <div class="container">
             <img src="~/img/WCTMC Logo header.jpg" />
-            &copy; 2019 - ISProjectHIT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - ISProjectHIT - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.js"></script>

@@ -1,13 +1,13 @@
 ﻿using IS_Proj_HIT.Models;
+using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using IS_Proj_HIT.Models.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -17,104 +17,63 @@ namespace IS_Proj_HIT.Controllers
         public int PageSize = 8;
         public EncounterController(IWCTCHealthSystemRepository repo) => _repository = repo;
 
-        public ViewResult Index(string filter, int encounterPage = 1)
+        public ViewResult CheckedIn()
         {
-            var patientEncounters = _repository.Encounters.Join(_repository.Patients,
-                                                                encounter => encounter.Mrn,
-                                                                patient => patient.Mrn,
-                                                                (encounter, patient) => new
-                                                                {
-                                                                    Mrn = encounter.Mrn,
-                                                                    EncounterId = encounter.EncounterId,
-                                                                    AdmitDateTime = encounter.AdmitDateTime,
-                                                                    FirstName = patient.FirstName,
-                                                                    LastName = patient.LastName,
-                                                                    FacilityName = _repository.
-                                                                                   Facilities.FirstOrDefault(
-                                                                                       b => b.FacilityId == encounter.FacilityId).
-                                                                                   Name,
-                                                                    DischargeDateTime = encounter.DischargeDateTime,
-                                                                    RoomNumber = encounter.RoomNumber
-                                                                }).ToList();
-
-            ViewBag.Filter = filter;
-            if (filter == "CheckedIn")
-                patientEncounters = patientEncounters.Where(e => e.DischargeDateTime == null).ToList();
-
-            var viewPatientEncounters =
-                patientEncounters.OrderByDescending(e => e.AdmitDateTime)
-                                 .Select(e => new EncounterPatientViewModel(e.Mrn,
-                                                                            e.EncounterId,
-                                                                            e.AdmitDateTime,
-                                                                            e.FirstName,
-                                                                            e.LastName,
-                                                                            e.FacilityName,
-                                                                            e.DischargeDateTime.ToString(),
-                                                                            e.RoomNumber));
-
-            return View(viewPatientEncounters);
-        }
-
-        public ViewResult PatientEncounters(string patientMRN)
-        {
-            var patientEncounters = _repository.Encounters
+            var model = _repository.Encounters
+                .Where(e => e.DischargeDateTime == null)
+                .OrderByDescending(e => e.AdmitDateTime)
                 .Join(_repository.Patients,
-                encounter => encounter.Mrn,
-                patient => patient.Mrn,
-                (encounter, patient) => new
-                {
-                    Mrn = encounter.Mrn,
-                    EncounterId = encounter.EncounterId,
-                    AdmitDateTime = encounter.AdmitDateTime,
-                    FirstName = patient.FirstName,
-                    LastName = patient.LastName,
-                    FacilityName = _repository.Facilities.FirstOrDefault(b => b.FacilityId == encounter.FacilityId).Name,
-                    DischargeDateTime = ((encounter.DischargeDateTime == null) ? "Patient has not yet been discharged" : encounter.DischargeDateTime.ToString())
+                    e => e.Mrn,
+                    p => p.Mrn,
+                    (e, p) =>
+                        new EncounterPatientViewModel(e.Mrn,
+                            e.EncounterId,
+                            e.AdmitDateTime,
+                            p.FirstName,
+                            p.LastName,
+                            e.Facility.Name,
+                            e.DischargeDateTime.ToString(),
+                            e.RoomNumber));
 
-                })
-                .Where(patientEncounterMRN => patientEncounterMRN.Mrn == patientMRN).ToList();
-            List<EncounterPatientViewModel> viewPatientEncounters = new List<EncounterPatientViewModel>();
-            for (int i = 0; i < patientEncounters.Count(); i++)
-            {
-                EncounterPatientViewModel thisPatientEncounter = new EncounterPatientViewModel(patientEncounters[i].Mrn,
-                    patientEncounters[i].EncounterId, patientEncounters[i].AdmitDateTime,
-                    patientEncounters[i].FirstName, patientEncounters[i].LastName, patientEncounters[i].FacilityName,
-                    patientEncounters[i].DischargeDateTime);
-                viewPatientEncounters.Add(thisPatientEncounter);
-            }
-            return View(viewPatientEncounters);
+            return View(model);
         }
 
-        public IActionResult ViewEncounter(long encounterId, bool isPatientEncounter)
+        public IActionResult ViewEncounter(long encounterId)
         {
             var encounter = _repository.Encounters
-                                       .Include(e => e.Facility)
-                                       .Include(e => e.Department)
-                                       .Include(e => e.AdmitType)
-                                       .Include(e => e.EncounterPhysicians)
-                                       .Include(e => e.EncounterType)
-                                       .Include(e => e.PlaceOfService)
-                                       .Include(e => e.PointOfOrigin)
-                                       .Include(e => e.DischargeDispositionNavigation)
-                                       .Include(e => e.EncounterPhysicians)
-                                       .Include(e => e.PcaRecords)
-                                       .FirstOrDefault(b => b.EncounterId == encounterId);
+                .Include(e => e.Facility)
+                .Include(e => e.Department)
+                .Include(e => e.AdmitType)
+                .Include(e => e.EncounterPhysicians.Physician)
+                .Include(e => e.EncounterType)
+                .Include(e => e.PlaceOfService)
+                .Include(e => e.PointOfOrigin)
+                .Include(e => e.DischargeDispositionNavigation)
+                .Include(e => e.PcaRecords)
+                .FirstOrDefault(b => b.EncounterId == encounterId);
             if (encounter is null)
-                return RedirectToAction("Index", new { filter = isPatientEncounter ? "CheckedIn" : string.Empty });
+                return RedirectToAction("CheckedIn");
 
-            encounter.EncounterPhysicians = _repository.EncounterPhysicians
-                                                       .Include(p => p.Physician)
-                                                       .FirstOrDefault(p => p.EncounterPhysiciansId == encounter.EncounterPhysiciansId);
-
-            var patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == encounter.Mrn);
-
-            ViewBag.isPatientEncounter = isPatientEncounter;
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
 
             return View(new ViewEncounterPageModel
             {
                 Encounter = encounter,
-                Patient = patient
+                Patient   = patient
             });
+        }
+
+
+        public IActionResult AddEncounter(string id)
+        {
+            ViewBag.Patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(b => b.Mrn == id);
+
+            AddDropdowns();
+            return View();
         }
 
         // Deletes Encounter
@@ -122,90 +81,120 @@ namespace IS_Proj_HIT.Controllers
         {
             var encounter = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId);
             _repository.DeleteEncounter(encounter);
-            return RedirectToAction("Index");
+            return RedirectToAction("CheckedIn");
         }
 
         // Displays the Edit Encounter page
-        public IActionResult EditEncounter(long encounterId, bool isPatientEncounter)
+        public IActionResult EditEncounter(long encounterId)
         {
-            ViewBag.isPatientEncounter = isPatientEncounter;
-            var encounter = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId);
-            ViewBag.EncounterId = encounterId;
-            ViewBag.AdmitDateTime = "" + encounter.AdmitDateTime.Year + "-" +
-                ((encounter.AdmitDateTime.Month < 10) ? "0" + encounter.AdmitDateTime.Month.ToString() : encounter.AdmitDateTime.Month.ToString()) + "-" +
-                ((encounter.AdmitDateTime.Day < 10) ? "0" + encounter.AdmitDateTime.Day.ToString() : encounter.AdmitDateTime.Day.ToString()) + "T" +
-                ((encounter.AdmitDateTime.Hour < 10) ? "0" + encounter.AdmitDateTime.Hour.ToString() : encounter.AdmitDateTime.Hour.ToString()) + ":" +
-                ((encounter.AdmitDateTime.Minute < 10) ? "0" + encounter.AdmitDateTime.Minute.ToString() : encounter.AdmitDateTime.Minute.ToString());
-            ViewBag.EncounterMRN = encounter.Mrn;
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == encounter.Mrn);
-            
-            //If you wanted to get the tool tips, you'd need to do this:
-            //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
-            //can also probably make these queries into a function if you can figure out how to make the respository types generic
-            var queryAdmitTypes = _repository.AdmitTypes.Select(at => new { at.AdmitTypeId, at.Description });
-            queryAdmitTypes = queryAdmitTypes.OrderBy(n => n.Description);
-            ViewBag.AdmitTypes = new SelectList(queryAdmitTypes.AsEnumerable(), "AdmitTypeId", "Description", 0);
+            var encounter = _repository.Encounters
+                .FirstOrDefault(b => b.EncounterId == encounterId);
+            ViewBag.Patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(b => b.Mrn == encounter.Mrn);
 
-            var queryDepartments = _repository.Departments.Select(dep => new { dep.DepartmentId, dep.Name });
-            queryDepartments = queryDepartments.OrderBy(n => n.Name);
-            ViewBag.Departments = new SelectList(queryDepartments.AsEnumerable(), "DepartmentId", "Name", 0);
-
-            var queryDischarges = _repository.Discharges.Select(dis => new { dis.DischargeId, dis.Name });
-            queryDischarges = queryDischarges.OrderBy(n => n.Name);
-            ViewBag.Discharges = new SelectList(queryDischarges.AsEnumerable(), "DischargeId", "Name", 0);
-
-            var queryEncounterTypes = _repository.EncounterTypes.Select(ent => new { ent.EncounterTypeId, ent.Name });
-            queryEncounterTypes = queryEncounterTypes.OrderBy(n => n.Name);
-            ViewBag.EncounterTypes = new SelectList(queryEncounterTypes.AsEnumerable(), "EncounterTypeId", "Name", 0);
-
-            var queryPlacesOfService = _repository.PlaceOfService.Select(pos => new { pos.PlaceOfServiceId, pos.Description });
-            queryPlacesOfService = queryPlacesOfService.OrderBy(n => n.Description);
-            ViewBag.PlacesOfService = new SelectList(queryPlacesOfService.AsEnumerable(), "PlaceOfServiceId", "Description", 0);
-
-            var queryPointsOfOrigin = _repository.PointOfOrigin.Select(poo => new { poo.PointOfOriginId, poo.Description });
-            queryPointsOfOrigin = queryPointsOfOrigin.OrderBy(n => n.Description);
-            ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin.AsEnumerable(), "PointOfOriginId", "Description", 0);
-
-            var queryFacility = _repository.Facilities.Select(fac => new { fac.FacilityId, fac.Name });
-            queryFacility = queryFacility.OrderBy(n => n.Name);
-            ViewBag.Facility = new SelectList(queryFacility.AsEnumerable(), "FacilityId", "Name", 0);
-
-            var queryEncounterPhysicians = _repository.EncounterPhysicians.Select(EnP => new { EnP.EncounterPhysiciansId, Name = (_repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + _repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName) });
-            queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
-            ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
+            AddDropdowns();
 
             return View(encounter);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEncounter(Encounter model)
+        {
+            if (_repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
+            {
+                ModelState.AddModelError("", "Encounter Id must be unique");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Patient = _repository.Patients
+                    .Include(p => p.PatientAlerts)
+                    .FirstOrDefault(b => b.Mrn == model.Mrn);
+                AddDropdowns();
+
+                return View(model);
+            }
+            
+            model.AdmitDateTime = DateTime.Now;
+            model.LastModified = DateTime.Now;
+            _repository.AddEncounter(model);
+
+            return RedirectToAction("ViewEncounter", "Encounter", new {encounterId = model.EncounterId});
         }
 
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditEncounter(Encounter model, string id)
+        public IActionResult EditEncounter(Encounter model)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Patient = _repository.Patients
+                    .Include(p => p.PatientAlerts)
+                    .FirstOrDefault(b => b.Mrn == model.Mrn);
+
+                AddDropdowns();
+
+                return View(model);
+            }
 
             model.LastModified = DateTime.Now;
             _repository.EditEncounter(model);
             return RedirectToAction("ViewEncounter",
-                new {encounterId = model.EncounterId, isPatientEncounter = false});
+                new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
-        // Save edits to patient record from Edit a specific Patients encounters page
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditPatientEncounter(Encounter model, string id)
+        private void AddDropdowns()
         {
-            if (ModelState.IsValid)
-            {
-                model.LastModified = DateTime.Now;
-                _repository.EditEncounter(model);
-                string myUrl = "/Encounter/PatientEncounters?patientMRN=" + model.Mrn;
-                return Redirect(myUrl);
-            }
-            return View();
+            var queryAdmitTypes = _repository.AdmitTypes
+                .OrderBy(n => n.Description)
+                .Select(n => new {n.AdmitTypeId, n.Description})
+                .ToList();
+            ViewBag.AdmitTypes = new SelectList(queryAdmitTypes, "AdmitTypeId", "Description", 0);
 
+            var queryDepartments = _repository.Departments
+                .OrderBy(n => n.Name)
+                .Select(dep => new {dep.DepartmentId, dep.Name})
+                .ToList();
+            ViewBag.Departments = new SelectList(queryDepartments, "DepartmentId", "Name", 0);
+            
+            var queryDischarges = _repository.Discharges
+                .OrderBy(n => n.Name)
+                .Select(dis => new {dis.DischargeId, dis.Name})
+                .ToList();
+            ViewBag.Discharges = new SelectList(queryDischarges, "DischargeId", "Name", 0);
 
+            var queryEncounterTypes = _repository.EncounterTypes
+                .OrderBy(n => n.Name)
+                .Select(ent => new {ent.EncounterTypeId, ent.Name})
+                .ToList();
+            ViewBag.EncounterTypes = new SelectList(queryEncounterTypes, "EncounterTypeId", "Name", 0);
+
+            var queryPlacesOfService = _repository.PlaceOfService
+                .OrderBy(n => n.Description)
+                .Select(pos => new {pos.PlaceOfServiceId, pos.Description})
+                .ToList();
+            ViewBag.PlacesOfService = new SelectList(queryPlacesOfService, "PlaceOfServiceId", "Description", 0);
+
+            var queryPointsOfOrigin = _repository.PointOfOrigin
+                .OrderBy(n => n.Description)
+                .Select(poo => new {poo.PointOfOriginId, poo.Description})
+                .ToList();
+            ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin, "PointOfOriginId", "Description", 0);
+
+            var queryFacility = _repository.Facilities
+                .OrderBy(n => n.Name)
+                .Select(fac => new {fac.FacilityId, fac.Name})
+                .ToList();
+            ViewBag.Facility = new SelectList(queryFacility, "FacilityId", "Name", 0);
+
+            var queryEncounterPhysicians = _repository.EncounterPhysicians
+                .OrderBy(n => n.Physician.LastName)
+                .Select(p => new {p.EncounterPhysiciansId, Name = $"{p.Physician.FirstName} {p.Physician.LastName}"})
+                .ToList();
+            ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
     }
 }

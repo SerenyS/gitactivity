@@ -44,7 +44,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(pca => pca.O2deliveryType)
                 .FirstOrDefault(pca => pca.PcaId == assessmentId);
             if (assessment is null)
-                return RedirectToAction("Index", "Encounter",
+                return RedirectToAction("CheckedIn", "Encounter",
                     new {filter = "CheckedIn"});
 
             ViewBag.Patient = _repository.Patients.Include(p => p.PatientAlerts)
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT.Controllers
 
             if (encounter is null || patient is null)
                 return RedirectToAction("ViewEncounter", "Encounter",
-                    new {encounterId = encounterId, isPatientEncounter = false});
+                    new { encounterId });
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;

@@ -7,7 +7,6 @@
             Encounter Information
             <a asp-action="EditEncounter"
                asp-route-encounterId="@Model.Encounter.EncounterId"
-               asp-route-isPatientEncounter="@ViewBag.isPatientEncounter"
                class="btn btn-info btn-sm float-right">
                 Edit
             </a>
@@ -144,8 +143,13 @@
 </div>
 <hr />
 
-<a asp-action="Index"
-   asp-route-filter="CheckedIn"
+<a asp-controller="Patient"
+   asp-action="Details" 
+   asp-route-id="@Model.Patient.Mrn" 
+   class="btn btn-outline-primary">
+    <i class="fas fa-arrow-left"></i> View Patient
+</a>
+<a asp-action="CheckedIn"
    class="btn btn-outline-primary m-l-1">
     View <b>Checked In</b> Encounters
 </a>
