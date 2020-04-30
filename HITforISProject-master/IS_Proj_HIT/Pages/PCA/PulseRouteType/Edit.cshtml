@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="PulseRouteType.PulseRouteTypeId" />
             <div class="form-group">
                 <label asp-for="PulseRouteType.PulseRouteTypeName" class="control-label"></label>
-                <input asp-for="PulseRouteType.PulseRouteTypeName" class="form-control" />
+                <input asp-for="PulseRouteType.PulseRouteTypeName" class="form-control" maxlength="50" />
                 <span asp-validation-for="PulseRouteType.PulseRouteTypeName" class="text-danger"></span>
             </div>
             <div class="form-group">

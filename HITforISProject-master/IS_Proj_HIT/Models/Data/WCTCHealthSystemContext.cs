@@ -1,5 +1,6 @@
 ﻿using IS_Proj_HIT.Models.PCA;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IS_Proj_HIT.Models.Data
 {
@@ -263,8 +264,9 @@ namespace IS_Proj_HIT.Models.Data
             {
                 entity.HasKey(e => e.BloodPressureRouteTypeId);
 
-                entity.Property(e => e.BloodPressureRouteTypeId).HasColumnName("BloodPressureRouteTypeID");
-
+                entity.Property(e => e.BloodPressureRouteTypeId).HasColumnName("BloodPressureRouteTypeID")
+                    .ValueGeneratedOnAdd();
+                
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.LastModified).HasColumnType("datetime").HasDefaultValueSql("(getdate())");
@@ -305,7 +307,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Pca).WithMany(p => p.CareSystemAssessment).HasForeignKey(d => d.PcaId)
                     .OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("fk_CareSystemAssessment_PCAID");
             });
-            
+
             modelBuilder.Entity<CareSystemParameter>(entity =>
             {
                 entity.HasKey(e => e.CareSystemParameterId);
@@ -334,6 +336,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.Property(e => e.LastModified).HasColumnType("datetime").HasDefaultValueSql("(getdate())");
 
             });
+
 
             modelBuilder.Entity<ClinicalReminders>(entity =>
             {
