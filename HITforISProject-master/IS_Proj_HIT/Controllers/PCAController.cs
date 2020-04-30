@@ -100,27 +100,164 @@ namespace IS_Proj_HIT.Controllers
         /// <param name = "assessmentId" > PCA Id for Db Lookup</param>
         ///  <param name = "patientMrn" > Unique Identifier of patient</param>
         ///   <param name = "encounterId" > Unique Identifier of patient</param>
+
         public IActionResult UpdateAssessment(int assessmentId, string patientMRN, long encounterId)
         {
             var assessment = _repository.PcaRecords
-                .Include(pc => pc.CareSystemAssessment)
-                .FirstOrDefault(pc => pc.PcaId == assessmentId);
+                .Include(pca => pca.Encounter)
+                .Include(pca => pca.CareSystemAssessment)
+                .ThenInclude(ca => ca.CareSystemParameter)
+                .ThenInclude(cp => cp.CareSystemType)
+                .Include(pca => pca.PainAssessment)
+                .ThenInclude(pa => pa.PainParameter)
+                .Include(pca => pca.PainAssessment)
+                .ThenInclude(pa => pa.PainRating)
+                .Include(pca => pca.PainScaleType)
+                .Include(pca => pca.TempRouteType)
+                .Include(pca => pca.BmiMethod)
+                .Include(pca => pca.BloodPressureRouteType)
+                .Include(pca => pca.PulseRouteType)
+                .Include(pca => pca.O2deliveryType)
+                .FirstOrDefault(pca => pca.PcaId == assessmentId);
+
+            var vitalID=_repository.PcaComments.Where(pca=>pca.PcaId == assessmentId && pca.PcaCommentTypeId==11).Select(c=>c.Comment).SingleOrDefault();
+
+            string vitalsNotes = Convert.ToString(vitalID);
+
+            var painID = _repository.PcaComments.Where(pa => pa.PcaId == assessmentId && pa.PcaCommentTypeId== 12).Select(c => c.Comment).SingleOrDefault();
+
+            string painsNotes = Convert.ToString(painID);
+
+
             var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
-            var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
-            var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMRN).Count();
+                var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
+                var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMRN).Count();
 
-            if (assessment is null || patient is null)
-                return RedirectToAction("ViewAssessment", "PCA",
-                    new {assessmentId = assessment.PcaId});
-            ViewBag.PcaRecord = assessment;
-            ViewBag.Patient = patient;
+                if (encounter is null || patient is null)
+                    return RedirectToAction("ViewEncounter", "Encounter",
+                        new { encounterId = encounterId, isPatientEncounter = false });
+
+
+
+            AddUnits();
+            AddRoutes();
+            var painScales = _repository.PainScaleTypes
+                .Include(ps => ps.PainParameters)
+                .ThenInclude(pp => pp.PainRatings)
+                .ToList();
+            var painRatings = new Dictionary<int, int?>();
+
+
+            // Create a pain assessment record for each pain scale/parameter/rating
+            foreach (var ps in painScales)
+            {
+                foreach (var pp in ps.PainParameters)
+                {
+                    foreach (var pr in pp.PainRatings)
+                    {
+                        // If a PainAssessment exists for this parameter/rating, mark the value not null.
+                        var existingPainAssessment = assessment.PainAssessment.FirstOrDefault(pa => pa.PainParameterId == pr.PainParameterId &&
+                          pa.PainRatingId == pr.PainRatingId);
+                        if (existingPainAssessment != null)
+                        {
+                            painRatings.Add(pr.PainRatingId, 1);
+                        }
+                        else
+                        {
+                            painRatings.Add(pr.PainRatingId, null);
+                        }
+                    }
+                }
+            }
+
+
+
+       
+
+            var secondarySystems = _repository.CareSystemAssessmentTypes
+                .Include(cs => cs.CareSystemParameters)
+                .ToList();
+         
+
+            var sysAssessments = new Dictionary<int, CareSystemAssessment>();
+            
+
+            var csaID = assessment.CareSystemAssessment.FirstOrDefault();
+
+
+
+            foreach (var ss in secondarySystems)
+            {
+                foreach (var csp in ss.CareSystemParameters)
+                {                 
+                        
+                        var existingCareAssessments = assessment.CareSystemAssessment.FirstOrDefault(ca => ca.CareSystemParameterId == csp.CareSystemParameterId &&
+                          csp.CareSystemTypeId == ss.CareSystemTypeId);
+                        if (existingCareAssessments != null)
+                        {
+                            sysAssessments.Add(csp.CareSystemParameterId,existingCareAssessments);
+                        }
+                        else
+                        {
+                            sysAssessments.Add(csp.CareSystemParameterId, new CareSystemAssessment
+                            {
+                                CareSystemParameterId = csp.CareSystemParameterId,
+                                IsWithinNormalLimits = null
+                            });
+                        }
+                    
+                }
+            }
+
+          /*   SecondarySystems.ForEach(s =>
+                s.CareSystemParameters.ToList().ForEach(sp =>
+                {
+                    if (!formPca.Assessments.ContainsKey(sp.CareSystemParameterId))
+                        formPca.Assessments.Add(sp.CareSystemParameterId,
+                            new CareSystemAssessment
+                            {
+                                CareSystemParameterId = sp.CareSystemParameterId,
+                                IsWithinNormalLimits = null
+                            });
+                }));
+
+    */
+
+
             ViewBag.Encounter = encounter;
-            ViewBag.PatientAlertsCount = patientAlerts;
+            ViewBag.Patient = patient;
+            ViewBag.PcaRecord = assessment;
+            var updatePCA = new AssessmentFormPageModel
+            {
+                PcaRecord = assessment,
+                PainScales = painScales,
+                PainRatings = painRatings,
+                SecondarySystemTypes = secondarySystems,
+                Assessments = sysAssessments,
+                VitalNote = vitalsNotes,
+                PainNote= painsNotes
+            };
 
-
-            var model = new AssessmentFormPageModel();
-            return View(model);
+            return View(updatePCA);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+          public IActionResult UpdateAssessment(AssessmentFormPageModel formPca)
+          {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == formPca.PcaRecord.EncounterId);
+                ViewBag.Patient = _repository.Patients.FirstOrDefault(p => p.Mrn == formPca.PatientMrn);
+                ViewBag.PatientAlertsCount = _repository.PatientAlerts.Count(b => b.Mrn == formPca.PatientMrn);
+                return View(formPca);
+            }
+
+            return SaveAssessment(formPca);
+
+          }
+         
 
         private IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
