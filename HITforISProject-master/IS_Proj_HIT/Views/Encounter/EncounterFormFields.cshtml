@@ -56,9 +56,9 @@
         <span asp-validation-for="PointOfOriginId" class="text-danger"></span>
     </div>
     <div class="col-sm-12 col-lg-4">
-        <label>Place of Service</label><br />
+        <label>Visit Type</label><br />
         <select class="form-control dropdowns" asp-for="@Model.PlaceOfServiceId" asp-items="ViewBag.PlacesOfService">
-            <option value="">Select Places of Service</option>
+            <option value="">Select Visit Type</option>
         </select>
         <span asp-validation-for="PlaceOfServiceId" class="text-danger"></span>
     </div>
@@ -75,14 +75,14 @@
     <div class="col-sm-12 col-lg-6">
         <label>Attending Physician</label><br />
         <select class="form-control dropdowns" asp-for="@Model.EncounterPhysiciansId" asp-items="ViewBag.EncounterPhysicians">
-            <option value="">Select Physician</option>
+            <option value="">Select Attending Physician</option>
         </select>
         <span asp-validation-for="EncounterPhysiciansId" class="text-danger"></span>
     </div>
     <div class="col-sm-12 col-lg-6">
-        <label>Encounter Type</label><br />
+        <label>Patient Type</label><br />
         <select class="form-control dropdowns" asp-for="@Model.EncounterTypeId" asp-items="ViewBag.EncounterTypes">
-            <option value="">Select Encounter Type</option>
+            <option value="">Select Patient Type</option>
         </select>
         <span asp-validation-for="EncounterTypeId" class="text-danger"></span>
     </div>

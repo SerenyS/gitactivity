@@ -138,7 +138,7 @@ namespace IS_Proj_HIT.Controllers
                         new { encounterId = encounterId, isPatientEncounter = false });
 
 
-
+            AddTooltips();
             AddUnits();
             AddRoutes();
             var painScales = _repository.PainScaleTypes

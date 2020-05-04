@@ -51,18 +51,29 @@
                     <th>Blood Pressure</th>
                     <th>Pulse</th>
                     <th>Pulse Oximetry</th>
-                    <th>Respiration</th>
+                    <th>Respiration ( Breaths | FlowRate | PercentO2 | Route )</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>
                         @(Model.SystolicBloodPressure is null || Model.DiastolicBloodPressure is null ? "N.A." :
-                            $"{Model.SystolicBloodPressure} / {Model.DiastolicBloodPressure} ({Model.BmiMethod.Name})")
+                            $"{Model.SystolicBloodPressure} / {Model.DiastolicBloodPressure} ({Model.BloodPressureRouteType.Name})")
                     </td>
                     <td>@(Model.Pulse is null ? "N.A." : $"{Model.Pulse} /min ({Model.PulseRouteType.PulseRouteTypeName})")</td>
                     <td>@(Model.PulseOximetry is null ? "N.A." : $"{Model.PulseOximetry}%")</td>
-                    <td>@(Model.Respiration is null ? "N.A." : $"{Model.Respiration} /min ({Model.O2deliveryType.O2deliveryTypeName})")</td>
+                    <td>
+                        <span title="Breaths Per Minute">
+                            @(Model.Respiration is null ? string.Empty : $"{Model.Respiration} /min") |
+                        </span>
+                        <span title="Oxygen Flow">
+                            @(string.IsNullOrWhiteSpace(Model.OxygenFlow) ? string.Empty : $"{Model.OxygenFlow}") |
+                        </span>
+                        <span title="Percent Oxygen Delivered">
+                            @(Model.PercentOxygenDelivered is null ? "" : $"{decimal.Round(Model.PercentOxygenDelivered.Value * 100, 2)}%") |
+                        </span>
+                        @(Model.O2deliveryType is null ? "" : $" {Model.O2deliveryType.O2deliveryTypeName}")
+                    </td>
                 </tr>
                 </tbody>
             </table>
