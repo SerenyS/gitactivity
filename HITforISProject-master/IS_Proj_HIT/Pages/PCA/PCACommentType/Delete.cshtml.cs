@@ -28,6 +28,9 @@ namespace IS_Proj_HIT
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            ViewData["RegularMessage"] = "Are you sure you want to delete this?";
+            ViewData["ErrorMessage"] = "";
+
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +56,16 @@ namespace IS_Proj_HIT
 
             if (PcaCommentType != null)
             {
+                // See if any comments exist with this comment type
+                bool usingExists = _context.Pcacomment.Any(p => p.PcaCommentTypeId== PcaCommentType.PcaCommentTypeId);
+                if (usingExists)
+                {
+                    Console.WriteLine("PCA comment records exist using these records.");
+                    ViewData["RegularMessage"] = "";
+                    ViewData["ErrorMessage"] = "PCA comment records exist using these records. Delete not available.";
+                    return Page();
+                }
+
                 _context.PcacommentType.Remove(PcaCommentType);
                 await _context.SaveChangesAsync();
             }

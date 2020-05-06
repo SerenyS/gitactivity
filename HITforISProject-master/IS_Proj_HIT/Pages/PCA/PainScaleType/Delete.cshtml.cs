@@ -56,44 +56,39 @@ namespace IS_Proj_HIT
 
             if (PainScaleType != null)
             {
-                try 
+                // See if any PCA records exist for this Pain Scale Type
+                bool PcaExists = _context.Pcarecord.Any(p => p.PainScaleTypeId== PainScaleType.PainScaleTypeId);
+                if (PcaExists)
                 {
-                    using (var tran = new TransactionScope())
-                    {
-                        foreach (PainParameter pp in PainScaleType.PainParameters)
-                        {
-                            _context.PainParameter.Remove(pp);
-                        }
-                        _context.PainScaleType.Remove(PainScaleType);
-                        _context.SaveChanges();
-
-                        tran.Complete();
-                    }
-
-                }
-                catch (DbException ex)
-                {
-                    Console.WriteLine("Assessments exist using these records." + ex.Message);
+                    Console.WriteLine("PCA records exist using these records.");
                     ViewData["RegularMessage"] = "";
-                    ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
+                    ViewData["ErrorMessage"] = "PCA records exist using these records. Delete not available.";
                     return Page();
                 }
-                catch (Exception ex)
+
+                // See if any Pain Assessments exist using the Pain Parameters
+                foreach (PainParameter pp in PainScaleType.PainParameters)
                 {
-                    if (ex.Message == "An error occurred while updating the entries. See the inner exception for details.")
+                    bool paExists = _context.PcaPainAssessment.Any(p => p.PainParameterId == pp.PainParameterId);
+                    if (paExists)
                     {
-                        Console.WriteLine("Assessments exist using these records." + ex.Message);
+                        Console.WriteLine("Pain assessment records exist using these records.");
                         ViewData["RegularMessage"] = "";
-                        ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
+                        ViewData["ErrorMessage"] = "Pain assessment records exist using these records. Delete not available.";
                         return Page();
                     }
-                    else
+                }
+
+                using (var tran = new TransactionScope())
+                {
+                    foreach (PainParameter pp in PainScaleType.PainParameters)
                     {
-                        Console.WriteLine("Exception " + ex.Message);
-                        ViewData["RegularMessage"] = "";
-                        ViewData["ErrorMessage"] = "There was a problem deleting these records. Please contact your administrator.";
-                        return Page();
+                        _context.PainParameter.Remove(pp);
                     }
+                    _context.PainScaleType.Remove(PainScaleType);
+                    _context.SaveChanges();
+
+                    tran.Complete();
                 }
 
             }

@@ -27,6 +27,9 @@ namespace IS_Proj_HIT
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            ViewData["RegularMessage"] = "Are you sure you want to delete this?";
+            ViewData["ErrorMessage"] = "";
+
             if (id == null)
             {
                 return NotFound();
@@ -52,6 +55,16 @@ namespace IS_Proj_HIT
 
             if (O2deliveryType != null)
             {
+                // See if any PCA records exist with this type
+                bool usingExists = _context.Pcarecord.Any(p => p.O2deliveryTypeId == O2deliveryType.O2deliveryTypeId);
+                if (usingExists)
+                {
+                    Console.WriteLine("PCA records exist using this record.");
+                    ViewData["RegularMessage"] = "";
+                    ViewData["ErrorMessage"] = "PCA records exist using this record. Delete not available.";
+                    return Page();
+                }
+
                 _context.O2deliveryType.Remove(O2deliveryType);
                 await _context.SaveChangesAsync();
             }

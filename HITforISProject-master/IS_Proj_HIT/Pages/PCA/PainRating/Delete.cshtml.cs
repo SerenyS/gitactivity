@@ -27,6 +27,9 @@ namespace IS_Proj_HIT
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            ViewData["RegularMessage"] = "Are you sure you want to delete this?";
+            ViewData["ErrorMessage"] = "";
+
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +56,16 @@ namespace IS_Proj_HIT
 
             if (PainRating != null)
             {
+                // See if any PCA pain assessment records exist with this type
+                bool usingExists = _context.PcaPainAssessment.Any(p => p.PainRatingId== PainRating.PainRatingId);
+                if (usingExists)
+                {
+                    Console.WriteLine("PCA pain assessment records exist using this record.");
+                    ViewData["RegularMessage"] = "";
+                    ViewData["ErrorMessage"] = "PCA pain assessment records exist using this record. Delete not available.";
+                    return Page();
+                }
+
                 _context.PainRating.Remove(PainRating);
                 await _context.SaveChangesAsync();
             }

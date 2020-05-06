@@ -59,47 +59,29 @@ namespace IS_Proj_HIT
 
             if (PainParameter != null)
             {
-                try
+                // See if there are any pain assessments using this pain parameter
+                bool paExists = _context.PcaPainAssessment.Any(p => p.PainParameterId == PainParameter.PainScaleTypeId);
+                if (paExists)
                 {
-                    using (var tran = new TransactionScope())
-                    {
-                        foreach (PainRating pr in PainParameter.PainRatings)
-                        {
-                            _context.PainRating.Remove(pr);
-                        }
-
-                        _context.PainParameter.Remove(PainParameter);
-                        _context.SaveChanges();
-
-                        tran.Complete();
-                    }
-                }
-                catch (DbException ex)
-                {
-                    Console.WriteLine("Assessments exist using these records." + ex.Message);
+                    Console.WriteLine("Pain assessment records exist using these records.");
                     ViewData["RegularMessage"] = "";
-                    ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
+                    ViewData["ErrorMessage"] = "Pain assessment records exist using these records. Delete not available.";
                     return Page();
                 }
-                catch (Exception ex)
+
+                using (var tran = new TransactionScope())
                 {
-                    if (ex.Message == "An error occurred while updating the entries. See the inner exception for details.")
+                    foreach (PainRating pr in PainParameter.PainRatings)
                     {
-                        Console.WriteLine("Assessments exist using these records." + ex.Message);
-                        ViewData["RegularMessage"] = "";
-                        ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
-                        return Page();
+                        _context.PainRating.Remove(pr);
                     }
-                    else
-                    {
-                        Console.WriteLine("Exception " + ex.Message);
-                        ViewData["RegularMessage"] = "";
-                        ViewData["ErrorMessage"] = "There was a problem deleting these records. Please contact your administrator.";
-                        return Page();
-                    }
+
+                    _context.PainParameter.Remove(PainParameter);
+                    _context.SaveChanges();
+
+                    tran.Complete();
                 }
             }
-
             return RedirectToPage("./Index");
         }
     }

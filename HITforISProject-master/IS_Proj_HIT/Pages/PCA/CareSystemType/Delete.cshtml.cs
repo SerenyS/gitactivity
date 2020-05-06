@@ -59,44 +59,31 @@ namespace IS_Proj_HIT
 
             if (CareSystemType != null)
             {
-                try
+                // See if any care system assessments exist using these parameters
+                foreach (CareSystemParameter csp in CareSystemType.CareSystemParameters)
                 {
-                    using (var tran = new TransactionScope())
+                    bool csaExists = _context.CareSystemAssessment.Any(c => c.CareSystemParameterId == csp.CareSystemParameterId);
+                    if (csaExists)
                     {
-                        foreach (CareSystemParameter csp in CareSystemType.CareSystemParameters)
-                        {
-                            _context.CareSystemParameter.Remove(csp);
-                        }
-                        _context.CareSystemType.Remove(CareSystemType);
-                        _context.SaveChanges();
-
-                        tran.Complete();
-                    }
-                }
-                catch (DbException ex)
-                {
-                    Console.WriteLine("Assessments exist using these records." + ex.Message);
-                    ViewData["RegularMessage"] = "";
-                    ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
-                    return Page();
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message== "An error occurred while updating the entries. See the inner exception for details.") 
-                    {
-                        Console.WriteLine("Assessments exist using these records." + ex.Message);
+                        Console.WriteLine("Assessments exist using these records.");
                         ViewData["RegularMessage"] = "";
                         ViewData["ErrorMessage"] = "Assessments exist using these records. Delete not available.";
                         return Page();
                     }
-                    else
-                    {
-                        Console.WriteLine("Exception " + ex.Message);
-                        ViewData["RegularMessage"] = "";
-                        ViewData["ErrorMessage"] = "There was a problem deleting these records. Please contact your administrator.";
-                        return Page();
-                    }
                 }
+
+                using (var tran = new TransactionScope())
+                {
+                    foreach (CareSystemParameter csp in CareSystemType.CareSystemParameters)
+                    {
+                        _context.CareSystemParameter.Remove(csp);
+                    }
+                    _context.CareSystemType.Remove(CareSystemType);
+                    _context.SaveChanges();
+
+                    tran.Complete();
+                }
+                
             }
             
             return RedirectToPage("./Index");
