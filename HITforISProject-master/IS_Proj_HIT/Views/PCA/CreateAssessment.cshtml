@@ -183,7 +183,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Pain tab -->
         <div aria-labelledby="pain-tab" class="tab-pane" id="painTab" role="tabpanel">
             <div class="card">
@@ -247,6 +246,7 @@
                                 }
                             </div>
                             <div class="form-group row painScale @("painScale-" + painScaleType.PainScaleTypeId) d-none">
+
                                 @foreach (var painRating in painParam.PainRatings)
                                 {
                                     <div class="col-sm-12 col-lg-4 mb-1">
@@ -260,6 +260,7 @@
                                         </label>
                                     </div>
                                 }
+
                                 @if (painScaleType.PainScaleTypeName is "Wong-Baker")
                                 {
                                     <figure>
@@ -387,9 +388,11 @@
     </ul>
     <button class="btn btn-primary btn-block" onclick="setFormSubmit()" type="submit">Save & Close Assessment</button>
 </form>
+<button class="btn btn-warning" onclick="setFormSubmit()">Testing</button>
 <script>
     var formSubmit = false;
-    var setFormSubmit = function () { formSubmit = true; };
+    
+    var setFormSubmit = function () { Validation(); formSubmit = true;};
 
     window.onload = function () {
         window.addEventListener("beforeunload", function (e) {

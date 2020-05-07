@@ -444,7 +444,7 @@
                 "2 - Cry high pitched and baby is inconsolable<br/>"
         } else if (infoSection == "criesO2") {
             ttl = "Requires O2 for SaO2 < 95% - Babies experiencing pain manifest decreased oxygenation. " +
-                "Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax)"
+                "Consider other causes of hypoxemia, e.g., oversedation, atelectasis, pneumothorax"
             msg = "0 - No oxygen required<br/>" +
                 "1 - < 30% oxygen required<br/>" +
                 "2 - > 30% oxygen required<br/>"
@@ -501,21 +501,180 @@
 
     $('.painScaleRadio').on('change', e => {
         $('.painScale').each((i, t) => {
-            if (!t.classList.contains('d-none'))
+            var txt = t.innerHTML.toString().toLowerCase();
+            if (!t.classList.contains('d-none')) {
                 t.classList.add('d-none');
+            };
+            if (txt.includes('input')) {
+                var tag = t.getElementsByTagName('input');
+                for (j = 0; j < tag.length; j++) {
+                    if (tag[j].hasAttribute('required')) {
+                        tag[j].removeAttribute('required');
+                    };
+                };
+            };
         });
         $('.painScale-' + e.target.value).each((i, t) => {
-            if (t.classList.contains('d-none'))
+            var txt = t.innerHTML.toString().toLowerCase();
+            if (t.classList.contains('d-none')) {
                 t.classList.remove('d-none');
+            };
+            if (txt.includes('input')) {
+                var tag = t.getElementsByTagName('input');
+                for (j = 0; j < tag.length; j++) {
+                    tag[j].setAttribute('required','true');
+                };
+            };
         });
+
     });
+
+
 });
 
+//TODO there has to be a better way to do this??!?!?//
+function Validation() {
+
+    $(function () {
+        // ## FACE ##
+
+        if ($('input[id*= "Faces"]').is(':checked')) {
+            $('label[for*= "Faces"]').removeClass();
+            $('label[for*= "Faces"]').addClass('btn btn-outline-primary w-90 mb-0');
+            
+        } else {
+            $('label[for*= "Faces"]').removeClass();
+            $('label[for*= "Faces"]').addClass('btn btn-outline-danger w-90 mb-0');
+            
+            
+        }
+        // ## CRIES ##
+
+        if ($('input[id*= "Crying"]').is(':checked')) {
+            $('label[for*= "Crying"]').removeClass();
+            $('label[for*= "Crying"]').addClass('btn btn-outline-primary w-90 mb-0');
+            
+        } else {
+            $('label[for*= "Crying"]').removeClass();
+            $('label[for*= "Crying"]').addClass('btn btn-outline-danger w-90 mb-0');
+           
+            
+        }
+        if ($('input[id*= "Requires"]').is(':checked')) {
+            $('label[for*= "Requires"]').removeClass();
+            $('label[for*= "Requires"]').addClass('btn btn-outline-primary w-90 mb-0');
+            
+        } else {
+            $('label[for*= "Requires"]').removeClass();
+            $('label[for*= "Requires"]').addClass('btn btn-outline-danger w-90 mb-0');
+           
+            
+        }
+        if ($('input[id*= "Increased"]').is(':checked')) {
+            $('label[for*= "Increased"]').removeClass();
+            $('label[for*= "Increased"]').addClass('btn btn-outline-primary w-90 mb-0');
+            
+        } else {
+            $('label[for*= "Increased"]').removeClass();
+            $('label[for*= "Increased"]').addClass('btn btn-outline-danger w-90 mb-0');
+            
+           
+        }
+        if ($('input[id*= "Expression"]').is(':checked')) {
+            $('label[for*= "Expression"]').removeClass();
+            $('label[for*= "Expression"]').addClass('btn btn-outline-primary w-90 mb-0');
+            
+        } else {
+            $('label[for*= "Expression"]').removeClass();
+            $('label[for*= "Expression"]').addClass('btn btn-outline-danger w-90 mb-0');
+            
+            
+        }
+        if ($('input[id*= "Sleepless"]').is(':checked')) {
+            $('label[for*= "Sleepless"]').removeClass();
+            $('label[for*= "Sleepless"]').addClass('btn btn-outline-primary w-90 mb-0');
+           
+        } else {
+            $('label[for*= "Sleepless"]').removeClass();
+            $('label[for*= "Sleepless"]').addClass('btn btn-outline-danger w-90 mb-0');
+           
+            
+            
+        }
+        // ## NONVERBAL ##
+
+        if ($('input[id*= "e1"]').is(':checked')) {
+            $('label[for*= "e1"]').removeClass();
+            $('label[for*= "e1"]').addClass('btn btn-outline-primary w-90 mb-0');
+
+        } else {
+            $('label[for*= "e1"]').removeClass();
+            $('label[for*= "e1"]').addClass('btn btn-outline-danger w-90 mb-0');
+
+
+        }
+        if ($('input[id*= "Activity"]').is(':checked')) {
+            $('label[for*= "Activity"]').removeClass();
+            $('label[for*= "Activity"]').addClass('btn btn-outline-primary w-90 mb-0');
+
+        } else {
+            $('label[for*= "Activity"]').removeClass();
+            $('label[for*= "Activity"]').addClass('btn btn-outline-danger w-90 mb-0');
+
+
+        }
+        if ($('input[id*= "Guarding"]').is(':checked')) {
+            $('label[for*= "Guarding"]').removeClass();
+            $('label[for*= "Guarding"]').addClass('btn btn-outline-primary w-90 mb-0');
+
+        } else {
+            $('label[for*= "Guarding"]').removeClass();
+            $('label[for*= "Guarding"]').addClass('btn btn-outline-danger w-90 mb-0');
+
+
+        }
+        if ($('input[id*= "Physiology"]').is(':checked')) {
+            $('label[for*= "Physiology"]').removeClass();
+            $('label[for*= "Physiology"]').addClass('btn btn-outline-primary w-90 mb-0');
+
+        } else {
+            $('label[for*= "Physiology"]').removeClass();
+            $('label[for*= "Physiology"]').addClass('btn btn-outline-danger w-90 mb-0');
+
+
+        }
+        // Respiratory refuses to follow along sooooo accessing each label is required and annoying...
+
+        if ($('input[name$= "[15]"]').is(':checked')) {
+            $('label[for= "Respiratory1534"]').removeClass();
+            $('label[for= "Respiratory1534"]').addClass('btn btn-outline-primary w-90 mb-0');
+            $('label[for= "Respiratory1535"]').removeClass();
+            $('label[for= "Respiratory1535"]').addClass('btn btn-outline-primary w-90 mb-0');
+            $('label[for= "Respiratory1536"]').removeClass();
+            $('label[for= "Respiratory1536"]').addClass('btn btn-outline-primary w-90 mb-0');
+        } else {
+            $('label[for= "Respiratory1534"]').removeClass();
+            $('label[for= "Respiratory1534"]').addClass('btn btn-outline-danger w-90 mb-0');
+            $('label[for= "Respiratory1535"]').removeClass();
+            $('label[for= "Respiratory1535"]').addClass('btn btn-outline-danger w-90 mb-0');
+            $('label[for= "Respiratory1536"]').removeClass();
+            $('label[for= "Respiratory1536"]').addClass('btn btn-outline-danger w-90 mb-0');
+
+
+        } 
+
+    });
+   
+    
+};
+
 //function to show / hide the textarea within the PCA form and make description required for abnormal entries
+
 function ShowHide(id, idArea) {
     var yes = document.getElementById(id);
     var area = document.getElementById(idArea);
 //    area.className = yes.checked ? 'form-control d-block mb-2' : 'd-none';
+
     if (yes.checked) {
         $('#' + idArea).prop('required', true).focus();
 
