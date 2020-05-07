@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.PCA;
 using Microsoft.AspNetCore.Authorization;
+using System.Transactions;
+using System.Data.Common;
 
 namespace IS_Proj_HIT
 {
@@ -27,12 +29,12 @@ namespace IS_Proj_HIT
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewData["RegularMessage"] = "Are you sure you want to delete this?";
+            ViewData["ErrorMessage"] = "";
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            PainScaleType = await _context.PainScaleType
+                .Include(pp=>pp.PainParameters)
+                .FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
 
             if (PainScaleType == null)
             {
@@ -48,12 +50,47 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FindAsync(id);
+            PainScaleType = await _context.PainScaleType
+                .Include(pp => pp.PainParameters)
+                .FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
 
             if (PainScaleType != null)
             {
-                _context.PainScaleType.Remove(PainScaleType);
-                await _context.SaveChangesAsync();
+                // See if any PCA records exist for this Pain Scale Type
+                bool PcaExists = _context.Pcarecord.Any(p => p.PainScaleTypeId== PainScaleType.PainScaleTypeId);
+                if (PcaExists)
+                {
+                    Console.WriteLine("PCA records exist using these records.");
+                    ViewData["RegularMessage"] = "";
+                    ViewData["ErrorMessage"] = "PCA records exist using these records. Delete not available.";
+                    return Page();
+                }
+
+                // See if any Pain Assessments exist using the Pain Parameters
+                foreach (PainParameter pp in PainScaleType.PainParameters)
+                {
+                    bool paExists = _context.PcaPainAssessment.Any(p => p.PainParameterId == pp.PainParameterId);
+                    if (paExists)
+                    {
+                        Console.WriteLine("Pain assessment records exist using these records.");
+                        ViewData["RegularMessage"] = "";
+                        ViewData["ErrorMessage"] = "Pain assessment records exist using these records. Delete not available.";
+                        return Page();
+                    }
+                }
+
+                using (var tran = new TransactionScope())
+                {
+                    foreach (PainParameter pp in PainScaleType.PainParameters)
+                    {
+                        _context.PainParameter.Remove(pp);
+                    }
+                    _context.PainScaleType.Remove(PainScaleType);
+                    _context.SaveChanges();
+
+                    tran.Complete();
+                }
+
             }
 
             return RedirectToPage("./Index");

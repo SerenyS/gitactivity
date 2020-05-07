@@ -1,13 +1,10 @@
-﻿@using IS_Proj_HIT.Models.ViewModels
-@model ListPatientsViewModel
-<link rel="stylesheet" href="~/css/site.css" />
+﻿@model ListPatientsViewModel
 @{
     ViewData["Title"] = "Patient List";
 }
 
-<div class="red">@Html.Raw(TempData["msg"])</div>
 <div class="card-header bg-primary text-white"><h4>Patient List</h4></div>
-@if (Model.Patients.Count() == 0)
+@if (!Model.Patients.Any())
 {
     <div class="red">
         <p>No patients found</p>
@@ -94,10 +91,6 @@ else
                     <td>@patient.Mrn</td>
                     <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
                     <td>@patient.Dob.ToShortDateString()</td>
-                    @*<td>@patient.Religion.Name</td>
-                        <td>@patient.Gender.Name</td>
-                        <td>@patient.Ethnicity.Name</td>
-                        <td>@patient.MaritalStatus.Name</td>*@
                     <td id="special">
                         <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
                     <td></td>
@@ -106,10 +99,7 @@ else
         </tbody>
     </table>
 }
-@*<div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
-    page-class="btn" page-class-normal="btn-secondary" page-class-selected="btn-primary"
-    class="btn-group" pull-right m-1></div>*@
 <hr />
+
+<a asp-controller="Patient" asp-action="PatientSearch" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
 <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
-<a asp-controller="home" asp-action="Index" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back to Home Page</a>
-<a asp-controller="Home" asp-action="PatientLookup" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>

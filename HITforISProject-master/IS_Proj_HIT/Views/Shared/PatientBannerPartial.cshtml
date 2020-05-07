@@ -6,7 +6,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-5 my-auto">
-                    <h3>Patient: @Model.FirstName @Model.MiddleName @Model.LastName</h3>
+                    <h3 class="m-0">
+                        Patient: 
+                        <a asp-controller="Patient"
+                           asp-action="Details"
+                           asp-route-id="@Model.Mrn"
+                           class="heading page-link d-inline-block">
+                            @Model.FirstName @Model.MiddleName @Model.LastName
+                        </a>
+                    </h3>
                 </div>
                 <div class="col-sm-3 col-lg-2 my-auto">
                     <span class="heading">MRN: </span>@Model.Mrn

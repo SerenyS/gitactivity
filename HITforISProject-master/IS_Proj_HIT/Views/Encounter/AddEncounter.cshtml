@@ -1,0 +1,21 @@
+﻿@model IS_Proj_HIT.Models.Encounter
+
+<partial model="ViewBag.Patient" name="PatientBannerPartial" />
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>Add Encounter</h4>
+    </div>
+    <div class="card-body bg-light">
+        <form asp-action="AddEncounter" id="encounter" method="post" name="encounter">
+            <div asp-validation-summary="All" class="container"></div>
+            <partial name="EncounterFormFields" model="@Model" />
+            <hr />
+            <button class="btn btn-primary" type="submit">Create</button>
+        </form>
+    </div>
+</div>
+
+<hr />
+<a asp-controller="Patient" asp-action="Details" asp-route-id="@ViewBag.Patient.Mrn" class="btn btn-outline-primary">
+    <i class="fas fa-arrow-left"></i> Return to Patient
+</a>

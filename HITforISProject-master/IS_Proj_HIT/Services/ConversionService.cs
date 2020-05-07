@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using IS_Proj_HIT.Models.Enum;
 
 namespace IS_Proj_HIT.Services
@@ -88,6 +89,12 @@ namespace IS_Proj_HIT.Services
                 years += 1;
 
             return years;
+        }
+
+        public static string ConvertTableName(string tableName)
+        {
+            var result = Regex.Replace(tableName, @"(\p{Lu})", " $1").TrimStart();
+            return result;
         }
     }
 }

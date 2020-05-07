@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="CareSystemType.CareSystemTypeId" />
             <div class="form-group">
                 <label asp-for="CareSystemType.Name" class="control-label"></label>
-                <input asp-for="CareSystemType.Name" class="form-control" />
+                <input asp-for="CareSystemType.Name" class="form-control" maxlength="100" />
                 <span asp-validation-for="CareSystemType.Name" class="text-danger"></span>
             </div>
             <div class="form-group">

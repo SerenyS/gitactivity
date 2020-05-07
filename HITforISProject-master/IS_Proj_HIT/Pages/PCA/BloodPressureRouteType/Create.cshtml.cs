@@ -37,6 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
+            BloodPressureRouteType.LastModified = DateTime.Now;
             _context.BloodPressureRouteType.Add(BloodPressureRouteType);
             await _context.SaveChangesAsync();
 

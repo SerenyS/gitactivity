@@ -28,6 +28,9 @@ namespace IS_Proj_HIT
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            ViewData["RegularMessage"] = "Are you sure you want to delete this?";
+            ViewData["ErrorMessage"] = "";
+
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +56,16 @@ namespace IS_Proj_HIT
 
             if (PulseRouteType != null)
             {
+                // See if any PCA records exist with this type
+                bool usingExists = _context.Pcarecord.Any(p => p.PulseRouteTypeId == PulseRouteType.PulseRouteTypeId);
+                if (usingExists)
+                {
+                    Console.WriteLine("PCA records exist using this record.");
+                    ViewData["RegularMessage"] = "";
+                    ViewData["ErrorMessage"] = "PCA records exist using this record. Delete not available.";
+                    return Page();
+                }
+
                 _context.PulseRouteType.Remove(PulseRouteType);
                 await _context.SaveChangesAsync();
             }

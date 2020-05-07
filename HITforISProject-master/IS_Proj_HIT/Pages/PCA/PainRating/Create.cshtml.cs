@@ -38,6 +38,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
+            PainRating.LastModified = DateTime.Now;
             _context.PainRating.Add(PainRating);
             await _context.SaveChangesAsync();
 

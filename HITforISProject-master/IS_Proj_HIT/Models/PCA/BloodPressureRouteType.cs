@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Permissions;
 
 namespace IS_Proj_HIT.Models.PCA
 {
-    public class BloodPressureRouteType
+    public partial class BloodPressureRouteType
     {
         public BloodPressureRouteType()
         {

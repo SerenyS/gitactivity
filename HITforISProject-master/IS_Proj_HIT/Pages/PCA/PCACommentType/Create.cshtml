@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PcaCommentType.PcaCommentTypeName" class="control-label"></label>
-                <input asp-for="PcaCommentType.PcaCommentTypeName" class="form-control" />
+                <input asp-for="PcaCommentType.PcaCommentTypeName" class="form-control" maxlength="50"/>
                 <span asp-validation-for="PcaCommentType.PcaCommentTypeName" class="text-danger"></span>
             </div>
             <div class="form-group">

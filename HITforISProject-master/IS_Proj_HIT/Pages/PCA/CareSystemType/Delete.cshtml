@@ -6,8 +6,8 @@
 }
 
 <h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>@ViewData["RegularMessage"]</h3>
+<h3 class="error">@ViewData["ErrorMessage"]</h3>
 <div>
     <h4>CareSystemType</h4>
     <hr />
@@ -25,10 +25,51 @@
             @Html.DisplayFor(model => model.CareSystemType.LastModified)
         </dd>
     </dl>
-    
+    @if (Model.CareSystemType.CareSystemParameters.Any()) {
+        <h4>This will also delete the following Care System Parameter(s)</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CareSystemType.CareSystemParameters.First().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CareSystemType.CareSystemParameters.First().NormalLimitsDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CareSystemType.CareSystemParameters.First().LastModified)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CareSystemType.CareSystemParameters.First().CareSystemType)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CareSystemType.CareSystemParameters)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NormalLimitsDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastModified)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CareSystemType.Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
     <form method="post">
         <input type="hidden" asp-for="CareSystemType.CareSystemTypeId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to delete the item(s)?')) return false;" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>

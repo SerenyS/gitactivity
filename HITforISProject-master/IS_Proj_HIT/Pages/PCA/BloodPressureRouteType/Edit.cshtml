@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="BloodPressureRouteType.BloodPressureRouteTypeId" />
             <div class="form-group">
                 <label asp-for="BloodPressureRouteType.Name" class="control-label"></label>
-                <input asp-for="BloodPressureRouteType.Name" class="form-control" />
+                <input asp-for="BloodPressureRouteType.Name" class="form-control" maxlength="50" />
                 <span asp-validation-for="BloodPressureRouteType.Name" class="text-danger"></span>
             </div>
             <div class="form-group">

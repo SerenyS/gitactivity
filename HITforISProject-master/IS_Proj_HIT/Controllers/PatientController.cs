@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Models;
+using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.ViewModels;
+using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols;
-using System.Configuration;
-using IS_Proj_HIT.Extensions.Alerts;
-using IS_Proj_HIT.ViewModels;
-using System.Diagnostics;
-using System.Globalization;
-using IS_Proj_HIT.Models.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -25,68 +18,38 @@ namespace IS_Proj_HIT.Controllers
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
         // Displays list of patients
-        //public ViewResult Index(string firstname, int patientPage = 1) => View(new ListPatientsViewModel
-        //{
-        //    Patients = repository.Patients
-        //        .Include(p => p.Religion)
-        //        .Include(p => p.Gender)
-        //        .Include(p => p.Ethnicity)
-        //        .Include(p => p.MaritalStatus)
-        //        .OrderBy(p => p.FirstName)
-        //        .Skip((patientPage - 1) * PageSize)
-        //        .Take(PageSize),
-        //    PagingInfo = new PagingInfo
-        //    {
-        //        CurrentPage = patientPage,
-        //        ItemsPerPage = PageSize,
-        //        TotalItems = repository.Patients.Count()
-        //    }
-        //});
-
-        public ActionResult Index(string searchLast, string searchFirst, string searchSSN, string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder)
+        public ActionResult Index(string searchLast, string searchFirst, string searchSSN,
+            string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder)
         {
             // Put in a wildcard if user didn't search on these fields
-            if (searchLast == null)
-            {
-                searchLast = " ";
-
-            }
-            if (searchFirst == null)
-            {
-                searchFirst = " ";
-            }
-            if (searchSSN == null)
-            {
-                searchSSN = " ";
-            }
-            if (searchMRN == null)
-            {
-                searchMRN = " ";
-            }
-
+            searchLast ??= " ";
+            searchFirst ??= " ";
+            searchSSN ??= " ";
+            searchMRN ??= " ";
 
             if (searchDOB.GetHashCode() == 0)
             {
                 searchDOB = new DateTime(1898, 1, 1);
             }
+
             if (searchDOBBefore.GetHashCode() == 0)
             {
                 searchDOBBefore = new DateTime(2030, 1, 1);
             }
 
             var patients = repository.Patients
-                    .Include(p => p.Religion)
-                    .Include(p => p.Gender)
-                    .Include(p => p.Ethnicity)
-                    .Include(p => p.MaritalStatus)
-                    .Where(p => p.LastName.Contains(searchLast)
-                        && p.FirstName.Contains(searchFirst)
-                        && p.Ssn.Contains(searchSSN)
-                        && p.Mrn.Contains(searchMRN)
-                        && p.Dob >= searchDOB
-                        && p.Dob <= searchDOBBefore);
+                .Include(p => p.Religion)
+                .Include(p => p.Gender)
+                .Include(p => p.Ethnicity)
+                .Include(p => p.MaritalStatus)
+                .Where(p => p.LastName.Contains(searchLast)
+                            && p.FirstName.Contains(searchFirst)
+                            && p.Ssn.Contains(searchSSN)
+                            && p.Mrn.Contains(searchMRN)
+                            && p.Dob >= searchDOB
+                            && p.Dob <= searchDOBBefore);
 
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.MrnSortParm = sortOrder == "mrn" ? "mrn_desc" : "mrn";
             ViewBag.DobSortParm = sortOrder == "dob" ? "dob_desc" : "dob";
 
@@ -123,51 +86,26 @@ namespace IS_Proj_HIT.Controllers
             return View(new ListPatientsViewModel
             {
                 Patients = patients
-            }) ;
-
+            });
         }
 
-
+        public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
         public IActionResult AddPatient()
         {
-
             //Run stored procedure from SQL database to generate the MRN number
             using (var context = new WCTCHealthSystemContext())
             {
                 var data = context.Patient.FromSql("EXECUTE dbo.GetNextMRN");
-                ViewBag.MRN = data.FirstOrDefault().Mrn;
-
+                ViewBag.MRN = data.FirstOrDefault()?.Mrn;
             }
 
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            AddDropdowns();
 
-
-            // Do it this way if you need to have nothing selected as default
-            var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
-            query = query.OrderBy(r => r.Name);
-            ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
-
-            var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
-            querySex = querySex.OrderBy(r => r.Name);
-            ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
-
-            var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
-            queryGender = queryGender.OrderBy(r => r.Name);
-            ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
-
-            var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
-            queryEthnicity = queryEthnicity.OrderBy(r => r.Name);
-            ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
-
-            var queryMaritalStatus = repository.MaritalStatuses.Select(r => new { r.MaritalStatusId, r.Name });
-            queryMaritalStatus = queryMaritalStatus.OrderBy(r => r.Name);
-            ViewBag.MaritalStatus = new SelectList(queryMaritalStatus.AsEnumerable(), "MaritalStatusId", "Name", 0);
-
-            //var queryEmployment = repository.Employment.Select(r => new { r.MaritalStatusId, r.Name });
+            //TODO: ADD EMPLOYMENT ENTRY TO THE CREATE/EDIT PATIENT FLOW
+            //var queryEmployment = repository.Employments.Select(r => new { r.EmploymentId, r.Occupation });
             //ViewBag.Employment = new SelectList(queryEmployment.AsEnumerable(), "MaritalStatusId", "Name", 0);
-
             //ViewBag.Employment = repository.Employments.Select(e =>
             //                    new SelectListItem
             //                    {
@@ -175,9 +113,7 @@ namespace IS_Proj_HIT.Controllers
             //                        Text = (e.EmployerName + " - " + e.Occupation).ToString()
             //                    }).ToList();
             return View();
-
         }
-
 
         // Click Create button on Add Patient page adds new patient from Add Patient page
         [HttpPost]
@@ -201,9 +137,9 @@ namespace IS_Proj_HIT.Controllers
                     //return RedirectToAction("Index");
                 }
             }
+
             return View();
         }
-
 
         // Deletes Patient
         public IActionResult DeletePatient(string id)
@@ -217,9 +153,7 @@ namespace IS_Proj_HIT.Controllers
                     controller = "Patient",
                     action = "Details",
                     ID = id
-
                 });
-
             }
             else
             {
@@ -229,157 +163,50 @@ namespace IS_Proj_HIT.Controllers
                 {
                     controller = "Home",
                     action = "Index"
-
                 });
             }
+
             //return RedirectToAction("Index", "Home");
-            
         }
-
-
-        public IActionResult AddEncounter(string id)
-        {
-            ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == id);
-            
-            //If you wanted to get the tool tips, you'd need to do this:
-            //repository.AdmitTypes.FirstOrDefault(b => b.AdmitTypeId == id).Explaination
-            var queryAdmitTypes = repository.AdmitTypes.Select(at => new { at.AdmitTypeId, at.Description });
-            queryAdmitTypes = queryAdmitTypes.OrderBy(n => n.Description);
-            ViewBag.AdmitTypes = new SelectList(queryAdmitTypes.AsEnumerable(), "AdmitTypeId", "Description", 0);
-
-            var queryDepartments = repository.Departments.Select(dep => new { dep.DepartmentId, dep.Name });
-            queryDepartments = queryDepartments.OrderBy(n => n.Name);
-            ViewBag.Departments = new SelectList(queryDepartments.AsEnumerable(), "DepartmentId", "Name", 0);
-
-            var queryEncounterTypes = repository.EncounterTypes.Select(ent => new { ent.EncounterTypeId, ent.Name });
-            queryEncounterTypes = queryEncounterTypes.OrderBy(n => n.Name);
-            ViewBag.EncounterTypes = new SelectList(queryEncounterTypes.AsEnumerable(), "EncounterTypeId", "Name", 0);
-
-            var queryPlacesOfService = repository.PlaceOfService.Select(pos => new { pos.PlaceOfServiceId, pos.Description });
-            queryPlacesOfService = queryPlacesOfService.OrderBy(n => n.Description);
-            ViewBag.PlacesOfService = new SelectList(queryPlacesOfService.AsEnumerable(), "PlaceOfServiceId", "Description", 0);
-
-            var queryPointsOfOrigin = repository.PointOfOrigin.Select(poo => new { poo.PointOfOriginId, poo.Description });
-            queryPointsOfOrigin = queryPointsOfOrigin.OrderBy(n => n.Description);
-            ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin.AsEnumerable(), "PointOfOriginId", "Description", 0);
-
-            var queryFacility = repository.Facilities.Select(fac => new { fac.FacilityId, fac.Name });
-            queryFacility = queryFacility.OrderBy(n => n.Name);
-            ViewBag.Facility = new SelectList(queryFacility.AsEnumerable(), "FacilityId", "Name", 0);
-
-            var queryEncounterPhysicians = repository.EncounterPhysicians.Select(EnP => new { EnP.EncounterPhysiciansId, Name = (repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).FirstName + " " + repository.Physicians.FirstOrDefault(b => b.PhysicianId == EnP.PhysicianId).LastName) });
-            queryEncounterPhysicians = queryEncounterPhysicians.OrderBy(n => n.Name);
-            ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians.AsEnumerable(), "EncounterPhysiciansId", "Name", 0);
-            return View();
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEncounter(Encounter model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
-                {
-                    ModelState.AddModelError("", "Encounter Id must be unique");
-                }
-                else
-                {
-                    Debug.WriteLine("find me! " + Request.Form["Facility"]);
-                    model.LastModified = @DateTime.Now;
-                    Debug.WriteLine("MRN: " + model.Mrn);
-                    Debug.WriteLine("Facility: " + model.FacilityId);
-                    Debug.WriteLine("EncounterType: " + model.EncounterTypeId);
-                    repository.AddEncounter(model);
-                    return RedirectToAction("ViewEncounter", "Encounter", new { encounterId = model.EncounterId });
-                }
-            }
-            return View();
-        }
-
 
         // Displays the Edit Patient page
         public IActionResult Edit(string id)
         {
-            ViewBag.myMrn = id;
-            //ViewBags for Patient Banner at top of page
-            ViewBag.FirstName = repository.Patients.FirstOrDefault(b => b.Mrn == id).FirstName;
-            ViewBag.MiddleName = repository.Patients.FirstOrDefault(b => b.Mrn == id).MiddleName;
-            ViewBag.LastName = repository.Patients.FirstOrDefault(b => b.Mrn == id).LastName;
-            ViewBag.Dob = repository.Patients.FirstOrDefault(b => b.Mrn == id).Dob;
-            
-            ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            var model = repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == id);
 
-            var query = repository.Religions.Select(r => new { r.ReligionId, r.Name });
-            query = query.OrderBy(r => r.Name);
-            ViewBag.Religions = new SelectList(query.AsEnumerable(), "ReligionId", "Name", 0);
+            AddDropdowns();
 
-            var querySex = repository.Sexes.Select(r => new { r.SexId, r.Name });
-            querySex = querySex.OrderBy(r => r.Name);
-            ViewBag.Sexes = new SelectList(querySex.AsEnumerable(), "SexId", "Name", 0);
-
-            var queryGender = repository.Genders.Select(r => new { r.GenderId, r.Name });
-            queryGender = queryGender.OrderBy(r => r.Name);
-            ViewBag.Gender = new SelectList(queryGender.AsEnumerable(), "GenderId", "Name", 0);
-
-            var queryEthnicity = repository.Ethnicities.Select(r => new { r.EthnicityId, r.Name });
-            queryEthnicity = queryEthnicity.OrderBy(r => r.Name);
-            ViewBag.Ethnicity = new SelectList(queryEthnicity.AsEnumerable(), "EthnicityId", "Name", 0);
-
-            var queryMaritalStatus = repository.MaritalStatuses.Select(r => new { r.MaritalStatusId, r.Name });
-            queryMaritalStatus = queryMaritalStatus.OrderBy(r => r.Name);
-            ViewBag.MaritalStatus = new SelectList(queryMaritalStatus.AsEnumerable(), "MaritalStatusId", "Name", 0);
-
-            return View(repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == id));
-
+            return View(model);
         }
 
         // Save edits to patient record from Edit Patients page
         [HttpPost]
-        [ActionName("Update")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Patient model, string id)
+        public IActionResult Edit(Patient model)
         {
-            if (ModelState.IsValid)
-            {
-                model.LastModified = @DateTime.Now;
-                repository.EditPatient(model);
-                // I added the string id to the IActionResult above to pass in the model's Mrn
-                // Then I constructed the redirect URL pointing to the Details page/id
-                string myUrl = "Details/" + model.Mrn;
-                return Redirect(myUrl);
-            }
-            return View();
-        }
+            if (!ModelState.IsValid) return View(model.Mrn);
 
-        // find all the encounters for a specific patient
-        public IActionResult allPatientEncounters(string MRN)
-        {
-            string myUrl = "/Encounter/PatientEncounters?patientMRN=" + MRN;
-            return Redirect(myUrl);
-
+            model.LastModified = DateTime.Now;
+            repository.EditPatient(model);
+            return RedirectToAction("Details", new {id = model.Mrn});
         }
 
         // Pick record to send to Details page
         public IActionResult Details(string id)
         {
-            ViewBag.ReligionID = repository.Patients.Include(p => p.Religion).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.MaritalID = repository.Patients.Include(p => p.MaritalStatus).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.SexID = repository.Patients.Include(p => p.Sex).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.GenderID = repository.Patients.Include(p => p.Gender).FirstOrDefault(p => p.Mrn == id);
-            ViewBag.EthnicityID = repository.Patients.Include(p => p.Ethnicity).FirstOrDefault(p => p.Mrn == id);
-            if(repository.Encounters.Where(e => e.Mrn == id).Count() > 0)
-            {
-                ViewBag.isThereEncounter = true;
-            }
-            else
-            {
-                ViewBag.isThereEncounter = false;
-            }
+            var model = repository.Patients
+                .Include(p => p.PatientAlerts)
+                .Include(p => p.Religion)
+                .Include(p => p.MaritalStatus)
+                .Include(p => p.Sex)
+                .Include(p => p.Gender)
+                .Include(p => p.Ethnicity)
+                .Include(p => p.Encounter).ThenInclude(e => e.Facility)
+                .FirstOrDefault(p => p.Mrn == id);
 
-            return View(repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == id));
-
+            return View(model);
         }
 
         //List Alerts for the currently selected MRN
@@ -440,20 +267,21 @@ namespace IS_Proj_HIT.Controllers
                 return View(new ListAlertsViewModel
                 {
                     PatientAlerts = repository.PatientAlerts
-                .Include(p => p.AlertType)
-                .Where(p => p.Mrn == id)
-                .OrderBy(p => p.StartDate)
+                        .Include(p => p.AlertType)
+                        .Where(p => p.Mrn == id)
+                        .OrderBy(p => p.StartDate)
                 });
             }
+
             if (sortOrder == "byStartDateDesc")
             {
                 sortOrder = "";
                 return View(new ListAlertsViewModel
                 {
                     PatientAlerts = repository.PatientAlerts
-                .Include(p => p.AlertType)
-                .Where(p => p.Mrn == id)
-                .OrderByDescending(p => p.StartDate)
+                        .Include(p => p.AlertType)
+                        .Where(p => p.Mrn == id)
+                        .OrderByDescending(p => p.StartDate)
                 });
             }
 
@@ -462,37 +290,36 @@ namespace IS_Proj_HIT.Controllers
                 sortOrder = "";
                 return View(new ListAlertsViewModel
                 {
-                 PatientAlerts = repository.PatientAlerts
-                .Include(p => p.AlertType)
-                .Where(p => p.Mrn == id)
-                .OrderBy(p => p.AlertType.Name)
+                    PatientAlerts = repository.PatientAlerts
+                        .Include(p => p.AlertType)
+                        .Where(p => p.Mrn == id)
+                        .OrderBy(p => p.AlertType.Name)
                 });
             }
+
             if (sortOrder == "byAlertTypeDesc")
             {
                 sortOrder = "";
                 return View(new ListAlertsViewModel
                 {
                     PatientAlerts = repository.PatientAlerts
-                .Include(p => p.AlertType)
-                .Where(p => p.Mrn == id)
-                .OrderByDescending(p => p.AlertType.Name)
+                        .Include(p => p.AlertType)
+                        .Where(p => p.Mrn == id)
+                        .OrderByDescending(p => p.AlertType.Name)
                 });
-
             }
 
-            if(sortOrder == "byActive")
+            if (sortOrder == "byActive")
             {
                 {
                     sortOrder = "";
                     return View(new ListAlertsViewModel
                     {
-                     PatientAlerts = repository.PatientAlerts
-                    .Include(p => p.AlertType)
-                    .Where(p => p.Mrn == id)
-                    .OrderBy(p => p.IsActive)
+                        PatientAlerts = repository.PatientAlerts
+                            .Include(p => p.AlertType)
+                            .Where(p => p.Mrn == id)
+                            .OrderBy(p => p.IsActive)
                     });
-
                 }
             }
 
@@ -503,11 +330,10 @@ namespace IS_Proj_HIT.Controllers
                     return View(new ListAlertsViewModel
                     {
                         PatientAlerts = repository.PatientAlerts
-                    .Include(p => p.AlertType)
-                    .Where(p => p.Mrn == id)
-                    .OrderByDescending(p => p.IsActive)
+                            .Include(p => p.AlertType)
+                            .Where(p => p.Mrn == id)
+                            .OrderByDescending(p => p.IsActive)
                     });
-
                 }
             }
             else
@@ -516,12 +342,11 @@ namespace IS_Proj_HIT.Controllers
                 return View(new ListAlertsViewModel
                 {
                     PatientAlerts = repository.PatientAlerts
-                .Include(p => p.AlertType)
-                .Where(p => p.Mrn == id)
-                .OrderByDescending(p => p.LastModified)
+                        .Include(p => p.AlertType)
+                        .Where(p => p.Mrn == id)
+                        .OrderByDescending(p => p.LastModified)
                 });
             }
-
         }
 
         public IActionResult BackToCaller(string id, string returnUrl)
@@ -530,28 +355,27 @@ namespace IS_Proj_HIT.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else 
+            else
             {
                 return RedirectToAction("Details", "Patient", id);
             }
         }
 
         public RedirectToRouteResult BackToDetails(string id) =>
-        RedirectToRoute(new
-        {
-            controller = "Patient",
-            action = "Details",
-            ID = id
-        });
+            RedirectToRoute(new
+            {
+                controller = "Patient",
+                action = "Details",
+                ID = id
+            });
 
         public RedirectToRouteResult BackToListAlerts(string id) =>
-        RedirectToRoute(new
-        {
-            controller = "Patient",
-            action = "ListAlerts",
-            ID = id
-        });
-
+            RedirectToRoute(new
+            {
+                controller = "Patient",
+                action = "ListAlerts",
+                ID = id
+            });
 
         // Load page for adding patient alerts
         public IActionResult CreateAlert(string id, string returnUrl)
@@ -574,52 +398,49 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.LastModified = @DateTime.Now;
 
             ViewBag.AlertType = repository.AlertTypes.OrderBy(a => a.Name).Select(a =>
+                new SelectListItem
+                {
+                    Value = a.AlertId.ToString(),
+                    Text = a.Name
+                }).ToList();
+
+            ViewBag.Restriction = repository.Restrictions.OrderBy(r => r.Name).Include(r => r.PatientRestrictions)
+                .Select(r =>
                     new SelectListItem
                     {
-                        Value = a.AlertId.ToString(),
-                        Text = a.Name
+                        Value = r.RestrictionId.ToString(),
+                        Text = r.Name
                     }).ToList();
-
-            ViewBag.Restriction = repository.Restrictions.OrderBy(r => r.Name).Include(r => r.PatientRestrictions).Select(r =>
-                        new SelectListItem
-                        {
-                            Value = r.RestrictionId.ToString(),
-                            Text = r.Name
-                        }).ToList();
 
             //var query = repository.FallRisk.Select(r => new { r.FallRiskId, r.FallRisk.Name });
             //ViewBag.PatientFallRisk = new SelectList(query.AsEnumerable(), "FallRiskId", "Name", 0);
-            ViewBag.PatientFallRisk = repository.FallRisks.OrderBy(r => r.Name).Include(r => r.PatientFallRisks).Select(r =>
-                   new SelectListItem
-                   {
-                       Value = r.FallRiskId.ToString(),
-                       Text = r.Name
-                   }).ToList();
-
+            ViewBag.PatientFallRisk = repository.FallRisks.OrderBy(r => r.Name).Include(r => r.PatientFallRisks).Select(
+                r =>
+                    new SelectListItem
+                    {
+                        Value = r.FallRiskId.ToString(),
+                        Text = r.Name
+                    }).ToList();
 
 
             ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
-            .Select(r =>
-               new SelectListItem
-               {
-                   Value = r.AllergenId.ToString(),
-                   Text = r.AllergenName
-               }).ToList();
-
+                .Select(r =>
+                    new SelectListItem
+                    {
+                        Value = r.AllergenId.ToString(),
+                        Text = r.AllergenName
+                    }).ToList();
 
 
             ViewBag.Reactions = repository.Reactions.OrderBy(r => r.Name).Include(r => r.PatientAllergy).Select(r =>
-                  new SelectListItem
-                  {
-                      Value = r.ReactionId.ToString(),
-                      Text = r.Name
-                  }).ToList();
+                new SelectListItem
+                {
+                    Value = r.ReactionId.ToString(),
+                    Text = r.Name
+                }).ToList();
 
             return View();
-
         }
-
-
 
         [HttpPost]
         [ActionName("CreateAlert")]
@@ -635,38 +456,39 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.LastModified = @DateTime.Now;
 
                 ViewBag.AlertType = repository.AlertTypes.Select(a =>
-                        new SelectListItem
-                        {
-                            Value = a.AlertId.ToString(),
-                            Text = a.Name
-                        }).ToList();
+                    new SelectListItem
+                    {
+                        Value = a.AlertId.ToString(),
+                        Text = a.Name
+                    }).ToList();
 
                 ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
-                        new SelectListItem
-                        {
-                            Value = r.RestrictionId.ToString(),
-                            Text = r.Name
-                        }).ToList();
+                    new SelectListItem
+                    {
+                        Value = r.RestrictionId.ToString(),
+                        Text = r.Name
+                    }).ToList();
 
                 //var query = repository.FallRisk.Select(r => new { r.FallRiskId, r.Description });
                 //ViewBag.PatientFallRisk = new SelectList(query.AsEnumerable(), "FallRiskId", "Description", 0);
                 ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
-                   new SelectListItem
-                   {
-                       Value = r.FallRiskId.ToString(),
-                       Text = r.Name
-                   }).ToList();
+                    new SelectListItem
+                    {
+                        Value = r.FallRiskId.ToString(),
+                        Text = r.Name
+                    }).ToList();
 
                 repository.AddAlert(model);
                 string myUrl = "ListAlerts/" + model.Mrn;
                 //                 return Redirect(myUrl);
                 //ViewBags for Patient Banner at top of page
                 string id = model.Mrn;
-                ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == model.Mrn);
+                ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts)
+                    .FirstOrDefault(b => b.Mrn == model.Mrn);
 
                 return Redirect(ViewBag.ReturnUrl);
-
             }
+
             return View();
         }
 
@@ -683,18 +505,18 @@ namespace IS_Proj_HIT.Controllers
 
 
             var myAlertType = (from pa in repository.PatientAlerts
-                              join at in repository.AlertTypes on pa.AlertTypeId equals at.AlertId
-                              where pa.PatientAlertId == id
-                              select new
-                              {
-                                  alertType = at.Name
-
-                              }).FirstOrDefault();
+                join at in repository.AlertTypes on pa.AlertTypeId equals at.AlertId
+                where pa.PatientAlertId == id
+                select new
+                {
+                    alertType = at.Name
+                }).FirstOrDefault();
 
             ViewBag.MyAlertType = myAlertType.alertType;
 
             ViewBag.Comments = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).Comments;
-            ViewBag.StartDate = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).StartDate.ToString("MM/dd/yyyy");
+            ViewBag.StartDate = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).StartDate
+                .ToString("MM/dd/yyyy");
 
             ViewBag.EndDate = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).EndDate;
             //ViewBag.EndDate = checkEndDate != null ? checkEndDate : "N/A";
@@ -703,33 +525,32 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Active = checkActive == true ? "Yes" : "No";
 
             var myFallRisk = (from pa in repository.PatientAlerts
-                              join pf in repository.PatientFallRisks on pa.PatientAlertId equals pf.PatientAlertId
-                              join fr in repository.FallRisks on pf.FallRiskId equals fr.FallRiskId
-                              where pf.PatientAlertId == id
-                              select new
-                              {
-                                  fallrisk = fr.Name
+                join pf in repository.PatientFallRisks on pa.PatientAlertId equals pf.PatientAlertId
+                join fr in repository.FallRisks on pf.FallRiskId equals fr.FallRiskId
+                where pf.PatientAlertId == id
+                select new
+                {
+                    fallrisk = fr.Name
+                }).FirstOrDefault();
 
-                              }).FirstOrDefault();
-
-            if(myFallRisk == null)
+            if (myFallRisk == null)
             {
                 ViewBag.FallRisk = "";
-            } else
+            }
+            else
             {
                 ViewBag.FallRisk = myFallRisk.fallrisk;
             }
 
 
             var myRestriction = (from pa in repository.PatientAlerts
-                              join pr in repository.PatientRestrictions on pa.PatientAlertId equals pr.PatientAlertId
-                              join re in repository.Restrictions on pr.RestrictionTypeId equals re.RestrictionId
-                              where pr.PatientAlertId == id
-                              select new
-                              {
-                                  theRestriction = re.Name
-
-                              }).FirstOrDefault();
+                join pr in repository.PatientRestrictions on pa.PatientAlertId equals pr.PatientAlertId
+                join re in repository.Restrictions on pr.RestrictionTypeId equals re.RestrictionId
+                where pr.PatientAlertId == id
+                select new
+                {
+                    theRestriction = re.Name
+                }).FirstOrDefault();
 
             if (myRestriction == null)
             {
@@ -741,14 +562,13 @@ namespace IS_Proj_HIT.Controllers
             }
 
             var myAllergen = (from pa in repository.PatientAlerts
-                              join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
-                              join al in repository.Allergens on pal.AllergenId equals al.AllergenId
-                              where pal.PatientAlertId == id
-                              select new
-                              {
-                                  allergen= al.AllergenName
-
-                              }).FirstOrDefault();
+                join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                join al in repository.Allergens on pal.AllergenId equals al.AllergenId
+                where pal.PatientAlertId == id
+                select new
+                {
+                    allergen = al.AllergenName
+                }).FirstOrDefault();
 
             if (myAllergen == null)
             {
@@ -760,14 +580,13 @@ namespace IS_Proj_HIT.Controllers
             }
 
             var myReaction = (from pa in repository.PatientAlerts
-                              join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
-                              join rea in repository.Reactions on pal.ReactionId equals rea.ReactionId
-                              where pal.PatientAlertId == id
-                              select new
-                              {
-                                  reaction = rea.Name
-
-                              }).FirstOrDefault();
+                join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                join rea in repository.Reactions on pal.ReactionId equals rea.ReactionId
+                where pal.PatientAlertId == id
+                select new
+                {
+                    reaction = rea.Name
+                }).FirstOrDefault();
 
             if (myReaction == null)
             {
@@ -779,11 +598,11 @@ namespace IS_Proj_HIT.Controllers
             }
 
             ViewBag.AlertType = repository.AlertTypes.OrderBy(a => a.Name).Select(a =>
-                    new SelectListItem
-                    {
-                        Value = a.AlertId.ToString(),
-                        Text = a.Name
-                    }).ToList();
+                new SelectListItem
+                {
+                    Value = a.AlertId.ToString(),
+                    Text = a.Name
+                }).ToList();
 
             //ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
             //       new SelectListItem
@@ -808,46 +627,58 @@ namespace IS_Proj_HIT.Controllers
             //   }).ToList();
 
 
-
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
-
         }
-
 
         [HttpPost]
         [ActionName("UpdateAlert")]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateAlert(PatientAlerts model, int id)
         {
+            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE.
             Console.WriteLine("Trying to save(PatientController)");
-            //ViewBag.LastModified = DateTime.Today.AddYears(-1);
-            if (ModelState.IsValid)
-            {
-                model.LastModified = @DateTime.Now;
-                ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
-                ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
-                ViewBag.LastModified = @DateTime.Now;
+            if (!ModelState.IsValid) return RedirectToAction("ListAlerts", new {id = model.Mrn});
 
-                repository.EditAlert(model);
-                string myUrl = "ListAlerts/" + model.Mrn;
-                return Redirect(myUrl);
+            model.LastModified = DateTime.Now;
+            ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
+            ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
+            ViewBag.LastModified = DateTime.Now;
 
-            }
-            return View();
+            repository.EditAlert(model);
+            return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
-
-        public IActionResult DisplayFacilities()
+        public void AddDropdowns()
         {
-            ViewBag.Facilities = repository.Facilities.Select(f =>
-                                 new SelectListItem
-                                 {
-                                     Value = f.FacilityId.ToString(),
-                                     Text = f.Name
-                                 }).ToList();
-            return View();
+            var queryReligion = repository.Religions
+                .OrderBy(r => r.Name)
+                .Select(r => new {r.ReligionId, r.Name})
+                .ToList();
+            ViewBag.Religions = new SelectList(queryReligion, "ReligionId", "Name", 0);
+
+            var querySex = repository.Sexes
+                .OrderBy(r => r.Name)
+                .Select(r => new {r.SexId, r.Name})
+                .ToList();
+            ViewBag.Sexes = new SelectList(querySex, "SexId", "Name", 0);
+
+            var queryGender = repository.Genders
+                .OrderBy(r => r.Name)
+                .Select(r => new {r.GenderId, r.Name})
+                .ToList();
+            ViewBag.Gender = new SelectList(queryGender, "GenderId", "Name", 0);
+
+            var queryEthnicity = repository.Ethnicities
+                .OrderBy(r => r.Name)
+                .Select(r => new {r.EthnicityId, r.Name})
+                .ToList();
+            ViewBag.Ethnicity = new SelectList(queryEthnicity, "EthnicityId", "Name", 0);
+
+            var queryMaritalStatus = repository.MaritalStatuses
+                .OrderBy(r => r.Name)
+                .Select(r => new {r.MaritalStatusId, r.Name})
+                .ToList();
+            ViewBag.MaritalStatus = new SelectList(queryMaritalStatus, "MaritalStatusId", "Name", 0);
         }
-
     }
-
 }

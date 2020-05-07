@@ -21,12 +21,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="PainParameter.ParameterName" class="control-label"></label>
-                <input asp-for="PainParameter.ParameterName" class="form-control" />
+                <input asp-for="PainParameter.ParameterName" class="form-control" maxlength="200" />
                 <span asp-validation-for="PainParameter.ParameterName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PainParameter.Description" class="control-label"></label>
-                <input asp-for="PainParameter.Description" class="form-control" />
+                <input asp-for="PainParameter.Description" class="form-control" maxlength="200" />
                 <span asp-validation-for="PainParameter.Description" class="text-danger"></span>
             </div>
             <div class="form-group">

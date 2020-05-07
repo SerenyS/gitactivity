@@ -6,8 +6,9 @@
 }
 
 <h1>Delete</h1>
+<h3>@ViewData["RegularMessage"]</h3>
+<h3 class="error">@ViewData["ErrorMessage"]</h3>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>TempRouteType</h4>
     <hr />
@@ -25,7 +26,7 @@
             @Html.DisplayFor(model => model.TempRouteType.LastModified)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="TempRouteType.TempRouteTypeId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

@@ -1,28 +1,21 @@
 ﻿@model IS_Proj_HIT.Models.Patient
-<link rel="stylesheet" href="~/css/chosen.min.css" />
 
 <partial name="PatientBannerPartial" model="Model" />
 <div class="card">
     <div class="card-header bg-primary text-white"><h4>Edit Patient</h4></div>
     <div class="card-body bg-light">
-        <form method="post" id="patientEdit" name="patientEdit" asp-action="Update">
-
+        <form method="post" id="patientEdit" name="patientEdit" asp-action="Edit">
             <partial name="~/Views/Patient/PatientFormFields.cshtml" />
+            <hr/>
             <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
         </form>
     </div>
 </div>
-
 <hr />
 
-<a asp-controller="home" asp-action="Index" id="homeLink" class="btn btn-outline-primary">Home</a>
-<a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Mrn" class="btn btn-outline-primary mrn">
+<a asp-controller="Patient"
+   asp-action="Details"
+   asp-route-id="@Model.Mrn" 
+   class="btn btn-outline-primary mrn">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back To Details
 </a>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-
-

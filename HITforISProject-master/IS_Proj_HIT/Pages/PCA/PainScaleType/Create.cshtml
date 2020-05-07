@@ -15,12 +15,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PainScaleType.PainScaleTypeName" class="control-label"></label>
-                <input asp-for="PainScaleType.PainScaleTypeName" class="form-control" />
+                <input asp-for="PainScaleType.PainScaleTypeName" class="form-control" maxlength="50" />
                 <span asp-validation-for="PainScaleType.PainScaleTypeName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PainScaleType.UseDescription" class="control-label"></label>
-                <input asp-for="PainScaleType.UseDescription" class="form-control" />
+                <input asp-for="PainScaleType.UseDescription" class="form-control" maxlength="500" />
                 <span asp-validation-for="PainScaleType.UseDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
