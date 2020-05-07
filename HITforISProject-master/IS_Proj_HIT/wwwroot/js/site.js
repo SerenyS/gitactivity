@@ -533,6 +533,7 @@
 });
 
 //TODO there has to be a better way to do this??!?!?//
+
 function Validation() {
 
     $(function () {
