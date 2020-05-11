@@ -8,6 +8,7 @@
     <input type="hidden" asp-for="PcaRecord.PcaId" value="@Model.PcaRecord.PcaId" />
     <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
+    <input type="hidden" asp-for="PcaRecord.PainScaleTypeId" value="@Model.PcaRecord.PainScaleTypeId"/>
     <div class="tab-content">
         <!-- Vitals tab -->
         <div aria-labelledby="vitals-tab" class="tab-pane active" id="vital" role="tabpanel">

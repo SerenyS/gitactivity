@@ -193,6 +193,7 @@ namespace IS_Proj_HIT.Controllers
                         
                         var existingCareAssessments = assessment.CareSystemAssessment.FirstOrDefault(ca => ca.CareSystemParameterId == csp.CareSystemParameterId &&
                           csp.CareSystemTypeId == ss.CareSystemTypeId);
+
                         if (existingCareAssessments != null)
                         {
                             sysAssessments.Add(csp.CareSystemParameterId,existingCareAssessments);
@@ -209,19 +210,7 @@ namespace IS_Proj_HIT.Controllers
                 }
             }
 
-          /*   SecondarySystems.ForEach(s =>
-                s.CareSystemParameters.ToList().ForEach(sp =>
-                {
-                    if (!formPca.Assessments.ContainsKey(sp.CareSystemParameterId))
-                        formPca.Assessments.Add(sp.CareSystemParameterId,
-                            new CareSystemAssessment
-                            {
-                                CareSystemParameterId = sp.CareSystemParameterId,
-                                IsWithinNormalLimits = null
-                            });
-                }));
-
-    */
+         
 
 
             ViewBag.Encounter = encounter;
@@ -262,6 +251,8 @@ namespace IS_Proj_HIT.Controllers
         private IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
             var pca = formPca.PcaRecord;
+           
+            
             //Convert temp to F, if entered in other unit
             if (pca.Temperature != null)
             {
@@ -339,18 +330,124 @@ namespace IS_Proj_HIT.Controllers
 
                     tran.Complete();
                 }
-            }
+            } //UPDATE/////////////////////////////////
             else
             {
-                //Update Pca and assessments
-                //_repository.EditPcaRecord(pca);
+                using (var tran = new TransactionScope())
+                {
+
+                    var existingRecord = _repository.PcaRecords
+                        .Include(pca => pca.PainAssessment)
+                        .Include(pca => pca.PcaComment)
+                        .Include(pca => pca.CareSystemAssessment)
+                        .FirstOrDefault(pcr => pcr.PcaId == pca.PcaId);
+
+                    existingRecord.Temperature = pca.Temperature;
+                    existingRecord.HeadCircumference = pca.HeadCircumference;
+                    existingRecord.HeadCircumferenceUnits = pca.HeadCircumferenceUnits;
+                    existingRecord.Height = pca.Height;
+                    existingRecord.HeightUnits = pca.HeightUnits;
+                    existingRecord.LastModified = DateTime.Now;
+                    existingRecord.O2deliveryTypeId = pca.O2deliveryTypeId;
+                    existingRecord.OxygenFlow = pca.OxygenFlow;
+                    existingRecord.PainLevelGoal = pca.PainLevelGoal;
+                    existingRecord.PainScaleTypeId = pca.PainScaleTypeId;
+                    existingRecord.PercentOxygenDelivered = pca.PercentOxygenDelivered;
+                    existingRecord.Pulse = pca.Pulse;
+                    existingRecord.PulseOximetry = pca.PulseOximetry;
+                    existingRecord.PulseRouteTypeId = pca.PulseRouteTypeId;
+                    existingRecord.Respiration = pca.Respiration;
+                    existingRecord.SystolicBloodPressure = pca.SystolicBloodPressure;
+                    existingRecord.DiastolicBloodPressure = pca.DiastolicBloodPressure;
+                    existingRecord.TempRouteTypeId = pca.TempRouteTypeId;
+                    existingRecord.Weight = pca.Weight;
+                    existingRecord.WeightUnits = pca.WeightUnits;
+
+
+
+
+                    var vitalComment = existingRecord.PcaComment.FirstOrDefault(c => c.PcaCommentTypeId == 11);
+                    if(vitalComment == null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
+                        {
+                            var vNote = _repository.PcaCommentTypes
+                                .FirstOrDefault(t => t.PcaCommentTypeName == "Vitals Notes");
+
+                            _repository.AddPcaComment(new PcaComment
+                            {
+                                PcaId = pca.PcaId,
+                                PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 11,
+                                Comment = formPca.VitalNote,
+                                DateCommentAdded = DateTime.Now,
+                                LastModified = DateTime.Now
+                            });
+                        }
+                    }
+                    else if(vitalComment!=null) {
+                    vitalComment.Comment = formPca.VitalNote;
+                    vitalComment.LastModified = DateTime.Now;
+                    }
+
+
+                    var painComment = existingRecord.PcaComment.FirstOrDefault(c => c.PcaCommentTypeId == 12);
+                    if (vitalComment == null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(formPca.PainNote))
+                        {
+                            var vNote = _repository.PcaCommentTypes
+                                .FirstOrDefault(t => t.PcaCommentTypeName == "Pain Assessment Notes");
+
+                            _repository.AddPcaComment(new PcaComment
+                            {
+                                PcaId = pca.PcaId,
+                                PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 12,
+                                Comment = formPca.VitalNote,
+                                DateCommentAdded = DateTime.Now,
+                                LastModified = DateTime.Now
+                            });
+                        }
+                    }
+                    else if(painComment !=null)
+                    {
+                        painComment.Comment = formPca.PainNote;
+                        painComment.LastModified = DateTime.Now;
+                    }
+
+                    //loop through caresystemassessments
+                    foreach (var formCsa in formPca.Assessments)
+                    {
+                        var existCsa = existingRecord.CareSystemAssessment
+                            .FirstOrDefault(a => a.CareSystemParameterId == formCsa.Key);
+
+                        if (existCsa is null) //the assessment to update does not currently exist
+                        {
+                            if (formCsa.Value.IsWithinNormalLimits != null)
+                            {
+                                formCsa.Value.PcaId = pca.PcaId;
+                                formCsa.Value.CareSystemParameterId = (short)formCsa.Key;
+                                formCsa.Value.LastModified = DateTime.Now;
+
+                                existingRecord.CareSystemAssessment.Add(formCsa.Value);
+                            }
+                        }
+                        else //the assessment DOES exist and needs to be updated properly
+                        {
+                            existCsa.Comment = formCsa.Value.Comment;
+                            existCsa.IsWithinNormalLimits = formCsa.Value.IsWithinNormalLimits;
+                        }
+                    }
+                    
+                    _repository.EditPcaRecord(existingRecord);
+
+                    tran.Complete();
+                }
             }
 
             // Return to assessment view
             return RedirectToAction("ViewAssessment",
-                new {assessmentId = formPca.PcaRecord.PcaId});
+                new { assessmentId = formPca.PcaRecord.PcaId });
         }
-
         private AssessmentFormPageModel PrepareAssessmentFormPageModel(AssessmentFormPageModel formPca = null)
         {
             if (formPca is null)
