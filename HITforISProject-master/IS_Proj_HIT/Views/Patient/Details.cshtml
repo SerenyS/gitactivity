@@ -127,10 +127,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- TODO: PAGINATION? -->
+                    @{
+                        var counter = 0;
+                    }
                     @foreach (var enc in Model.Encounter.OrderByDescending(e => e.AdmitDateTime))
                     {
-                        <tr>
+                        <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                             <td>
                                 <a asp-controller="Encounter"
                                    asp-action="ViewEncounter"
@@ -143,6 +145,16 @@
                             <td>@enc.AdmitDateTime.ToString("g")</td>
                             <td>@(enc.DischargeDateTime is null ? "NOT DISCHARGED" : enc.DischargeDateTime?.ToString("g"))</td>
                             <td class="d-sm-none d-md-table-cell">@enc.LastModified.ToString("g")</td>
+                        </tr>
+                    }
+                    @if (Model.Encounter.Count > 5)
+                    {
+                        <tr>
+                            <td colspan="99">
+                                <button class="btn btn-block btn-info" id="hide-row-btn">
+                                    Show More Assessments
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>

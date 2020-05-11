@@ -419,7 +419,7 @@ namespace IS_Proj_HIT.Controllers
         {
             ViewBag.WeightUnits = new List<SelectListItem>
             {
-                new SelectListItem("Kilograms", WeightUnit.Grams.ToString(), true),
+                new SelectListItem("Kilograms", WeightUnit.Kilograms.ToString(), true),
                 new SelectListItem("Grams", WeightUnit.Grams.ToString()),
                 new SelectListItem("Pounds", WeightUnit.Pounds.ToString())
             };

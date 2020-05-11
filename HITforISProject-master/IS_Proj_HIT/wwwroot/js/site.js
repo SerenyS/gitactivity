@@ -529,6 +529,37 @@
 
     });
 
+    $(".extra-row").addClass("hidden-row");
+    $("#hide-row-btn").on("click",
+        e => {
+            if (!$("#hide-row-btn").hasClass("extra-showing")) {
+                $(".extra-row").removeClass("hidden-row");
+                $("#hide-row-btn").addClass("extra-showing");
+                $("#hide-row-btn").text("Hide Extra");
+            } else {
+                $(".extra-row").addClass("hidden-row");
+                $("#hide-row-btn").removeClass("extra-showing");
+                $("#hide-row-btn").text("Show More");
+            }
+        });
+
+    //Require Secondary Assessment description only when 'abnormal'
+    let getLabelFromEvent = (e => e.target.id.substr(0, e.target.id.length - 1) + "d");
+    //Not Assessed
+    $(".cs-n").on("click",
+        e => {
+            $(`#${getLabelFromEvent(e)}`).attr("required", false).addClass("d-none");
+        });
+    //WNL
+    $(".cs-t").on("click",
+        e => {
+            $(`#${getLabelFromEvent(e)}`).attr("required", false).addClass("d-none");
+        });
+    //Abnormal
+    $(".cs-f").on("click",
+        e => {
+            $(`#${getLabelFromEvent(e)}`).attr("required", true).removeClass("d-none");
+        });
 
 });
 
@@ -662,7 +693,8 @@ function Validation() {
             $('label[for= "Respiratory1536"]').addClass('btn btn-outline-danger w-90 mb-0');
 
 
-        } 
+        }
+
 
     });
    

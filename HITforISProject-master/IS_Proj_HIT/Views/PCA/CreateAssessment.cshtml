@@ -314,52 +314,52 @@
                                  id="careSystem-@(careSystem.CareSystemTypeId)" role="tabpanel">
                                 @foreach (var careParam in careSystem.CareSystemParameters)
                                 {
-                                    <div class="form-group row">
-                                        <div class="col-sm-12 col-lg-12">
-                                            <button class="btn btn-primary m-r" type="button"
-                                                    data-toggle="tooltip" data-placement="right" title="@careParam.NormalLimitsDescription">
-                                                <i class="fas fa-info"></i>
-                                            </button>
-                                            <label class="form-label">@careParam.Name</label>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-na"
-                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
-                                                   value=""
-                                                   type="radio" checked>
-                                            <label class="btn btn-outline-primary w-90 mb-0"
-                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-na">
-                                                Not Assessed
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-f"
-                                                   type="radio"
-                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
-                                                   value="true">
-                                            <label class="btn btn-outline-primary w-90 mb-0"
-                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-f">
-                                                Within Normal Limits
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
-                                                   type="radio"
-                                                   asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
-                                                   value="false">
-                                            <label class="btn btn-outline-primary w-90 mb-0"
-                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-t">
-                                                Abnormal
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-12 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
-                                                   class="form-control"
-                                                   type="text"
-                                                   asp-for="Assessments[careParam.CareSystemParameterId].Comment"
-                                                   placeholder="Describe">
-                                        </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <button class="btn btn-primary m-r" type="button"
+                                                data-toggle="tooltip" data-placement="right" title="@careParam.NormalLimitsDescription">
+                                            <i class="fas fa-info"></i>
+                                        </button>
+                                        <label class="form-label">@careParam.Name</label>
                                     </div>
+                                    <div class="col-sm-12 col-lg-4 mb-1">
+                                        <input id="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-na" class="cs-n"
+                                               asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                               value=""
+                                               type="radio" checked>
+                                        <label class="btn btn-outline-primary w-90 mb-0"
+                                               for="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-na">
+                                            Not Assessed
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4 mb-1">
+                                        <input id="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-f" class="cs-t"
+                                               type="radio"
+                                               asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                               value="true">
+                                        <label class="btn btn-outline-primary w-90 mb-0"
+                                               for="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-f">
+                                            Within Normal Limits
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-4 mb-1">
+                                        <input id="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-t" class="cs-f"
+                                               type="radio"
+                                               asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
+                                               value="false">
+                                        <label class="btn btn-outline-primary w-90 mb-0"
+                                               for="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-t">
+                                            Abnormal
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-12 mb-1">
+                                        <input id="@(careSystem.CareSystemTypeId + careParam.CareSystemParameterId)-d"
+                                               class="form-control d-none"
+                                               type="text"
+                                               asp-for="Assessments[careParam.CareSystemParameterId].Comment"
+                                               placeholder="Please document a description of the abnormal assessment">
+                                    </div>
+                                </div>
                                     @if (careParam != careSystem.CareSystemParameters.LastOrDefault())
                                     {
                                         <hr />
@@ -386,6 +386,9 @@
         </li>
     </ul>
     <button class="btn btn-primary btn-block" onclick="setFormSubmit()" type="submit">Save & Close Assessment</button>
+    <h3 id="validation-failed-message" class="text-center font-weight-bold text-danger border border-danger mt-3 py-2 d-none">
+        Save Failed: Review and resolve errors to continue.
+    </h3>
 </form>
 <hr />
 
@@ -398,15 +401,19 @@
 
 <script>
     var formSubmit = false;
-    var setFormSubmit = function () { Validation(); formSubmit = true; };
+    var setFormSubmit = function() {
+        Validation();
+        formSubmit = true;
+    };
 
-    window.onload = function () {
-        window.addEventListener("beforeunload", function (e) {
-            if (formSubmit) {
-                return undefined;
-            }
-            var message = "If you leave before saving, your changes will be lost.";
-            e.returnValue = message;
-        });
+    window.onload = function() {
+        window.addEventListener("beforeunload",
+            function(e) {
+                if (formSubmit) {
+                    return undefined;
+                }
+                var message = "If you leave before saving, your changes will be lost.";
+                e.returnValue = message;
+            });
     };
 </script>

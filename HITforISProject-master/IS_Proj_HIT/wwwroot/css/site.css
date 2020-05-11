@@ -333,3 +333,7 @@ body {
 .w-90 {
     width: 90% !important;
 }
+
+.hidden-row {
+    display: none;
+}
