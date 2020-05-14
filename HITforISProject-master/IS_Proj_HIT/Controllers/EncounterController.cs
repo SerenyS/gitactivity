@@ -40,6 +40,8 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult ViewEncounter(long encounterId)
         {
+            ViewData["ErrorMessage"] = "";
+
             var encounter = _repository.Encounters
                 .Include(e => e.Facility)
                 .Include(e => e.Department)
@@ -79,6 +81,31 @@ namespace IS_Proj_HIT.Controllers
         // Deletes Encounter
         public IActionResult DeleteEncounter(long encounterId)
         {
+            // Check for any PCAs created for this encounter
+            bool usingExists = _repository.PcaRecords.Any(p => p.EncounterId == encounterId);
+            if (usingExists)
+            {
+                Console.WriteLine("PCA records exist using this record.");
+                ViewData["ErrorMessage"] = "PCA records exist using this record. Delete not available.";
+                var model = _repository.Encounters
+                    .Where(e => e.DischargeDateTime == null)
+                    .OrderByDescending(e => e.AdmitDateTime)
+                    .Join(_repository.Patients,
+                        e => e.Mrn,
+                        p => p.Mrn,
+                        (e, p) =>
+                            new EncounterPatientViewModel(e.Mrn,
+                                e.EncounterId,
+                                e.AdmitDateTime,
+                                p.FirstName,
+                                p.LastName,
+                                e.Facility.Name,
+                                e.DischargeDateTime.ToString(),
+                                e.RoomNumber));
+
+                return View("../Encounter/CheckedIn", model);
+            }
+
             var encounter = _repository.Encounters.FirstOrDefault(b => b.EncounterId == encounterId);
             _repository.DeleteEncounter(encounter);
             return RedirectToAction("CheckedIn");

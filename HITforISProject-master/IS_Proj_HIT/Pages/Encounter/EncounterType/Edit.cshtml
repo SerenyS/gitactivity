@@ -1,0 +1,40 @@
+﻿@page
+@model IS_Proj_HIT.EditModelEncounterType
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>EncounterType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EncounterType.EncounterTypeId" />
+            <div class="form-group">
+                <label asp-for="EncounterType.Name" class="control-label"></label>
+                <input asp-for="EncounterType.Name" class="form-control" maxlength="50" />
+                <span asp-validation-for="EncounterType.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EncounterType.LastModified" class="control-label"></label>
+                <input asp-for="EncounterType.LastModified" class="form-control" readonly />
+                <span asp-validation-for="EncounterType.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

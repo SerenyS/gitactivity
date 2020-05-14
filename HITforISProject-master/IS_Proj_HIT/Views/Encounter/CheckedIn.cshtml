@@ -9,6 +9,8 @@
         <h3>Checked In Patient Encounters</h3>
     </div>
 </div>
+<h3 class="error">@ViewData["ErrorMessage"]</h3>
+
 <div class="row">
     <div class="col-12">
         <table class="table">
@@ -61,7 +63,7 @@
     </div>
 </div>
 
-<hr/>
+<hr />
 <a asp-controller="Patient"
    asp-action="PatientSearch"
    class="btn btn-outline-primary">

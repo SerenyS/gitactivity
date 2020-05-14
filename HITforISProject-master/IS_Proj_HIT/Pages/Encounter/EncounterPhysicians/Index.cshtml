@@ -1,0 +1,55 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelEncounterPhysicians
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+    <a class="btn btn-primary" asp-controller="Administration" asp-action="EncounterDataEntry">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+    Index
+</h1>
+
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EncounterPhysicians[0].LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EncounterPhysicians[0].Physician)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EncounterPhysicians[0].PhysicianRole)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EncounterPhysicians)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Physician.FirstName) @Html.DisplayFor(modelItem => item.Physician.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhysicianRole.Name)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.EncounterPhysiciansId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.EncounterPhysiciansId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.EncounterPhysiciansId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

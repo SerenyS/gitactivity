@@ -2,14 +2,14 @@
 @using IS_Proj_HIT.Services
 
 @{
-    ViewBag.Title = "PCA Data Entry";
+    ViewBag.Title = "Physician Data Entry";
 }
 
 <h1>
     <a asp-action="Index" class="btn btn-primary">
         <i class="fa fa-arrow-left "></i>
     </a>
-    PCA Data Entry Management
+    Physician Data Entry Management
 </h1>
 
 <div class="container">
@@ -19,7 +19,7 @@
             <div class="col-sm-4 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-body text-center">
-                        <a class="btn btn-outline-primary" asp-page="/PCA/@entityName/Index">@ConversionService.ConvertTableName(@entityName)</a>
+                        <a class="btn btn-outline-primary" asp-page="/Physician/@entityName/Index">@ConversionService.ConvertTableName(@entityName)</a>
                     </div>
                 </div>
             </div>

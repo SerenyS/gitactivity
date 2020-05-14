@@ -1,0 +1,61 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelPointOfOrigin
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+    <a class="btn btn-primary" asp-controller="Administration" asp-action="EncounterDataEntry">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+    Index
+</h1>
+
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PointOfOrigin[0].WiPopCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointOfOrigin[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointOfOrigin[0].Explaination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointOfOrigin[0].LastModified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PointOfOrigin)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WiPopCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Explaination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.PointOfOriginId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.PointOfOriginId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.PointOfOriginId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

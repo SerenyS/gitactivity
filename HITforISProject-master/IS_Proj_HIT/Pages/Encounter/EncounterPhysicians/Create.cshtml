@@ -1,0 +1,37 @@
+﻿@page
+@model IS_Proj_HIT.CreateModelEncounterPhysicians
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>EncounterPhysicians</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EncounterPhysicians.PhysicianId" class="control-label"></label>
+                <select asp-for="EncounterPhysicians.PhysicianId" class ="form-control" asp-items="ViewBag.PhysicianId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="EncounterPhysicians.PhysicianRoleId" class="control-label"></label>
+                <select asp-for="EncounterPhysicians.PhysicianRoleId" class ="form-control" asp-items="ViewBag.PhysicianRoleId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

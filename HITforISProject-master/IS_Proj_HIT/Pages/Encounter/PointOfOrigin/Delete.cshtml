@@ -1,0 +1,48 @@
+﻿@page
+@model IS_Proj_HIT.DeleteModelPointOfOrigin
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>@ViewData["RegularMessage"]</h3>
+<h3 class="error">@ViewData["ErrorMessage"]</h3>
+
+<div>
+    <h4>PointOfOrigin</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PointOfOrigin.WiPopCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PointOfOrigin.WiPopCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PointOfOrigin.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PointOfOrigin.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PointOfOrigin.Explaination)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PointOfOrigin.Explaination)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PointOfOrigin.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PointOfOrigin.LastModified)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="PointOfOrigin.PointOfOriginId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

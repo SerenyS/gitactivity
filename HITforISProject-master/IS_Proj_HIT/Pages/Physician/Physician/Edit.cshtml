@@ -1,0 +1,85 @@
+﻿@page
+@model IS_Proj_HIT.EditModelPhysician
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Physician</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Physician.PhysicianId" />
+            <div class="form-group">
+                <label asp-for="Physician.FirstName" class="control-label"></label>
+                <input asp-for="Physician.FirstName" class="form-control" maxlength="100" />
+                <span asp-validation-for="Physician.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.LastName" class="control-label"></label>
+                <input asp-for="Physician.LastName" class="form-control" maxlength="100" />
+                <span asp-validation-for="Physician.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.Credentials" class="control-label"></label>
+                <input asp-for="Physician.Credentials" class="form-control" maxlength="100" />
+                <span asp-validation-for="Physician.Credentials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.License" class="control-label"></label>
+                <input asp-for="Physician.License" class="form-control" maxlength="50" />
+                <span asp-validation-for="Physician.License" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.AddressId" class="control-label"></label>
+                <select asp-for="Physician.AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                <span asp-validation-for="Physician.AddressId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.PhoneNumber" class="control-label"></label>
+                <input asp-for="Physician.PhoneNumber" class="form-control" maxlength="20" />
+                <span asp-validation-for="Physician.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.EmailAddress" class="control-label"></label>
+                <input asp-for="Physician.EmailAddress" class="form-control" maxlength="50" />
+                <span asp-validation-for="Physician.EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.SpecialtyId" class="control-label"></label>
+                <select asp-for="Physician.SpecialtyId" class="form-control" asp-items="ViewBag.SpecialtyId"></select>
+                <span asp-validation-for="Physician.SpecialtyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.ProviderTypeId" class="control-label"></label>
+                <select asp-for="Physician.ProviderTypeId" class="form-control" asp-items="ViewBag.ProviderTypeId"></select>
+                <span asp-validation-for="Physician.ProviderTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.ProviderStatus" class="control-label"></label>
+                <input asp-for="Physician.ProviderStatus" class="form-control" />
+                <span asp-validation-for="Physician.ProviderStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Physician.LastModified" class="control-label"></label>
+                <input asp-for="Physician.LastModified" class="form-control" readonly />
+                <span asp-validation-for="Physician.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,61 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelDischarge
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+    <a class="btn btn-primary" asp-controller="Administration" asp-action="EncounterDataEntry">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+    Index
+</h1>
+
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Discharge[0].WiPopCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discharge[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discharge[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discharge[0].LastModified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Discharge)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WiPopCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.DischargeId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.DischargeId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.DischargeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
