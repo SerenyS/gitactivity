@@ -544,22 +544,27 @@
         });
 
     //Require Secondary Assessment description only when 'abnormal'
-    let getLabelFromEvent = (e => e.target.id.substr(0, e.target.id.length - 1) + "d");
     //Not Assessed
-    $(".cs-n").on("click",
-        e => {
-            $(`#${getLabelFromEvent(e)}`).attr("required", false).addClass("d-none");
-        });
+    $(".cs-n").on("click", e => toggleRequired(getDescriptionIdFromInputId(e.target.id), false));
     //WNL
-    $(".cs-t").on("click",
-        e => {
-            $(`#${getLabelFromEvent(e)}`).attr("required", false).addClass("d-none");
-        });
+    $(".cs-t").on("click", e => toggleRequired(getDescriptionIdFromInputId(e.target.id), false));
     //Abnormal
-    $(".cs-f").on("click",
-        e => {
-            $(`#${getLabelFromEvent(e)}`).attr("required", true).removeClass("d-none");
-        });
+    $(".cs-f").on("click", e => toggleRequired(getDescriptionIdFromInputId(e.target.id), true));
+    $(() => {
+        for (let ab = 0; ab < $(".cs-f").length; ab++) {
+            if ($(".cs-f")[ab].checked)
+                toggleRequired(getDescriptionIdFromInputId($(".cs-f")[ab].id), true);
+        }
+    });
+
+    function getDescriptionIdFromInputId(i) { return i.substr(0, i.length - 1) + "d"; }
+    function toggleRequired(tag, isRequired)
+    {
+        if(isRequired)
+            $(`#${tag}`).attr("required", true).removeClass("d-none");
+        else
+            $(`#${tag}`).attr("required", false).addClass("d-none");
+    } 
 
 });
 

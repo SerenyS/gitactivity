@@ -304,17 +304,17 @@
                                         </div>
 
                                         <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-na"
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-n" class="cs-n"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
                                                    value=""
                                                    type="radio" checked>
                                             <label class="btn btn-outline-primary w-90 mb-0"
-                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-na">
+                                                   for="@(careSystem.Name + careParam.CareSystemParameterId)-n">
                                                 Not Assessed
                                             </label>
                                         </div>
                                         <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-f"
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-f" class="cs-t"
                                                    type="radio"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
                                                    value="true">
@@ -324,7 +324,7 @@
                                             </label>
                                         </div>
                                         <div class="col-sm-12 col-lg-4 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t" class="cs-f"
                                                    type="radio"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].IsWithinNormalLimits"
                                                    value="false">
@@ -334,8 +334,8 @@
                                             </label>
                                         </div>
                                         <div class="col-sm-12 col-lg-12 mb-1">
-                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-t"
-                                                   class="form-control"
+                                            <input id="@(careSystem.Name + careParam.CareSystemParameterId)-d"
+                                                   class="form-control d-none"
                                                    type="text"
                                                    asp-for="Assessments[careParam.CareSystemParameterId].Comment"
                                                    placeholder="Describe">
