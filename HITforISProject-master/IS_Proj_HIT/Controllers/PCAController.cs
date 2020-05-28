@@ -54,7 +54,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         /// <summary>
-        /// todo: Expand this to display the form to enter a PCA, parameters tenative
+        /// Display the form to enter a PCA
         /// </summary>
         /// <param name="encounterId">Id of unique encounter</param>
         /// <param name="patientMrn">Unique Identifier of patient</param>
@@ -75,6 +75,11 @@ namespace IS_Proj_HIT.Controllers
             return View(newFormPca);
         }
 
+        /// <summary>
+        /// Post form of Create PCA. Check for errors. Trigger SaveAssessment if none.
+        /// </summary>
+        /// <param name="formPca">view model for PCA</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateAssessment(AssessmentFormPageModel formPca)
@@ -95,7 +100,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         /// <summary>
-        /// todo: Expand this method to display the form to update an existing PCA, parameters are tenative
+        /// Display the form to update an existing PCA
         /// </summary>
         /// <param name = "assessmentId" > PCA Id for Db Lookup</param>
         ///  <param name = "patientMrn" > Unique Identifier of patient</param>
@@ -129,7 +134,7 @@ namespace IS_Proj_HIT.Controllers
             string painsNotes = Convert.ToString(painID);
 
 
-            var patient = _repository.Patients.FirstOrDefault(p => p.Mrn == patientMRN);
+            var patient = _repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(p => p.Mrn == patientMRN);
                 var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
                 var patientAlerts = _repository.PatientAlerts.Where(b => b.Mrn == patientMRN).Count();
 
@@ -171,9 +176,6 @@ namespace IS_Proj_HIT.Controllers
             }
 
 
-
-       
-
             var secondarySystems = _repository.CareSystemAssessmentTypes
                 .Include(cs => cs.CareSystemParameters)
                 .ToList();
@@ -181,9 +183,7 @@ namespace IS_Proj_HIT.Controllers
 
             var sysAssessments = new Dictionary<int, CareSystemAssessment>();
             
-
             var csaID = assessment.CareSystemAssessment.FirstOrDefault();
-
 
 
             foreach (var ss in secondarySystems)
@@ -210,8 +210,6 @@ namespace IS_Proj_HIT.Controllers
                 }
             }
 
-         
-
 
             ViewBag.Encounter = encounter;
             ViewBag.Patient = patient;
@@ -230,7 +228,11 @@ namespace IS_Proj_HIT.Controllers
             return View(updatePCA);
         }
 
-
+        /// <summary>
+        /// Post form for updating existing PCA. Check for errors. Trigger SaveAssessment if none.
+        /// </summary>
+        /// <param name="formPca">view model for PCA</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
           public IActionResult UpdateAssessment(AssessmentFormPageModel formPca)
@@ -247,7 +249,12 @@ namespace IS_Proj_HIT.Controllers
 
           }
          
-
+        /// <summary>
+        /// Save the information added or updated in the PCA form. 
+        /// Convert necessary units. Update date modified as needed.
+        /// </summary>
+        /// <param name="formPca">view model for PCA</param>
+        /// <returns></returns>
         private IActionResult SaveAssessment(AssessmentFormPageModel formPca)
         {
             var pca = formPca.PcaRecord;
@@ -448,6 +455,14 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ViewAssessment",
                 new { assessmentId = formPca.PcaRecord.PcaId });
         }
+       
+
+        /// <summary>
+        /// Preprocessing to the PCA view model to load tooltips, units, and routes dropdowns.
+        /// Also load pain scale tab and secondary systems/systems review tab.
+        /// </summary>
+        /// <param name="formPca"></param>
+        /// <returns></returns>
         private AssessmentFormPageModel PrepareAssessmentFormPageModel(AssessmentFormPageModel formPca = null)
         {
             if (formPca is null)
@@ -487,6 +502,10 @@ namespace IS_Proj_HIT.Controllers
             return formPca;
         }
 
+
+        /// <summary>
+        /// Populate the informational messages 
+        /// </summary>
         private void AddTooltips()
         {
             ViewBag.TempWnl = "WNL: 97°F or higher AND  no higher than 101°F";
@@ -512,6 +531,10 @@ namespace IS_Proj_HIT.Controllers
                 "•	Ask the person to choose the face that best depicts the pain they are experiencing.";
         }
 
+
+        /// <summary>
+        /// Populate the units dropdowns
+        /// </summary>
         private void AddUnits()
         {
             ViewBag.WeightUnits = new List<SelectListItem>
@@ -534,6 +557,10 @@ namespace IS_Proj_HIT.Controllers
             };
         }
 
+
+        /// <summary>
+        /// Populate the routes dropdowns
+        /// </summary>
         private void AddRoutes()
         {
             ViewBag.TempRoutes = new List<SelectListItem>(
