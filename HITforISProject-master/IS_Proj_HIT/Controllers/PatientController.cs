@@ -120,7 +120,7 @@ namespace IS_Proj_HIT.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddPatient(Patient model)
         {
-            //ViewBag.LastModified = DateTime.Today.AddYears(-1);
+            model.LastModified = @DateTime.Now;
             if (ModelState.IsValid)
             {
                 if (repository.Patients.Any(p => p.Mrn == model.Mrn))
@@ -129,7 +129,7 @@ namespace IS_Proj_HIT.Controllers
                 }
                 else
                 {
-                    model.LastModified = @DateTime.Now;
+                    
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
                     string myUrl = "Details/" + model.Mrn;

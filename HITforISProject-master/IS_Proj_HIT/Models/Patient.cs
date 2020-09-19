@@ -22,7 +22,7 @@ namespace IS_Proj_HIT.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string MaidenName { get; set; }
-        public short? ReligionId { get; set; }
+        public short ReligionId { get; set; }
         public string AliasFirstName { get; set; }
         public string AliasMiddleName { get; set; }
         public string AliasLastName { get; set; }
@@ -37,7 +37,7 @@ namespace IS_Proj_HIT.Models
         public byte MaritalStatusId { get; set; }
         public byte EthnicityId { get; set; }
         public int? EmploymentId { get; set; }
-        public DateTime LastModified { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public virtual Employment Employment { get; set; }
         public virtual Ethnicity Ethnicity { get; set; }
