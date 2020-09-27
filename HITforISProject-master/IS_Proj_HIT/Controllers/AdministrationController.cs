@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace IS_Proj_HIT.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;

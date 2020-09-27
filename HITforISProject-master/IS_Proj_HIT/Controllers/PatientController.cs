@@ -89,6 +89,7 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
