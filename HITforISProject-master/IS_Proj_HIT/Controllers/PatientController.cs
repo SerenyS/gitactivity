@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace IS_Proj_HIT.Controllers
 {
+
     public class PatientController : Controller
     {
         private IWCTCHealthSystemRepository repository;
@@ -100,6 +101,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 var data = context.Patient.FromSql("EXECUTE dbo.GetNextMRN");
                 ViewBag.MRN = data.FirstOrDefault()?.Mrn;
+              
             }
 
             AddDropdowns();
@@ -129,8 +131,7 @@ namespace IS_Proj_HIT.Controllers
                     ModelState.AddModelError("", "MRN Id must be unique");
                 }
                 else
-                {
-                    
+                { 
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
                     string myUrl = "Details/" + model.Mrn;
@@ -680,6 +681,12 @@ namespace IS_Proj_HIT.Controllers
                 .Select(r => new {r.MaritalStatusId, r.Name})
                 .ToList();
             ViewBag.MaritalStatus = new SelectList(queryMaritalStatus, "MaritalStatusId", "Name", 0);
+
+            var queryLanguages = repository.Languages
+                .OrderBy(r => r.Name)
+                .Select(r => new { r.LanguageId, r.Name })
+                .ToList();
+            ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
         }
     }
 }
