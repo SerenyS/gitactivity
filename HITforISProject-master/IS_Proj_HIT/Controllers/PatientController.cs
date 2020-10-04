@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -92,6 +93,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddPatient()
         {
             //Run stored procedure from SQL database to generate the MRN number
@@ -118,6 +120,7 @@ namespace IS_Proj_HIT.Controllers
         // Click Create button on Add Patient page adds new patient from Add Patient page
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddPatient(Patient model)
         {
             model.LastModified = @DateTime.Now;
@@ -635,7 +638,7 @@ namespace IS_Proj_HIT.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateAlert(PatientAlerts model, int id)
         {
-            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE.
+            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE. !!!!!!!!!!!!!
             Console.WriteLine("Trying to save(PatientController)");
             if (!ModelState.IsValid) return RedirectToAction("ListAlerts", new {id = model.Mrn});
 

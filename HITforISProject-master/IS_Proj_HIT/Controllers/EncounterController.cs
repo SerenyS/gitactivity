@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT.Controllers
 {
+
+    [Authorize]
     public class EncounterController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -67,7 +70,7 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddEncounter(string id)
         {
             ViewBag.Patient = _repository.Patients
@@ -79,6 +82,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Encounter
+        [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEncounter(long encounterId)
         {
             // Check for any PCAs created for this encounter
@@ -112,6 +116,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Encounter page
+        [Authorize(Roles = "Administrator, NursingStudent, Nursing Faculty")]
         public IActionResult EditEncounter(long encounterId)
         {
             var encounter = _repository.Encounters
@@ -127,6 +132,7 @@ namespace IS_Proj_HIT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddEncounter(Encounter model)
         {
             if (_repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
@@ -154,6 +160,7 @@ namespace IS_Proj_HIT.Controllers
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult EditEncounter(Encounter model)
         {
             if (!ModelState.IsValid)
