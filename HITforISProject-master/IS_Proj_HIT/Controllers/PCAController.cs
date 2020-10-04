@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -58,6 +59,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="encounterId">Id of unique encounter</param>
         /// <param name="patientMrn">Unique Identifier of patient</param>
+        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
         public IActionResult CreateAssessment(long encounterId, string mrn)
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);

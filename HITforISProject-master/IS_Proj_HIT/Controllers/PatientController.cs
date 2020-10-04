@@ -145,6 +145,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Patient
+        [Authorize(Roles = "Administrator")]
         public IActionResult DeletePatient(string id)
         {
             ViewBag.PatientAlertExists = repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id);
@@ -173,6 +174,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
+        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
         public IActionResult Edit(string id)
         {
             var model = repository.Patients
@@ -187,6 +189,7 @@ namespace IS_Proj_HIT.Controllers
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
         public IActionResult Edit(Patient model)
         {
             if (!ModelState.IsValid) return View(model.Mrn);
