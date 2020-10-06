@@ -16,10 +16,7 @@ using System.Threading.Tasks;
 
 namespace IS_Proj_HIT.Controllers
 {
-<<<<<<< HEAD
-=======
-    [Authorize]
->>>>>>> 7a2f4b7ed91cd9af03467303897fdef7b4ed7698
+
     [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
