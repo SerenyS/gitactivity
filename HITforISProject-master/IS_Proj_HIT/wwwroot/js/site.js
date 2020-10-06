@@ -30,7 +30,8 @@
 
     $.validator.setDefaults({ ignore: ":hidden:not(select)" })
     //$.validator.setDefaults({ ignore: ":hidden:not(.chosen-select)" })
-
+    
+    // ADD PATIENT
     $("form[name='patient']").validate({
         // Specify validation rules
         rules: {
