@@ -60,6 +60,7 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRole;
         public IQueryable<UserTable> UserTables => _context.UserTable;
         public IQueryable<Language> Languages => _context.Language;
+        public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguage;
 
 
 

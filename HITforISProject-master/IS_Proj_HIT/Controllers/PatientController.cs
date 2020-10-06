@@ -2,6 +2,7 @@
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.ViewModels;
 using IS_Proj_HIT.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +105,9 @@ namespace IS_Proj_HIT.Controllers
               
             }
 
+            
+           
+
             AddDropdowns();
 
             //TODO: ADD EMPLOYMENT ENTRY TO THE CREATE/EDIT PATIENT FLOW
@@ -131,7 +135,24 @@ namespace IS_Proj_HIT.Controllers
                     ModelState.AddModelError("", "MRN Id must be unique");
                 }
                 else
-                { 
+                {
+                    var languages = Request.Form["language"];
+                    var languageId = short.Parse(languages[0]);
+                    var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+
+                    if (query.Any() && query != null)
+                    {
+                        model.PatientLanguage.Add(
+                         new PatientLanguage
+                         {
+                             LanguageId = query[0].LanguageId,
+                             Mrn = model.Mrn,
+                             IsPrimary = 1,
+                             LastModified = DateTime.Now
+
+                         });
+                    }
+                    
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
                     string myUrl = "Details/" + model.Mrn;
@@ -191,6 +212,32 @@ namespace IS_Proj_HIT.Controllers
             if (!ModelState.IsValid) return View(model.Mrn);
 
             model.LastModified = DateTime.Now;
+
+            //if(model.PatientLanguage.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
+            //{
+            //    var languageToChange = model.PatientLanguage.Where(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
+            //    foreach(var l in languageToChange)
+            //    {
+            //        l.IsPrimary = 0;
+            //    }
+            //}
+            //var languages = Request.Form["language"];
+            //var languageId = short.Parse(languages[0]);
+            //var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+
+            //if (query.Any() && query != null)
+            //{
+                
+            //    model.PatientLanguage.Add(
+            //     new PatientLanguage
+            //     {
+            //         LanguageId = query[0].LanguageId,
+            //         Mrn = model.Mrn,
+            //         IsPrimary = 1,
+            //         LastModified = DateTime.Now
+
+            //     });
+            //}
             repository.EditPatient(model);
             return RedirectToAction("Details", new {id = model.Mrn});
         }
@@ -207,6 +254,27 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Ethnicity)
                 .Include(p => p.Encounter).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
+
+            var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
+                .Join(repository.Languages, pl => pl.LanguageId, lang => lang.LanguageId, (pl, lang)
+                => new
+                {
+                    lang.Name,
+                    pl.IsPrimary
+
+                }).ToList();
+
+            if (primaryLanguageQuery.Any() && primaryLanguageQuery!= null)
+            {
+               foreach(var l in primaryLanguageQuery)
+                {
+                    if (l.IsPrimary == 1)
+                    {
+                        ViewBag.PrimaryLanguage = l.Name.ToString();
+                    }
+                }
+                
+            }
 
             return View(model);
         }
@@ -688,5 +756,6 @@ namespace IS_Proj_HIT.Controllers
                 .ToList();
             ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
         }
+
     }
 }
