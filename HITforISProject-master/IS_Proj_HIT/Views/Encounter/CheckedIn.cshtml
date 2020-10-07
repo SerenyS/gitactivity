@@ -44,8 +44,7 @@
                                class="btn btn-outline-primary">
                                 View
                             </a>
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                           
                                 @if (User.IsInRole("Administrator"))
                                 {
                                     <a asp-action="DeleteEncounter"
@@ -54,7 +53,7 @@
                                         Delete
                                     </a>
                                 }
-                            }
+                            
                         </td>
                     </tr>
                 }

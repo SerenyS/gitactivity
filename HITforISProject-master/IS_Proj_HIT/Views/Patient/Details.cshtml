@@ -3,6 +3,9 @@
     ViewData["Title"] = "Patient Details";
 }
 
+
+
+
 <partial name="PatientBannerPartial" model="Model" />
 <div class="card">
     <div class="card-header bg-primary text-white">
@@ -41,17 +44,30 @@
             </div>
             <hr />
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
                     <label>Maiden Name: </label>
                     <span class="font-weight-bold">@(Model.MaidenName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
                     <label>Mother's Maiden Name: </label>
                     <span class="font-weight-bold">@(Model.MothersMaidenName ?? "N/A")</span>
                 </div>
+                <div class="col-sm-12 col-md-4">
+                    <label>SSN: </label>
+                    <span class="font-weight-bold"> <span id="Ssn">@Model.Ssn</span> </span>
+                </div>
             </div>
             <hr />
+  
             <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <label>Primary Language: </label>
+                    <span class="font-weight-bold">
+                        @ViewBag.PrimaryLanguage
+                    </span>
+                </div>
+
+
                 <div class="col-sm-6 col-md-4">
                     <label>Interpreter Needed: </label>
                     <span class="font-weight-bold">@(Model.InterpreterNeeded ? "Yes" : "No")</span>
@@ -59,10 +75,6 @@
                 <div class="col-sm-6 col-md-4">
                     <label>Deceased: </label>
                     <span class="font-weight-bold">@(Model.DeceasedLiving ? "Yes" : "No")</span>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <label>SSN: </label>
-                    <span class="font-weight-bold"> <span id="Ssn">@Model.Ssn</span> </span>
                 </div>
             </div>
             <hr />
@@ -184,9 +196,7 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script>
-
-    // Calc age in div in Details page
+<script>// Calc age in div in Details page
     $(function () {
         var dob = $('.dob').html();
         var dob1 = $('.dob').val();
@@ -212,5 +222,4 @@
         }
 
         $('#formatSsnAndSubmitForm').hide();
-    });
-</script>
+    });</script>
