@@ -109,10 +109,12 @@ else
         </tbody>
     </table>
 }
-
-<a asp-action="CreateAlert" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
-    <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert
-</a>
+@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
+{
+    <a asp-action="CreateAlert" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
+        <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert
+    </a>
+}
 <a asp-controller="Patient" asp-action="BackToCaller" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Return
 </a>

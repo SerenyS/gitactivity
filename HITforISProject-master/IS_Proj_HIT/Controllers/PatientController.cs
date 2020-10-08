@@ -454,6 +454,7 @@ namespace IS_Proj_HIT.Controllers
             });
 
         // Load page for adding patient alerts
+        [Authorize(Roles = "Administrator, Nursing Faculty, Nursing Student")]
         public IActionResult CreateAlert(string id, string returnUrl)
         {
             ViewBag.myMrn = id;

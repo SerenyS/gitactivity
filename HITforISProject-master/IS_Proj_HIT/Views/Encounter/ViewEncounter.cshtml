@@ -5,7 +5,7 @@
     <div class="card-header bg-primary text-white">
         <h4>
             Encounter Information
-            @*Don't show button for nursing faculty or below'*@
+            @*Don't show button for nursing student or below'*@
             @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty"))
             {
                 <a asp-action="EditEncounter"
