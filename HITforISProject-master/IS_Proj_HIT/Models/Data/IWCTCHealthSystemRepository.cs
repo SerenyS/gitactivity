@@ -54,6 +54,8 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<Reaction> Reactions { get; }
         IQueryable<PatientAllergy> PatientAllergy { get; }
         IQueryable<UserTable> UserTables { get; }
+        IQueryable<Language> Languages { get; }
+        IQueryable<PatientLanguage> PatientLanguages { get; }
 
         #endregion
 

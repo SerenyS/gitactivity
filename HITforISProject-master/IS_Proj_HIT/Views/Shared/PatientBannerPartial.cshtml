@@ -23,7 +23,10 @@
                     <span class="heading">DOB: </span> @Model.Dob.ToShortDateString()
                 </div>
                 <div class="col-sm-3 col-lg-2 my-auto">
-                    <span class="heading">Age: </span> @ConversionService.ConvertDobToCurrentAge(Model.Dob)
+                    @if (Model.DeceasedLiving == false)
+                    {<span class="heading">Age: </span> @ConversionService.ConvertDobToCurrentAge(Model.Dob)}
+                else {<span class="heading" style="font-size: x-large;">Deceased</span>}
+
                 </div>
                 <div class="col-sm-3 col-lg-1 my-auto">
                     @if (Model.PatientAlerts != null)

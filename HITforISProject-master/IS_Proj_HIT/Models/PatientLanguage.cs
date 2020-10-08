@@ -7,7 +7,7 @@ namespace IS_Proj_HIT.Models
     {
         public short LanguageId { get; set; }
         public string Mrn { get; set; }
-        public byte LanguagePreference { get; set; }
+        public Byte IsPrimary { get; set; }
         public DateTime LastModified { get; set; }
 
         public virtual Language Language { get; set; }

@@ -8,15 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;      
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-
 namespace IS_Proj_HIT.Controllers
 {
-
+    [Authorize]
     [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {

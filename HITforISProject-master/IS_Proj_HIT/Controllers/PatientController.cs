@@ -2,15 +2,18 @@
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.ViewModels;
 using IS_Proj_HIT.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT.Controllers
 {
+
     public class PatientController : Controller
     {
         private IWCTCHealthSystemRepository repository;
@@ -89,9 +92,11 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddPatient()
         {
             //Run stored procedure from SQL database to generate the MRN number
@@ -99,7 +104,11 @@ namespace IS_Proj_HIT.Controllers
             {
                 var data = context.Patient.FromSql("EXECUTE dbo.GetNextMRN");
                 ViewBag.MRN = data.FirstOrDefault()?.Mrn;
+              
             }
+
+            
+           
 
             AddDropdowns();
 
@@ -118,6 +127,7 @@ namespace IS_Proj_HIT.Controllers
         // Click Create button on Add Patient page adds new patient from Add Patient page
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult AddPatient(Patient model)
         {
             model.LastModified = @DateTime.Now;
@@ -129,6 +139,22 @@ namespace IS_Proj_HIT.Controllers
                 }
                 else
                 {
+                    var languages = Request.Form["language"];
+                    var languageId = short.Parse(languages[0]);
+                    var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+
+                    if (query.Any() && query != null)
+                    {
+                        model.PatientLanguage.Add(
+                         new PatientLanguage
+                         {
+                             LanguageId = query[0].LanguageId,
+                             Mrn = model.Mrn,
+                             IsPrimary = 1,
+                             LastModified = DateTime.Now
+
+                         });
+                    }
                     
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
@@ -142,6 +168,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Patient
+        [Authorize(Roles = "Administrator")]
         public IActionResult DeletePatient(string id)
         {
             ViewBag.PatientAlertExists = repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id);
@@ -170,6 +197,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
+        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
         public IActionResult Edit(string id)
         {
             var model = repository.Patients
@@ -184,11 +212,38 @@ namespace IS_Proj_HIT.Controllers
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
         public IActionResult Edit(Patient model)
         {
             if (!ModelState.IsValid) return View(model.Mrn);
 
             model.LastModified = DateTime.Now;
+
+            //if(model.PatientLanguage.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
+            //{
+            //    var languageToChange = model.PatientLanguage.Where(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
+            //    foreach(var l in languageToChange)
+            //    {
+            //        l.IsPrimary = 0;
+            //    }
+            //}
+            //var languages = Request.Form["language"];
+            //var languageId = short.Parse(languages[0]);
+            //var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+
+            //if (query.Any() && query != null)
+            //{
+                
+            //    model.PatientLanguage.Add(
+            //     new PatientLanguage
+            //     {
+            //         LanguageId = query[0].LanguageId,
+            //         Mrn = model.Mrn,
+            //         IsPrimary = 1,
+            //         LastModified = DateTime.Now
+
+            //     });
+            //}
             repository.EditPatient(model);
             return RedirectToAction("Details", new {id = model.Mrn});
         }
@@ -205,6 +260,27 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Ethnicity)
                 .Include(p => p.Encounter).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
+
+            var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
+                .Join(repository.Languages, pl => pl.LanguageId, lang => lang.LanguageId, (pl, lang)
+                => new
+                {
+                    lang.Name,
+                    pl.IsPrimary
+
+                }).ToList();
+
+            if (primaryLanguageQuery.Any() && primaryLanguageQuery!= null)
+            {
+               foreach(var l in primaryLanguageQuery)
+                {
+                    if (l.IsPrimary == 1)
+                    {
+                        ViewBag.PrimaryLanguage = l.Name.ToString();
+                    }
+                }
+                
+            }
 
             return View(model);
         }
@@ -635,7 +711,7 @@ namespace IS_Proj_HIT.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateAlert(PatientAlerts model, int id)
         {
-            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE.
+            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE. !!!!!!!!!!!!!
             Console.WriteLine("Trying to save(PatientController)");
             if (!ModelState.IsValid) return RedirectToAction("ListAlerts", new {id = model.Mrn});
 
@@ -679,6 +755,13 @@ namespace IS_Proj_HIT.Controllers
                 .Select(r => new {r.MaritalStatusId, r.Name})
                 .ToList();
             ViewBag.MaritalStatus = new SelectList(queryMaritalStatus, "MaritalStatusId", "Name", 0);
+
+            var queryLanguages = repository.Languages
+                .OrderBy(r => r.Name)
+                .Select(r => new { r.LanguageId, r.Name })
+                .ToList();
+            ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
         }
+
     }
 }

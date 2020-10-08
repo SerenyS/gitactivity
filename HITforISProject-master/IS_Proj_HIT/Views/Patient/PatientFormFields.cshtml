@@ -1,4 +1,6 @@
 ﻿@model IS_Proj_HIT.Models.Patient
+
+
 <div class="container" asp-validation-summary="All"></div>
 <div class="col-sm-4" hidden>
     <label>MRN</label><br />
@@ -49,13 +51,17 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4 form-group" >
-        <label for="interp">Interpreter Needed? </label>
-        <input id="interp" asp-for="@Model.InterpreterNeeded" />
-    </div>
     <div class="col-sm-4 form-group">
-        <label for="deceased">Deceased? </label>
-        <input id="deceased" asp-for="@Model.DeceasedLiving" />
+        <label>Primary Language</label>
+        <select class="form-control dropdowns" id="language" name="language" asp-items="ViewBag.Languages"><option value="">Select Primary Language</option></select>
+
+    </div>
+
+    <div class="col-sm-4 form-group" style="margin-top: 30px;">
+        <label for="interp">
+            Interpreter Needed?
+            <input id="interp" asp-for="@Model.InterpreterNeeded" />
+        </label>
     </div>
 </div>
 <div class="row">
@@ -66,6 +72,10 @@
     <div class="col-sm-4 form-group">
         <label>DOB</label><br />
         <input type="date" asp-for="@Model.Dob" name="Dob" class="form-control dob" placeholder="Date of Birth" />
+    </div>
+    <div class="col-sm-4 form-group" style="margin-top: 30px;">
+        <label for="deceased">Deceased? </label>
+        <input id="deceased" asp-for="@Model.DeceasedLiving" />
     </div>
 </div>
 <div class="row">
