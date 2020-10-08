@@ -212,7 +212,7 @@ namespace IS_Proj_HIT.Controllers
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
+        [Authorize(Roles = "Administrator,Nursing Faculty")] // Nursing Student, ? Don't rememebr if student was supposed to be able to edit the patient.
         public IActionResult Edit(Patient model)
         {
             if (!ModelState.IsValid) return View(model.Mrn);

@@ -15,12 +15,15 @@
                     data-toggle="tooltip" data-placement="right" title="N.A. means that a value was not assessed.">
                 <i class="fas fa-info"></i>
             </button>
-            <a asp-action="Edit"
-               asp-route-id="@Model.Mrn"
-               id="editButton"
-               class="btn btn-info btn-sm float-right">
-                Edit
-            </a>
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty"))
+            {
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Mrn"
+                   id="editButton"
+                   class="btn btn-info btn-sm float-right">
+                    Edit
+                </a>
+            }
         </h4>
     </div>
     <div class="card-body bg-light">
