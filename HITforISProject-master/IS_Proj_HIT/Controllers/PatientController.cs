@@ -169,6 +169,7 @@ namespace IS_Proj_HIT.Controllers
 
         // Deletes Patient
         [Authorize(Roles = "Administrator")]
+
         public IActionResult DeletePatient(string id)
         {
             ViewBag.PatientAlertExists = repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id);
@@ -204,7 +205,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.PatientAlerts)
                 .FirstOrDefault(p => p.Mrn == id);
 
-            AddDropdowns();
+            AddDropdowns(model);
 
             return View(model);
         }
@@ -219,31 +220,28 @@ namespace IS_Proj_HIT.Controllers
 
             model.LastModified = DateTime.Now;
 
-            //if(model.PatientLanguage.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
-            //{
-            //    var languageToChange = model.PatientLanguage.Where(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
-            //    foreach(var l in languageToChange)
-            //    {
-            //        l.IsPrimary = 0;
-            //    }
-            //}
-            //var languages = Request.Form["language"];
-            //var languageId = short.Parse(languages[0]);
-            //var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+            if (repository.PatientLanguages.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
+            {
+                var languageToChange = repository.PatientLanguages.FirstOrDefault(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
+                languageToChange.IsPrimary = 0;
+            }
+            var languages = Request.Form["language"];
+            var languageId = short.Parse(languages[0]);
+            var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
 
-            //if (query.Any() && query != null)
-            //{
-                
-            //    model.PatientLanguage.Add(
-            //     new PatientLanguage
-            //     {
-            //         LanguageId = query[0].LanguageId,
-            //         Mrn = model.Mrn,
-            //         IsPrimary = 1,
-            //         LastModified = DateTime.Now
+            if (query.Any() && query != null)
+            {
 
-            //     });
-            //}
+                repository.AddPatientLanguage(
+                 new PatientLanguage
+                 {
+                     LanguageId = query[0].LanguageId,
+                     Mrn = model.Mrn,
+                     IsPrimary = 1,
+                     LastModified = DateTime.Now
+
+                 });
+            }
             repository.EditPatient(model);
             return RedirectToAction("Details", new {id = model.Mrn});
         }
@@ -725,7 +723,7 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
-        public void AddDropdowns()
+        public void AddDropdowns(Patient model = null)
         {
             var queryReligion = repository.Religions
                 .OrderBy(r => r.Name)
@@ -761,7 +759,10 @@ namespace IS_Proj_HIT.Controllers
                 .OrderBy(r => r.Name)
                 .Select(r => new { r.LanguageId, r.Name })
                 .ToList();
-            ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
+            var patientHasPrimaryLanguage = repository.PatientLanguages.Any(l => l.Mrn == model.Mrn && l.IsPrimary == 1);
+            ViewBag.Languages = patientHasPrimaryLanguage ?
+                new SelectList(queryLanguages, "LanguageId", "Name", repository.PatientLanguages.FirstOrDefault(l => l.Mrn == model.Mrn).LanguageId) :
+                new SelectList(queryLanguages, "LanguageId", "Name", 0);
         }
 
     }

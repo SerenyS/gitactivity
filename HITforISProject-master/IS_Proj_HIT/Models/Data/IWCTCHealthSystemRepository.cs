@@ -93,5 +93,7 @@ namespace IS_Proj_HIT.Models.Data
         void AddPainAssessment(PcaPainAssessment pa);
         void DeletePainAssessment(PcaPainAssessment pa);
         void EditPainAssessment(PcaPainAssessment pa);
+
+        void AddPatientLanguage(PatientLanguage language);
     }
 }

@@ -269,5 +269,11 @@ namespace IS_Proj_HIT.Models.Data
             _context.Update(pa);
             _context.SaveChanges();
         }
+
+        public void AddPatientLanguage(PatientLanguage language)
+        {
+            _context.Add(language);
+            _context.SaveChanges();
+        }
     }
 }
