@@ -56,6 +56,8 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<UserTable> UserTables { get; }
         IQueryable<Language> Languages { get; }
         IQueryable<PatientLanguage> PatientLanguages { get; }
+        IQueryable<Race> Races { get; }
+        IQueryable<PatientRace> PatientRaces { get; }
 
         #endregion
 

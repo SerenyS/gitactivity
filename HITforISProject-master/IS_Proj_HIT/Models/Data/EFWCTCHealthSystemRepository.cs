@@ -61,6 +61,8 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<UserTable> UserTables => _context.UserTable;
         public IQueryable<Language> Languages => _context.Language;
         public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguage;
+        public IQueryable<Race> Races => _context.Race;
+        public IQueryable<PatientRace> PatientRaces => _context.PatientRace;
 
 
 

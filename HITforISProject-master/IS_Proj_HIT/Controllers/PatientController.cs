@@ -763,6 +763,14 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.Languages = patientHasPrimaryLanguage ?
                 new SelectList(queryLanguages, "LanguageId", "Name", repository.PatientLanguages.FirstOrDefault(l => l.Mrn == model.Mrn).LanguageId) :
                 new SelectList(queryLanguages, "LanguageId", "Name", 0);
+
+            var queryRaces = repository.Races
+                .OrderBy(r => r.Name)
+                .Select(r => new { r.RaceId, r.Name })
+                .ToList();
+            ViewBag.Races = new SelectList(queryRaces, "RaceId", "Name", 0);
+
+
         }
 
     }
