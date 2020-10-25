@@ -277,5 +277,17 @@ namespace IS_Proj_HIT.Models.Data
             _context.Add(language);
             _context.SaveChanges();
         }
+
+        public void AddPatientRace(PatientRace race)
+        {
+            _context.Add(race);
+            _context.SaveChanges();
+        }
+
+        public void DeletePatientRace(PatientRace race)
+        {
+            _context.Remove(race);
+            _context.SaveChanges();
+        }
     }
 }
