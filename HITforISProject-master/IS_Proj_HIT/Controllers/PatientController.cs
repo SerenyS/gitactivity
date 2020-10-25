@@ -155,6 +155,22 @@ namespace IS_Proj_HIT.Controllers
 
                          });
                     }
+
+                    var races = Request.Form["race"];
+                    var raceId = short.Parse(races[0]);
+                    var selectedRace = repository.Races.FirstOrDefault(race => race.RaceId == raceId);
+                    if (selectedRace != null)
+                    {
+                        model.PatientRace.Add(
+                           new PatientRace
+                           {
+                               RaceId = selectedRace.RaceId,
+                               Mrn = model.Mrn,
+                               LastModified = DateTime.Now
+
+                           });
+                        
+                    }
                     
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
@@ -268,7 +284,7 @@ namespace IS_Proj_HIT.Controllers
 
                 }).ToList();
 
-            if (primaryLanguageQuery.Any() && primaryLanguageQuery!= null)
+            if (primaryLanguageQuery.Any() && primaryLanguageQuery != null)
             {
                foreach(var l in primaryLanguageQuery)
                 {
@@ -278,6 +294,22 @@ namespace IS_Proj_HIT.Controllers
                     }
                 }
                 
+            }
+
+            var patientRaceQuery = repository.PatientRaces.Where(r => r.Mrn == model.Mrn)
+                .Join(repository.Races, pr => pr.RaceId, race => race.RaceId, (pr, race)
+                => new
+                {
+                    race.Name
+
+                }).ToList();
+
+            if (patientRaceQuery.Any() && patientRaceQuery != null)
+            {
+                foreach(var race in patientRaceQuery)
+                {
+                    ViewBag.PatientRace = race.Name.ToString();
+                }
             }
 
             return View(model);
@@ -759,10 +791,17 @@ namespace IS_Proj_HIT.Controllers
                 .OrderBy(r => r.Name)
                 .Select(r => new { r.LanguageId, r.Name })
                 .ToList();
-            var patientHasPrimaryLanguage = repository.PatientLanguages.Any(l => l.Mrn == model.Mrn && l.IsPrimary == 1);
-            ViewBag.Languages = patientHasPrimaryLanguage ?
-                new SelectList(queryLanguages, "LanguageId", "Name", repository.PatientLanguages.FirstOrDefault(l => l.Mrn == model.Mrn).LanguageId) :
-                new SelectList(queryLanguages, "LanguageId", "Name", 0);
+            if (model != null)
+            {
+                var patientHasPrimaryLanguage = repository.PatientLanguages.Any(l => l.Mrn == model.Mrn && l.IsPrimary == 1);
+                ViewBag.Languages = patientHasPrimaryLanguage ?
+                    new SelectList(queryLanguages, "LanguageId", "Name", repository.PatientLanguages.FirstOrDefault(l => l.Mrn == model.Mrn).LanguageId) :
+                    new SelectList(queryLanguages, "LanguageId", "Name", 0);
+            }
+            else
+            {
+                ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
+            }
 
             var queryRaces = repository.Races
                 .OrderBy(r => r.Name)
