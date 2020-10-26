@@ -61,6 +61,8 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<UserTable> UserTables => _context.UserTable;
         public IQueryable<Language> Languages => _context.Language;
         public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguage;
+        public IQueryable<Race> Races => _context.Race;
+        public IQueryable<PatientRace> PatientRaces => _context.PatientRace;
 
 
 
@@ -267,6 +269,24 @@ namespace IS_Proj_HIT.Models.Data
         public void EditPainAssessment(PcaPainAssessment pa)
         {
             _context.Update(pa);
+            _context.SaveChanges();
+        }
+
+        public void AddPatientLanguage(PatientLanguage language)
+        {
+            _context.Add(language);
+            _context.SaveChanges();
+        }
+
+        public void AddPatientRace(PatientRace race)
+        {
+            _context.Add(race);
+            _context.SaveChanges();
+        }
+
+        public void DeletePatientRace(PatientRace race)
+        {
+            _context.Remove(race);
             _context.SaveChanges();
         }
     }

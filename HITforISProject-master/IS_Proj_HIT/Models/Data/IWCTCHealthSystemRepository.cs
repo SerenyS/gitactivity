@@ -56,6 +56,8 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<UserTable> UserTables { get; }
         IQueryable<Language> Languages { get; }
         IQueryable<PatientLanguage> PatientLanguages { get; }
+        IQueryable<Race> Races { get; }
+        IQueryable<PatientRace> PatientRaces { get; }
 
         #endregion
 
@@ -93,5 +95,9 @@ namespace IS_Proj_HIT.Models.Data
         void AddPainAssessment(PcaPainAssessment pa);
         void DeletePainAssessment(PcaPainAssessment pa);
         void EditPainAssessment(PcaPainAssessment pa);
+
+        void AddPatientLanguage(PatientLanguage language);
+        void AddPatientRace(PatientRace race);
+        void DeletePatientRace(PatientRace race);
     }
 }

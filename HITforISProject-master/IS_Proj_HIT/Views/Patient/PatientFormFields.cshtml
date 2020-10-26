@@ -90,14 +90,18 @@
         <select class="form-control dropdowns" asp-for="@Model.EthnicityId" asp-items="ViewBag.Ethnicity"><option value="">Select Ethnicity</option></select>
         <span asp-validation-for="EthnicityId" class="text-danger"></span>
     </div>
+    <div class="col-sm-4">
+        <label>Race</label>
+        <select class="form-control dropdowns" id="race" name="race" asp-items="ViewBag.Races"><option value="">Select Race</option></select>
+    </div>
+  
+</div>
+<div class="row">
     <div class="col-sm-4 form-group">
         <label>Religion</label>
         <select class="form-control dropdowns" asp-for="@Model.ReligionId" asp-items="ViewBag.Religions"><option value="">Select Religion</option></select>
         <span asp-validation-for="ReligionId" class="text-danger"></span>
-
     </div>
-</div>
-<div class="row">
     <div class="col-sm-4 form-group">
         <label>Sex</label>
         <select class="form-control dropdowns" asp-for="@Model.SexId" asp-items="ViewBag.Sexes"><option value="">Select Sex</option></select>

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Primitives;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -140,21 +141,44 @@ namespace IS_Proj_HIT.Controllers
                 else
                 {
                     var languages = Request.Form["language"];
-                    var languageId = short.Parse(languages[0]);
-                    var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
-
-                    if (query.Any() && query != null)
+                    if (!StringValues.IsNullOrEmpty(languages))
                     {
-                        model.PatientLanguage.Add(
-                         new PatientLanguage
-                         {
-                             LanguageId = query[0].LanguageId,
-                             Mrn = model.Mrn,
-                             IsPrimary = 1,
-                             LastModified = DateTime.Now
+                        var languageId = short.Parse(languages[0]);
+                        var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
 
-                         });
+                        if (query.Any() && query != null)
+                        {
+                            model.PatientLanguage.Add(
+                             new PatientLanguage
+                             {
+                                 LanguageId = query[0].LanguageId,
+                                 Mrn = model.Mrn,
+                                 IsPrimary = 1,
+                                 LastModified = DateTime.Now
+
+                             });
+                        }
                     }
+                
+
+                    var races = Request.Form["race"];
+                    if (!StringValues.IsNullOrEmpty(races))
+                    {
+                        var raceId = short.Parse(races[0]);
+                        var selectedRace = repository.Races.FirstOrDefault(race => race.RaceId == raceId);
+                        if (selectedRace != null)
+                        {
+                            model.PatientRace.Add(
+                               new PatientRace
+                               {
+                                   RaceId = selectedRace.RaceId,
+                                   Mrn = model.Mrn,
+                                   LastModified = DateTime.Now
+
+                               });
+                        }
+                    }
+                  
                     
                     repository.AddPatient(model);
                     TempData["msg"] = "A new patient was successfully created.";
@@ -169,6 +193,7 @@ namespace IS_Proj_HIT.Controllers
 
         // Deletes Patient
         [Authorize(Roles = "Administrator")]
+
         public IActionResult DeletePatient(string id)
         {
             ViewBag.PatientAlertExists = repository.PatientAlerts.FirstOrDefault(b => b.Mrn == id);
@@ -204,7 +229,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.PatientAlerts)
                 .FirstOrDefault(p => p.Mrn == id);
 
-            AddDropdowns();
+            AddDropdowns(model);
 
             return View(model);
         }
@@ -219,31 +244,66 @@ namespace IS_Proj_HIT.Controllers
 
             model.LastModified = DateTime.Now;
 
-            //if(model.PatientLanguage.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
-            //{
-            //    var languageToChange = model.PatientLanguage.Where(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
-            //    foreach(var l in languageToChange)
-            //    {
-            //        l.IsPrimary = 0;
-            //    }
-            //}
-            //var languages = Request.Form["language"];
-            //var languageId = short.Parse(languages[0]);
-            //var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
+            var languageToChange = new PatientLanguage();  
+            var languages = Request.Form["language"];
+            if (!StringValues.IsNullOrEmpty(languages))
+            {
+                var languageId = short.Parse(languages[0]);
+                var query = repository.Languages.Where(lang => lang.LanguageId == languageId).ToList();
 
-            //if (query.Any() && query != null)
-            //{
-                
-            //    model.PatientLanguage.Add(
-            //     new PatientLanguage
-            //     {
-            //         LanguageId = query[0].LanguageId,
-            //         Mrn = model.Mrn,
-            //         IsPrimary = 1,
-            //         LastModified = DateTime.Now
+                if (repository.PatientLanguages.Any(l => l.IsPrimary == 1 && l.Mrn == model.Mrn))
+                {
+                    languageToChange = repository.PatientLanguages.FirstOrDefault(pl => pl.Mrn == model.Mrn && pl.IsPrimary == 1);
+                    if (languageId != languageToChange.LanguageId)
+                    {
+                        languageToChange.IsPrimary = 0;
+                    }
 
-            //     });
-            //}
+                }
+
+                if (query.Any() && query != null && languageToChange.LanguageId != languageId)
+                {
+                    repository.AddPatientLanguage(
+                     new PatientLanguage
+                     {
+                         LanguageId = query[0].LanguageId,
+                         Mrn = model.Mrn,
+                         IsPrimary = 1,
+                         LastModified = DateTime.Now
+
+                     });
+                }
+
+            }
+
+
+
+            if (repository.PatientRaces.Any(r => r.Mrn == model.Mrn))
+            {
+                var raceToChange = repository.PatientRaces.FirstOrDefault(pr => pr.Mrn == model.Mrn);
+                repository.DeletePatientRace(raceToChange);
+
+            }
+
+            var races = Request.Form["race"];
+            if (!StringValues.IsNullOrEmpty(races))
+            { 
+                var raceId = short.Parse(races[0]);
+                var raceToAdd = repository.Races.FirstOrDefault(race => race.RaceId == raceId);
+
+                if (raceToAdd != null)
+                {
+                    repository.AddPatientRace(
+                       new PatientRace
+                       {
+                           RaceId = raceToAdd.RaceId,
+                           Mrn = model.Mrn,
+                           LastModified = DateTime.Now
+
+                       });
+                }
+            }
+
             repository.EditPatient(model);
             return RedirectToAction("Details", new {id = model.Mrn});
         }
@@ -270,7 +330,7 @@ namespace IS_Proj_HIT.Controllers
 
                 }).ToList();
 
-            if (primaryLanguageQuery.Any() && primaryLanguageQuery!= null)
+            if (primaryLanguageQuery.Any() && primaryLanguageQuery != null)
             {
                foreach(var l in primaryLanguageQuery)
                 {
@@ -280,6 +340,22 @@ namespace IS_Proj_HIT.Controllers
                     }
                 }
                 
+            }
+
+            var patientRaceQuery = repository.PatientRaces.Where(r => r.Mrn == model.Mrn)
+                .Join(repository.Races, pr => pr.RaceId, race => race.RaceId, (pr, race)
+                => new
+                {
+                    race.Name
+
+                }).ToList();
+
+            if (patientRaceQuery.Any() && patientRaceQuery != null)
+            {
+                foreach(var race in patientRaceQuery)
+                {
+                    ViewBag.PatientRace = race.Name.ToString();
+                }
             }
 
             return View(model);
@@ -725,7 +801,7 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
-        public void AddDropdowns()
+        public void AddDropdowns(Patient model = null)
         {
             var queryReligion = repository.Religions
                 .OrderBy(r => r.Name)
@@ -761,7 +837,33 @@ namespace IS_Proj_HIT.Controllers
                 .OrderBy(r => r.Name)
                 .Select(r => new { r.LanguageId, r.Name })
                 .ToList();
-            ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
+
+            var queryRaces = repository.Races
+                .OrderBy(r => r.Name)
+                .Select(r => new { r.RaceId, r.Name })
+                .ToList();
+
+            // add patient language and race
+            if (model != null)
+            {
+                var patientHasPrimaryLanguage = repository.PatientLanguages.Any(l => l.Mrn == model.Mrn && l.IsPrimary == 1);
+                ViewBag.Languages = patientHasPrimaryLanguage ?
+                    new SelectList(queryLanguages, "LanguageId", "Name", repository.PatientLanguages.FirstOrDefault(l => l.Mrn == model.Mrn && l.IsPrimary == 1).LanguageId) :
+                    new SelectList(queryLanguages, "LanguageId", "Name", 0);
+
+                var patientHasRace = repository.PatientRaces.Any(r => r.Mrn == model.Mrn);
+                ViewBag.Races = patientHasRace ?
+                    new SelectList(queryRaces, "RaceId", "Name", repository.PatientRaces.FirstOrDefault(r => r.Mrn == model.Mrn).RaceId) :
+                    ViewBag.Races = new SelectList(queryRaces, "RaceId", "Name", 0);
+            }
+            // edit patient language and race
+            else
+            {
+                ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
+                ViewBag.Races = new SelectList(queryRaces, "RaceId", "Name", 0);
+            }
+
+
         }
 
     }
