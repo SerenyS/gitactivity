@@ -57,14 +57,15 @@
 
     </div>
 
-    <div class="col-sm-4 form-group" style="margin-top: 30px;">
+    <div class="col-sm-4 form-group checkboxcontainer" style="margin-top: 30px;">
         <label for="interp">
             Interpreter Needed?
             <input id="interp" asp-for="@Model.InterpreterNeeded" />
+            <span class="box"></span>
         </label>
     </div>
 </div>
-<div class="row">
+<div class="row checkboxcontainer">
     <div class="col-sm-4 form-group">
         <label>SSN</label><br />
         <input asp-for="@Model.Ssn" name="Ssn" id="Ssn" class="form-control" maxlength="11" placeholder="SSN" />
@@ -74,8 +75,11 @@
         <input type="date" asp-for="@Model.Dob" name="Dob" class="form-control dob" placeholder="Date of Birth" />
     </div>
     <div class="col-sm-4 form-group" style="margin-top: 30px;">
-        <label for="deceased">Deceased? </label>
-        <input id="deceased" asp-for="@Model.DeceasedLiving" />
+        <label for="deceased">Deceased?
+                <span class="box"></span>
+                <input id="deceased" asp-for="@Model.DeceasedLiving" />
+        </label>
+
     </div>
 </div>
 <div class="row">

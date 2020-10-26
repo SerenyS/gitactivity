@@ -337,3 +337,53 @@ body {
 .hidden-row {
     display: none;
 }
+
+/* Patient Form Custom Checkboxes */
+input#interp {
+width: 0;
+height: 0;
+}
+
+input#deceased {
+width: 0;
+height: 0;
+}
+
+.box {
+    width: 17px;
+    height: 17px;
+    top: 5px;
+    color: white;
+    border: 1px solid gray;
+    position: absolute;
+    background-color: white;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+
+.checkboxcontainer input:checked ~ .box {
+
+    background-color: #00BFFF;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.box:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxcontainer input:checked ~ .box:after {
+  display: block;
+}
+
+.checkboxcontainer .box:after {
+    left: 6px;
+    top: 3px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
