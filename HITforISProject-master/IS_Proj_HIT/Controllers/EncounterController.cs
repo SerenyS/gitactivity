@@ -116,7 +116,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Encounter page
-        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult EditEncounter(long encounterId)
         {
             var encounter = _repository.Encounters

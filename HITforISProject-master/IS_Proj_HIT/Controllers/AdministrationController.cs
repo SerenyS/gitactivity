@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Nursing Faculty")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -36,6 +36,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult Index() => View();
 
         #region PCA lookup table management
+        [Authorize(Roles = "Administrator")]
         public IActionResult DataEntry()
         {
             var entityNames = new List<string>
@@ -57,6 +58,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region Encounter lookup table management
+        [Authorize(Roles = "Administrator")]
         public IActionResult EncounterDataEntry()
         {
             var entityNames = new List<string>
@@ -74,6 +76,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region Physician lookup table management
+        [Authorize(Roles = "Administrator")]
         public IActionResult PhysicianDataEntry()
         {
             var entityNames = new List<string>
@@ -88,7 +91,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region User Details
-
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
@@ -164,6 +167,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region Roles
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
 
         public IActionResult ViewRoles() => View(_roleManager.Roles);
 

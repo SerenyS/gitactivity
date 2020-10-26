@@ -10,13 +10,16 @@
                     data-toggle="tooltip" title="N.A. means that a value was not assessed." type="button">
                 <i class="fas fa-info"></i>
             </button>
-            <a asp-action="UpdateAssessment"
-               asp-route-assessmentId="@Model.PcaId"
-               asp-route-patientMRN="@ViewBag.Patient.Mrn"
-               asp-route-encounterId="@Model.Encounter.EncounterId"
-               class="btn btn-info btn-sm float-right">
-                Update Patient Care Assessment
-            </a>
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
+            {
+                <a asp-action="UpdateAssessment"
+                   asp-route-assessmentId="@Model.PcaId"
+                   asp-route-patientMRN="@ViewBag.Patient.Mrn"
+                   asp-route-encounterId="@Model.Encounter.EncounterId"
+                   class="btn btn-info btn-sm float-right">
+                    Update Patient Care Assessment
+                </a>
+            }
         </h4>
     </div>
     <div class="card-body bg-light">

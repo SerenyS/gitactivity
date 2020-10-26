@@ -197,7 +197,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
-        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty")]
         public IActionResult Edit(string id)
         {
             var model = repository.Patients
