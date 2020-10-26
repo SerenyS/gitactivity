@@ -102,4 +102,7 @@ else
 <hr />
 
 <a asp-controller="Patient" asp-action="PatientSearch" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
-<a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
+@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
+{
+    <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
+    }

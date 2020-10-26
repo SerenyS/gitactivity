@@ -96,7 +96,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
-        [Authorize(Roles = "Administrator, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar")]
         public IActionResult AddPatient()
         {
             //Run stored procedure from SQL database to generate the MRN number
@@ -127,7 +127,7 @@ namespace IS_Proj_HIT.Controllers
         // Click Create button on Add Patient page adds new patient from Add Patient page
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Administrator, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar")]
         public IActionResult AddPatient(Patient model)
         {
             model.LastModified = @DateTime.Now;
@@ -197,7 +197,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
-        [Authorize(Roles = "Administrator, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar")]
         public IActionResult Edit(string id)
         {
             var model = repository.Patients
@@ -212,7 +212,7 @@ namespace IS_Proj_HIT.Controllers
         // Save edits to patient record from Edit Patients page
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator,Nursing Faculty")] // Nursing Student, ? Don't rememebr if student was supposed to be able to edit the patient.
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar")]
         public IActionResult Edit(Patient model)
         {
             if (!ModelState.IsValid) return View(model.Mrn);
