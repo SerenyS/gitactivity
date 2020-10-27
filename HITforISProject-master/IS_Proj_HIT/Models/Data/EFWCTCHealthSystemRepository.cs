@@ -165,6 +165,12 @@ namespace IS_Proj_HIT.Models.Data
             }
         }
 
+        public void DeleteAlert(PatientAlerts alert)
+        {
+            _context.Remove(alert);
+            _context.SaveChanges();
+        }
+
         public void EditAlert(PatientAlerts alert)
         {
             _context.Update(alert);
