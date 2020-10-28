@@ -31,6 +31,7 @@ namespace IS_Proj_HIT.Models
         public DateTime? DischargeDateTime { get; set; }
         public int? DischargeDisposition { get; set; }
         public DateTime LastModified { get; set; }
+        public string DischargeComment { get; set; }
 
         public virtual AdmitType AdmitType { get; set; }
         public virtual Departments Department { get; set; }

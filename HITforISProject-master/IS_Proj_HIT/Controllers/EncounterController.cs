@@ -41,6 +41,36 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // View Discahrge 
+        public IActionResult ViewDischarge(long encounterId)
+        {
+            ViewData["ErrorMessage"] = "";
+
+            var encounter = _repository.Encounters
+                .Include(e => e.Facility)
+                .Include(e => e.Department)
+                .Include(e => e.AdmitType)
+                .Include(e => e.EncounterPhysicians.Physician)
+                .Include(e => e.EncounterType)
+                .Include(e => e.PlaceOfService)
+                .Include(e => e.PointOfOrigin)
+                .Include(e => e.DischargeDispositionNavigation)
+                .Include(e => e.PcaRecords)
+                .FirstOrDefault(b => b.EncounterId == encounterId);
+            if (encounter is null)
+                return RedirectToAction("CheckedIn");
+
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+
+            return View(new ViewDischargePageModel
+            {
+                Encounter = encounter,
+                Patient = patient
+            });
+        }
+
         public IActionResult ViewEncounter(long encounterId)
         {
             ViewData["ErrorMessage"] = "";

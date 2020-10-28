@@ -34,6 +34,13 @@
                     <span asp-validation-for="DischargeDisposition" class="text-danger"></span>
                 </div>
             </div>
+            <br /><div class="row">
+                 <div class="col-sm-12 col-lg-12">
+                    <label>Discharge Notes</label>
+                    <input type="text" asp-for="@Model.DischargeComment" name="DischargeComment" class="form-control" placeholder="Discharge Notes">
+                    <span asp-validation-for="DischargeComment" class="text-danger"></span>
+                </div>
+            </div>
             <hr />
 
             <button class="btn-primary" type="submit">Save</button>
