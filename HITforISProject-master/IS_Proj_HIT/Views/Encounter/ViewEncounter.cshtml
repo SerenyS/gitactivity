@@ -6,7 +6,7 @@
         <h4>
             Encounter Information
             @*Don't show button for nursing student or below'*@
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
             {
                 <a asp-action="EditEncounter"
                    asp-route-encounterId="@Model.Encounter.EncounterId"
@@ -105,13 +105,16 @@
     <div class="card-header bg-primary text-white">
         <h4>
             Patient Care Assessments
-            <a asp-controller="PCA"
-               asp-action="CreateAssessment"
-               asp-route-encounterId="@Model.Encounter.EncounterId"
-               asp-route-mrn="@Model.Patient.Mrn"
-               class="btn btn-info btn-sm float-right">
-                Create New PCA
-            </a>
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
+            {
+                <a asp-controller="PCA"
+                   asp-action="CreateAssessment"
+                   asp-route-encounterId="@Model.Encounter.EncounterId"
+                   asp-route-mrn="@Model.Patient.Mrn"
+                   class="btn btn-info btn-sm float-right">
+                    Create New PCA
+                </a>
+            }
         </h4>
     </div>
     <div class="card-body bg-light">
