@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <label>First Name</label><br />
+        <label>*First Name</label><br />
         <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
 
     </div>
@@ -18,7 +18,7 @@
 
     </div>
     <div class="col-sm-4 form-group">
-        <label>Last Name</label><br />
+        <label>*Last Name</label><br />
         <input class="form-control" asp-for="@Model.LastName" name="lastName" id="LastName" placeholder="Last Name" />
 
     </div>
@@ -107,7 +107,7 @@
         <span asp-validation-for="ReligionId" class="text-danger"></span>
     </div>
     <div class="col-sm-4 form-group">
-        <label>Sex</label>
+        <label>*Sex</label>
         <select class="form-control dropdowns" asp-for="@Model.SexId" asp-items="ViewBag.Sexes"><option value="">Select Sex</option></select>
         <span asp-validation-for="SexId" class="text-danger"></span>
     </div>

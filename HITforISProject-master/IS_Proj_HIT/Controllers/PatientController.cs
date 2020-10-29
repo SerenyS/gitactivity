@@ -865,6 +865,15 @@ namespace IS_Proj_HIT.Controllers
 
 
         }
+        //Deletes Alert
+        [Authorize(Roles = "Administrator")]
+        public IActionResult DeleteAlert(long patientalertId)
+        {
+            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == patientalertId);
+            repository.DeleteAlert(alert);
+            //May not be right redirect
+            return RedirectToAction("ListAlerts");
+        }
 
     }
 }

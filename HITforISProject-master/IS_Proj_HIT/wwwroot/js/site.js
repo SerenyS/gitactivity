@@ -49,15 +49,15 @@
             aliasLastName: "alphabetsnspace",
             MaidenName: "alphabetsnspace",
             MothersMaidenName: "alphabetsnspace",
-            MaritalStatusId: "required",
+            //MaritalStatusId: "required",
             SexId: "required",
-            EthnicityId: "required",
+            //EthnicityId: "required",
 
             Dob: {
-                required: true,
-                date: true,
-                maxDate: true,
-                minDate: true
+                //required: true,
+                //date: true,
+                //maxDate: true,
+                //minDate: true
             },
             Ssn: {
                 required: true,
@@ -83,10 +83,10 @@
             },
 
             Dob: {
-                required: "Please provide a valid date of birth",
-                date: "Please provide a valid date of birth",
-                maxDate: "Invalid Date from the future!",
-                minDate: "Too far in the past!"
+                //required: "Please provide a valid date of birth",
+                //date: "Please provide a valid date of birth",
+                //maxDate: "Invalid Date from the future!",
+                //minDate: "Too far in the past!"
             },
             MiddleName: "Only one letter allowed",
             aliasFirstName: "Only letters allowed",
@@ -94,8 +94,8 @@
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
             MaidenName: "Only letters allowed",
-            MaritalStatusId: "Select a Marital Status from the list",
-            EthnicityId: "Select an Ethnicity from the list",
+            //MaritalStatusId: "Select a Marital Status from the list",
+            //EthnicityId: "Select an Ethnicity from the list",
             SexId: "Select a Sex from the list"
             
         },

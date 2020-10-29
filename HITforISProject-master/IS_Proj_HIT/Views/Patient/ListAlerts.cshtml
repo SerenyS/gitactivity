@@ -93,18 +93,29 @@ else
         <tbody>
             @foreach (var patientalerts in Model.PatientAlerts)
             {
-                <tr>
-                    <td>@patientalerts.AlertType.Name</td>
-                    @*<td>@patientalerts.Mrn</td>*@
-                    <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
-                    @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
-                    @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
-                    <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
-                    <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
-                    <td class="hideComments" width="300px">@patientalerts.Comments</td>
-                    <td class="hideMod">@patientalerts.LastModified</td>
-                    <td><a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a></td>
-                </tr>
+            <tr>
+                <td>@patientalerts.AlertType.Name</td>
+                @*<td>@patientalerts.Mrn</td>*@
+                @*Line below may work to choose what flag to show*@
+                <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
+                @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
+                @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
+                <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
+                <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
+                <td class="hideComments" width="300px">@patientalerts.Comments</td>
+                <td class="hideMod">@patientalerts.LastModified</td>
+                <td>
+                    <a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"
+                       asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a>
+                </td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td>
+                        <a asp-action="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId"
+                           onclick="if (!confirm('Are you sure you want to delete this alert?')) return false;" class="btn btn-danger">Delete</a>
+                    </td>
+                }
+            </tr>
             }
         </tbody>
     </table>

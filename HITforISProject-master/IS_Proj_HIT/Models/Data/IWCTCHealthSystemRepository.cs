@@ -72,6 +72,7 @@ namespace IS_Proj_HIT.Models.Data
 
         void AddAlert(AlertsViewModel alert);
         void EditAlert(PatientAlerts alert);
+        void DeleteAlert(PatientAlerts alert);
 
         void AddEmployment(Employment employment);
 
