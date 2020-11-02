@@ -87,10 +87,11 @@ else
         <tbody>
             @foreach (var patient in Model.Patients)
             {
+                @*test dob*@
                 <tr>
                     <td>@patient.Mrn</td>
                     <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
-                    <td>@patient.Dob.ToShortDateString()</td>
+                    <td>@(patient.Dob.HasValue ? patient.Dob.Value.ToShortDateString() : string.Empty)</td>
                     <td id="special">
                         <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
                     <td></td>

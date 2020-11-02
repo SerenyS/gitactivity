@@ -866,6 +866,7 @@ namespace IS_Proj_HIT.Controllers
 
         }
         //Deletes Alert
+        //Delete method is probably not needed
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteAlert(long patientalertId)
         {
