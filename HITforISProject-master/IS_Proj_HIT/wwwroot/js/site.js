@@ -106,6 +106,7 @@
         }
     });
 
+
     $("form[name='patientEdit']").validate({
         // Specify validation rules
         rules: {
@@ -189,6 +190,8 @@
         }
     });
 
+
+
     $("form[name='encounter']").validate({
         // Specify validation rules
         rules: {
@@ -222,7 +225,10 @@
         }
     });
 
+
+
     $("form[name='editEncounter']").validate({
+
         // Specify validation rules
         rules: {
             RoomNumber: "required",
@@ -233,7 +239,8 @@
             PlaceOfServiceId: "required",
             AdmitTypeId: "required",
             EncounterPhysiciansId: "required",
-            EncounterTypeId: "required"
+            EncounterTypeId: "required",
+            DischargeDateTime: "",
         },
         // Specify validation error messages
         messages: {
@@ -245,7 +252,11 @@
             PlaceOfServiceId: "Select a Place of Service from the list",
             AdmitTypeId: "Select an Admission Types from the list",
             EncounterPhysiciansId: "Select a Physician from the list",
-            EncounterTypeId: "Select an Encounter Type from the list"
+            EncounterTypeId: "Select an Encounter Type from the list",
+
+            //if(dischargeDateTime < admitDateTime){
+            //DischargeDateTime: "must be greater",
+        }
 
         },
         // Make sure the form is submitted to the destination defined
