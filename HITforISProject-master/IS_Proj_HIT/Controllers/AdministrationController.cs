@@ -292,7 +292,7 @@ namespace IS_Proj_HIT.Controllers
 
             foreach (var modelUser in model)
             {
-                var isCurrentlyInRole = usersInRole.Any(u => u.UserName == modelUser.UserName);
+                var isCurrentlyInRole = usersInRole.Any(u => u.Id == modelUser.UserId);
 
                 IdentityUser user;
                 if (modelUser.IsSelected && !isCurrentlyInRole)
