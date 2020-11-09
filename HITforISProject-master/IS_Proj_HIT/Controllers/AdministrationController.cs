@@ -182,13 +182,15 @@ namespace IS_Proj_HIT.Controllers
                 return View("NotFound");
             }
 
+
             var model = new EditRoleViewModel
             {
                 Id = role.Id,
                 RoleName = role.Name,
-                Users = (await _userManager.GetUsersInRoleAsync(role.Name)).Select(u => u.UserName).ToList()
-            };
+                Users = (await _userManager.GetUsersInRoleAsync(role.Name)).Select(u => u.UserName).OrderBy(username => username).ToList()
 
+        };
+           
             return View(model);
         }
 
@@ -204,13 +206,23 @@ namespace IS_Proj_HIT.Controllers
             }
 
             var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+
+
             var model = await _userManager.Users.Select(u => new UserRoleViewModel
             {
                 UserId = u.Id,
                 UserName = u.UserName,
                 IsSelected = usersInRole.Any(inRole => inRole.UserName == u.UserName)
-            }).ToListAsync();
 
+            }).OrderByDescending(u => u.IsSelected).ThenBy(u => u.UserName).ToListAsync();
+
+            foreach(var user in model)
+            {
+                var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == user.UserId);
+                user.FullName = dbUser != null ? dbUser.FirstName + " " + dbUser.LastName : "No Name On File";
+            }
+
+           
             return View(model);
         }
 
@@ -280,7 +292,7 @@ namespace IS_Proj_HIT.Controllers
 
             foreach (var modelUser in model)
             {
-                var isCurrentlyInRole = usersInRole.Any(u => u.UserName == modelUser.UserName);
+                var isCurrentlyInRole = usersInRole.Any(u => u.Id == modelUser.UserId);
 
                 IdentityUser user;
                 if (modelUser.IsSelected && !isCurrentlyInRole)
