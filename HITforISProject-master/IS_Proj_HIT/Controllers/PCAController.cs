@@ -59,7 +59,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="encounterId">Id of unique encounter</param>
         /// <param name="patientMrn">Unique Identifier of patient</param>
-        [Authorize(Roles = "Administrator, Nursing Student, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Student, HIT Faculty, Nursing Faculty")]
         public IActionResult CreateAssessment(long encounterId, string mrn)
         {
             var encounter = _repository.Encounters.FirstOrDefault(e => e.EncounterId == encounterId);
