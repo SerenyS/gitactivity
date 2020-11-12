@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-5 my-auto">
                     <h3 class="m-0">
-                        Patient:
+                        Patient: 
                         <a asp-controller="Patient"
                            asp-action="Details"
                            asp-route-id="@Model.Mrn"
@@ -19,16 +19,13 @@
                 <div class="col-sm-3 col-lg-2 my-auto">
                     <span class="heading">MRN: </span>@Model.Mrn
                 </div>
-                @*test dob*@
                 <div class="col-sm-3 col-lg-2 my-auto">
-                    <span class="heading">DOB: </span> @(Model.Dob?.ToShortDateString() ?? "N/A")
+                    <span class="heading">DOB: </span> @Model.Dob.ToShortDateString()
                 </div>
-                @*test dob*@
                 <div class="col-sm-3 col-lg-2 my-auto">
                     @if (Model.DeceasedLiving == false)
-                    {<span class="heading">Age: </span> @(Model.Dob.HasValue ? ConversionService.ConvertDobToCurrentAge(Model.Dob.Value).ToString() : "N/A")}
-                else
-                {<span class="heading" style="font-size: x-large;">Deceased</span>}
+                    {<span class="heading">Age: </span> @ConversionService.ConvertDobToCurrentAge(Model.Dob)}
+                else {<span class="heading" style="font-size: x-large;">Deceased</span>}
 
                 </div>
                 <div class="col-sm-3 col-lg-1 my-auto">
