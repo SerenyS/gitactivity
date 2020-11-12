@@ -720,7 +720,7 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.Property(e => e.SexId).HasColumnName("SexID");
 
-                entity.Property(e => e.Ssn).HasColumnName("SSN").HasMaxLength(9).IsUnicode(false);
+                entity.Property(e => e.Ssn).IsRequired().HasColumnName("SSN").HasMaxLength(9).IsUnicode(false);
 
                 entity.HasOne(d => d.Employment).WithMany(p => p.Patient).HasForeignKey(d => d.EmploymentId)
                     .HasConstraintName("fk_Patient_EmploymentID");

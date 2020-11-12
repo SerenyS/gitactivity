@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label>SSN: </label>
-                    <span class="font-weight-bold">@(Model.Ssn ?? "N/A")</span> 
+                    <span class="font-weight-bold"> <span id="Ssn">@Model.Ssn</span> </span>
                 </div>
             </div>
             <hr />
@@ -65,7 +65,7 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4">
                     <label>Primary Language: </label>
-                    <span class="font-weight-bold">@(ViewBag.PrimaryLanguage ?? "N/A")</span>
+                    <span class="font-weight-bold">@(ViewBag.PrimaryLanguage)</span>
                 </div>
 
 
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label>Race: </label>
-                    <span class="font-weight-bold">@(ViewBag.PatientRace ?? "N/A")</span>
+                    <span class="font-weight-bold">@(ViewBag.PatientRace)</span>
                 </div>
             </div>
             <hr />
