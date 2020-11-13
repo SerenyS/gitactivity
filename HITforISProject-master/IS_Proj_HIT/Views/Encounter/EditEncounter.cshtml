@@ -21,18 +21,12 @@
             <partial name="EncounterFormFields" model="@Model" />
             <hr/>
             <div class="row">
-                <div class="col-sm-12 col-lg-4">
-                    <label>Discharge Date Time (XX/XX/XXX 00:00:00)</label>
-                    <input type="datetime" asp-for="@Model.DischargeDateTime" name="DischargeDateTime" class="form-control dischargeDateTime" placeholder="XX/XX/XXX 00:00:00" value="@DateTime.Now"/>
+                <div class="col-sm-12 col-lg-2">
+                    <label>Discharge Time</label>
+                    <input type="datetime" asp-for="@Model.DischargeDateTime" name="DischargeDateTime" class="form-control" placeholder="Discharge Time">
                     <span asp-validation-for="DischargeDateTime" class="text-danger"></span>
-
-                    @if(Model.AdmitDateTime < Model.DischargeDateTime)
-                    {
-                        <span class="font-weight-bold"> "discharge time must be smaller" </span>
-                    }
-
                 </div>
-                <div class="col-sm-12 col-lg-8">
+                <div class="col-sm-12 col-lg-10">
                     <label>Discharge Disposition</label>
                     <select class="form-control dropdowns" asp-for="@Model.DischargeDisposition" asp-items="ViewBag.Discharges" name="DischargeDisposition">
                         <option value="">Select Discharge Disposition</option>
