@@ -6,7 +6,7 @@
         <h4>
             Discharge Information
             @*Don't show button for nursing student or below'*@
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty"))
             {
                 <a asp-action="EditEncounter"
                    asp-route-encounterId="@Model.Encounter.EncounterId"

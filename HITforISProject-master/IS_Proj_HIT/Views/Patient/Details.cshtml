@@ -15,7 +15,7 @@
                     data-toggle="tooltip" data-placement="right" title="N.A. means that a value was not assessed.">
                 <i class="fas fa-info"></i>
             </button>
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
             {
                 <a asp-action="Edit"
                    asp-route-id="@Model.Mrn"
@@ -124,7 +124,7 @@
     <div class="card-header bg-primary text-white">
         <h4>
             Encounters
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
             {
                 <a asp-controller="Encounter"
                    asp-action="AddEncounter"

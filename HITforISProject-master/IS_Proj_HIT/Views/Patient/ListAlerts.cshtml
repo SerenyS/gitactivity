@@ -120,7 +120,8 @@ else
         </tbody>
     </table>
 }
-@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
+@*TODO: add registrar, hit clerk here*@
+@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student"))
 {
     <a asp-action="CreateAlert" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">
         <i class="fas fa-exclamation-triangle alertColor"></i> Add An Alert

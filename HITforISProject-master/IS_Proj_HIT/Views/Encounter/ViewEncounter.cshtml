@@ -5,8 +5,8 @@
     <div class="card-header bg-primary text-white">
         <h4>
             Encounter Information
-            @*Don't show button for nursing student or below'*@
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
+            
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
             {
                 <a asp-action="EditEncounter"
                    asp-route-encounterId="@Model.Encounter.EncounterId"
@@ -105,7 +105,7 @@
     <div class="card-header bg-primary text-white">
         <h4>
             Patient Care Assessments
-            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student"))
             {
                 <a asp-controller="PCA"
                    asp-action="CreateAssessment"
