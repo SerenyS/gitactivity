@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty")]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -167,7 +167,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region Roles
-        [Authorize(Roles = "Administrator, Nursing Faculty")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
 
         public IActionResult ViewRoles() => View(_roleManager.Roles);
 
