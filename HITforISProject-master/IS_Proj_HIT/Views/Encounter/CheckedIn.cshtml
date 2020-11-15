@@ -56,11 +56,11 @@
 
                                 @if (User.IsInRole("Administrator"))
                                 {
-                                    <a asp-action="ViewDischarge"
+                                    <a asp-action="EditEncounter"
                                        asp-route-encounterId="@encounter.EncounterId"
                                        asp-route-allowCheckedInRedirect="true"
                                        class="btn btn-danger">
-                                        Discharge Details
+                                        Discharge
                                     </a>
                                 }
                             
