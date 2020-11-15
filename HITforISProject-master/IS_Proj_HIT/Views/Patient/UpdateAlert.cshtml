@@ -2,47 +2,54 @@
 <link rel="stylesheet" href="~/css/site.css" />
 <link rel="stylesheet" href="~/css/chosen.min.css" />
 @{
-    ViewData["Title"] = "Patient Alert Detail";
+    ViewData["Title"] = "Update Patient Alert";
 }
 
-@Html.Hidden("returnUrl");
+@Html.Hidden("@ViewBag.returnUrl");
+
 <partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
-            <h4>Patient Alert Details
-           @*button to edit alert*@
-            <a asp-controller="Patient" asp-action="UpdateAlert" asp-route-id="@Model.PatientAlertId" asp-route-mrn="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-info btn-sm float-right">Edit</a>
-            </h4>
+        <span class="heading">Alert ID: </span>@Model.PatientAlertId <span class="heading ml-5">Type: </span>@ViewBag.MyAlertType
     </div>
-    <div class="card-body bg-light">
-        <div class="container">
+</div>
+<div class="card-body bg-light">
+
+     <p class="text-primary ml-4"><em>Editable Fields Marked with (<i class="fas fa-asterisk"></i>) </em></p>
+   
+    <div class="container">
+        <form method="post" id="updateAlert" name="updateAlert" asp-action="UpdateAlert" asp-route-returnUrl="@ViewBag.ReturnUrl">
             <div class="row">
                 <div class="col-sm-4">
+                    <input type="hidden" asp-for="@Model.PatientAlertId" />
+                    <input type="hidden" asp-for="@Model.Mrn" />
+                    <input type="hidden" asp-for="@Model.AlertTypeId" />
                     <label class="heading">Alert Type</label>
                     <div id="alertType">@ViewBag.MyAlertType</div>
-                    @*<div><span class="heading">Alert Type: </span><select class="takeawayborder bg-light" readonly id="alertType" asp-for=@Model.AlertTypeId asp-items="ViewBag.AlertType"></select></div>*@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="heading">Patient Alert ID</label><br />
                     <input asp-for="@Model.PatientAlertId" class="takeawayborder bg-light" id="alertTypeId" readonly />
                 </div>
-                <div class="col-sm-4 form-group">
-                    <label class="heading">Active?</label><br />
-                    <div>@ViewBag.Active</div>
+                <div class="col-sm-4 form-group checkboxcontainer">
+                    <label for="isActive" class="heading">Active *</label><br />
+                    <input id="isActive" asp-for="@Model.IsActive" type="checkbox" checked="@Model.IsActive" style="height: 20px; width: 20px;" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
                     <label class="heading">Created</label><br />
-                    <input asp-for="@Model.LastModified" class="takeawayborder bg-light" type="text" id="longer" readonly />
+                    <input asp-for="@Model.LastModified" class="takeawayborder bg-light" type="hidden" id="longer" />
+                    <div>@Model.LastModified.ToShortDateString()</div>
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="heading">Start Date</label>
-                    <div>@ViewBag.StartDate</div>
+                    <input asp-for="@Model.StartDate" type="hidden" />
+                    <div>@Model.StartDate.ToShortDateString()</div>
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="heading">End Date</label><br />
-                    <div>@(ViewBag.EndDate == null ? "N/A" : @ViewBag.EndDate.ToString("MM/dd/yyyy"))</div>
+                    <label class="heading">End Date *</label><br />
+                    <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="longer" />
                 </div>
             </div>
             <div class="row">
@@ -65,17 +72,38 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <label class="heading">Comments</label><br />
-                    <div>@(ViewBag.Comments == null ? "N/A" : @ViewBag.Comments)</div>
+                    <label class="heading">Comments *</label><br />
+                    <textarea asp-for="@Model.Comments" name="comments" cols="60" rows="3"></textarea>
                 </div>
             </div>
-        </div>
+            <button class="btn btn-outline-primary justify-content-center mt-3" id="submit" type="submit" asp-route-returnUrl="@ViewBag.ReturnUrl">Save Changes</button>
+            <a class="btn btn-outline-danger mt-3" href="javascript:history.back()">Cancel</a>
+        </form> 
     </div>
 </div>
+@*<div class="card-body bg-light">
+        <form method="post" id="updateAlert" name="updateAlert" asp-action="UpdateAlert" asp-route-returnUrl="@ViewBag.ReturnUrl">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Start Date</label><br />
+                    @Model.StartDate.ToShortDateString()
+                </div>
+                <div class="col-md-2">
+                    <label>End Date</label><br />
+                    <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="longer" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Comments</label><br />
+                    <textarea asp-for="@Model.Comments" name="comments" cols="60" rows="3"></textarea>
+                </div>
+            </div>
 
-<a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Alerts</a>
-<a asp-controller="Patient" asp-action="BackToCaller" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Return</a>
+            <button class="btn btn-outline-primary justify-content-center" id="submit" type="submit" asp-route-returnUrl="@ViewBag.ReturnUrl">Save Changes</button>
 
+        </form>
+    </div>*@
 
 
 
@@ -85,9 +113,7 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script>
-
-    // Calc age in div in Patient Banner
+<script>// Calc age in div in Patient Banner
     $(function () {
         var dob = $('.dob').html();
         var dob1 = $('.dob').val();
@@ -142,6 +168,15 @@
             $('.restriction').hide();
         }
 
-    });
+    });</script>
 
-</script>
+
+
+
+
+
+
+
+
+
+

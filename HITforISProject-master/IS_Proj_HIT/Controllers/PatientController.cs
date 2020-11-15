@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Primitives;
 
 namespace IS_Proj_HIT.Controllers
@@ -650,7 +649,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult EditPatientAlert(int id, string mrn, string returnUrl)
         {
             ViewBag.myMrn = mrn;
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             //ViewBags for Patient Banner at top of page
             ViewBag.Patient = repository.Patients.Include(p => p.PatientAlerts).FirstOrDefault(b => b.Mrn == mrn);
 
@@ -784,23 +783,149 @@ namespace IS_Proj_HIT.Controllers
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
         }
 
+  
+        
+        public IActionResult UpdateAlert(int id, string mrn)
+        {
+         
+            var alert = repository.PatientAlerts.FirstOrDefault(a => a.PatientAlertId == id);
+
+            if (alert != null)
+            {
+                var model = alert;
+                ViewBag.Patient = repository.Patients.FirstOrDefault(p => p.Mrn == mrn);
+                var checkActive = repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id).IsActive;
+                ViewBag.Active = checkActive == true ? "Yes" : "No";
+
+                var myAlertType = (from pa in repository.PatientAlerts
+                                   join at in repository.AlertTypes on pa.AlertTypeId equals at.AlertId
+                                   where pa.PatientAlertId == id
+                                   select new
+                                   {
+                                       alertType = at.Name
+                                   }).FirstOrDefault();
+
+                ViewBag.MyAlertType = myAlertType.alertType;
+
+                var myFallRisk = (from pa in repository.PatientAlerts
+                                  join pf in repository.PatientFallRisks on pa.PatientAlertId equals pf.PatientAlertId
+                                  join fr in repository.FallRisks on pf.FallRiskId equals fr.FallRiskId
+                                  where pf.PatientAlertId == id
+                                  select new
+                                  {
+                                      fallrisk = fr.Name
+                                  }).FirstOrDefault();
+
+                if (myFallRisk == null)
+                {
+                    ViewBag.FallRisk = "";
+                }
+                else
+                {
+                    ViewBag.FallRisk = myFallRisk.fallrisk;
+                }
+
+
+                var myRestriction = (from pa in repository.PatientAlerts
+                                     join pr in repository.PatientRestrictions on pa.PatientAlertId equals pr.PatientAlertId
+                                     join re in repository.Restrictions on pr.RestrictionTypeId equals re.RestrictionId
+                                     where pr.PatientAlertId == id
+                                     select new
+                                     {
+                                         theRestriction = re.Name
+                                     }).FirstOrDefault();
+
+                if (myRestriction == null)
+                {
+                    ViewBag.RestrictionValue = "";
+                }
+                else
+                {
+                    ViewBag.RestrictionValue = myRestriction.theRestriction;
+                }
+
+                var myAllergen = (from pa in repository.PatientAlerts
+                                  join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                                  join al in repository.Allergens on pal.AllergenId equals al.AllergenId
+                                  where pal.PatientAlertId == id
+                                  select new
+                                  {
+                                      allergen = al.AllergenName
+                                  }).FirstOrDefault();
+
+                if (myAllergen == null)
+                {
+                    ViewBag.AllergenValue = "";
+                }
+                else
+                {
+                    ViewBag.AllergenValue = myAllergen.allergen;
+                }
+
+                var myReaction = (from pa in repository.PatientAlerts
+                                  join pal in repository.PatientAllergy on pa.PatientAlertId equals pal.PatientAlertId
+                                  join rea in repository.Reactions on pal.ReactionId equals rea.ReactionId
+                                  where pal.PatientAlertId == id
+                                  select new
+                                  {
+                                      reaction = rea.Name
+                                  }).FirstOrDefault();
+
+                if (myReaction == null)
+                {
+                    ViewBag.ReactionValue = "";
+                }
+                else
+                {
+                    ViewBag.ReactionValue = myReaction.reaction;
+                }
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+
+           
+
+            //model.LastModified = DateTime.Now;
+            //ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
+            //ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
+            //ViewBag.LastModified = DateTime.Now;
+
+            //repository.EditAlert(model);
+            //return RedirectToAction("ListAlerts", new {id = model.Mrn});
+        }
+
         [HttpPost]
         [ActionName("UpdateAlert")]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateAlert(PatientAlerts model, int id)
+        public IActionResult UpdateAlert(PatientAlerts model, string returnUrl)
         {
-            //TODO: THIS DOES NOT WORK. ALERTS ARE NOT EDITABLE. !!!!!!!!!!!!!
-            Console.WriteLine("Trying to save(PatientController)");
-            if (!ModelState.IsValid) return RedirectToAction("ListAlerts", new {id = model.Mrn});
+            if (ModelState.IsValid)
+            {
+                model.LastModified = DateTime.Now;
 
-            model.LastModified = DateTime.Now;
-            ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
-            ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
-            ViewBag.LastModified = DateTime.Now;
+                repository.EditAlert(model);
+                return RedirectToAction("ListAlerts", new { id = model.Mrn });
+             
+            }
 
-            repository.EditAlert(model);
-            return RedirectToAction("ListAlerts", new {id = model.Mrn});
+            return RedirectToAction("ListAlerts", new {id = model.Mrn });
         }
+
+        //Deletes Alert
+        [Authorize(Roles = "Administrator")]
+        public IActionResult DeleteAlert(long patientalertId)
+        {
+            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == patientalertId);
+            repository.DeleteAlert(alert);
+            //May not be right redirect
+            return RedirectToAction("ListAlerts");
+        }
+
 
         public void AddDropdowns(Patient model = null)
         {
@@ -865,15 +990,6 @@ namespace IS_Proj_HIT.Controllers
             }
 
 
-        }
-        //Deletes Alert
-        [Authorize(Roles = "Administrator")] //useless.  alerts should not be deleted!! So sayeth Angela Lee
-        public IActionResult DeleteAlert(long patientalertId)
-        {
-            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == patientalertId);
-            repository.DeleteAlert(alert);
-            //May not be right redirect
-            return RedirectToAction("ListAlerts");
         }
 
     }

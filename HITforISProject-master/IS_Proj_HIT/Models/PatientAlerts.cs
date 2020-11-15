@@ -22,7 +22,7 @@ namespace IS_Proj_HIT.Models
         public int? AlertTypeId { get; set; }
         public string Mrn { get; set; }
         public DateTime LastModified { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Comments { get; set; }
