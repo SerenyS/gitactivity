@@ -60,7 +60,7 @@
                 //minDate: true
             },
             Ssn: {
-                required: true,
+                ///required: true,
                 minlength: 9
             }
            
@@ -78,7 +78,7 @@
                 alphabetsnspace: "Last name must be all letters"
             },
             Ssn: {
-                required: "Please provide a Social Security Number",
+                //required: "Please provide a Social Security Number",
                 minlength: "Your SSN must be at least 10 digits long"
             },
 
@@ -124,18 +124,18 @@
             MaidenName: "alphabetsnspace",
             MothersMaidenName: "alphabetsnspace",
             Dob: {
-                required: true,
-                date: true,
-                maxDate: true,
-                minDate: true
+                //required: true,
+                //date: true,
+                //maxDate: true,
+                //minDate: true
             },
             Ssn: {
-                required: true,
+                //required: true,
                 minlength: 9
             },
-            MaritalStatusId: "required",
+            //MaritalStatusId: "required",
             SexId: "required",
-            EthnicityId: "required",
+            //EthnicityId: "required",
             
 
         },
@@ -150,7 +150,7 @@
                 alphabetsnspace: "Last name must be all letters"
             },
             Ssn: {
-                required: "Please provide a Social Security Number",
+                //required: "Please provide a Social Security Number",
                 minlength: "Your SSN must be at least 10 digits long"
             },
             MiddleName: "Only one letter allowed",
@@ -159,14 +159,14 @@
             aliasLastName: "Only letters allowed",
             MothersMaidenName: "Only letters allowed",
             MaidenName: "Only letters allowed",
-            MaritalStatusId: "Select a Marital Status from the list",
-            EthnicityId: "Select an Ethnicity from the list",
+            //MaritalStatusId: "Select a Marital Status from the list",
+            //EthnicityId: "Select an Ethnicity from the list",
             SexId: "Select a Sex from the list",
             Dob: {
-                required: "Please provide a valid date of birth",
-                date: "Please provide a valid date of birth",
-                maxDate: "Please provide a valid date of birth",
-                minDate: "Please provide a valid date of birth"
+                //required: "Please provide a valid date of birth",
+                //date: "Please provide a valid date of birth",
+                //maxDate: "Please provide a valid date of birth",
+                //minDate: "Please provide a valid date of birth"
             }
             
         },

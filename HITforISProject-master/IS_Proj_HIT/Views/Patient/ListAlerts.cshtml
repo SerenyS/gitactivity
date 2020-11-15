@@ -97,7 +97,7 @@ else
                 <td>@patientalerts.AlertType.Name</td>
                 @*<td>@patientalerts.Mrn</td>*@
                 @*Line below may work to choose what flag to show*@
-                <td id="signIn"><a><i class="@((bool)patientalerts.IsActive ? "fas" : "far") fa-flag theFlag"></i></a></td>
+                <td id="signIn"><a><i class="@(patientalerts.EndDate.HasValue ? "far" : "fas") fa-flag theFlag text-danger"></i></a></td>
                 @*<td id="signIn"><a><i class="fas fa-flag theFlag"></i></a></td>*@
                 @*<td class="hideActive">@((bool)patientalerts.IsActive ? "Yes" : "No")</td>*@
                 <td class="hideStart">@patientalerts.StartDate.ToShortDateString()</td>
