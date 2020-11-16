@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT.Controllers
 {
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student, Read Only")]
     public class PCAController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
