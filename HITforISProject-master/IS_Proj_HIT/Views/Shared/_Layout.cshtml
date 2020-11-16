@@ -19,7 +19,8 @@
     <header>
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            @if (User.IsInRole("Administration"))
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
+                || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar") || User.IsInRole("Read Only"))
             {
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img style="max-height:60px" src="~/img/WCTMC Logo.jpg" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,37 +32,38 @@
             {
                 <img style="max-height:60px" src="~/img/WCTMC Logo.jpg" />
             }
-            <div class="navbar-collapse collapse">
-                @if (User.IsInRole("Administration"))
-                {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Patient" asp-action="PatientSearch"><i class="fas fa-search"></i> Patient Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Encounter" asp-action="CheckedIn"><i class="fas fa-users"></i> Checked in Patients</a>
-                        </li>
-                    </ul><!--End Nav-->
-                }
-                else
-                {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <i class="fas fa-home"></i> Home
-                        </li>
-                        <li class="nav-item">
-                            <i class="fas fa-search"></i> Patient Search
-                        </li>
-                        <li class="nav-item">
-                            <i class="fas fa-users"></i> Checked in Patients
-                        </li>
-                    </ul>
-                }
-                <partial name="_LoginPartial" class="navbar-nav" />
-            </div>
+        <div class="navbar-collapse collapse">
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
+                || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar") || User.IsInRole("Read Only"))
+            {
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Patient" asp-action="PatientSearch"><i class="fas fa-search"></i> Patient Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Encounter" asp-action="CheckedIn"><i class="fas fa-users"></i> Checked in Patients</a>
+                    </li>
+                </ul><!--End Nav-->
+            }
+            else
+            {
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <i class="fas fa-home"></i> Home
+                    </li>
+                    <li class="nav-item">
+                        <i class="fas fa-search"></i> Patient Search
+                    </li>
+                    <li class="nav-item">
+                        <i class="fas fa-users"></i> Checked in Patients
+                    </li>
+                </ul>
+            }
+            <partial name="_LoginPartial" class="navbar-nav" />
+        </div>
         </nav>
     </header>
     <div class="container">
