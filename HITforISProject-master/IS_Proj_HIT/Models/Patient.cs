@@ -30,8 +30,8 @@ namespace IS_Proj_HIT.Models
         public string? AliasMiddleName { get; set; }
         public string? AliasLastName { get; set; }
         public string? MothersMaidenName { get; set; }
-        public string Ssn { get; set; }
-        public DateTime Dob { get; set; }
+        public string? Ssn { get; set; }
+        public DateTime? Dob { get; set; }
 #nullable restore
         public byte SexId { get; set; }
 #nullable enable
