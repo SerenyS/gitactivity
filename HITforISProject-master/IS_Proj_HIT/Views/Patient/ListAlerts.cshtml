@@ -106,14 +106,23 @@ else
                 <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
                 <td class="hideComments" width="300px">@patientalerts.Comments</td>
                 <td class="hideMod">@patientalerts.LastModified</td>
+<<<<<<< Updated upstream
                 
                 @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
                      || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar"))
+=======
+                <td>
+                    <a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"
+                       asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a>
+                </td>
+                @*@if (User.IsInRole("Administrator"))
+>>>>>>> Stashed changes
                 {
                     <td>
                         <a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"
                            asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a>
                     </td>
+<<<<<<< Updated upstream
 
                     @*@if (User.IsInRole("Administrator"))
                     {
