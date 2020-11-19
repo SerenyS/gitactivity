@@ -9,10 +9,16 @@
 <partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
-            <h4>Patient Alert Details
-           @*button to edit alert*@
-            <a asp-controller="Patient" asp-action="UpdateAlert" asp-route-id="@Model.PatientAlertId" asp-route-mrn="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-info btn-sm float-right">Edit</a>
-            </h4>
+            <h4>
+            Patient Alert Details
+            @*button to edit alert*@
+            @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
+          || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar"))
+    
+            {
+        <a asp-controller="Patient" asp-action="UpdateAlert" asp-route-id="@Model.PatientAlertId" asp-route-mrn="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-info btn-sm float-right">Edit</a>
+            }
+        </h4>
     </div>
     <div class="card-body bg-light">
         <div class="container">
