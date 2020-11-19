@@ -72,7 +72,7 @@ else
 {
     @*The below msg is used to decide which icon to display when sorting.*@
     <div id="sortBy" hidden class="red">@Html.Raw(TempData["msg"])</div>
-
+}
 
 
 
@@ -94,7 +94,7 @@ else
             @foreach (var patientalerts in Model.PatientAlerts)
             {
 
-          
+        
             <tr>
                 <td>@patientalerts.AlertType.Name</td>
                 @*<td>@patientalerts.Mrn</td>*@
@@ -106,28 +106,28 @@ else
                 <td class="hideEnd">@(patientalerts.EndDate.HasValue ? @patientalerts.EndDate.Value.ToString("MM/dd/yyyy") : "")</td>
                 <td class="hideComments" width="300px">@patientalerts.Comments</td>
                 <td class="hideMod">@patientalerts.LastModified</td>
-                <td>
-                    <a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"
-                       asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a>
-                </td>
-                @if (User.IsInRole("Administrator"))
+                
+                @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
+                     || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar"))
                 {
                     <td>
                         <a asp-action="EditPatientAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn"
                            asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary">Details</a>
                     </td>
-                    @if (User.IsInRole("Administrator"))
+
+                    @*@if (User.IsInRole("Administrator"))
                     {
                         <td>
                             <a asp-action="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId"
                                onclick="if (!confirm('Are you sure you want to delete this alert?')) return false;" class="btn btn-danger">Delete</a>
                         </td>
-                    }
+                    }*@
+                }
                 </tr>
             }
         </tbody>
     </table>
-}
+
 @*TODO: add registrar, hit clerk here*@
 @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
   || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar"))
