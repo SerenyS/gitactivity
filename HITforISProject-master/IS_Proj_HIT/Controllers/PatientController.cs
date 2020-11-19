@@ -529,7 +529,7 @@ namespace IS_Proj_HIT.Controllers
             });
 
         // Load page for adding patient alerts
-        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student")] //add HIT Clerk, Registrar
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")] 
         public IActionResult CreateAlert(string id, string returnUrl)
         {
             ViewBag.myMrn = id;
@@ -598,6 +598,7 @@ namespace IS_Proj_HIT.Controllers
         [ActionName("CreateAlert")]
         [ValidateAntiForgeryToken]
         //permissions here for all roles but read only
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student")]
         public IActionResult CreateAlert(AlertsViewModel model, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -646,6 +647,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student")]
         public IActionResult EditPatientAlert(int id, string mrn, string returnUrl)
         {
             ViewBag.myMrn = mrn;
