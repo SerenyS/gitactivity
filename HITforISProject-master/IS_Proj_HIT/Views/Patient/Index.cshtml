@@ -90,7 +90,7 @@ else
                 <tr>
                     <td>@patient.Mrn</td>
                     <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
-                    <td>@patient.Dob.ToShortDateString()</td>
+                    <td>@(patient.Dob.HasValue ? patient.Dob.Value.ToShortDateString() : string.Empty)</td>
                     <td id="special">
                         <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
                     <td></td>
@@ -102,7 +102,7 @@ else
 <hr />
 
 <a asp-controller="Patient" asp-action="PatientSearch" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
-@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
+@if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
 {
     <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
     }
