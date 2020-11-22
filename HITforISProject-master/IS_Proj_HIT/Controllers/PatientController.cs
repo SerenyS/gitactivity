@@ -13,7 +13,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace IS_Proj_HIT.Controllers
 {
-
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student, Read Only")]
     public class PatientController : Controller
     {
         private IWCTCHealthSystemRepository repository;
