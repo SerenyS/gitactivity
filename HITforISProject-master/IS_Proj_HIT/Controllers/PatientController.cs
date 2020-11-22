@@ -912,6 +912,7 @@ namespace IS_Proj_HIT.Controllers
             if (ModelState.IsValid)
             {
                 model.LastModified = DateTime.Now;
+                model.IsActive = model.EndDate == null;
 
                 repository.EditAlert(model);
                 return RedirectToAction("ListAlerts", new { id = model.Mrn });
