@@ -790,6 +790,7 @@ namespace IS_Proj_HIT.Controllers
         {
          
             var alert = repository.PatientAlerts.FirstOrDefault(a => a.PatientAlertId == id);
+            
 
             if (alert != null)
             {
@@ -881,6 +882,9 @@ namespace IS_Proj_HIT.Controllers
                     ViewBag.ReactionValue = myReaction.reaction;
                 }
 
+                var date = DateTime.Now;
+                ViewBag.currentDate = $"{date.Year}-{date.Month}-{date.Day}";
+
                 return View(model);
             }
             else
@@ -908,6 +912,7 @@ namespace IS_Proj_HIT.Controllers
             if (ModelState.IsValid)
             {
                 model.LastModified = DateTime.Now;
+                model.IsActive = model.EndDate == null;
 
                 repository.EditAlert(model);
                 return RedirectToAction("ListAlerts", new { id = model.Mrn });

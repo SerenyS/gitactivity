@@ -31,9 +31,15 @@
                     <label class="heading">Patient Alert ID</label><br />
                     <input asp-for="@Model.PatientAlertId" class="takeawayborder bg-light" id="alertTypeId" readonly />
                 </div>
-                <div class="col-sm-4 form-group checkboxcontainer">
-                    <label for="isActive" class="heading">Active *</label><br />
-                    <input id="isActive" asp-for="@Model.IsActive" type="checkbox" checked="@Model.IsActive" style="height: 20px; width: 20px;" />
+                @*<div class="col-sm-4 form-group checkboxcontainer">*@
+                <div class="col-sm-4 form-group">
+                    <label for="isActive" class="heading">Active?</label><br />
+                    <input asp-for="@Model.IsActive" type="hidden" />
+                    <div>
+                        @((bool)@Model.IsActive ? "Yes" : "No")
+                    </div>
+
+                    @*<input id="isActive" asp-for="@Model.IsActive" type="checkbox" checked="@Model.IsActive" style="height: 20px; width: 20px;" />*@
                 </div>
             </div>
             <div class="row">
@@ -48,8 +54,8 @@
                     <div>@Model.StartDate.ToShortDateString()</div>
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="heading">End Date *</label><br />
-                    <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="longer" />
+                    <label class="heading">End Date * (must be today's date or before)</label><br />
+                    <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="alertEndDate" max="@ViewBag.currentDate"/>
                 </div>
             </div>
             <div class="row">
@@ -78,7 +84,7 @@
             </div>
             <button class="btn btn-outline-primary justify-content-center mt-3" id="submit" type="submit" asp-route-returnUrl="@ViewBag.ReturnUrl">Save Changes</button>
             <a class="btn btn-outline-danger mt-3" href="javascript:history.back()">Cancel</a>
-        </form> 
+        </form>
     </div>
 </div>
 @*<div class="card-body bg-light">
@@ -114,7 +120,46 @@
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script>// Calc age in div in Patient Banner
+    $(document).ready(function () {
+        var date = new Date();
+        var currentDate = date.getDate();
+        var currentMonth = date.getMonth() + 1;
+        var currentYear = date.getFullYear();
+        var today = currentYear + "-" + currentMonth + "-" + currentDate;
+        document.getElementById["alertEndDate"].max = today;
+
+    })
+
+
+
+    @*$.validator.addMethod("maxDate", function (value, element) {
+        var curDate = new Date();
+        var inputDate = new Date(value);
+        if (inputDate < curDate || inputDate == null)
+            return true;
+        return false;
+    }, "cannot be a future date");
+
+    $("form[name='updateAlert']").validate({
+
+        rules: {
+            EndDate: {
+                maxDate: true
+            }
+
+        },
+        messages: {
+            maxDate: "Cannot pick a future date"
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+
+
+    })*@
+
     $(function () {
+
         var dob = $('.dob').html();
         var dob1 = $('.dob').val();
         if (dob != '') {
@@ -167,6 +212,7 @@
             $('.fallrisk').hide();
             $('.restriction').hide();
         }
+
 
     });</script>
 
