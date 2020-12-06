@@ -883,7 +883,8 @@ namespace IS_Proj_HIT.Controllers
                 }
 
                 var date = DateTime.Now;
-                ViewBag.currentDate = $"{date.Year}-{date.Month}-{date.Day}";
+                var day = date.Day.ToString("00");
+                ViewBag.currentDate = $"{date.Year}-{date.Month}-{day}";
 
                 return View(model);
             }

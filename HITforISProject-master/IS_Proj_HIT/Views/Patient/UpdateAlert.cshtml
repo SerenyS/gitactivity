@@ -132,31 +132,31 @@
 
 
 
-    @*$.validator.addMethod("maxDate", function (value, element) {
-        var curDate = new Date();
-        var inputDate = new Date(value);
-        if (inputDate < curDate || inputDate == null)
-            return true;
-        return false;
-    }, "cannot be a future date");
+    //$.validator.addMethod("maxDate", function (value, element) {
+    //    var curDate = new Date();
+    //    var inputDate = new Date(value);
+    //    if (inputDate < curDate || inputDate == null)
+    //        return true;
+    //    return false;
+    //}, "cannot be a future date");
 
-    $("form[name='updateAlert']").validate({
+    //$("form[name='updateAlert']").validate({
 
-        rules: {
-            EndDate: {
-                maxDate: true
-            }
+    //    rules: {
+    //        EndDate: {
+    //            maxDate: true
+    //        }
 
-        },
-        messages: {
-            maxDate: "Cannot pick a future date"
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
+    //    },
+    //    messages: {
+    //        maxDate: "Cannot pick a future date"
+    //    },
+    //    submitHandler: function (form) {
+    //        form.submit();
+    //    }
 
 
-    })*@
+    //})
 
     $(function () {
 
