@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Security.AccessControl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+
+//using Newtonsoft.Json; changed to below (if this doesnt work there is instructions to uses newtonsoft)
+using System.Text.Json;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account.Manage
 {
@@ -44,7 +47,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account.Manage
             }
 
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
-            return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(personalData)), "text/json");
+            //todo JsonConvert.SerializeObject(personalData) to JsonSerializer.Serialize(personalData)
+            return new FileContentResult(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(personalData)), "text/json");
         }
     }
 }

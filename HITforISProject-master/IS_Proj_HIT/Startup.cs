@@ -5,15 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
+using Microsoft.Extensions.Hosting;
+
+//todo added this to solve uiframework
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
+
 
 namespace IS_Proj_HIT
 {
@@ -25,6 +29,8 @@ namespace IS_Proj_HIT
             Configuration = configuration;
         }
 
+        static readonly string _RequireAuthenticatedUserPolicy = "RequireAuthenticatedUserPolicy";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -35,6 +41,7 @@ namespace IS_Proj_HIT
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Identity/Account/Login";
@@ -42,27 +49,31 @@ namespace IS_Proj_HIT
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration["Data:HIT:ConnectionString"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:HIT:ConnectionString"]));
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
+                //TODO line below this is not needed because it is automatically set as the default framework
+                //.AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddDbContext<WCTCHealthSystemContext>(options => options.UseSqlServer(Configuration["Data:HIT:ConnectionString"]));
             services.AddTransient<IWCTCHealthSystemRepository, EFWCTCHealthSystemRepository>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddRazorPagesOptions(options =>
-                {
-                    options.AllowAreas = true;
-                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-                });
+
+            //TODO AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2) --------------------------------------------------------------------------------------
+            services.AddRazorPages();
+            services.AddAuthorization(o => o.AddPolicy(_RequireAuthenticatedUserPolicy, builder => builder.RequireAuthenticatedUser()));
+
+            //We may need 59-64 --------------------------------------------------------------------------------------
+                // .AddRazorPagesOptions(options =>
+                // {
+                //     options.AllowAreas = true;
+                //     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                //     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                // });
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -80,17 +91,30 @@ namespace IS_Proj_HIT
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            //todo updated 86-92 --------------------------------------------------------------------------------------
+            app.UseCors();
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => 
             {
-                routes.MapRoute(
-                name: "pagination",
-                    template: "Patients/Page{patientPage}",
-                    defaults: new { Controller = "Patient", action = "Index" });
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                //todo added this for the update
+                endpoints.MapDefaultControllerRoute().RequireAuthorization(_RequireAuthenticatedUserPolicy);
+
+                endpoints.MapRazorPages();
             });
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapRoute(
+            //     name: "pagination",
+            //         template: "Patients/Page{patientPage}",
+            //         defaults: new { Controller = "Patient", action = "Index" });
+            //     routes.MapRoute(
+            //         name: "default",
+            //         template: "{controller=Home}/{action=Index}/{id?}");
+            // });
         }
     }
 }

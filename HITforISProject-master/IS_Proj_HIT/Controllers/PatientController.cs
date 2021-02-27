@@ -102,13 +102,12 @@ namespace IS_Proj_HIT.Controllers
             //Run stored procedure from SQL database to generate the MRN number
             using (var context = new WCTCHealthSystemContext())
             {
-                var data = context.Patient.FromSql("EXECUTE dbo.GetNextMRN");
+                //todo changed fromsql to fromsqlraw
+                var data = context.Patient.FromSqlRaw("EXECUTE dbo.GetNextMRN");
                 ViewBag.MRN = data.FirstOrDefault()?.Mrn;
-              
             }
 
-            
-           
+
 
             AddDropdowns();
 

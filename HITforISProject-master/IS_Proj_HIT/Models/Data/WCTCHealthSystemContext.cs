@@ -186,7 +186,7 @@ namespace IS_Proj_HIT.Models.Data
 
             modelBuilder.Entity<AspNetRoles>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName).HasName("RoleNameIndex").IsUnique()
+                entity.HasIndex(e => e.NormalizedName).HasDatabaseName("RoleNameIndex").IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -244,9 +244,9 @@ namespace IS_Proj_HIT.Models.Data
 
             modelBuilder.Entity<AspNetUsers>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedEmail).HasName("EmailIndex");
+                entity.HasIndex(e => e.NormalizedEmail).HasDatabaseName("EmailIndex");
 
-                entity.HasIndex(e => e.NormalizedUserName).HasName("UserNameIndex").IsUnique()
+                entity.HasIndex(e => e.NormalizedUserName).HasDatabaseName("UserNameIndex").IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
