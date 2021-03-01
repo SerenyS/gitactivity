@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityUser>
+@{
+    ViewData["Title"] = "ListUsers";
+}
+
+<h1>ListUsers</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Users</h3>
+        @*<a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model.Id"
+            class="btn btn-primary text-white" style="width:auto">Add or Remove Users</a>*@
+
+    </div>
+    @*<div class="card-body">*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        <a asp-action="EditRole" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @*</div>*@
+    <div class="card-footer">
+        <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model"
+           class="btn btn-primary text-white" style="width:auto">Add or Remove Users</a>
+    </div>
+</div>

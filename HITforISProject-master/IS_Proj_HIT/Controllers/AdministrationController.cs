@@ -1,4 +1,5 @@
-﻿using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Data;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.PCA;
 using IS_Proj_HIT.ViewModels;
@@ -23,6 +24,8 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+   
+
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
@@ -170,6 +173,23 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
 
         public IActionResult ViewRoles() => View(_roleManager.Roles);
+
+
+        //Testing Listing the Correct Users - Chris P - 2/25/20
+        public async Task<IActionResult> ViewUsers()
+        {
+            var users = _repository.UserTables;
+            return   View(users);
+
+        }
+
+        //List users - Chris P - 2/27/20
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = _userManager.Users;
+            return View(users);
+        }
 
         public IActionResult CreateRole() => View();
 
