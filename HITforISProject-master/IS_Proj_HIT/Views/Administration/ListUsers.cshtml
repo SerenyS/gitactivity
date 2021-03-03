@@ -23,14 +23,17 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Id)
                 </th>
-                <th></th>
+                <th>
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
+
                     <td>
+                       
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
                     <td>
@@ -38,9 +41,11 @@
                     </td>
 
                     <td>
-                        <a asp-action="EditRole" asp-route-id="@item.Id">Edit</a> |
+                        
+                        <a asp-action="EditUsersInRole" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item">Delete</a>
+                        <a asp-action="DeleteUser" asp-route-id="@item.Id"
+                           onclick="return confirm('Are you sure you want to delete user : @item.UserName ?')">Delete</a>
                     </td>
                 </tr>
             }
