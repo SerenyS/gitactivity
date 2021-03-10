@@ -5,11 +5,12 @@
 }
 
 <h1>ViewUsers</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
+<span></span>
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -27,19 +28,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Instructor)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastModified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AspNetUsersID)
-            </th>
             <th></th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -62,30 +54,27 @@
                     @Html.DisplayFor(modelItem => item.Instructor)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastModified)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AspNetUsersID)
-                </td>
-                <td>
                     <a asp-action="EditUsersInRole" asp-route-id="@item.AspNetUsersID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                    
-                    <span id="confirmDelete_@item.UserId" style="display:none">
-                        <span> Are you sure you want to delete?</span>
-                        <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
-                        <a href="#" class="btn btn-primary">No</a>
-                    </span>
+                    <a asp-action="DeleteUser" asp-route-id="@item.AspNetUsersID"
+                       onclick="return confirm('Are you sure you want to delete user : @item.UserId ?')">Delete</a>
 
-                    <span id="deleteSpan_@item.UserId">
-                        <a href="#" class="btn btn-danger" onclick=""> Delete</a> 
-                    </span>
+                    @*  This code is an attempt to delete a user in a different way. I couldn't get it to work - CPavelsek 3/3/21'
+
+            <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
+            <span id="confirmDelete_@item.UserId" style="display:none">
+                <span> Are you sure you want to delete?</span>
+                <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
+                <a href="#" class="btn btn-primary">No</a>
+            </span>
+
+            <span id="deleteSpan_@item.UserId">
+                <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.UserId', true)"> Delete</a>
+            </span>
+        </form>*@
+                </td>
+                <td >
+                    <input type="checkbox" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
                 </td>
             </tr>
         }

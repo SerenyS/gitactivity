@@ -24,16 +24,18 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly WCTCHealthSystemContext _db;
 
 
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
-            IWCTCHealthSystemRepository repo)
+            IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _repository = repo;
+            _db = db;
         }
 
         public IActionResult Index() => View();
@@ -183,6 +185,45 @@ namespace IS_Proj_HIT.Controllers
 
         }
 
+        //Delete users from UserTable  -- This shouldn't be necessary with Cascade delete option
+        public async Task<IActionResult> DeleteFromUserTable(UserTable deleteId, string id)
+        {
+            var userToDelete = await _userManager.FindByIdAsync(id);
+
+            //var secondUser = _repository.UserTables.Where(x => x.AspNetUsersID == userId).FirstOrDefault();
+
+            
+
+
+
+            if (userToDelete == null)
+            {
+                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                return View("NotFound");
+            }
+            else
+            {
+                _repository.DeleteUser(deleteId);
+                var result = await _userManager.DeleteAsync(userToDelete);
+
+                ;
+
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListUsers");
+
+            }
+        }
+
+
         //List users - Chris P - 2/27/21
         [HttpGet]
         public IActionResult ListUsers()
@@ -191,10 +232,11 @@ namespace IS_Proj_HIT.Controllers
             return View(users);
         }
 
-        //Delete User - Chris P - 2/28/21
+        //Delete User from AspNetUsers - Chris P - 2/28/21
         public async Task<IActionResult> DeleteUser(string id)
         {
             var userToDelete = await _userManager.FindByIdAsync(id);
+            
 
             if(userToDelete == null)
             {
@@ -207,6 +249,7 @@ namespace IS_Proj_HIT.Controllers
                 
                 if(result.Succeeded)
                 {
+                    
                     return RedirectToAction("ListUsers");
                 }
 
@@ -256,13 +299,13 @@ namespace IS_Proj_HIT.Controllers
             var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
 
 
-            var model = await _userManager.Users.Select(u => new UserRoleViewModel
+            var model =  _userManager.Users.AsEnumerable().Select(u => new UserRoleViewModel
             {
                 UserId = u.Id,
                 UserName = u.UserName,
                 IsSelected = usersInRole.Any(inRole => inRole.UserName == u.UserName)
 
-            }).OrderByDescending(u => u.IsSelected).ThenBy(u => u.UserName).ToListAsync();
+            }).AsEnumerable().OrderByDescending(u => u.IsSelected).ThenBy(u => u.UserName).ToList();
 
             foreach (var user in model)
             {
