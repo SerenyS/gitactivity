@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityUser>
+@{
+    ViewData["Title"] = "ListUsers";
+}
+
+<h1>ListUsers</h1>
+<a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
+
+<div class="card">
+    @*<div class="card-body">*@
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                
+                <th>
+                </th>
+                <th>
+                   @*// @Html.CheckBox("isActive")*@
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+
+                <td>
+
+                    <a asp-action="EditUsersInRole" asp-route-id="@item">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item">Details</a> |
+                    <a asp-action="DeleteUser" asp-route-id="@item.Id"
+                       onclick="return confirm('Are you sure you want to delete user : @item.UserName ?')">Delete</a>
+
+                </td>
+                <td >
+                    <input type="checkbox"  style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    @*</div>*@
+    <div class="card-footer">
+        <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model"
+           class="btn btn-primary text-white" style="width:auto">Add or Remove Users</a>
+    </div>
+</div>

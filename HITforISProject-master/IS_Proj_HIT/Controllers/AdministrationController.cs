@@ -1,4 +1,5 @@
-﻿using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Data;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.PCA;
 using IS_Proj_HIT.ViewModels;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;      
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,14 +24,18 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly WCTCHealthSystemContext _db;
+
+
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
-            IWCTCHealthSystemRepository repo)
+            IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _repository = repo;
+            _db = db;
         }
 
         public IActionResult Index() => View();
@@ -99,7 +104,7 @@ namespace IS_Proj_HIT.Controllers
 
             //select the information I want to display
             var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id) ??
-                         new UserTable {StartDate = DateTime.Now, EndDate = DateTime.Now};
+                         new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
 
             //Create or get program list from DB
             ViewBag.ProgramList = new List<SelectListItem>
@@ -118,7 +123,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                    {Text = u.LastName, Value = u.LastName, Selected = dbUser.Instructor == u.LastName}).ToList();
+                { Text = u.LastName, Value = u.LastName, Selected = dbUser.Instructor == u.LastName }).ToList();
 
             return View(dbUser);
         }
@@ -159,7 +164,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                    {Text = u.LastName, Value = u.LastName, Selected = model.Instructor == u.LastName}).ToList();
+                { Text = u.LastName, Value = u.LastName, Selected = model.Instructor == u.LastName }).ToList();
 
             return View(model);
         }
@@ -170,6 +175,92 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
 
         public IActionResult ViewRoles() => View(_roleManager.Roles);
+
+
+        //Testing Listing the Correct Users - Chris P - 2/25/21
+        public async Task<IActionResult> ViewUsers()
+        {
+            var users = _repository.UserTables;
+            return View(users);
+
+        }
+
+        //Delete users from UserTable  -- This shouldn't be necessary with Cascade delete option
+        public async Task<IActionResult> DeleteFromUserTable(UserTable deleteId, string id)
+        {
+            var userToDelete = await _userManager.FindByIdAsync(id);
+
+            //var secondUser = _repository.UserTables.Where(x => x.AspNetUsersID == userId).FirstOrDefault();
+
+            
+
+
+
+            if (userToDelete == null)
+            {
+                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                return View("NotFound");
+            }
+            else
+            {
+                _repository.DeleteUser(deleteId);
+                var result = await _userManager.DeleteAsync(userToDelete);
+
+                ;
+
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListUsers");
+
+            }
+        }
+
+
+        //List users - Chris P - 2/27/21
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = _userManager.Users;
+            return View(users);
+        }
+
+        //Delete User from AspNetUsers - Chris P - 2/28/21
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var userToDelete = await _userManager.FindByIdAsync(id);
+            
+
+            if(userToDelete == null)
+            {
+                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(userToDelete);
+                
+                if(result.Succeeded)
+                {
+                    
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListUsers");
+                    
+            }
+        }
 
         public IActionResult CreateRole() => View();
 
@@ -189,8 +280,8 @@ namespace IS_Proj_HIT.Controllers
                 RoleName = role.Name,
                 Users = (await _userManager.GetUsersInRoleAsync(role.Name)).Select(u => u.UserName).OrderBy(username => username).ToList()
 
-        };
-           
+            };
+
             return View(model);
         }
 
@@ -208,21 +299,21 @@ namespace IS_Proj_HIT.Controllers
             var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
 
 
-            var model = await _userManager.Users.Select(u => new UserRoleViewModel
+            var model =  _userManager.Users.AsEnumerable().Select(u => new UserRoleViewModel
             {
                 UserId = u.Id,
                 UserName = u.UserName,
                 IsSelected = usersInRole.Any(inRole => inRole.UserName == u.UserName)
 
-            }).OrderByDescending(u => u.IsSelected).ThenBy(u => u.UserName).ToListAsync();
+            }).AsEnumerable().OrderByDescending(u => u.IsSelected).ThenBy(u => u.UserName).ToList();
 
-            foreach(var user in model)
+            foreach (var user in model)
             {
                 var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == user.UserId);
                 user.FullName = dbUser != null ? dbUser.FirstName + " " + dbUser.LastName : "No Name On File";
             }
 
-           
+
             return View(model);
         }
 
@@ -307,7 +398,7 @@ namespace IS_Proj_HIT.Controllers
                 }
             }
 
-            return RedirectToAction("EditRole", new {Id = roleId});
+            return RedirectToAction("EditRole", new { Id = roleId });
         }
 
         #endregion
