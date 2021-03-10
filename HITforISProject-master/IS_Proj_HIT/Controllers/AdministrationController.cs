@@ -180,7 +180,6 @@ namespace IS_Proj_HIT.Controllers
         {
             var users = _repository.UserTables;
             return View(users);
-
         }
 
         //List users - Chris P - 2/27/21
@@ -219,6 +218,25 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        //List a singular user
+        public async Task<IActionResult> EditUsersInRole(string id)
+        {
+            var userToEdit = await _userManager.FindByIdAsync(id);
+
+            if(userToEdit == null)
+            {
+                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.FindByIdAsync(id);
+                
+                return View(result);
+                    
+            }
+        }
+
         public IActionResult CreateRole() => View();
 
         public async Task<IActionResult> EditRole(string id)
@@ -242,7 +260,7 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> EditUsersInRole(string roleId)
+        /*public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.RoleId = roleId;
 
@@ -272,7 +290,7 @@ namespace IS_Proj_HIT.Controllers
 
 
             return View(model);
-        }
+        }*/
 
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)

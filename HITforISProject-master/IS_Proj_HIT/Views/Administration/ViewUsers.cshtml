@@ -74,7 +74,7 @@
                     @Html.DisplayFor(modelItem => item.AspNetUsersID)
                 </td>
                 <td>
-                    <a asp-action="EditUsersInRole" asp-route-id="@item.AspNetUsersID">Edit</a> |
+                    <a asp-action="EditUsersInRole" asp-route-id="@item.UserId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
                     
                     <span id="confirmDelete_@item.UserId" style="display:none">
