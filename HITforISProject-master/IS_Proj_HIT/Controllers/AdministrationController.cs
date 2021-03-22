@@ -4,6 +4,7 @@ using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.PCA;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -190,11 +191,6 @@ namespace IS_Proj_HIT.Controllers
         {
             var userToDelete = await _userManager.FindByIdAsync(id);
 
-            //var secondUser = _repository.UserTables.Where(x => x.AspNetUsersID == userId).FirstOrDefault();
-
-            
-
-
 
             if (userToDelete == null)
             {
@@ -229,7 +225,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult ListUsers()
         {
             var users = _userManager.Users;
-            return View(users);
+            return View(users.ToList());
         }
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
@@ -262,6 +258,41 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult>  DeleteBatch(IFormCollection userIdsToDelete)
+        {
+            var deleteId = userIdsToDelete["item.id"];
+
+
+            foreach (var user in deleteId)
+                {
+                // user.FullName = dbUser != null ? dbUser.FirstName + " " + dbUser.LastName : "No Name On File";
+                var userId = await _userManager.FindByIdAsync(user);
+                var result = await _userManager.DeleteAsync(userId);
+
+                var obj = _db.AspNetUsers.Find(user);
+                _db.Remove(obj);
+
+                _db.SaveChanges();
+
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListUsers");
+            }
+
+            return RedirectToAction("ListUsers");
+            
+        }
+
+
         public IActionResult CreateRole() => View();
 
         public async Task<IActionResult> EditRole(string id)
@@ -290,6 +321,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.RoleId = roleId;
 
             var role = await _roleManager.FindByIdAsync(roleId);
+
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with ID = {roleId} cannot be found";
