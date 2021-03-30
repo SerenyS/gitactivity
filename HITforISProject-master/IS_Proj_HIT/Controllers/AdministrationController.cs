@@ -124,7 +124,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = dbUser.Instructor == u.LastName }).ToList();
+                { Text = u.LastName, Value = u.LastName, }).ToList();
 
             return View(dbUser);
         }
@@ -165,7 +165,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = model.Instructor == u.LastName }).ToList();
+                { Text = u.LastName, Value = u.LastName, }).ToList();
 
             return View(model);
         }
@@ -186,47 +186,25 @@ namespace IS_Proj_HIT.Controllers
 
         }
 
-        //Delete users from UserTable  -- This shouldn't be necessary with Cascade delete option
-        public async Task<IActionResult> DeleteFromUserTable(UserTable deleteId, string id)
-        {
-            var userToDelete = await _userManager.FindByIdAsync(id);
-
-
-            if (userToDelete == null)
-            {
-                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
-                return View("NotFound");
-            }
-            else
-            {
-                _repository.DeleteUser(deleteId);
-                var result = await _userManager.DeleteAsync(userToDelete);
-
-                ;
-
-                if (result.Succeeded)
-                {
-
-                    return RedirectToAction("ListUsers");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View("ListUsers");
-
-            }
-        }
-
 
         //List users - Chris P - 2/27/21
         [HttpGet]
-        public IActionResult ListUsers()
+        public  IActionResult ListUsers()
         {
-            var users = _userManager.Users;
-            return View(users.ToList());
+            //var users = _repository.UserTables;
+
+            var model = _repository.UserTables.Select(u => new UsersPlusViewModel
+            {
+                UserId = u.UserId,
+                UserName = u.Email,
+                StartDate = u.StartDate
+
+            }).OrderByDescending(u => u.UserName).ToList();
+
+            return View(model);
         }
+
+
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
         public async Task<IActionResult> DeleteUser(string id)
@@ -258,34 +236,18 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult>  DeleteBatch(IFormCollection userIdsToDelete)
+        
+        public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
-            var deleteId = userIdsToDelete["item.id"];
-
-
-            foreach (var user in deleteId)
-                {
-                // user.FullName = dbUser != null ? dbUser.FirstName + " " + dbUser.LastName : "No Name On File";
-                var userId = await _userManager.FindByIdAsync(user);
-                var result = await _userManager.DeleteAsync(userId);
-
-                var obj = _db.AspNetUsers.Find(user);
-                _db.Remove(obj);
-
-                _db.SaveChanges();
-
-                if (result.Succeeded)
+                foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
                 {
 
-                    return RedirectToAction("ListUsers");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View("ListUsers");
+                    var selectedUser = _userManager.Users.Single(u => u.UserName == user.UserName);
+                    
+                    var userId = await _userManager.FindByIdAsync(selectedUser.Id);
+                    
+                    var result =  await _userManager.DeleteAsync(userId);
+                
             }
 
             return RedirectToAction("ListUsers");

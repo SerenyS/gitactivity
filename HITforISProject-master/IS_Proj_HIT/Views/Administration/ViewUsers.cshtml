@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.ProgramEnrolledIn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Instructor)
+                @*@Html.DisplayNameFor(model => model.Instructor)*@
             </th>
             <th></th>
             <th>
@@ -51,7 +51,7 @@
                     @Html.DisplayFor(modelItem => item.ProgramEnrolledIn)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Instructor)
+                    @Html.DisplayFor(modelItem => item.InstructorId)
                 </td>
                 <td>
                     <a asp-action="EditUsersInRole" asp-route-id="@item.AspNetUsersID">Edit</a> |

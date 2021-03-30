@@ -15,7 +15,7 @@ namespace IS_Proj_HIT.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string ProgramEnrolledIn { get; set; }
-        public string Instructor { get; set; }
+        public int InstructorId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime LastModified { get; set; }

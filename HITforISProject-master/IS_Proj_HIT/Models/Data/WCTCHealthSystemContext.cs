@@ -1396,7 +1396,7 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50).IsUnicode(false);
 
-                entity.Property(e => e.Instructor).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.InstructorId).HasMaxLength(50).IsUnicode(false);
 
                 entity.Property(e => e.LastModified).HasColumnType("datetime").HasDefaultValueSql("(getdate())");
 
