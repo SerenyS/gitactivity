@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -33,14 +33,14 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            CareSystemParameter = await _context.CareSystemParameter
+            CareSystemParameter = await _context.CareSystemParameters
                 .Include(c => c.CareSystemType).FirstOrDefaultAsync(m => m.CareSystemParameterId == id);
 
             if (CareSystemParameter == null)
             {
                 return NotFound();
             }
-           ViewData["CareSystemTypeId"] = new SelectList(_context.CareSystemType, "CareSystemTypeId", "Name", "NormalLimitsDescription");
+           ViewData["CareSystemTypeId"] = new SelectList(_context.CareSystemTypes, "CareSystemTypeId", "Name", "NormalLimitsDescription");
             return Page();
         }
 
@@ -75,7 +75,7 @@ namespace IS_Proj_HIT
 
         private bool CareSystemParameterExists(short id)
         {
-            return _context.CareSystemParameter.Any(e => e.CareSystemParameterId == id);
+            return _context.CareSystemParameters.Any(e => e.CareSystemParameterId == id);
         }
     }
 }

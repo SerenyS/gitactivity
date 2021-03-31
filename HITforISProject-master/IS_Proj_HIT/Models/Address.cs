@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Address
     {
         public Address()
         {
-            Facility = new HashSet<Facility>();
-            Insurance = new HashSet<Insurance>();
-            PatientContactDetailsMailingAddress = new HashSet<PatientContactDetails>();
-            PatientContactDetailsResidenceAddress = new HashSet<PatientContactDetails>();
-            PatientEmergencyContact = new HashSet<PatientEmergencyContact>();
-            Physician = new HashSet<Physician>();
+            Facilities = new HashSet<Facility>();
+            Insurances = new HashSet<Insurance>();
+            PatientContactDetailMailingAddresses = new HashSet<PatientContactDetail>();
+            PatientContactDetailResidenceAddresses = new HashSet<PatientContactDetail>();
+            PatientEmergencyContacts = new HashSet<PatientEmergencyContact>();
+            Physicians = new HashSet<Physician>();
         }
 
         public int AddressId { get; set; }
@@ -25,11 +27,11 @@ namespace IS_Proj_HIT.Models
         public DateTime LastModified { get; set; }
 
         public virtual Country Country { get; set; }
-        public virtual ICollection<Facility> Facility { get; set; }
-        public virtual ICollection<Insurance> Insurance { get; set; }
-        public virtual ICollection<PatientContactDetails> PatientContactDetailsMailingAddress { get; set; }
-        public virtual ICollection<PatientContactDetails> PatientContactDetailsResidenceAddress { get; set; }
-        public virtual ICollection<PatientEmergencyContact> PatientEmergencyContact { get; set; }
-        public virtual ICollection<Physician> Physician { get; set; }
+        public virtual ICollection<Facility> Facilities { get; set; }
+        public virtual ICollection<Insurance> Insurances { get; set; }
+        public virtual ICollection<PatientContactDetail> PatientContactDetailMailingAddresses { get; set; }
+        public virtual ICollection<PatientContactDetail> PatientContactDetailResidenceAddresses { get; set; }
+        public virtual ICollection<PatientEmergencyContact> PatientEmergencyContacts { get; set; }
+        public virtual ICollection<Physician> Physicians { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace IS_Proj_HIT
             _context = context;
         }
 
-        public EncounterPhysicians EncounterPhysicians { get; set; }
+        public EncounterPhysician EncounterPhysicians { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {

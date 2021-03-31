@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.ProviderType.Add(ProviderType);
+            _context.ProviderTypes.Add(ProviderType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

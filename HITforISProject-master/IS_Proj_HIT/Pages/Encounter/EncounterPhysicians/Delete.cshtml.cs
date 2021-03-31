@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public EncounterPhysicians EncounterPhysicians { get; set; }
+        public EncounterPhysician EncounterPhysicians { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -58,7 +58,7 @@ namespace IS_Proj_HIT
             if (EncounterPhysicians != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterPhysiciansId == EncounterPhysicians.EncounterPhysiciansId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterPhysiciansId == EncounterPhysicians.EncounterPhysiciansId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");

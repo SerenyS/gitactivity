@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            ProviderType = await _context.ProviderType.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
+            ProviderType = await _context.ProviderTypes.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
 
             if (ProviderType == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool ProviderTypeExists(int id)
         {
-            return _context.ProviderType.Any(e => e.ProviderTypeId == id);
+            return _context.ProviderTypes.Any(e => e.ProviderTypeId == id);
         }
     }
 }

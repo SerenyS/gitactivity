@@ -1,7 +1,7 @@
 ﻿using IS_Proj_HIT.Data;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -46,7 +46,7 @@ namespace IS_Proj_HIT.Controllers
         {
             var entityNames = new List<string>
             {
-                typeof(PcaCommentType).Name,
+                typeof(PcacommentType).Name,
                 typeof(BloodPressureRouteType).Name,
                 typeof(O2deliveryType).Name,
                 typeof(PulseRouteType).Name,
@@ -69,7 +69,7 @@ namespace IS_Proj_HIT.Controllers
             var entityNames = new List<string>
             {
                 typeof(AdmitType).Name,
-                typeof(Departments).Name,
+                typeof(Department).Name,
                 typeof(Discharge).Name,
                 typeof(EncounterType).Name,
                 typeof(Facility).Name,
@@ -103,7 +103,7 @@ namespace IS_Proj_HIT.Controllers
             var id = _userManager.GetUserId(HttpContext.User);
 
             //select the information I want to display
-            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == id) ??
+            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
                          new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
 
             //Create or get program list from DB
@@ -123,7 +123,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = dbUser.Instructor == u.LastName }).ToList();
+                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
 
             return View(dbUser);
         }
@@ -133,8 +133,8 @@ namespace IS_Proj_HIT.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(model.AspNetUsersID))
-                    model.AspNetUsersID = _userManager.GetUserId(HttpContext.User);
+                if (string.IsNullOrWhiteSpace(model.AspNetUsersId))
+                    model.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
                 if (string.IsNullOrWhiteSpace(model.Email))
                     model.Email = User.Identity.Name;
 
@@ -164,7 +164,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = model.Instructor == u.LastName }).ToList();
+                { Text = u.LastName, Value = u.UserId.ToString(), Selected = model.InstructorId == u.UserId }).ToList();
 
             return View(model);
         }
@@ -309,7 +309,7 @@ namespace IS_Proj_HIT.Controllers
 
             foreach (var user in model)
             {
-                var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersID == user.UserId);
+                var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == user.UserId);
                 user.FullName = dbUser != null ? dbUser.FirstName + " " + dbUser.LastName : "No Name On File";
             }
 

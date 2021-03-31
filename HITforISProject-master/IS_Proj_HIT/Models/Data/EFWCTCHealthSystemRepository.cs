@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 
 namespace IS_Proj_HIT.Models.Data
@@ -13,56 +13,56 @@ namespace IS_Proj_HIT.Models.Data
 
         #region IQueryable
         
-        public IQueryable<CareSystemAssessment> CareSystemAssessments => _context.CareSystemAssessment;
-        public IQueryable<CareSystemType> CareSystemAssessmentTypes => _context.CareSystemType;
-        public IQueryable<CareSystemParameter> CareSystemParameters => _context.CareSystemParameter;
-        public IQueryable<BloodPressureRouteType> BloodPressureRouteTypes => _context.BloodPressureRouteType;
-        public IQueryable<BmiMethod> BmiMethods => _context.BmiMethod;
-        public IQueryable<PcaPainAssessment> PainAssessments => _context.PcaPainAssessment;
-        public IQueryable<PainRating> PainRatings => _context.PainRating;
-        public IQueryable<PainRatingImage> PainRatingImages => _context.PainRatingImage;
-        public IQueryable<PainParameter> PainParameters => _context.PainParameter;
-        public IQueryable<PainScaleType> PainScaleTypes => _context.PainScaleType;
-        public IQueryable<O2deliveryType> O2DeliveryTypes => _context.O2deliveryType;
-        public IQueryable<PulseRouteType> PulseRouteTypes => _context.PulseRouteType;
-        public IQueryable<TempRouteType> TempRouteTypes => _context.TempRouteType;
-        public IQueryable<PcaRecord> PcaRecords => _context.Pcarecord;
-        public IQueryable<PcaComment> PcaComments => _context.Pcacomment;
-        public IQueryable<PcaCommentType> PcaCommentTypes => _context.PcacommentType;
-        public IQueryable<AdmitType> AdmitTypes => _context.AdmitType;
-        public IQueryable<Ethnicity> Ethnicities => _context.Ethnicity;
-        public IQueryable<Gender> Genders => _context.Gender;
-        public IQueryable<AspNetUsers> AspNetUsers => _context.AspNetUsers;
-        public IQueryable<Departments> Departments => _context.Departments;
-        public IQueryable<EncounterType> EncounterTypes => _context.EncounterType;
-        public IQueryable<Discharge> Discharges => _context.Discharge;
-        public IQueryable<Sex> Sexes => _context.Sex;
-        public IQueryable<Patient> Patients => _context.Patient;
-        public IQueryable<PlaceOfServiceOutPatient> PlaceOfService => _context.PlaceOfServiceOutPatient;
-        public IQueryable<PointOfOrigin> PointOfOrigin => _context.PointOfOrigin;
-        public IQueryable<Religion> Religions => _context.Religion;
-        public IQueryable<MaritalStatus> MaritalStatuses => _context.MaritalStatus;
-        public IQueryable<PatientContactDetails> PatientContactDetails => _context.PatientContactDetails;
-        public IQueryable<PatientAlerts> PatientAlerts => _context.PatientAlerts;
-        public IQueryable<AlertType> AlertTypes => _context.AlertType;
-        public IQueryable<PatientRestrictions> PatientRestrictions => _context.PatientRestrictions;
-        public IQueryable<Employment> Employments => _context.Employment;
-        public IQueryable<Encounter> Encounters => _context.Encounter;
-        public IQueryable<FallRisks> FallRisks => _context.FallRisks;
-        public IQueryable<Restrictions> Restrictions => _context.Restrictions;
-        public IQueryable<PatientFallRisks> PatientFallRisks => _context.PatientFallRisks;
-        public IQueryable<Allergen> Allergens => _context.Allergen;
-        public IQueryable<Reaction> Reactions => _context.Reaction;
-        public IQueryable<PatientAllergy> PatientAllergy => _context.PatientAllergy;
-        public IQueryable<EncounterPhysicians> EncounterPhysicians => _context.EncounterPhysicians;
-        public IQueryable<Facility> Facilities => _context.Facility;
-        public IQueryable<Physician> Physicians => _context.Physician;
-        public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRole;
-        public IQueryable<UserTable> UserTables => _context.UserTable;
-        public IQueryable<Language> Languages => _context.Language;
-        public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguage;
-        public IQueryable<Race> Races => _context.Race;
-        public IQueryable<PatientRace> PatientRaces => _context.PatientRace;
+        public IQueryable<CareSystemAssessment> CareSystemAssessments => _context.CareSystemAssessments;
+        public IQueryable<CareSystemType> CareSystemAssessmentTypes => _context.CareSystemTypes;
+        public IQueryable<CareSystemParameter> CareSystemParameters => _context.CareSystemParameters;
+        public IQueryable<BloodPressureRouteType> BloodPressureRouteTypes => _context.BloodPressureRouteTypes;
+        public IQueryable<Bmimethod> BmiMethods => _context.Bmimethods;
+        public IQueryable<PcapainAssessment> PainAssessments => _context.PcapainAssessments;
+        public IQueryable<PainRating> PainRatings => _context.PainRatings;
+        public IQueryable<PainRatingImage> PainRatingImages => _context.PainRatingImages;
+        public IQueryable<PainParameter> PainParameters => _context.PainParameters;
+        public IQueryable<PainScaleType> PainScaleTypes => _context.PainScaleTypes;
+        public IQueryable<O2deliveryType> O2DeliveryTypes => _context.O2deliveryTypes;
+        public IQueryable<PulseRouteType> PulseRouteTypes => _context.PulseRouteTypes;
+        public IQueryable<TempRouteType> TempRouteTypes => _context.TempRouteTypes;
+        public IQueryable<Pcarecord> PcaRecords => _context.Pcarecords;
+        public IQueryable<Pcacomment> PcaComments => _context.Pcacomments;
+        public IQueryable<PcacommentType> PcaCommentTypes => _context.PcacommentTypes;
+        public IQueryable<AdmitType> AdmitTypes => _context.AdmitTypes;
+        public IQueryable<Ethnicity> Ethnicities => _context.Ethnicities;
+        public IQueryable<Gender> Genders => _context.Genders;
+        public IQueryable<AspNetUser> AspNetUsers => _context.AspNetUsers;
+        public IQueryable<Department> Departments => _context.Departments;
+        public IQueryable<EncounterType> EncounterTypes => _context.EncounterTypes;
+        public IQueryable<Discharge> Discharges => _context.Discharges;
+        public IQueryable<Sex> Sexes => _context.Sexes;
+        public IQueryable<Patient> Patients => _context.Patients;
+        public IQueryable<PlaceOfServiceOutPatient> PlaceOfService => _context.PlaceOfServiceOutPatients;
+        public IQueryable<PointOfOrigin> PointOfOrigin => _context.PointOfOrigins;
+        public IQueryable<Religion> Religions => _context.Religions;
+        public IQueryable<MaritalStatus> MaritalStatuses => _context.MaritalStatuses;
+        public IQueryable<PatientContactDetail> PatientContactDetails => _context.PatientContactDetails;
+        public IQueryable<PatientAlert> PatientAlerts => _context.PatientAlerts;
+        public IQueryable<AlertType> AlertTypes => _context.AlertTypes;
+        public IQueryable<PatientRestriction> PatientRestrictions => _context.PatientRestrictions;
+        public IQueryable<Employment> Employments => _context.Employments;
+        public IQueryable<Encounter> Encounters => _context.Encounters;
+        public IQueryable<FallRisk> FallRisks => _context.FallRisks;
+        public IQueryable<Restriction> Restrictions => _context.Restrictions;
+        public IQueryable<PatientFallRisk> PatientFallRisks => _context.PatientFallRisks;
+        public IQueryable<Allergen> Allergens => _context.Allergens;
+        public IQueryable<Reaction> Reactions => _context.Reactions;
+        public IQueryable<PatientAllergy> PatientAllergy => _context.PatientAllergies;
+        public IQueryable<EncounterPhysician> EncounterPhysicians => _context.EncounterPhysicians;
+        public IQueryable<Facility> Facilities => _context.Facilities;
+        public IQueryable<Physician> Physicians => _context.Physicians;
+        public IQueryable<PhysicianRole> PhysicianRoles => _context.PhysicianRoles;
+        public IQueryable<UserTable> UserTables => _context.UserTables;
+        public IQueryable<Language> Languages => _context.Languages;
+        public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguages;
+        public IQueryable<Race> Races => _context.Races;
+        public IQueryable<PatientRace> PatientRaces => _context.PatientRaces;
 
 
 
@@ -116,7 +116,7 @@ namespace IS_Proj_HIT.Models.Data
 
         public void AddAlert(AlertsViewModel alert)
         {
-            PatientAlerts pa = new PatientAlerts();
+            PatientAlert pa = new PatientAlert();
             pa.AlertTypeId = alert.AlertTypeId;
             pa.PatientAlertId = alert.PatientAlertId;
             pa.Mrn = alert.Mrn;
@@ -133,7 +133,7 @@ namespace IS_Proj_HIT.Models.Data
             // Based on the alertTypeid above, decide which db table to save to...
             if (alertTypeid == 5)
             {
-                PatientFallRisks pfr = new PatientFallRisks();
+                PatientFallRisk pfr = new PatientFallRisk();
                 pfr.FallRiskId = alert.FallRiskId;
                 pfr.PatientAlertId = patientAlertid;
                 pfr.LastModified = alert.LastModified;
@@ -142,7 +142,7 @@ namespace IS_Proj_HIT.Models.Data
             }
             else if (alertTypeid == 3)
             {
-                PatientRestrictions pr = new PatientRestrictions();
+                PatientRestriction pr = new PatientRestriction();
                 pr.RestrictionTypeId = alert.RestrictionTypeId;
                 pr.PatientAlertId = patientAlertid;
                 pr.LastModified = alert.LastModified;
@@ -156,7 +156,7 @@ namespace IS_Proj_HIT.Models.Data
                 pall.ReactionId = alert.ReactionId;
                 pall.PatientAlertId = patientAlertid;
                 pall.LastModified = alert.LastModified;
-                _context.PatientAllergy.Add(pall);
+                _context.PatientAllergies.Add(pall);
                 _context.SaveChanges();
             }
             else
@@ -165,13 +165,13 @@ namespace IS_Proj_HIT.Models.Data
             }
         }
 
-        public void DeleteAlert(PatientAlerts alert)
+        public void DeleteAlert(PatientAlert alert)
         {
             _context.Remove(alert);
             _context.SaveChanges();
         }
 
-        public void EditAlert(PatientAlerts alert)
+        public void EditAlert(PatientAlert alert)
         {
             _context.Update(alert);
             _context.SaveChanges();
@@ -201,37 +201,37 @@ namespace IS_Proj_HIT.Models.Data
             _context.SaveChanges();
         }
 
-        public void AddPcaRecord(PcaRecord pca)
+        public void AddPcaRecord(Pcarecord pca)
         {
             _context.Add(pca);
             _context.SaveChanges();
         }
 
-        public void DeletePcaRecord(PcaRecord pca)
+        public void DeletePcaRecord(Pcarecord pca)
         {
             _context.Remove(pca);
             _context.SaveChanges();
         }
 
-        public void EditPcaRecord(PcaRecord pca)
+        public void EditPcaRecord(Pcarecord pca)
         {
             _context.Update(pca);
             _context.SaveChanges();
         }
         
-        public void AddPcaComment(PcaComment com)
+        public void AddPcaComment(Pcacomment com)
         {
             _context.Add(com);
             _context.SaveChanges();
         }
 
-        public void DeletePcaComment(PcaComment com)
+        public void DeletePcaComment(Pcacomment com)
         {
             _context.Remove(com);
             _context.SaveChanges();
         }
 
-        public void EditPcaComment(PcaComment com)
+        public void EditPcaComment(Pcacomment com)
         {
             _context.Update(com);
             _context.SaveChanges();
@@ -260,19 +260,19 @@ namespace IS_Proj_HIT.Models.Data
             _context.SaveChanges();
         }
 
-        public void AddPainAssessment(PcaPainAssessment pa)
+        public void AddPainAssessment(PcapainAssessment pa)
         {
             _context.Add(pa);
             _context.SaveChanges();
         }
 
-        public void DeletePainAssessment(PcaPainAssessment pa)
+        public void DeletePainAssessment(PcapainAssessment pa)
         {
             _context.Remove(pa);
             _context.SaveChanges();
         }
 
-        public void EditPainAssessment(PcaPainAssessment pa)
+        public void EditPainAssessment(PcapainAssessment pa)
         {
             _context.Update(pa);
             _context.SaveChanges();

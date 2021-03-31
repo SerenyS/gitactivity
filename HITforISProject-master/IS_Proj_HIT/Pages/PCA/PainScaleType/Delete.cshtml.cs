@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Transactions;
 using System.Data.Common;
@@ -32,7 +32,7 @@ namespace IS_Proj_HIT
             ViewData["RegularMessage"] = "Are you sure you want to delete this?";
             ViewData["ErrorMessage"] = "";
 
-            PainScaleType = await _context.PainScaleType
+            PainScaleType = await _context.PainScaleTypes
                 .Include(pp=>pp.PainParameters)
                 .FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
 
@@ -50,14 +50,14 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType
+            PainScaleType = await _context.PainScaleTypes
                 .Include(pp => pp.PainParameters)
                 .FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
 
             if (PainScaleType != null)
             {
                 // See if any PCA records exist for this Pain Scale Type
-                bool PcaExists = _context.Pcarecord.Any(p => p.PainScaleTypeId== PainScaleType.PainScaleTypeId);
+                bool PcaExists = _context.Pcarecords.Any(p => p.PainScaleTypeId== PainScaleType.PainScaleTypeId);
                 if (PcaExists)
                 {
                     Console.WriteLine("PCA records exist using these records.");
@@ -69,7 +69,7 @@ namespace IS_Proj_HIT
                 // See if any Pain Assessments exist using the Pain Parameters
                 foreach (PainParameter pp in PainScaleType.PainParameters)
                 {
-                    bool paExists = _context.PcaPainAssessment.Any(p => p.PainParameterId == pp.PainParameterId);
+                    bool paExists = _context.PcapainAssessments.Any(p => p.PainParameterId == pp.PainParameterId);
                     if (paExists)
                     {
                         Console.WriteLine("Pain assessment records exist using these records.");
@@ -83,9 +83,9 @@ namespace IS_Proj_HIT
                 {
                     foreach (PainParameter pp in PainScaleType.PainParameters)
                     {
-                        _context.PainParameter.Remove(pp);
+                        _context.PainParameters.Remove(pp);
                     }
-                    _context.PainScaleType.Remove(PainScaleType);
+                    _context.PainScaleTypes.Remove(PainScaleType);
                     _context.SaveChanges();
 
                     tran.Complete();

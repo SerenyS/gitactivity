@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["PainRatingId"] = new SelectList(_context.PainRating, "PainRatingId", "Description");
+        ViewData["PainRatingId"] = new SelectList(_context.PainRatings, "PainRatingId", "Description");
             return Page();
         }
 
@@ -38,7 +38,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.PainRatingImage.Add(PainRatingImage);
+            _context.PainRatingImages.Add(PainRatingImage);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

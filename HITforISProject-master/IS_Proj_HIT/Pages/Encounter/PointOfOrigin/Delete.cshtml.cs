@@ -36,7 +36,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PointOfOrigin = await _context.PointOfOrigin.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
+            PointOfOrigin = await _context.PointOfOrigins.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
 
             if (PointOfOrigin == null)
             {
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PointOfOrigin = await _context.PointOfOrigin.FindAsync(id);
+            PointOfOrigin = await _context.PointOfOrigins.FindAsync(id);
 
             if (PointOfOrigin != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.PointOfOriginId== PointOfOrigin.PointOfOriginId);
+                bool usingExists = _context.Encounters.Any(e => e.PointOfOriginId== PointOfOrigin.PointOfOriginId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -67,7 +67,7 @@ namespace IS_Proj_HIT
                 }
 
 
-                _context.PointOfOrigin.Remove(PointOfOrigin);
+                _context.PointOfOrigins.Remove(PointOfOrigin);
                 await _context.SaveChangesAsync();
             }
 

@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            PhysicianRole = await _context.PhysicianRole.ToListAsync();
+            PhysicianRole = await _context.PhysicianRoles.ToListAsync();
         }
     }
 }

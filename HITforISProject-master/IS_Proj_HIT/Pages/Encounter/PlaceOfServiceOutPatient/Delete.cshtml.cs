@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatient.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
+            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatients.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
 
             if (PlaceOfServiceOutPatient == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatient.FindAsync(id);
+            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatients.FindAsync(id);
 
             if (PlaceOfServiceOutPatient != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.PlaceOfServiceId == PlaceOfServiceOutPatient.PlaceOfServiceId);
+                bool usingExists = _context.Encounters.Any(e => e.PlaceOfServiceId == PlaceOfServiceOutPatient.PlaceOfServiceId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                 }
 
 
-                _context.PlaceOfServiceOutPatient.Remove(PlaceOfServiceOutPatient);
+                _context.PlaceOfServiceOutPatients.Remove(PlaceOfServiceOutPatient);
                 await _context.SaveChangesAsync();
             }
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -32,7 +32,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            CareSystemParameter = await _context.CareSystemParameter
+            CareSystemParameter = await _context.CareSystemParameters
                 .Include(c => c.CareSystemType).FirstOrDefaultAsync(m => m.CareSystemParameterId == id);
 
             if (CareSystemParameter == null)
@@ -49,11 +49,11 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            CareSystemParameter = await _context.CareSystemParameter.FindAsync(id);
+            CareSystemParameter = await _context.CareSystemParameters.FindAsync(id);
 
             if (CareSystemParameter != null)
             {
-                _context.CareSystemParameter.Remove(CareSystemParameter);
+                _context.CareSystemParameters.Remove(CareSystemParameter);
                 await _context.SaveChangesAsync();
             }
 

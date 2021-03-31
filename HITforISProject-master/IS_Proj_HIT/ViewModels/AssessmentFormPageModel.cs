@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using IS_Proj_HIT.Models.Enum;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT.ViewModels
 {
     public class AssessmentFormPageModel
     {
-        public PcaRecord PcaRecord { get; set; }
+        public Pcarecord PcaRecord { get; set; }
 
         [Required] public string PatientMrn { get; set; }
 
@@ -26,7 +26,7 @@ namespace IS_Proj_HIT.ViewModels
 
         public AssessmentFormPageModel()
         {
-            PcaRecord = new PcaRecord();
+            PcaRecord = new Pcarecord();
 
             SecondarySystemTypes = new List<CareSystemType>();
             Assessments = new Dictionary<int, CareSystemAssessment>();

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class PointOfOrigin
     {
         public PointOfOrigin()
         {
-            Encounter = new HashSet<Encounter>();
+            Encounters = new HashSet<Encounter>();
         }
 
         public int PointOfOriginId { get; set; }
@@ -16,6 +18,6 @@ namespace IS_Proj_HIT.Models
         public string Explaination { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<Encounter> Encounter { get; set; }
+        public virtual ICollection<Encounter> Encounters { get; set; }
     }
 }

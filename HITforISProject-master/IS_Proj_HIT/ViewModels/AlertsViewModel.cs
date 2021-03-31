@@ -39,9 +39,9 @@ namespace IS_Proj_HIT.ViewModels
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public PatientFallRisks PatientFallRisk { get; set; }
+        public PatientFallRisk PatientFallRisk { get; set; }
 
-        public IEnumerable<FallRisks> FallRisks { get; set; }
+        public IEnumerable<FallRisk> FallRisks { get; set; }
 
         public IEnumerable<Allergen> AllergensCollection { get; set; }
 

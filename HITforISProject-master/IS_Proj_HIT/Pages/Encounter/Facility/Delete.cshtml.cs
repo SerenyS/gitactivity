@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Facility = await _context.Facility
+            Facility = await _context.Facilities
                 .Include(f => f.Address).FirstOrDefaultAsync(m => m.FacilityId == id);
 
             if (Facility == null)
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Facility = await _context.Facility.FindAsync(id);
+            Facility = await _context.Facilities.FindAsync(id);
 
             if (Facility != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.FacilityId == Facility.FacilityId);
+                bool usingExists = _context.Encounters.Any(e => e.FacilityId == Facility.FacilityId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }                
 
-                _context.Facility.Remove(Facility);
+                _context.Facilities.Remove(Facility);
                 await _context.SaveChangesAsync();
             }
 

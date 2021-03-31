@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            BloodPressureRouteType = await _context.BloodPressureRouteType.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
+            BloodPressureRouteType = await _context.BloodPressureRouteTypes.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
 
             if (BloodPressureRouteType == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool BloodPressureRouteTypeExists(byte id)
         {
-            return _context.BloodPressureRouteType.Any(e => e.BloodPressureRouteTypeId == id);
+            return _context.BloodPressureRouteTypes.Any(e => e.BloodPressureRouteTypeId == id);
         }
     }
 }

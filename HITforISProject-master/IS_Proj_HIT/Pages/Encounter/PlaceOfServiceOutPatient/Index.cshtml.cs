@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatient.ToListAsync();
+            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatients.ToListAsync();
         }
     }
 }

@@ -24,9 +24,9 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Address1");
-        ViewData["ProviderTypeId"] = new SelectList(_context.ProviderType, "ProviderTypeId", "Name");
-        ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name");
+        ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
+        ViewData["ProviderTypeId"] = new SelectList(_context.ProviderTypes, "ProviderTypeId", "Name");
+        ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "SpecialtyId", "Name");
             return Page();
         }
 
@@ -41,7 +41,7 @@ namespace IS_Proj_HIT
             }
 
             Physician.LastModified = DateTime.Now;
-            _context.Physician.Add(Physician);
+            _context.Physicians.Add(Physician);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

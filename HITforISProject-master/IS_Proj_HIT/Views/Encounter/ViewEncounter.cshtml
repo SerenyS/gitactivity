@@ -135,13 +135,13 @@
                     @{
                         var counter = 0;
                     }
-                    @foreach (var pca in Model.Encounter.PcaRecords.OrderByDescending(pca => pca.DateVitalsAdded))
+                    @foreach (var pca in Model.Encounter.Pcarecords.OrderByDescending(pca => pca.DateVitalsAdded))
                     {
                         <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                             <td>
                                 <a asp-controller="PCA"
                                    asp-action="ViewAssessment"
-                                   asp-route-assessmentId="@pca.PcaId"
+                                   asp-route-assessmentId="@pca.Pcaid"
                                    class="btn btn-info btn-sm">
                                     View
                                 </a>
@@ -154,7 +154,7 @@
                             <td class="d-sm-none d-lg-table-cell">@pca.PulseOximetry%</td>
                         </tr>
                     }
-                    @if (Model.Encounter.PcaRecords.Count > 5)
+                    @if (Model.Encounter.Pcarecords.Count > 5)
                     {
                         <tr>
                             <td colspan="99">

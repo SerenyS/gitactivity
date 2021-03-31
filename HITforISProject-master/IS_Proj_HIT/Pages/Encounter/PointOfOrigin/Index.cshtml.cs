@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            PointOfOrigin = await _context.PointOfOrigin.ToListAsync();
+            PointOfOrigin = await _context.PointOfOrigins.ToListAsync();
         }
     }
 }

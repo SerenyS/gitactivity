@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.AdmitType.Add(AdmitType);
+            _context.AdmitTypes.Add(AdmitType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
