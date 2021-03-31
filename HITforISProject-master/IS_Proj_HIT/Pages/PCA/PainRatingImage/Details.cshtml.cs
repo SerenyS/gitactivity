@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT
 {
@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRatingImage = await _context.PainRatingImage
+            PainRatingImage = await _context.PainRatingImages
                 .Include(p => p.PainRating).FirstOrDefaultAsync(m => m.PainRatingId == id);
 
             if (PainRatingImage == null)

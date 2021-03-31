@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Discharge = await _context.Discharge.FirstOrDefaultAsync(m => m.DischargeId == id);
+            Discharge = await _context.Discharges.FirstOrDefaultAsync(m => m.DischargeId == id);
 
             if (Discharge == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Discharge = await _context.Discharge.FindAsync(id);
+            Discharge = await _context.Discharges.FindAsync(id);
 
             if (Discharge != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.DischargeDisposition == Discharge.DischargeId);
+                bool usingExists = _context.Encounters.Any(e => e.DischargeDisposition == Discharge.DischargeId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                 }
 
 
-                _context.Discharge.Remove(Discharge);
+                _context.Discharges.Remove(Discharge);
                 await _context.SaveChangesAsync();
             }
 

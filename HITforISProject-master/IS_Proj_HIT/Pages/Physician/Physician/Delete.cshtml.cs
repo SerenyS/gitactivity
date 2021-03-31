@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Physician = await _context.Physician
+            Physician = await _context.Physicians
                 .Include(p => p.Address)
                 .Include(p => p.ProviderType)
                 .Include(p => p.Specialty).FirstOrDefaultAsync(m => m.PhysicianId == id);
@@ -54,12 +54,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Physician = await _context.Physician.FindAsync(id);
+            Physician = await _context.Physicians.FindAsync(id);
 
             if (Physician != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterPhysicians.PhysicianId == Physician.PhysicianId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterPhysicians.PhysicianId == Physician.PhysicianId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -68,7 +68,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.Physician.Remove(Physician);
+                _context.Physicians.Remove(Physician);
                 await _context.SaveChangesAsync();
             }
 

@@ -1,6 +1,6 @@
 ﻿using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models.Enum;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Services;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -29,22 +29,22 @@ namespace IS_Proj_HIT.Controllers
         {
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
-                .Include(pca => pca.PcaComment)
+                .Include(pca => pca.Pcacomments)
                 .ThenInclude(com => com.PcacommentType)
-                .Include(pca => pca.CareSystemAssessment)
+                .Include(pca => pca.CareSystemAssessments)
                 .ThenInclude(ca => ca.CareSystemParameter)
                 .ThenInclude(cp => cp.CareSystemType)
-                .Include(pca => pca.PainAssessment)
+                .Include(pca => pca.PcapainAssessments)
                 .ThenInclude(pa => pa.PainParameter)
-                .Include(pca => pca.PainAssessment)
+                .Include(pca => pca.PcapainAssessments)
                 .ThenInclude(pa => pa.PainRating)
                 .Include(pca => pca.PainScaleType)
                 .Include(pca => pca.TempRouteType)
-                .Include(pca => pca.BmiMethod)
+                .Include(pca => pca.Bmimethod)
                 .Include(pca => pca.BloodPressureRouteType)
                 .Include(pca => pca.PulseRouteType)
                 .Include(pca => pca.O2deliveryType)
-                .FirstOrDefault(pca => pca.PcaId == assessmentId);
+                .FirstOrDefault(pca => pca.Pcaid == assessmentId);
             if (assessment is null)
                 return RedirectToAction("CheckedIn", "Encounter",
                     new {filter = "CheckedIn"});
@@ -113,26 +113,26 @@ namespace IS_Proj_HIT.Controllers
         {
             var assessment = _repository.PcaRecords
                 .Include(pca => pca.Encounter)
-                .Include(pca => pca.CareSystemAssessment)
+                .Include(pca => pca.CareSystemAssessments)
                 .ThenInclude(ca => ca.CareSystemParameter)
                 .ThenInclude(cp => cp.CareSystemType)
-                .Include(pca => pca.PainAssessment)
+                .Include(pca => pca.PcapainAssessments)
                 .ThenInclude(pa => pa.PainParameter)
-                .Include(pca => pca.PainAssessment)
+                .Include(pca => pca.PcapainAssessments)
                 .ThenInclude(pa => pa.PainRating)
                 .Include(pca => pca.PainScaleType)
                 .Include(pca => pca.TempRouteType)
-                .Include(pca => pca.BmiMethod)
+                .Include(pca => pca.Bmimethod)
                 .Include(pca => pca.BloodPressureRouteType)
                 .Include(pca => pca.PulseRouteType)
                 .Include(pca => pca.O2deliveryType)
-                .FirstOrDefault(pca => pca.PcaId == assessmentId);
+                .FirstOrDefault(pca => pca.Pcaid == assessmentId);
 
-            var vitalID=_repository.PcaComments.Where(pca=>pca.PcaId == assessmentId && pca.PcaCommentTypeId==11).Select(c=>c.Comment).SingleOrDefault();
+            var vitalID=_repository.PcaComments.Where(pca=>pca.Pcaid == assessmentId && pca.PcacommentTypeId==11).Select(c=>c.Pcacomment1).SingleOrDefault();
 
             string vitalsNotes = Convert.ToString(vitalID);
 
-            var painID = _repository.PcaComments.Where(pa => pa.PcaId == assessmentId && pa.PcaCommentTypeId== 12).Select(c => c.Comment).SingleOrDefault();
+            var painID = _repository.PcaComments.Where(pa => pa.Pcaid == assessmentId && pa.PcacommentTypeId== 12).Select(c => c.Pcacomment1).SingleOrDefault();
 
             string painsNotes = Convert.ToString(painID);
 
@@ -164,7 +164,7 @@ namespace IS_Proj_HIT.Controllers
                     foreach (var pr in pp.PainRatings)
                     {
                         // If a PainAssessment exists for this parameter/rating, mark the value not null.
-                        var existingPainAssessment = assessment.PainAssessment.FirstOrDefault(pa => pa.PainParameterId == pr.PainParameterId &&
+                        var existingPainAssessment = assessment.PcapainAssessments.FirstOrDefault(pa => pa.PainParameterId == pr.PainParameterId &&
                           pa.PainRatingId == pr.PainRatingId);
                         if (existingPainAssessment != null)
                         {
@@ -186,7 +186,7 @@ namespace IS_Proj_HIT.Controllers
 
             var sysAssessments = new Dictionary<int, CareSystemAssessment>();
             
-            var csaID = assessment.CareSystemAssessment.FirstOrDefault();
+            var csaID = assessment.CareSystemAssessments.FirstOrDefault();
 
 
             foreach (var ss in secondarySystems)
@@ -194,7 +194,7 @@ namespace IS_Proj_HIT.Controllers
                 foreach (var csp in ss.CareSystemParameters)
                 {                 
                         
-                        var existingCareAssessments = assessment.CareSystemAssessment.FirstOrDefault(ca => ca.CareSystemParameterId == csp.CareSystemParameterId &&
+                        var existingCareAssessments = assessment.CareSystemAssessments.FirstOrDefault(ca => ca.CareSystemParameterId == csp.CareSystemParameterId &&
                           csp.CareSystemTypeId == ss.CareSystemTypeId);
 
                         if (existingCareAssessments != null)
@@ -270,7 +270,7 @@ namespace IS_Proj_HIT.Controllers
                 pca.Temperature = ConversionService.ConvertTemp(tempUnit, TempUnit.Fahrenheit, pca.Temperature);
             }
 
-            if (pca.PcaId is 0)
+            if (pca.Pcaid is 0)
             {
                 using (var tran = new TransactionScope())
                 {
@@ -281,13 +281,13 @@ namespace IS_Proj_HIT.Controllers
                     if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
                     {
                         var vNote = _repository.PcaCommentTypes
-                            .FirstOrDefault(t => t.PcaCommentTypeName == "Vitals Notes");
+                            .FirstOrDefault(t => t.PcacommentTypeName == "Vitals Notes");
 
-                        _repository.AddPcaComment(new PcaComment
+                        _repository.AddPcaComment(new Pcacomment
                         {
-                            PcaId = pca.PcaId,
-                            PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 11,
-                            Comment = formPca.VitalNote,
+                            PcacommentId = pca.Pcaid,
+                            PcacommentTypeId = vNote?.PcacommentTypeId ?? 11,
+                            Pcacomment1 = formPca.VitalNote,
                             DateCommentAdded = DateTime.Now,
                             LastModified = DateTime.Now
                         });
@@ -296,13 +296,13 @@ namespace IS_Proj_HIT.Controllers
                     if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
                     {
                         var vNote = _repository.PcaCommentTypes
-                            .FirstOrDefault(t => t.PcaCommentTypeName == "Pain Assessment Notes");
+                            .FirstOrDefault(t => t.PcacommentTypeName == "Pain Assessment Notes");
 
-                        _repository.AddPcaComment(new PcaComment
+                        _repository.AddPcaComment(new Pcacomment
                         {
-                            PcaId = pca.PcaId,
-                            PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 12,
-                            Comment = formPca.PainNote,
+                            PcacommentId = pca.Pcaid,
+                            PcacommentTypeId = vNote?.PcacommentTypeId ?? 12,
+                            Pcacomment1 = formPca.PainNote,
                             DateCommentAdded = DateTime.Now,
                             LastModified = DateTime.Now
                         });
@@ -318,9 +318,9 @@ namespace IS_Proj_HIT.Controllers
                         {
                             if (painScale.PainParameters.Any(pp => pp.PainParameterId == paramId) && ratingId.HasValue)
                             {
-                                _repository.AddPainAssessment(new PcaPainAssessment
+                                _repository.AddPainAssessment(new PcapainAssessment
                                 {
-                                    PcaId = pca.PcaId,
+                                    Pcaid = pca.Pcaid,
                                     PainParameterId = paramId,
                                     PainRatingId = (int) ratingId,
                                     LastModified = DateTime.Now
@@ -332,7 +332,7 @@ namespace IS_Proj_HIT.Controllers
                     foreach (var (systemParamId, assessment) in formPca.Assessments.Where(a =>
                         a.Value.IsWithinNormalLimits != null))
                     {
-                        assessment.PcaId = pca.PcaId;
+                        assessment.Pcaid = pca.Pcaid;
                         assessment.CareSystemParameterId = (short) systemParamId;
                         assessment.LastModified = DateTime.Now;
                         _repository.AddSystemAssessment(assessment);
@@ -347,10 +347,10 @@ namespace IS_Proj_HIT.Controllers
                 {
 
                     var existingRecord = _repository.PcaRecords
-                        .Include(pca => pca.PainAssessment)
-                        .Include(pca => pca.PcaComment)
-                        .Include(pca => pca.CareSystemAssessment)
-                        .FirstOrDefault(pcr => pcr.PcaId == pca.PcaId);
+                        .Include(pca => pca.PcapainAssessments)
+                        .Include(pca => pca.Pcacomments)
+                        .Include(pca => pca.CareSystemAssessments)
+                        .FirstOrDefault(pcr => pcr.Pcaid == pca.Pcaid);
 
                     existingRecord.Temperature = pca.Temperature;
                     existingRecord.HeadCircumference = pca.HeadCircumference;
@@ -376,43 +376,43 @@ namespace IS_Proj_HIT.Controllers
 
 
 
-                    var vitalComment = existingRecord.PcaComment.FirstOrDefault(c => c.PcaCommentTypeId == 11);
+                    var vitalComment = existingRecord.Pcacomments.FirstOrDefault(c => c.PcacommentTypeId == 11);
                     if(vitalComment == null)
                     {
                         if (!string.IsNullOrWhiteSpace(formPca.VitalNote))
                         {
                             var vNote = _repository.PcaCommentTypes
-                                .FirstOrDefault(t => t.PcaCommentTypeName == "Vitals Notes");
+                                .FirstOrDefault(t => t.PcacommentTypeName == "Vitals Notes");
 
-                            _repository.AddPcaComment(new PcaComment
+                            _repository.AddPcaComment(new Pcacomment
                             {
-                                PcaId = pca.PcaId,
-                                PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 11,
-                                Comment = formPca.VitalNote,
+                                PcacommentId = pca.Pcaid,
+                                PcacommentTypeId = vNote?.PcacommentTypeId ?? 11,
+                                Pcacomment1 = formPca.VitalNote,
                                 DateCommentAdded = DateTime.Now,
                                 LastModified = DateTime.Now
                             });
                         }
                     }
                     else if(vitalComment!=null) {
-                    vitalComment.Comment = formPca.VitalNote;
+                    vitalComment.Pcacomment1 = formPca.VitalNote;
                     vitalComment.LastModified = DateTime.Now;
                     }
 
 
-                    var painComment = existingRecord.PcaComment.FirstOrDefault(c => c.PcaCommentTypeId == 12);
+                    var painComment = existingRecord.Pcacomments.FirstOrDefault(c => c.PcacommentTypeId == 12);
                     if (vitalComment == null)
                     {
                         if (!string.IsNullOrWhiteSpace(formPca.PainNote))
                         {
                             var vNote = _repository.PcaCommentTypes
-                                .FirstOrDefault(t => t.PcaCommentTypeName == "Pain Assessment Notes");
+                                .FirstOrDefault(t => t.PcacommentTypeName == "Pain Assessment Notes");
 
-                            _repository.AddPcaComment(new PcaComment
+                            _repository.AddPcaComment(new Pcacomment
                             {
-                                PcaId = pca.PcaId,
-                                PcaCommentTypeId = vNote?.PcaCommentTypeId ?? 12,
-                                Comment = formPca.VitalNote,
+                                PcacommentId = pca.Pcaid,
+                                PcacommentTypeId = vNote?.PcacommentTypeId ?? 12,
+                                Pcacomment1 = formPca.VitalNote,
                                 DateCommentAdded = DateTime.Now,
                                 LastModified = DateTime.Now
                             });
@@ -420,25 +420,25 @@ namespace IS_Proj_HIT.Controllers
                     }
                     else if(painComment !=null)
                     {
-                        painComment.Comment = formPca.PainNote;
+                        painComment.Pcacomment1 = formPca.PainNote;
                         painComment.LastModified = DateTime.Now;
                     }
 
                     //loop through caresystemassessments
                     foreach (var formCsa in formPca.Assessments)
                     {
-                        var existCsa = existingRecord.CareSystemAssessment
+                        var existCsa = existingRecord.CareSystemAssessments
                             .FirstOrDefault(a => a.CareSystemParameterId == formCsa.Key);
 
                         if (existCsa is null) //the assessment to update does not currently exist
                         {
                             if (formCsa.Value.IsWithinNormalLimits != null)
                             {
-                                formCsa.Value.PcaId = pca.PcaId;
+                                formCsa.Value.Pcaid = pca.Pcaid;
                                 formCsa.Value.CareSystemParameterId = (short)formCsa.Key;
                                 formCsa.Value.LastModified = DateTime.Now;
 
-                                existingRecord.CareSystemAssessment.Add(formCsa.Value);
+                                existingRecord.CareSystemAssessments.Add(formCsa.Value);
                             }
                         }
                         else //the assessment DOES exist and needs to be updated properly
@@ -456,7 +456,7 @@ namespace IS_Proj_HIT.Controllers
 
             // Return to assessment view
             return RedirectToAction("ViewAssessment",
-                new { assessmentId = formPca.PcaRecord.PcaId });
+                new { assessmentId = formPca.PcaRecord.Pcaid });
         }
        
 
@@ -597,7 +597,7 @@ namespace IS_Proj_HIT.Controllers
                     .Select((r, i) =>
                         new SelectListItem(
                             r.Name,
-                            r.BmiMethodId.ToString(),
+                            r.BmimethodId.ToString(),
                             i == 0)));
         }
     }

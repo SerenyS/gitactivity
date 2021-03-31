@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Specialty = await _context.Specialty.FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            Specialty = await _context.Specialties.FirstOrDefaultAsync(m => m.SpecialtyId == id);
 
             if (Specialty == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Specialty = await _context.Specialty.FindAsync(id);
+            Specialty = await _context.Specialties.FindAsync(id);
 
             if (Specialty != null)
             {
                 // See if any Physician records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterPhysicians.Physician.SpecialtyId == Specialty.SpecialtyId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterPhysicians.Physician.SpecialtyId == Specialty.SpecialtyId);
                 if (usingExists)
                 {
                     Console.WriteLine("Physician records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.Specialty.Remove(Specialty);
+                _context.Specialties.Remove(Specialty);
                 await _context.SaveChangesAsync();
             }
 

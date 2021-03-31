@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.PhysicianRole.Add(PhysicianRole);
+            _context.PhysicianRoles.Add(PhysicianRole);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

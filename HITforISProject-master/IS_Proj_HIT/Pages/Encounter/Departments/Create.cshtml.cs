@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public Departments Departments { get; set; }
+        public Department Departments { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {

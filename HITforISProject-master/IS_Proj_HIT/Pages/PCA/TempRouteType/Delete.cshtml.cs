@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -36,7 +36,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            TempRouteType = await _context.TempRouteType.FirstOrDefaultAsync(m => m.TempRouteTypeId == id);
+            TempRouteType = await _context.TempRouteTypes.FirstOrDefaultAsync(m => m.TempRouteTypeId == id);
 
             if (TempRouteType == null)
             {
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            TempRouteType = await _context.TempRouteType.FindAsync(id);
+            TempRouteType = await _context.TempRouteTypes.FindAsync(id);
 
             if (TempRouteType != null)
             {
                 // See if any PCA records exist with this temp route type
-                bool usingExists = _context.Pcarecord.Any(p => p.TempRouteTypeId == TempRouteType.TempRouteTypeId);
+                bool usingExists = _context.Pcarecords.Any(p => p.TempRouteTypeId == TempRouteType.TempRouteTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.TempRouteType.Remove(TempRouteType);
+                _context.TempRouteTypes.Remove(TempRouteType);
                 await _context.SaveChangesAsync();
             }
 

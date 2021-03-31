@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Transactions;
 using System.Data.Common;
@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
             ViewData["RegularMessage"] = "Are you sure you want to delete this?";
             ViewData["ErrorMessage"] = "";
 
-            CareSystemType = await _context.CareSystemType
+            CareSystemType = await _context.CareSystemTypes
                 .Include(csp=>csp.CareSystemParameters)
                 .FirstOrDefaultAsync(m => m.CareSystemTypeId == id);
 
@@ -53,7 +53,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            CareSystemType = await _context.CareSystemType
+            CareSystemType = await _context.CareSystemTypes
                 .Include(csp => csp.CareSystemParameters)
                 .FirstOrDefaultAsync(m => m.CareSystemTypeId == id);
 
@@ -62,7 +62,7 @@ namespace IS_Proj_HIT
                 // See if any care system assessments exist using these parameters
                 foreach (CareSystemParameter csp in CareSystemType.CareSystemParameters)
                 {
-                    bool csaExists = _context.CareSystemAssessment.Any(c => c.CareSystemParameterId == csp.CareSystemParameterId);
+                    bool csaExists = _context.CareSystemAssessments.Any(c => c.CareSystemParameterId == csp.CareSystemParameterId);
                     if (csaExists)
                     {
                         Console.WriteLine("Assessments exist using these records.");
@@ -76,9 +76,9 @@ namespace IS_Proj_HIT
                 {
                     foreach (CareSystemParameter csp in CareSystemType.CareSystemParameters)
                     {
-                        _context.CareSystemParameter.Remove(csp);
+                        _context.CareSystemParameters.Remove(csp);
                     }
-                    _context.CareSystemType.Remove(CareSystemType);
+                    _context.CareSystemTypes.Remove(CareSystemType);
                     _context.SaveChanges();
 
                     tran.Complete();

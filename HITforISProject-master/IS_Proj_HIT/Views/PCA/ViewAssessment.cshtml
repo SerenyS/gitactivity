@@ -1,5 +1,5 @@
-﻿@using IS_Proj_HIT.Models.PCA
-@model PcaRecord;
+﻿@using IS_Proj_HIT.Models
+@model Pcarecord;
 
 <partial model="ViewBag.Patient" name="PatientBannerPartial" />
 <div class="card">
@@ -13,7 +13,7 @@
             @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Nursing Student"))
             {
                 <a asp-action="UpdateAssessment"
-                   asp-route-assessmentId="@Model.PcaId"
+                   asp-route-assessmentId="@Model.Pcaid"
                    asp-route-patientMRN="@ViewBag.Patient.Mrn"
                    asp-route-encounterId="@Model.Encounter.EncounterId"
                    class="btn btn-info btn-sm float-right">
@@ -44,7 +44,7 @@
                         <td>@(Model.Weight is null ? "N.A." : $"{Model.Weight} {Model.WeightUnits}")</td>
                         <td>@(Model.Height is null ? "N.A." : $"{Model.Height} {Model.HeightUnits}")</td>
                         <td>@(Model.HeadCircumference is null ? "N.A." : $"{Model.HeadCircumference} {Model.HeadCircumferenceUnits}")</td>
-                        <td>@(Model.BodyMassIndex is null ? "N.A." : $"{Model.BodyMassIndex} ({Model.BmiMethod.Name})")</td>
+                        <td>@(Model.BodyMassIndex is null ? "N.A." : $"{Model.BodyMassIndex} ({Model.Bmimethod.Name})")</td>
                     </tr>
                 </tbody>
             </table>
@@ -101,7 +101,7 @@
                     </tr>
                 </tbody>
             </table>
-            @if (Model.PcaComment != null && Model.PcaComment.Count > 0)
+            @if (Model.Pcacomments != null && Model.Pcacomments.Count > 0)
             {
                 <table class="table table-bordered table-primary">
                     <thead>
@@ -110,17 +110,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var com in Model.PcaComment)
+                        @foreach (var com in Model.Pcacomments)
                         {
                             <tr>
-                                <td>@com.PcacommentType.PcaCommentTypeName - @com.Comment</td>
+                                <td>@com.PcacommentType.PcacommentTypeName - @com.Pcacomment1</td>
                                 <td class="d-sm-none d-lg-table-cell">Date Added: @com.DateCommentAdded?.ToString("g")</td>
                             </tr>
                         }
                     </tbody>
                 </table>
             }
-            @if (Model.PainScaleType != null && Model.PainAssessment != null && Model.PainAssessment.Count > 0)
+            @if (Model.PainScaleType != null && Model.PcapainAssessments != null && Model.PcapainAssessments.Count > 0)
             {
                 <table class="table table-bordered table-primary">
                     <thead>
@@ -131,14 +131,14 @@
                                             data-toggle="tooltip" title="Actual value is based on the cumulative rating from the assessed pain scale." type="button">
                                         <i class="fas fa-info"></i>
                                     </button>
-                                    Pain Level | @(Model.PainLevelGoal is null ? "" : $"Goal: {Model.PainLevelGoal} -") Actual: @Model.PainAssessment.Sum(a => a.PainRating.Value)
+                                    Pain Level | @(Model.PainLevelGoal is null ? "" : $"Goal: {Model.PainLevelGoal} -") Actual: @Model.PcapainAssessments.Sum(a => a.PainRating.Value)
                                 </span>
                                 Pain Assessment - @Model.PainScaleType.PainScaleTypeName
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var pa in Model.PainAssessment)
+                        @foreach (var pa in Model.PcapainAssessments)
                         {
                             <tr>
                                 <td>@pa.PainParameter.ParameterName</td>
@@ -162,7 +162,7 @@
                     </tbody>
                 </table>
             }
-            @if (Model.CareSystemAssessment != null && Model.CareSystemAssessment.Count > 0)
+            @if (Model.CareSystemAssessments != null && Model.CareSystemAssessments.Count > 0)
             {
                 <table class="table table-bordered table-primary">
                     <thead>
@@ -177,7 +177,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var sa in Model.CareSystemAssessment)
+                        @foreach (var sa in Model.CareSystemAssessments)
                         {
                             <tr>
                                 <td>@sa.CareSystemParameter.CareSystemType.Name</td>

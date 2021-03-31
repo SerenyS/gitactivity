@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            Facility = await _context.Facility
+            Facility = await _context.Facilities
                 .Include(f => f.Address).ToListAsync();
         }
     }

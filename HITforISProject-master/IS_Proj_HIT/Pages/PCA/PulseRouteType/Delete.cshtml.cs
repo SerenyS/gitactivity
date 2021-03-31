@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -36,7 +36,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PulseRouteType = await _context.PulseRouteType.FirstOrDefaultAsync(m => m.PulseRouteTypeId == id);
+            PulseRouteType = await _context.PulseRouteTypes.FirstOrDefaultAsync(m => m.PulseRouteTypeId == id);
 
             if (PulseRouteType == null)
             {
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PulseRouteType = await _context.PulseRouteType.FindAsync(id);
+            PulseRouteType = await _context.PulseRouteTypes.FindAsync(id);
 
             if (PulseRouteType != null)
             {
                 // See if any PCA records exist with this type
-                bool usingExists = _context.Pcarecord.Any(p => p.PulseRouteTypeId == PulseRouteType.PulseRouteTypeId);
+                bool usingExists = _context.Pcarecords.Any(p => p.PulseRouteTypeId == PulseRouteType.PulseRouteTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.PulseRouteType.Remove(PulseRouteType);
+                _context.PulseRouteTypes.Remove(PulseRouteType);
                 await _context.SaveChangesAsync();
             }
 

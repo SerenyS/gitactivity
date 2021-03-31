@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PhysicianRole = await _context.PhysicianRole.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
+            PhysicianRole = await _context.PhysicianRoles.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
 
             if (PhysicianRole == null)
             {

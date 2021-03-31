@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRating = await _context.PainRating
+            PainRating = await _context.PainRatings
                 .Include(p => p.PainParameter).FirstOrDefaultAsync(m => m.PainRatingId == id);
 
             if (PainRating == null)
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRating = await _context.PainRating.FindAsync(id);
+            PainRating = await _context.PainRatings.FindAsync(id);
 
             if (PainRating != null)
             {
                 // See if any PCA pain assessment records exist with this type
-                bool usingExists = _context.PcaPainAssessment.Any(p => p.PainRatingId== PainRating.PainRatingId);
+                bool usingExists = _context.PcapainAssessments.Any(p => p.PainRatingId== PainRating.PainRatingId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA pain assessment records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.PainRating.Remove(PainRating);
+                _context.PainRatings.Remove(PainRating);
                 await _context.SaveChangesAsync();
             }
 

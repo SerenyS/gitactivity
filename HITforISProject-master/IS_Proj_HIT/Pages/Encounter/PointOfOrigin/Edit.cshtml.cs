@@ -34,7 +34,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PointOfOrigin = await _context.PointOfOrigin.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
+            PointOfOrigin = await _context.PointOfOrigins.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
 
             if (PointOfOrigin == null)
             {
@@ -74,7 +74,7 @@ namespace IS_Proj_HIT
 
         private bool PointOfOriginExists(int id)
         {
-            return _context.PointOfOrigin.Any(e => e.PointOfOriginId == id);
+            return _context.PointOfOrigins.Any(e => e.PointOfOriginId == id);
         }
     }
 }

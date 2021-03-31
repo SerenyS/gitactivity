@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.EncounterType.Add(EncounterType);
+            _context.EncounterTypes.Add(EncounterType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

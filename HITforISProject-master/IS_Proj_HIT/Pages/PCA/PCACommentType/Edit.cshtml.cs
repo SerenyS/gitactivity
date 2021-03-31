@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -25,7 +25,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public PcaCommentType PcaCommentType { get; set; }
+        public PcacommentType PcaCommentType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,7 +34,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PcaCommentType = await _context.PcacommentType.FirstOrDefaultAsync(m => m.PcaCommentTypeId == id);
+            PcaCommentType = await _context.PcacommentTypes.FirstOrDefaultAsync(m => m.PcacommentTypeId == id);
 
             if (PcaCommentType == null)
             {
@@ -59,7 +59,7 @@ namespace IS_Proj_HIT
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PcaCommentTypeExists(PcaCommentType.PcaCommentTypeId))
+                if (!PcaCommentTypeExists(PcaCommentType.PcacommentTypeId))
                 {
                     return NotFound();
                 }
@@ -74,7 +74,7 @@ namespace IS_Proj_HIT
 
         private bool PcaCommentTypeExists(int id)
         {
-            return _context.PcacommentType.Any(e => e.PcaCommentTypeId == id);
+            return _context.PcacommentTypes.Any(e => e.PcacommentTypeId == id);
         }
     }
 }

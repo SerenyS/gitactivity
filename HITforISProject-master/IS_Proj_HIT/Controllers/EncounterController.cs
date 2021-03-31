@@ -55,7 +55,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(e => e.PlaceOfService)
                 .Include(e => e.PointOfOrigin)
                 .Include(e => e.DischargeDispositionNavigation)
-                .Include(e => e.PcaRecords)
+                .Include(e => e.Pcarecords)
                 .FirstOrDefault(b => b.EncounterId == encounterId);
             if (encounter is null)
                 return RedirectToAction("CheckedIn");
@@ -84,7 +84,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(e => e.PlaceOfService)
                 .Include(e => e.PointOfOrigin)
                 .Include(e => e.DischargeDispositionNavigation)
-                .Include(e => e.PcaRecords)
+                .Include(e => e.Pcarecords)
                 .FirstOrDefault(b => b.EncounterId == encounterId);
             if (encounter is null)
                 return RedirectToAction("CheckedIn");

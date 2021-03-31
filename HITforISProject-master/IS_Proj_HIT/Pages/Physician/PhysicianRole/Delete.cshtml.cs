@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PhysicianRole = await _context.PhysicianRole.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
+            PhysicianRole = await _context.PhysicianRoles.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
 
             if (PhysicianRole == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PhysicianRole = await _context.PhysicianRole.FindAsync(id);
+            PhysicianRole = await _context.PhysicianRoles.FindAsync(id);
 
             if (PhysicianRole != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterPhysicians.PhysicianRoleId == PhysicianRole.PhysicianRoleId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterPhysicians.PhysicianRoleId == PhysicianRole.PhysicianRoleId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                 }
 
 
-                _context.PhysicianRole.Remove(PhysicianRole);
+                _context.PhysicianRoles.Remove(PhysicianRole);
                 await _context.SaveChangesAsync();
             }
 

@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            ProviderType = await _context.ProviderType.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
+            ProviderType = await _context.ProviderTypes.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
 
             if (ProviderType == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            ProviderType = await _context.ProviderType.FindAsync(id);
+            ProviderType = await _context.ProviderTypes.FindAsync(id);
 
             if (ProviderType != null)
             {
                 // See if any Physician records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterPhysicians.Physician.ProviderTypeId== ProviderType.ProviderTypeId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterPhysicians.Physician.ProviderTypeId== ProviderType.ProviderTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("Physician records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.ProviderType.Remove(ProviderType);
+                _context.ProviderTypes.Remove(ProviderType);
                 await _context.SaveChangesAsync();
             }
 

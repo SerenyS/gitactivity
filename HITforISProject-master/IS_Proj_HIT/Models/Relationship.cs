@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Relationship
     {
         public Relationship()
         {
-            PatientEmergencyContact = new HashSet<PatientEmergencyContact>();
+            PatientEmergencyContacts = new HashSet<PatientEmergencyContact>();
         }
 
         public int RelationshipId { get; set; }
@@ -15,6 +17,6 @@ namespace IS_Proj_HIT.Models
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<PatientEmergencyContact> PatientEmergencyContact { get; set; }
+        public virtual ICollection<PatientEmergencyContact> PatientEmergencyContacts { get; set; }
     }
 }

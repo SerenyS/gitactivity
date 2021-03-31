@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class EncounterType
     {
         public EncounterType()
         {
-            Encounter = new HashSet<Encounter>();
+            Encounters = new HashSet<Encounter>();
         }
 
         public int EncounterTypeId { get; set; }
         public string Name { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<Encounter> Encounter { get; set; }
+        public virtual ICollection<Encounter> Encounters { get; set; }
     }
 }

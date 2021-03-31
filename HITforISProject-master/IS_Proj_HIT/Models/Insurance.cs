@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Insurance
     {
         public Insurance()
         {
-            PaymentPrimaryInsurance = new HashSet<Payment>();
-            PaymentSecondaryInsurance = new HashSet<Payment>();
+            PaymentPrimaryInsurances = new HashSet<Payment>();
+            PaymentSecondaryInsurances = new HashSet<Payment>();
         }
 
         public int InsuranceId { get; set; }
@@ -25,7 +27,7 @@ namespace IS_Proj_HIT.Models
         public virtual Address Address { get; set; }
         public virtual PaymentPlan PaymentPlan { get; set; }
         public virtual PaymentSource PaymentSource { get; set; }
-        public virtual ICollection<Payment> PaymentPrimaryInsurance { get; set; }
-        public virtual ICollection<Payment> PaymentSecondaryInsurance { get; set; }
+        public virtual ICollection<Payment> PaymentPrimaryInsurances { get; set; }
+        public virtual ICollection<Payment> PaymentSecondaryInsurances { get; set; }
     }
 }

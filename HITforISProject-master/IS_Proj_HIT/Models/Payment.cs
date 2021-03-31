@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Payment
     {
         public Payment()
         {
-            Encounter = new HashSet<Encounter>();
+            Encounters = new HashSet<Encounter>();
         }
 
         public long PaymentId { get; set; }
@@ -17,6 +19,6 @@ namespace IS_Proj_HIT.Models
 
         public virtual Insurance PrimaryInsurance { get; set; }
         public virtual Insurance SecondaryInsurance { get; set; }
-        public virtual ICollection<Encounter> Encounter { get; set; }
+        public virtual ICollection<Encounter> Encounters { get; set; }
     }
 }

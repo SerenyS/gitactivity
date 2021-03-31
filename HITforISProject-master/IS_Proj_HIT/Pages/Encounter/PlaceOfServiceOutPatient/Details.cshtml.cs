@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatient.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
+            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatients.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
 
             if (PlaceOfServiceOutPatient == null)
             {
