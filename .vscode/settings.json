@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/81dddb73-06b8-4c54-b96c-53fae35ec78f/resourceGroups/appsvc_windows_centralus2/providers/Microsoft.Web/sites/sping2021hit",
+    "appService.deploySubpath": "HITforISProject-master\\IS_Proj_HIT"
+}
