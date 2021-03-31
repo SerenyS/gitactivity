@@ -24,13 +24,13 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["PhysicianId"] = new SelectList(_context.Physician, "PhysicianId", "FirstName");
-        ViewData["PhysicianRoleId"] = new SelectList(_context.PhysicianRole, "PhysicianRoleId", "Name");
+        ViewData["PhysicianId"] = new SelectList(_context.Physicians, "PhysicianId", "FirstName");
+        ViewData["PhysicianRoleId"] = new SelectList(_context.PhysicianRoles, "PhysicianRoleId", "Name");
             return Page();
         }
 
         [BindProperty]
-        public EncounterPhysicians EncounterPhysicians { get; set; }
+        public EncounterPhysician EncounterPhysicians { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {

@@ -33,14 +33,14 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Facility = await _context.Facility
+            Facility = await _context.Facilities
                 .Include(f => f.Address).FirstOrDefaultAsync(m => m.FacilityId == id);
 
             if (Facility == null)
             {
                 return NotFound();
             }
-           ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Address1");
+           ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
             return Page();
         }
 
@@ -75,7 +75,7 @@ namespace IS_Proj_HIT
 
         private bool FacilityExists(int id)
         {
-            return _context.Facility.Any(e => e.FacilityId == id);
+            return _context.Facilities.Any(e => e.FacilityId == id);
         }
     }
 }

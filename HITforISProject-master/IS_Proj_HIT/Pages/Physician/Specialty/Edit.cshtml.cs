@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Specialty = await _context.Specialty.FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            Specialty = await _context.Specialties.FirstOrDefaultAsync(m => m.SpecialtyId == id);
 
             if (Specialty == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool SpecialtyExists(int id)
         {
-            return _context.Specialty.Any(e => e.SpecialtyId == id);
+            return _context.Specialties.Any(e => e.SpecialtyId == id);
         }
     }
 }

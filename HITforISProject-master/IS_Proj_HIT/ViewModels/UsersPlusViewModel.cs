@@ -9,7 +9,7 @@ namespace IS_Proj_HIT.ViewModels
     {
         // from Facility
         public int FacilityId { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string Description { get; set; }
         public int AddressId { get; set; }
         public string Phone { get; set; }
@@ -24,5 +24,6 @@ namespace IS_Proj_HIT.ViewModels
         public string Instructor { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

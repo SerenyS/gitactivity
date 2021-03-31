@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            ProviderType = await _context.ProviderType.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
+            ProviderType = await _context.ProviderTypes.FirstOrDefaultAsync(m => m.ProviderTypeId == id);
 
             if (ProviderType == null)
             {

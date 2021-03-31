@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PointOfOrigin = await _context.PointOfOrigin.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
+            PointOfOrigin = await _context.PointOfOrigins.FirstOrDefaultAsync(m => m.PointOfOriginId == id);
 
             if (PointOfOrigin == null)
             {

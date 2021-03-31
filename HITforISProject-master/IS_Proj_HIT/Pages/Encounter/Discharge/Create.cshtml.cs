@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Discharge.Add(Discharge);
+            _context.Discharges.Add(Discharge);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

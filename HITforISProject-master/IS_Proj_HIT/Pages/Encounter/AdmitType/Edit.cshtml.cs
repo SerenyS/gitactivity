@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            AdmitType = await _context.AdmitType.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
+            AdmitType = await _context.AdmitTypes.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
 
             if (AdmitType == null)
             {
@@ -72,7 +72,7 @@ namespace IS_Proj_HIT
 
         private bool AdmitTypeExists(int id)
         {
-            return _context.AdmitType.Any(e => e.AdmitTypeId == id);
+            return _context.AdmitTypes.Any(e => e.AdmitTypeId == id);
         }
     }
 }

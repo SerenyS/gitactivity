@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainScaleType = await _context.PainScaleType.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
+            PainScaleType = await _context.PainScaleTypes.FirstOrDefaultAsync(m => m.PainScaleTypeId == id);
 
             if (PainScaleType == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool PainScaleTypeExists(int id)
         {
-            return _context.PainScaleType.Any(e => e.PainScaleTypeId == id);
+            return _context.PainScaleTypes.Any(e => e.PainScaleTypeId == id);
         }
     }
 }

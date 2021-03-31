@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Facility
     {
         public Facility()
         {
-            Encounter = new HashSet<Encounter>();
-            UserFacility = new HashSet<UserFacility>();
+            Encounters = new HashSet<Encounter>();
+            UserFacilities = new HashSet<UserFacility>();
         }
 
         public int FacilityId { get; set; }
@@ -19,7 +21,7 @@ namespace IS_Proj_HIT.Models
         public DateTime LastModified { get; set; }
 
         public virtual Address Address { get; set; }
-        public virtual ICollection<Encounter> Encounter { get; set; }
-        public virtual ICollection<UserFacility> UserFacility { get; set; }
+        public virtual ICollection<Encounter> Encounters { get; set; }
+        public virtual ICollection<UserFacility> UserFacilities { get; set; }
     }
 }

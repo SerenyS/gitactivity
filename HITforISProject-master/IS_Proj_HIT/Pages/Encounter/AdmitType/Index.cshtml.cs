@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            AdmitType = await _context.AdmitType.ToListAsync();
+            AdmitType = await _context.AdmitTypes.ToListAsync();
         }
     }
 }

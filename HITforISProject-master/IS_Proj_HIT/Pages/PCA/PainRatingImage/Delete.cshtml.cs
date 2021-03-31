@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -32,7 +32,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRatingImage = await _context.PainRatingImage
+            PainRatingImage = await _context.PainRatingImages
                 .Include(p => p.PainRating).FirstOrDefaultAsync(m => m.PainRatingId == id);
 
             if (PainRatingImage == null)
@@ -49,11 +49,11 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRatingImage = await _context.PainRatingImage.FindAsync(id);
+            PainRatingImage = await _context.PainRatingImages.FindAsync(id);
 
             if (PainRatingImage != null)
             {
-                _context.PainRatingImage.Remove(PainRatingImage);
+                _context.PainRatingImages.Remove(PainRatingImage);
                 await _context.SaveChangesAsync();
             }
 

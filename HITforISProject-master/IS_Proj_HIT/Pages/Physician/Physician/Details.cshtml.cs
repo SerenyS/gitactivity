@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Physician = await _context.Physician
+            Physician = await _context.Physicians
                 .Include(p => p.Address)
                 .Include(p => p.ProviderType)
                 .Include(p => p.Specialty).FirstOrDefaultAsync(m => m.PhysicianId == id);

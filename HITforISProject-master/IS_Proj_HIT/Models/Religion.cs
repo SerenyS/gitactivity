@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Religion
     {
         public Religion()
         {
-            Patient = new HashSet<Patient>();
+            Patients = new HashSet<Patient>();
         }
 
         public short ReligionId { get; set; }
@@ -15,6 +17,6 @@ namespace IS_Proj_HIT.Models
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<Patient> Patient { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
     }
 }

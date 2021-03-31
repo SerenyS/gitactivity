@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 
 namespace IS_Proj_HIT.Models.Data
@@ -13,8 +13,8 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<CareSystemType> CareSystemAssessmentTypes { get; }
         IQueryable<CareSystemParameter> CareSystemParameters { get; }
         IQueryable<BloodPressureRouteType> BloodPressureRouteTypes { get; }
-        IQueryable<BmiMethod> BmiMethods { get; }
-        IQueryable<PcaPainAssessment> PainAssessments { get; }
+        IQueryable<Bmimethod> BmiMethods { get; }
+        IQueryable<PcapainAssessment> PainAssessments { get; }
         IQueryable<PainRating> PainRatings { get; }
         IQueryable<PainRatingImage> PainRatingImages { get; }
         IQueryable<PainParameter> PainParameters { get; }
@@ -22,14 +22,14 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<O2deliveryType> O2DeliveryTypes { get; }
         IQueryable<PulseRouteType> PulseRouteTypes { get; }
         IQueryable<TempRouteType> TempRouteTypes { get; }
-        IQueryable<PcaRecord> PcaRecords { get; }
-        IQueryable<PcaComment> PcaComments { get; }
-        IQueryable<PcaCommentType> PcaCommentTypes { get; }
+        IQueryable<Pcarecord> PcaRecords { get; }
+        IQueryable<Pcacomment> PcaComments { get; }
+        IQueryable<PcacommentType> PcaCommentTypes { get; }
         IQueryable<AdmitType> AdmitTypes { get; }
         IQueryable<Ethnicity> Ethnicities { get; }
         IQueryable<Gender> Genders { get; }
         IQueryable<Discharge> Discharges { get; }
-        IQueryable<Departments> Departments { get; }
+        IQueryable<Department> Departments { get; }
         IQueryable<EncounterType> EncounterTypes { get; }
         IQueryable<Sex> Sexes { get; }
         IQueryable<Religion> Religions { get; }
@@ -39,17 +39,17 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<PointOfOrigin> PointOfOrigin { get; }
         IQueryable<Employment> Employments { get; }
         IQueryable<Encounter> Encounters { get; }
-        IQueryable<EncounterPhysicians> EncounterPhysicians { get; }
+        IQueryable<EncounterPhysician> EncounterPhysicians { get; }
         IQueryable<Facility> Facilities { get; }
-        IQueryable<PatientContactDetails> PatientContactDetails { get; }
+        IQueryable<PatientContactDetail> PatientContactDetails { get; }
         IQueryable<Physician> Physicians { get; }
         IQueryable<PhysicianRole> PhysicianRoles { get; }
-        IQueryable<PatientAlerts> PatientAlerts { get; }
+        IQueryable<PatientAlert> PatientAlerts { get; }
         IQueryable<AlertType> AlertTypes { get; }
-        IQueryable<PatientRestrictions> PatientRestrictions { get; }
-        IQueryable<Restrictions> Restrictions { get; }
-        IQueryable<PatientFallRisks> PatientFallRisks { get; }
-        IQueryable<FallRisks> FallRisks { get; }
+        IQueryable<PatientRestriction> PatientRestrictions { get; }
+        IQueryable<Restriction> Restrictions { get; }
+        IQueryable<PatientFallRisk> PatientFallRisks { get; }
+        IQueryable<FallRisk> FallRisks { get; }
         IQueryable<Allergen> Allergens { get; }
         IQueryable<Reaction> Reactions { get; }
         IQueryable<PatientAllergy> PatientAllergy { get; }
@@ -71,8 +71,8 @@ namespace IS_Proj_HIT.Models.Data
         void DeleteEncounter(Encounter encounter);
 
         void AddAlert(AlertsViewModel alert);
-        void EditAlert(PatientAlerts alert);
-        void DeleteAlert(PatientAlerts alert);
+        void EditAlert(PatientAlert alert);
+        void DeleteAlert(PatientAlert alert);
 
         void AddEmployment(Employment employment);
 
@@ -80,22 +80,22 @@ namespace IS_Proj_HIT.Models.Data
         void DeleteUser(UserTable userTable);
         void EditUser(UserTable userTable);
 
-        void AddPcaRecord(PcaRecord pca);
-        void DeletePcaRecord(PcaRecord pca);
-        void EditPcaRecord(PcaRecord pca);
+        void AddPcaRecord(Pcarecord pca);
+        void DeletePcaRecord(Pcarecord pca);
+        void EditPcaRecord(Pcarecord pca);
         
-        void AddPcaComment(PcaComment pca);
-        void DeletePcaComment(PcaComment pca);
-        void EditPcaComment(PcaComment pca);
+        void AddPcaComment(Pcacomment pca);
+        void DeletePcaComment(Pcacomment pca);
+        void EditPcaComment(Pcacomment pca);
 
         void AddSystemAssessment(CareSystemAssessment csa);
         void AddSystemAssessments(IList<CareSystemAssessment> csaList);
         void DeleteSystemAssessment(CareSystemAssessment csa);
         void EditSystemAssessment(CareSystemAssessment csa);
         
-        void AddPainAssessment(PcaPainAssessment pa);
-        void DeletePainAssessment(PcaPainAssessment pa);
-        void EditPainAssessment(PcaPainAssessment pa);
+        void AddPainAssessment(PcapainAssessment pa);
+        void DeletePainAssessment(PcapainAssessment pa);
+        void EditPainAssessment(PcapainAssessment pa);
 
         void AddPatientLanguage(PatientLanguage language);
         void AddPatientRace(PatientRace race);

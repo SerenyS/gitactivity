@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            O2deliveryType = await _context.O2deliveryType.FirstOrDefaultAsync(m => m.O2deliveryTypeId == id);
+            O2deliveryType = await _context.O2deliveryTypes.FirstOrDefaultAsync(m => m.O2deliveryTypeId == id);
 
             if (O2deliveryType == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            O2deliveryType = await _context.O2deliveryType.FindAsync(id);
+            O2deliveryType = await _context.O2deliveryTypes.FindAsync(id);
 
             if (O2deliveryType != null)
             {
                 // See if any PCA records exist with this type
-                bool usingExists = _context.Pcarecord.Any(p => p.O2deliveryTypeId == O2deliveryType.O2deliveryTypeId);
+                bool usingExists = _context.Pcarecords.Any(p => p.O2deliveryTypeId == O2deliveryType.O2deliveryTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.O2deliveryType.Remove(O2deliveryType);
+                _context.O2deliveryTypes.Remove(O2deliveryType);
                 await _context.SaveChangesAsync();
             }
 

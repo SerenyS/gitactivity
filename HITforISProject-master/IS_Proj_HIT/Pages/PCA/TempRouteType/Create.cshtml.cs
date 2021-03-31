@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -38,7 +38,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.TempRouteType.Add(TempRouteType);
+            _context.TempRouteTypes.Add(TempRouteType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class PlaceOfServiceOutPatient
     {
         public PlaceOfServiceOutPatient()
         {
-            Encounter = new HashSet<Encounter>();
+            Encounters = new HashSet<Encounter>();
         }
 
         public int PlaceOfServiceId { get; set; }
@@ -15,6 +17,6 @@ namespace IS_Proj_HIT.Models
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<Encounter> Encounter { get; set; }
+        public virtual ICollection<Encounter> Encounters { get; set; }
     }
 }

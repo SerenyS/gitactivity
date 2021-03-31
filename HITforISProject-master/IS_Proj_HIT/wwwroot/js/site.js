@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿import { unique } from "jquery";
+
+$(function () {
     $('[data-toggle="tooltip"]').tooltip(); 
 
     $.validator.addMethod("alphabetsnspace", function (value, element) {
@@ -717,6 +719,21 @@ function ShowHide(id, idArea) {
     if (yes.checked) {
         $('#' + idArea).prop('required', true).focus();
 
+    }
+}
+
+function confirmDelete(uniqueId, isDeleteClicked) {
+    var deleteSpan = 'deleteSpan_' + uniqueId;
+    var confirmDelete = 'confirmDelete' + uniqueId;
+
+    if (isDeleteClicked) {
+        $('#' + deleteSpan).hide();
+        $('#' + confirmDelete).show();
+
+    }
+    else {
+        $('#' + deleteSpan).show();
+        $('#' + confirmDelete).hide();
     }
 }
     

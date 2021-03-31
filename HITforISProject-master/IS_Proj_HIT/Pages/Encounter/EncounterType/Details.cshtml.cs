@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            EncounterType = await _context.EncounterType.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
+            EncounterType = await _context.EncounterTypes.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
 
             if (EncounterType == null)
             {

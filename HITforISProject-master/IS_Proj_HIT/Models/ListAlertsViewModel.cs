@@ -8,7 +8,7 @@ namespace IS_Proj_HIT.Models
 {
     public class ListAlertsViewModel
     {
-        public IEnumerable<PatientAlerts> PatientAlerts { get; set; }
+        public IEnumerable<PatientAlert> PatientAlerts { get; set; }
         public IEnumerable<AlertType> AlertType { get; set; }
 
         //public IEnumerable<PatientFallRisks> FallRisk { get; set; }

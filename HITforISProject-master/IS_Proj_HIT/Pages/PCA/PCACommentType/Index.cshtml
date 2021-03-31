@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PcaCommentType[0].PcaCommentTypeName)
+                @Html.DisplayNameFor(model => model.PcaCommentType[0].PcacommentTypeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PcaCommentType[0].LastModified)
@@ -32,15 +32,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PcaCommentTypeName)
+                    @Html.DisplayFor(modelItem => item.PcacommentTypeName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LastModified)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.PcaCommentTypeId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.PcaCommentTypeId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.PcaCommentTypeId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.PcacommentTypeId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.PcacommentTypeId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.PcacommentTypeId">Delete</a>
                 </td>
             </tr>
         }

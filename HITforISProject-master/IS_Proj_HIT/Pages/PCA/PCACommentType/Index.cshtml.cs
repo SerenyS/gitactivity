@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT
 {
@@ -19,11 +19,11 @@ namespace IS_Proj_HIT
             _context = context;
         }
 
-        public IList<PcaCommentType> PcaCommentType { get;set; }
+        public IList<PcacommentType> PcaCommentType { get;set; }
 
         public async Task OnGetAsync()
         {
-            PcaCommentType = await _context.PcacommentType.ToListAsync();
+            PcaCommentType = await _context.PcacommentTypes.ToListAsync();
         }
     }
 }

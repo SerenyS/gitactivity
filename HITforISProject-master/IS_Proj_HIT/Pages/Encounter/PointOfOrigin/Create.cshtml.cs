@@ -38,7 +38,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.PointOfOrigin.Add(PointOfOrigin);
+            _context.PointOfOrigins.Add(PointOfOrigin);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

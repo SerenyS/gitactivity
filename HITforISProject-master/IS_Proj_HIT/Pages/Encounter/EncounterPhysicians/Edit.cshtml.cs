@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public EncounterPhysicians EncounterPhysicians { get; set; }
+        public EncounterPhysician EncounterPhysicians { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -41,8 +41,8 @@ namespace IS_Proj_HIT
             {
                 return NotFound();
             }
-           ViewData["PhysicianId"] = new SelectList(_context.Physician, "PhysicianId", "LastName");
-           ViewData["PhysicianRoleId"] = new SelectList(_context.PhysicianRole, "PhysicianRoleId", "Name");
+           ViewData["PhysicianId"] = new SelectList(_context.Physicians, "PhysicianId", "LastName");
+           ViewData["PhysicianRoleId"] = new SelectList(_context.PhysicianRoles, "PhysicianRoleId", "Name");
             return Page();
         }
 

@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Address1");
+        ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
             return Page();
         }
 
@@ -39,7 +39,7 @@ namespace IS_Proj_HIT
             }
 
             Facility.LastModified = DateTime.Now;
-            _context.Facility.Add(Facility);
+            _context.Facilities.Add(Facility);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

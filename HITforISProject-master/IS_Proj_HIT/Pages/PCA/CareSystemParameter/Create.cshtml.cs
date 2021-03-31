@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -25,7 +25,7 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["CareSystemTypeId"] = new SelectList(_context.CareSystemType, "CareSystemTypeId", "Name", "NormalLimitsDescription");
+        ViewData["CareSystemTypeId"] = new SelectList(_context.CareSystemTypes, "CareSystemTypeId", "Name", "NormalLimitsDescription");
             return Page();
         }
 
@@ -40,7 +40,7 @@ namespace IS_Proj_HIT
             }
 
             CareSystemParameter.LastModified = DateTime.Now;
-            _context.CareSystemParameter.Add(CareSystemParameter);
+            _context.CareSystemParameters.Add(CareSystemParameter);
             await _context.SaveChangesAsync();
 
 

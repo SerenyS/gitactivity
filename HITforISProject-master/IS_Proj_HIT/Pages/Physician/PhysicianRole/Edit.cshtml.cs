@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PhysicianRole = await _context.PhysicianRole.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
+            PhysicianRole = await _context.PhysicianRoles.FirstOrDefaultAsync(m => m.PhysicianRoleId == id);
 
             if (PhysicianRole == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool PhysicianRoleExists(int id)
         {
-            return _context.PhysicianRole.Any(e => e.PhysicianRoleId == id);
+            return _context.PhysicianRoles.Any(e => e.PhysicianRoleId == id);
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -34,7 +34,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PulseRouteType = await _context.PulseRouteType.FirstOrDefaultAsync(m => m.PulseRouteTypeId == id);
+            PulseRouteType = await _context.PulseRouteTypes.FirstOrDefaultAsync(m => m.PulseRouteTypeId == id);
 
             if (PulseRouteType == null)
             {
@@ -74,7 +74,7 @@ namespace IS_Proj_HIT
 
         private bool PulseRouteTypeExists(int id)
         {
-            return _context.PulseRouteType.Any(e => e.PulseRouteTypeId == id);
+            return _context.PulseRouteTypes.Any(e => e.PulseRouteTypeId == id);
         }
     }
 }

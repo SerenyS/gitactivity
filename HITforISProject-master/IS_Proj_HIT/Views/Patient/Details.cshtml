@@ -151,7 +151,7 @@
                     @{
                         var counter = 0;
                     }
-                    @foreach (var enc in Model.Encounter.OrderByDescending(e => e.AdmitDateTime))
+                    @foreach (var enc in Model.Encounters.OrderByDescending(e => e.AdmitDateTime))
                     {
                         <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                             <td>
@@ -168,7 +168,7 @@
                             <td class="d-sm-none d-md-table-cell">@enc.LastModified.ToString("g")</td>
                         </tr>
                     }
-                    @if (Model.Encounter.Count > 5)
+                    @if (Model.Encounters.Count > 5)
                     {
                         <tr>
                             <td colspan="99">

@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            EncounterType = await _context.EncounterType.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
+            EncounterType = await _context.EncounterTypes.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
 
             if (EncounterType == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            EncounterType = await _context.EncounterType.FindAsync(id);
+            EncounterType = await _context.EncounterTypes.FindAsync(id);
 
             if (EncounterType != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.EncounterTypeId == EncounterType.EncounterTypeId);
+                bool usingExists = _context.Encounters.Any(e => e.EncounterTypeId == EncounterType.EncounterTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.EncounterType.Remove(EncounterType);
+                _context.EncounterTypes.Remove(EncounterType);
                 await _context.SaveChangesAsync();
             }
 

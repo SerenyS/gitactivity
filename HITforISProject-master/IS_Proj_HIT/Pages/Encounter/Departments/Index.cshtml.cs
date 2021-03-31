@@ -19,7 +19,7 @@ namespace IS_Proj_HIT
             _context = context;
         }
 
-        public IList<Departments> Departments { get;set; }
+        public IList<Department> Departments { get;set; }
 
         public async Task OnGetAsync()
         {

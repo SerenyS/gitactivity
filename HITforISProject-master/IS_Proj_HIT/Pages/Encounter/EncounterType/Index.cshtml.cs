@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            EncounterType = await _context.EncounterType.ToListAsync();
+            EncounterType = await _context.EncounterTypes.ToListAsync();
         }
     }
 }
