@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.ProgramEnrolledIn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Instructor)
+                @Html.DisplayNameFor(model => model.InstructorID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
@@ -59,7 +59,11 @@
                     @Html.DisplayFor(modelItem => item.ProgramEnrolledIn)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Instructor)
+                    @*@if(item.InstructorID != null){@Html.DisplayFor(modelItem => item.InstructorID)}*@
+                    @*@Html.DisplayFor(modelItem => item.ProgramEnrolledIn || "null")*@
+                    @*@if(item.InstructorID == null){<b>Start Date: </b>"null"}
+else{}*@
+                    @Html.DisplayFor(modelItem => item.InstructorID)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)

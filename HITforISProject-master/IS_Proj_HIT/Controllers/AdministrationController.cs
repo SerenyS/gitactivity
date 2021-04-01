@@ -119,10 +119,15 @@ namespace IS_Proj_HIT.Controllers
             instructorEmails.AddRange(
                 (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
                 .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = dbUser.Instructor == u.LastName }).ToList();
+            //ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
+            //    .Select(u => new SelectListItem
+            //    { Text = u.LastName, Value = u.LastName, Selected = dbUser.InstructorID == u.UserId }).ToList();
 
+            ViewBag.InstructorList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Angela Student", Value = "2025", Selected = true},
+                new SelectListItem {Text = "InstructorName 2", Value = "3042"}
+            };
             return View(dbUser);
         }
 
@@ -162,7 +167,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.LastName, Selected = model.Instructor == u.LastName }).ToList();
+                { Text = u.LastName, Value = u.LastName, Selected = model.InstructorID == u.UserId }).ToList();
 
             return View(model);
         }
@@ -374,6 +379,45 @@ namespace IS_Proj_HIT.Controllers
             }
 
             return RedirectToAction("EditRole", new { Id = roleId });
+        }
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Details(UserTable model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrWhiteSpace(model.AspNetUsersID))
+                    model.AspNetUsersID = _userManager.GetUserId(HttpContext.User);
+                if (string.IsNullOrWhiteSpace(model.Email))
+                    model.Email = User.Identity.Name;
+
+                model.LastModified = DateTime.Now;
+                if (model.UserId is 0)
+                    _repository.AddUser(model);
+                else
+                    _repository.EditUser(model);
+
+                return RedirectToAction("Index", "Home");
+            }
+            //Create or get program list from DB
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
+                new SelectListItem {Text = "Nursing", Value = "Nursing"}
+            };
+
+            //get list of possible instructors from db
+            var instructorEmails = new List<string>();
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
+                .Select(u => u.Email));
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
+                .Select(u => u.Email));
+            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
+                .Select(u => new SelectListItem
+                { Text = u.LastName, Value = u.LastName, Selected = model.InstructorID == u.UserId }).ToList();
+
+            return View(model);
         }
 
         #endregion
