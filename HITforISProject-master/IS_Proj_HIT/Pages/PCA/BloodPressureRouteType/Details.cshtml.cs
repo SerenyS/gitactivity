@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT
 {
@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            BloodPressureRouteType = await _context.BloodPressureRouteType.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
+            BloodPressureRouteType = await _context.BloodPressureRouteTypes.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
 
             if (BloodPressureRouteType == null)
             {

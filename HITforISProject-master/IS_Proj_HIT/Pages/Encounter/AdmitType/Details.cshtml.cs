@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            AdmitType = await _context.AdmitType.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
+            AdmitType = await _context.AdmitTypes.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
 
             if (AdmitType == null)
             {

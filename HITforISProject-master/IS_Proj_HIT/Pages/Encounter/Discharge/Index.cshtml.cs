@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            Discharge = await _context.Discharge.ToListAsync();
+            Discharge = await _context.Discharges.ToListAsync();
         }
     }
 }

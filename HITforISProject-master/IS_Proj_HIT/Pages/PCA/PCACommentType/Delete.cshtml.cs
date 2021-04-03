@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public PcaCommentType PcaCommentType { get; set; }
+        public PcacommentType PcaCommentType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,7 +36,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PcaCommentType = await _context.PcacommentType.FirstOrDefaultAsync(m => m.PcaCommentTypeId == id);
+            PcaCommentType = await _context.PcacommentTypes.FirstOrDefaultAsync(m => m.PcacommentTypeId == id);
 
             if (PcaCommentType == null)
             {
@@ -52,12 +52,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PcaCommentType = await _context.PcacommentType.FindAsync(id);
+            PcaCommentType = await _context.PcacommentTypes.FindAsync(id);
 
             if (PcaCommentType != null)
             {
                 // See if any comments exist with this comment type
-                bool usingExists = _context.Pcacomment.Any(p => p.PcaCommentTypeId== PcaCommentType.PcaCommentTypeId);
+                bool usingExists = _context.Pcacomments.Any(p => p.PcacommentTypeId == PcaCommentType.PcacommentTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA comment records exist using these records.");
@@ -66,7 +66,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.PcacommentType.Remove(PcaCommentType);
+                _context.PcacommentTypes.Remove(PcaCommentType);
                 await _context.SaveChangesAsync();
             }
 

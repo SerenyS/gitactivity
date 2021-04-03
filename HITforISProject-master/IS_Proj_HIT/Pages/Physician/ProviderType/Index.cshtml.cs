@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            ProviderType = await _context.ProviderType.ToListAsync();
+            ProviderType = await _context.ProviderTypes.ToListAsync();
         }
     }
 }

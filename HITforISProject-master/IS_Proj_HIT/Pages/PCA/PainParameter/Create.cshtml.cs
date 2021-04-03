@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["PainScaleTypeId"] = new SelectList(_context.PainScaleType, "PainScaleTypeId", "PainScaleTypeName");
+        ViewData["PainScaleTypeId"] = new SelectList(_context.PainScaleTypes, "PainScaleTypeId", "PainScaleTypeName");
             return Page();
         }
 
@@ -39,7 +39,7 @@ namespace IS_Proj_HIT
             }
 
             PainParameter.LastModified = DateTime.Now;
-            _context.PainParameter.Add(PainParameter);
+            _context.PainParameters.Add(PainParameter);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class Race
     {
         public Race()
         {
-            PatientRace = new HashSet<PatientRace>();
+            PatientRaces = new HashSet<PatientRace>();
         }
 
         public byte RaceId { get; set; }
@@ -15,6 +17,6 @@ namespace IS_Proj_HIT.Models
         public string Category { get; set; }
         public DateTime LastModified { get; set; }
 
-        public virtual ICollection<PatientRace> PatientRace { get; set; }
+        public virtual ICollection<PatientRace> PatientRaces { get; set; }
     }
 }

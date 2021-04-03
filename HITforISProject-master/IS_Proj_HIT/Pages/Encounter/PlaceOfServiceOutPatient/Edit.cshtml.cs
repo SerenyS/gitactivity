@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatient.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
+            PlaceOfServiceOutPatient = await _context.PlaceOfServiceOutPatients.FirstOrDefaultAsync(m => m.PlaceOfServiceId == id);
 
             if (PlaceOfServiceOutPatient == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool PlaceOfServiceOutPatientExists(int id)
         {
-            return _context.PlaceOfServiceOutPatient.Any(e => e.PlaceOfServiceId == id);
+            return _context.PlaceOfServiceOutPatients.Any(e => e.PlaceOfServiceId == id);
         }
     }
 }

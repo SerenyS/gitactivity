@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -30,7 +30,7 @@ namespace IS_Proj_HIT
         }
 
         [BindProperty]
-        public PcaCommentType PcaCommentType { get; set; }
+        public PcacommentType PcaCommentType { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -39,7 +39,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.PcacommentType.Add(PcaCommentType);
+            _context.PcacommentTypes.Add(PcaCommentType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

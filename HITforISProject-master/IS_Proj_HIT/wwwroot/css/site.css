@@ -387,3 +387,17 @@ height: 0;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
+
+input[type=checkbox]:hover {
+    cursor: pointer;
+}
+
+td input[type="checkbox"] {
+    float: left;
+    margin: 0 auto;
+    width: 100%;
+}
+
+table {
+    border: 1px solid;
+}

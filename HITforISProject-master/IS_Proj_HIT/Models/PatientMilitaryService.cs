@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class PatientMilitaryService

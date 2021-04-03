@@ -5,7 +5,7 @@
 
 <form asp-action="CreateAssessment" class="col" id="pca" method="post" name="pca">
     <partial model="ViewBag.Patient" name="PatientBannerPartial" />
-    <input type="hidden" asp-for="PcaRecord.PcaId" value="@Model.PcaRecord.PcaId" />
+    <input type="hidden" asp-for="PcaRecord.Pcaid" value="@Model.PcaRecord.Pcaid" />
     <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <input type="hidden" asp-for="PcaRecord.PainScaleTypeId" value="@Model.PcaRecord.PainScaleTypeId"/>
@@ -146,7 +146,7 @@
                                    min="0" max="9999.99" step="0.01" asp-for="PcaRecord.BodyMassIndex">
                         </div>
                         <div class="col-sm-12 col-lg-5">
-                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="PcaRecord.BmiMethodId"></select>
+                            <select class="form-control" asp-items="@ViewBag.BodyMassIndexRoutes" asp-for="PcaRecord.BmimethodId"></select>
                         </div>
                     </div>
                     <hr />
@@ -221,7 +221,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var pa in Model.PcaRecord.PainAssessment)
+                                @foreach (var pa in Model.PcaRecord.PcapainAssessments)
                                 {
                                     <tr>
                                         <td>@pa.PainParameter.ParameterName</td>

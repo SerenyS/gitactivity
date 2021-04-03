@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Facility = await _context.Facility
+            Facility = await _context.Facilities
                 .Include(f => f.Address).FirstOrDefaultAsync(m => m.FacilityId == id);
 
             if (Facility == null)

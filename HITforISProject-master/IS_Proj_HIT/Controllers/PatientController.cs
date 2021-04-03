@@ -103,7 +103,7 @@ namespace IS_Proj_HIT.Controllers
             using (var context = new WCTCHealthSystemContext())
             {
                 //todo changed fromsql to fromsqlraw
-                var data = context.Patient.FromSqlRaw("EXECUTE dbo.GetNextMRN");
+                var data = context.Patients.FromSqlRaw("EXECUTE dbo.GetNextMRN");
                 ViewBag.MRN = data.FirstOrDefault()?.Mrn;
             }
 
@@ -146,7 +146,7 @@ namespace IS_Proj_HIT.Controllers
 
                         if (query.Any() && query != null)
                         {
-                            model.PatientLanguage.Add(
+                            model.PatientLanguages.Add(
                              new PatientLanguage
                              {
                                  LanguageId = query[0].LanguageId,
@@ -166,7 +166,7 @@ namespace IS_Proj_HIT.Controllers
                         var selectedRace = repository.Races.FirstOrDefault(race => race.RaceId == raceId);
                         if (selectedRace != null)
                         {
-                            model.PatientRace.Add(
+                            model.PatientRaces.Add(
                                new PatientRace
                                {
                                    RaceId = selectedRace.RaceId,
@@ -316,7 +316,7 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Sex)
                 .Include(p => p.Gender)
                 .Include(p => p.Ethnicity)
-                .Include(p => p.Encounter).ThenInclude(e => e.Facility)
+                .Include(p => p.Encounters).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
 
             var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
@@ -574,7 +574,7 @@ namespace IS_Proj_HIT.Controllers
                     }).ToList();
 
 
-            ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
+            ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergies)
                 .Select(r =>
                     new SelectListItem
                     {
@@ -583,7 +583,7 @@ namespace IS_Proj_HIT.Controllers
                     }).ToList();
 
 
-            ViewBag.Reactions = repository.Reactions.OrderBy(r => r.Name).Include(r => r.PatientAllergy).Select(r =>
+            ViewBag.Reactions = repository.Reactions.OrderBy(r => r.Name).Include(r => r.PatientAllergies).Select(r =>
                 new SelectListItem
                 {
                     Value = r.ReactionId.ToString(),
@@ -907,7 +907,7 @@ namespace IS_Proj_HIT.Controllers
         [HttpPost]
         [ActionName("UpdateAlert")]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateAlert(PatientAlerts model, string returnUrl)
+        public IActionResult UpdateAlert(PatientAlert model, string returnUrl)
         {
             if (ModelState.IsValid)
             {

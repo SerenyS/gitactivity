@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -33,14 +33,14 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainRating = await _context.PainRating
+            PainRating = await _context.PainRatings
                 .Include(p => p.PainParameter).FirstOrDefaultAsync(m => m.PainRatingId == id);
 
             if (PainRating == null)
             {
                 return NotFound();
             }
-           ViewData["PainParameterId"] = new SelectList(_context.PainParameter, "PainParameterId", "Description");
+           ViewData["PainParameterId"] = new SelectList(_context.PainParameters, "PainParameterId", "Description");
             return Page();
         }
 
@@ -75,7 +75,7 @@ namespace IS_Proj_HIT
 
         private bool PainRatingExists(int id)
         {
-            return _context.PainRating.Any(e => e.PainRatingId == id);
+            return _context.PainRatings.Any(e => e.PainRatingId == id);
         }
     }
 }

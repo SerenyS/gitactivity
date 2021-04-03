@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.Specialty.Add(Specialty);
+            _context.Specialties.Add(Specialty);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

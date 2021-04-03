@@ -28,7 +28,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Specialty = await _context.Specialty.FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            Specialty = await _context.Specialties.FirstOrDefaultAsync(m => m.SpecialtyId == id);
 
             if (Specialty == null)
             {

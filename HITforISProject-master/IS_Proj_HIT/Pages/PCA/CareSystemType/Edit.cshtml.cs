@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            CareSystemType = await _context.CareSystemType.FirstOrDefaultAsync(m => m.CareSystemTypeId == id);
+            CareSystemType = await _context.CareSystemTypes.FirstOrDefaultAsync(m => m.CareSystemTypeId == id);
 
             if (CareSystemType == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool CareSystemTypeExists(short id)
         {
-            return _context.CareSystemType.Any(e => e.CareSystemTypeId == id);
+            return _context.CareSystemTypes.Any(e => e.CareSystemTypeId == id);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Discharge = await _context.Discharge.FirstOrDefaultAsync(m => m.DischargeId == id);
+            Discharge = await _context.Discharges.FirstOrDefaultAsync(m => m.DischargeId == id);
 
             if (Discharge == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool DischargeExists(int id)
         {
-            return _context.Discharge.Any(e => e.DischargeId == id);
+            return _context.Discharges.Any(e => e.DischargeId == id);
         }
     }
 }

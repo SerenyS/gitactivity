@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            EncounterType = await _context.EncounterType.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
+            EncounterType = await _context.EncounterTypes.FirstOrDefaultAsync(m => m.EncounterTypeId == id);
 
             if (EncounterType == null)
             {
@@ -73,7 +73,7 @@ namespace IS_Proj_HIT
 
         private bool EncounterTypeExists(int id)
         {
-            return _context.EncounterType.Any(e => e.EncounterTypeId == id);
+            return _context.EncounterTypes.Any(e => e.EncounterTypeId == id);
         }
     }
 }

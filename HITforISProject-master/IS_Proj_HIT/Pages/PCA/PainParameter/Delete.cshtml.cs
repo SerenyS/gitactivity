@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Transactions;
 using System.Data.Common;
@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
             ViewData["RegularMessage"] = "Are you sure you want to delete this?";
             ViewData["ErrorMessage"] = "";
 
-            PainParameter = await _context.PainParameter
+            PainParameter = await _context.PainParameters
                 .Include(p => p.PainScaleType)
                 .Include(pr=>pr.PainRatings)
                 .FirstOrDefaultAsync(m => m.PainParameterId == id);
@@ -52,7 +52,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            PainParameter = await _context.PainParameter
+            PainParameter = await _context.PainParameters
                             .Include(p => p.PainScaleType)
                             .Include(pr => pr.PainRatings)
                             .FirstOrDefaultAsync(m => m.PainParameterId == id);
@@ -60,7 +60,7 @@ namespace IS_Proj_HIT
             if (PainParameter != null)
             {
                 // See if there are any pain assessments using this pain parameter
-                bool paExists = _context.PcaPainAssessment.Any(p => p.PainParameterId == PainParameter.PainScaleTypeId);
+                bool paExists = _context.PcapainAssessments.Any(p => p.PainParameterId == PainParameter.PainScaleTypeId);
                 if (paExists)
                 {
                     Console.WriteLine("Pain assessment records exist using these records.");
@@ -73,10 +73,10 @@ namespace IS_Proj_HIT
                 {
                     foreach (PainRating pr in PainParameter.PainRatings)
                     {
-                        _context.PainRating.Remove(pr);
+                        _context.PainRatings.Remove(pr);
                     }
 
-                    _context.PainParameter.Remove(PainParameter);
+                    _context.PainParameters.Remove(PainParameter);
                     _context.SaveChanges();
 
                     tran.Complete();

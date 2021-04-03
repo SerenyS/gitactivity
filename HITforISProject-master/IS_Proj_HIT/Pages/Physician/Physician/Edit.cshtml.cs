@@ -33,7 +33,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            Physician = await _context.Physician
+            Physician = await _context.Physicians
                 .Include(p => p.Address)
                 .Include(p => p.ProviderType)
                 .Include(p => p.Specialty).FirstOrDefaultAsync(m => m.PhysicianId == id);
@@ -42,9 +42,9 @@ namespace IS_Proj_HIT
             {
                 return NotFound();
             }
-           ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Address1");
-           ViewData["ProviderTypeId"] = new SelectList(_context.ProviderType, "ProviderTypeId", "Name");
-           ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name");
+           ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
+           ViewData["ProviderTypeId"] = new SelectList(_context.ProviderTypes, "ProviderTypeId", "Name");
+           ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "SpecialtyId", "Name");
             return Page();
         }
 
@@ -79,7 +79,7 @@ namespace IS_Proj_HIT
 
         private bool PhysicianExists(int id)
         {
-            return _context.Physician.Any(e => e.PhysicianId == id);
+            return _context.Physicians.Any(e => e.PhysicianId == id);
         }
     }
 }

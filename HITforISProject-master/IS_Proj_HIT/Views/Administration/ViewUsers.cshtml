@@ -5,11 +5,12 @@
 }
 
 <h1>ViewUsers</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
+<span></span>
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -25,21 +26,12 @@
                 @Html.DisplayNameFor(model => model.ProgramEnrolledIn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InstructorID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastModified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AspNetUsersID)
+                @*@Html.DisplayNameFor(model => model.Instructor)*@
             </th>
             <th></th>
+            <th>
+                <input type="checkbox" id="checkAll"style="width: 30px; height: 30px; text-align:center; vertical-align:middle;"/> Select All
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -59,39 +51,47 @@
                     @Html.DisplayFor(modelItem => item.ProgramEnrolledIn)
                 </td>
                 <td>
-                    @*@if(item.InstructorID != null){@Html.DisplayFor(modelItem => item.InstructorID)}*@
-                    @*@Html.DisplayFor(modelItem => item.ProgramEnrolledIn || "null")*@
-                    @*@if(item.InstructorID == null){<b>Start Date: </b>"null"}
-else{}*@
-                    @Html.DisplayFor(modelItem => item.InstructorID)
+                    @Html.DisplayFor(modelItem => item.InstructorId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastModified)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AspNetUsersID)
-                </td>
-                <td>
-                    <a asp-action="EditUsersInRole" asp-route-id="@item.UserId">Edit</a> |
+                    <a asp-action="EditUsersInRole" asp-route-id="@item.AspNetUsersId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                    
-                    <span id="confirmDelete_@item.UserId" style="display:none">
-                        <span> Are you sure you want to delete?</span>
-                        <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
-                        <a href="#" class="btn btn-primary">No</a>
-                    </span>
+                    <a asp-action="DeleteUser" asp-route-id="@item.AspNetUsersId"
+                       onclick="return confirm('Are you sure you want to delete user : @item.UserId ?')">Delete</a>
 
-                    <span id="deleteSpan_@item.UserId">
-                        <a href="#" class="btn btn-danger" onclick=""> Delete</a> 
-                    </span>
+                    @*  This code is an attempt to delete a user in a different way. I couldn't get it to work - CPavelsek 3/3/21'
+
+                            <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
+                            <span id="confirmDelete_@item.UserId" style="display:none">
+                                <span> Are you sure you want to delete?</span>
+                                <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
+                                <a href="#" class="btn btn-primary">No</a>
+                            </span>
+
+                            <span id="deleteSpan_@item.UserId">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.UserId', true)"> Delete</a>
+                            </span>
+                        </form>*@
+                </td>
+                <td>
+                    <input type="checkbox" class="checkBox" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+@section scripts{
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#checkAll").click(function () {
+            $(".checkBox").prop('checked',
+                $(this).prop('checked'));
+        });
+    });
+
+</script>
+}

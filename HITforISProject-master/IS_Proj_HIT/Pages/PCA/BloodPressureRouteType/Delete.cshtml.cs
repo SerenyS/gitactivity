@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            BloodPressureRouteType = await _context.BloodPressureRouteType.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
+            BloodPressureRouteType = await _context.BloodPressureRouteTypes.FirstOrDefaultAsync(m => m.BloodPressureRouteTypeId == id);
 
             if (BloodPressureRouteType == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            BloodPressureRouteType = await _context.BloodPressureRouteType.FindAsync(id);
+            BloodPressureRouteType = await _context.BloodPressureRouteTypes.FindAsync(id);
 
             if (BloodPressureRouteType != null)
             {
                 // See if any PCA records exist with this type
-                bool usingExists = _context.Pcarecord.Any(p => p.BloodPressureRouteTypeId == BloodPressureRouteType.BloodPressureRouteTypeId);
+                bool usingExists = _context.Pcarecords.Any(p => p.BloodPressureRouteTypeId == BloodPressureRouteType.BloodPressureRouteTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("PCA records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.BloodPressureRouteType.Remove(BloodPressureRouteType);
+                _context.BloodPressureRouteTypes.Remove(BloodPressureRouteType);
                 await _context.SaveChangesAsync();
             }
 

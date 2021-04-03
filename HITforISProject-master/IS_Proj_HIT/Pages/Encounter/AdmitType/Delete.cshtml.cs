@@ -35,7 +35,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            AdmitType = await _context.AdmitType.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
+            AdmitType = await _context.AdmitTypes.FirstOrDefaultAsync(m => m.AdmitTypeId == id);
 
             if (AdmitType == null)
             {
@@ -51,12 +51,12 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            AdmitType = await _context.AdmitType.FindAsync(id);
+            AdmitType = await _context.AdmitTypes.FindAsync(id);
 
             if (AdmitType != null)
             {
                 // See if any Encounter records exist with this type 
-                bool usingExists = _context.Encounter.Any(e => e.AdmitTypeId == AdmitType.AdmitTypeId);
+                bool usingExists = _context.Encounters.Any(e => e.AdmitTypeId == AdmitType.AdmitTypeId);
                 if (usingExists)
                 {
                     Console.WriteLine("Encounter records exist using this record.");
@@ -65,7 +65,7 @@ namespace IS_Proj_HIT
                     return Page();
                 }
 
-                _context.AdmitType.Remove(AdmitType);
+                _context.AdmitTypes.Remove(AdmitType);
                 await _context.SaveChangesAsync();
             }
 

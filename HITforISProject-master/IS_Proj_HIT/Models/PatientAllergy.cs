@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace IS_Proj_HIT.Models
 {
     public partial class PatientAllergy
@@ -12,7 +14,7 @@ namespace IS_Proj_HIT.Models
         public long PatientAlertId { get; set; }
 
         public virtual Allergen Allergen { get; set; }
-        public virtual PatientAlerts PatientAlert { get; set; }
+        public virtual PatientAlert PatientAlert { get; set; }
         public virtual Reaction Reaction { get; set; }
     }
 }

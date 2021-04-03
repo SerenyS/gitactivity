@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT
 {
@@ -23,7 +23,7 @@ namespace IS_Proj_HIT
 
         public async Task OnGetAsync()
         {
-            PainParameter = await _context.PainParameter
+            PainParameter = await _context.PainParameters
                 .Include(p => p.PainScaleType).ToListAsync();
         }
     }

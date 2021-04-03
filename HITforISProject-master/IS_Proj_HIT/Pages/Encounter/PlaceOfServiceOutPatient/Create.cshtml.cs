@@ -37,7 +37,7 @@ namespace IS_Proj_HIT
                 return Page();
             }
 
-            _context.PlaceOfServiceOutPatient.Add(PlaceOfServiceOutPatient);
+            _context.PlaceOfServiceOutPatients.Add(PlaceOfServiceOutPatient);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

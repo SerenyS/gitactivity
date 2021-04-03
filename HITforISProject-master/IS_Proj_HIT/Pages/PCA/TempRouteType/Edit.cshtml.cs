@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models.PCA;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IS_Proj_HIT
@@ -34,7 +34,7 @@ namespace IS_Proj_HIT
                 return NotFound();
             }
 
-            TempRouteType = await _context.TempRouteType.FirstOrDefaultAsync(m => m.TempRouteTypeId == id);
+            TempRouteType = await _context.TempRouteTypes.FirstOrDefaultAsync(m => m.TempRouteTypeId == id);
 
             if (TempRouteType == null)
             {
@@ -74,7 +74,7 @@ namespace IS_Proj_HIT
 
         private bool TempRouteTypeExists(int id)
         {
-            return _context.TempRouteType.Any(e => e.TempRouteTypeId == id);
+            return _context.TempRouteTypes.Any(e => e.TempRouteTypeId == id);
         }
     }
 }
