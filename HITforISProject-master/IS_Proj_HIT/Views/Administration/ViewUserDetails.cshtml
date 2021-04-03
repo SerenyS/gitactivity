@@ -1,6 +1,6 @@
 @model IS_Proj_HIT.Models.UserTable
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "ViewUsers";
 }
 
 <div class="bg-primary m-1 p-1 text-white"><h4>Edit Information</h4></div>
@@ -8,7 +8,7 @@
     Hello @User.Identity.Name, please update your information as needed.
 </div>
 
-<form method="post" asp-action="EditRegisterDetails">
+<!--<form method="post" asp-action="EditRegisterDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
     <div class="row">
@@ -49,4 +49,4 @@
 
     <br />
     <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-</form>
+</form>-->
