@@ -26,11 +26,11 @@
                 @Html.DisplayNameFor(model => model.ProgramEnrolledIn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Instructor)
+                @*@Html.DisplayNameFor(model => model.Instructor)*@
             </th>
             <th></th>
             <th>
-
+                <input type="checkbox" id="checkAll"style="width: 30px; height: 30px; text-align:center; vertical-align:middle;"/> Select All
             </th>
         </tr>
     </thead>
@@ -51,7 +51,7 @@
                     @Html.DisplayFor(modelItem => item.ProgramEnrolledIn)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Instructor)
+                    @Html.DisplayFor(modelItem => item.InstructorId)
                 </td>
                 <td>
                     <a asp-action="EditUsersInRole" asp-route-id="@item.AspNetUsersId">Edit</a> |
@@ -61,22 +61,37 @@
 
                     @*  This code is an attempt to delete a user in a different way. I couldn't get it to work - CPavelsek 3/3/21'
 
-            <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
-            <span id="confirmDelete_@item.UserId" style="display:none">
-                <span> Are you sure you want to delete?</span>
-                <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
-                <a href="#" class="btn btn-primary">No</a>
-            </span>
+                            <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
+                            <span id="confirmDelete_@item.UserId" style="display:none">
+                                <span> Are you sure you want to delete?</span>
+                                <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
+                                <a href="#" class="btn btn-primary">No</a>
+                            </span>
 
-            <span id="deleteSpan_@item.UserId">
-                <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.UserId', true)"> Delete</a>
-            </span>
-        </form>*@
+                            <span id="deleteSpan_@item.UserId">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.UserId', true)"> Delete</a>
+                            </span>
+                        </form>*@
                 </td>
-                <td >
-                    <input type="checkbox" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
+                <td>
+                    <input type="checkbox" class="checkBox" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+@section scripts{
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#checkAll").click(function () {
+            $(".checkBox").prop('checked',
+                $(this).prop('checked'));
+        });
+    });
+
+</script>
+}

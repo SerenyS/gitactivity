@@ -3167,6 +3167,7 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.Property(e => e.InstructorId).HasColumnName("InstructorID");
 
+
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");

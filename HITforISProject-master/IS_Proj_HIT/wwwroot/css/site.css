@@ -388,6 +388,10 @@ height: 0;
     transform: rotate(45deg);
 }
 
+input[type=checkbox]:hover {
+    cursor: pointer;
+}
+
 td input[type="checkbox"] {
     float: left;
     margin: 0 auto;

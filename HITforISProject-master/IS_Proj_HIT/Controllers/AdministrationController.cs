@@ -4,6 +4,7 @@ using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -123,6 +124,7 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
+
                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
 
             return View(dbUser);
@@ -164,7 +166,9 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
+
                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = model.InstructorId == u.UserId }).ToList();
+
 
             return View(model);
         }
@@ -185,52 +189,25 @@ namespace IS_Proj_HIT.Controllers
 
         }
 
-        //Delete users from UserTable  -- This shouldn't be necessary with Cascade delete option
-        public async Task<IActionResult> DeleteFromUserTable(UserTable deleteId, string id)
-        {
-            var userToDelete = await _userManager.FindByIdAsync(id);
-
-            //var secondUser = _repository.UserTables.Where(x => x.AspNetUsersID == userId).FirstOrDefault();
-
-            
-
-
-
-            if (userToDelete == null)
-            {
-                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
-                return View("NotFound");
-            }
-            else
-            {
-                _repository.DeleteUser(deleteId);
-                var result = await _userManager.DeleteAsync(userToDelete);
-
-                ;
-
-                if (result.Succeeded)
-                {
-
-                    return RedirectToAction("ListUsers");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View("ListUsers");
-
-            }
-        }
-
 
         //List users - Chris P - 2/27/21
         [HttpGet]
-        public IActionResult ListUsers()
+        public  IActionResult ListUsers()
         {
-            var users = _userManager.Users;
-            return View(users);
+            //var users = _repository.UserTables;
+
+            var model = _repository.UserTables.Select(u => new UsersPlusViewModel
+            {
+                UserId = u.UserId,
+                UserName = u.Email,
+                StartDate = u.StartDate
+
+            }).OrderByDescending(u => u.UserName).ToList();
+
+            return View(model);
         }
+
+
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
         public async Task<IActionResult> DeleteUser(string id)
@@ -262,6 +239,25 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        
+        public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
+        {
+                foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
+                {
+
+                    var selectedUser = _userManager.Users.Single(u => u.UserName == user.UserName);
+                    
+                    var userId = await _userManager.FindByIdAsync(selectedUser.Id);
+                    
+                    var result =  await _userManager.DeleteAsync(userId);
+                
+            }
+
+            return RedirectToAction("ListUsers");
+            
+        }
+
+
         public IActionResult CreateRole() => View();
 
         public async Task<IActionResult> EditRole(string id)
@@ -290,6 +286,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.RoleId = roleId;
 
             var role = await _roleManager.FindByIdAsync(roleId);
+
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with ID = {roleId} cannot be found";
