@@ -84,11 +84,9 @@ List Users
                
                         <td>@Model[i].LastModified</td>
                         <td>
-                            <a asp-action="EditUserDetails" asp-controller="Administration" asp-route-id="@Model[i].UserId">Edit</a> |
-                            <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model[i].UserId">Details</a> |
-                            <a asp-action="DeleteUser" asp-route-id="@Model[i].UserId"
-                               onclick="return confirm('Are you sure you want to delete user : @Model[i].UserName ?')">Delete</a>
-
+                             
+                            <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model[i].UserId">Details</a> 
+                            
                             @*  This code is an attempt to delete a user in a different way. I couldn't get it to work - CPavelsek 3/3/21'
 
                                     <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
