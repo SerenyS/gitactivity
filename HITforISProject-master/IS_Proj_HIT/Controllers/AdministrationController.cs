@@ -287,7 +287,41 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+        public IActionResult Details(int id)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
 
+            var model = new UsersPlusViewModel
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                ProgramEnrolledIn = user.ProgramEnrolledIn,
+                StartDate = user.StartDate,
+                EndDate = user.EndDate
+            };
+
+            return View(model);
+        }
+        public IActionResult DetailsNext(int id)
+        {
+            id += 1;
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+
+            var model = new UsersPlusViewModel
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                ProgramEnrolledIn = user.ProgramEnrolledIn,
+                StartDate = user.StartDate,
+                EndDate = user.EndDate
+            };
+
+            return View(model);
+        }
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.RoleId = roleId;
@@ -406,5 +440,77 @@ namespace IS_Proj_HIT.Controllers
         }
 
         #endregion
+        public async Task<IActionResult> EditUserDetails(int id)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrWhiteSpace(user.AspNetUsersId))
+                    user.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
+                if (string.IsNullOrWhiteSpace(user.Email))
+                    user.Email = User.Identity.Name;
+
+                user.LastModified = DateTime.Now;
+                if (user.UserId is 0)
+                    _repository.AddUser(user);
+                else
+                    _repository.EditUser(user);
+            }
+
+            //Create or get program list from DB
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
+                new SelectListItem {Text = "Nursing", Value = "Nursing"}
+            };
+
+            //get list of possible instructors from db
+            var instructorEmails = new List<string>();
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
+                .Select(u => u.Email));
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
+                .Select(u => u.Email));
+            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
+                .Select(u => new SelectListItem
+
+                { Text = u.LastName, Value = u.UserId.ToString(), Selected = user.InstructorId == u.UserId }).ToList();
+
+
+            return View(user);
+        }
+       /* public async Task<IActionResult> EditUserDetails(string id)
+        {
+            //find current user
+            //var id = _userManager.GetUserId(HttpContext.User);
+
+            //select the information I want to display
+            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
+                         new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
+
+            //Create or get program list from DB
+            ViewBag.ProgramList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
+                new SelectListItem {Text = "Nursing", Value = "Nursing"}
+            };
+
+            //get list of possible instructors from db
+            var instructorEmails = new List<string>();
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
+                .Select(u => u.Email));
+            instructorEmails.AddRange(
+                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
+                .Select(u => u.Email));
+            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
+                .Select(u => new SelectListItem
+
+                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
+
+            return View(dbUser);
+        }*/
+
     }
 }

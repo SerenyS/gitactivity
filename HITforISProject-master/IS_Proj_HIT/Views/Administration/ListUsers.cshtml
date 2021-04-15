@@ -3,7 +3,7 @@
 @model List<UsersPlusViewModel>
 @{
     ViewData["Title"] = "ListUsers";
-    
+
 }
 
 <h1>ListUsers</h1>
@@ -13,16 +13,14 @@
 @*<div class="card-body">*@
 @using (Html.BeginForm("DeleteBatch", "Administration", FormMethod.Post))
 {<div class="card">
-        
+
         <table class="table table-striped" id="table_id">
             <thead>
                 <tr>
                     <th>
-                        @*@Html.DisplayNameFor(model => model.)*@
                         Name
                     </th>
                     <th>
-                        @*@Html.DisplayNameFor(model => model.UserId)*@
                         ID
                     </th>
                     <th>
@@ -34,7 +32,7 @@
                     <th data-orderable="false" style="padding: 8px 10px">
 
                         <input type="checkbox" class="checkBox" name="userIdsToDelete" id="checkAll" value="@Model."  style="width: 30px; height: 30px; text-align:center; vertical-align:middle; padding: 8px 10px"/> Select All
-                        
+
                         <div class="float-right">
                             <button type="submit" value="Delete" class="btn btn-outline-danger float-right" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete Selected</button>
                         </div>
@@ -43,32 +41,6 @@
                 </tr>
             </thead>
             <tbody>
-                @*@foreach (var item in Model)
-                    {
-                        <tr>
-
-                            <td>
-
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-
-                            <td>
-
-                                <a asp-action="EditUsersInRole" asp-route-id="@item">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item">Details</a> |
-                                <a asp-action="DeleteUser" asp-route-id="@item.Id"
-                                   onclick="return confirm('Are you sure you want to delete user : @item.UserName ?')">Delete</a>
-
-                            </td>
-                            <td>
-                                <input type="hidden" asp-for="@item.Id" />
-                                <input type="checkbox" class="checkBox" id="id" name="@item.Id" value="@item.Id" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
-                            </td>
-                        </tr>
-                    }*@
                 @for (int i = 0; i < Model.Count(); i++)
                 {
                 <tr id="userRoleTableRow">
@@ -106,20 +78,14 @@
                 </tr>
                 }
             </tbody>
+            <button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
         </table>
     </div>
 }
 
 
-@*</div>*@
-@*<div class="card-footer">
-        <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model"
-           class="btn btn-primary text-white" style="width:auto">Add or Remove Users</a>
-    </div>*@
-
-@* Load datatable css *@
 <link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
-@* Load datatable js *@
+
 
 @section scripts{
 
