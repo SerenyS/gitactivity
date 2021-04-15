@@ -40,17 +40,20 @@
                 @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student")
                    || User.IsInRole("HIT Clerk") || User.IsInRole("Registrar") || User.IsInRole("Read Only"))
                 {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Patient" asp-action="PatientSearch"><i class="fas fa-search"></i> Patient Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Encounter" asp-action="CheckedIn"><i class="fas fa-users"></i> Checked in Patients</a>
-                        </li>
-                    </ul><!--End Nav-->
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Patient" asp-action="PatientSearch"><i class="fas fa-search"></i> Patient Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Encounter" asp-action="CheckedIn"><i class="fas fa-users"></i> Checked in Patients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Encounter" asp-action="HistoryAndPhysical"><i class="fas fa-users"></i> History and Physical</a>
+                    </li>
+                </ul><!--End Nav-->
                 }
                 else
                 {

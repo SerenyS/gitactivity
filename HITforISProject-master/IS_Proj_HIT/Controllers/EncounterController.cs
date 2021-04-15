@@ -260,5 +260,10 @@ namespace IS_Proj_HIT.Controllers
                 .ToList();
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
+
+        public ViewResult HistoryAndPhysical()
+        {
+            return View();
+        }
     }
 }

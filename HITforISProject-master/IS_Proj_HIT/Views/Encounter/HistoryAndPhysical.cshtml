@@ -1,0 +1,64 @@
+﻿@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            History and Physical  
+        </h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="container">
+            Date: <input value="@DateTime.Today.ToString("d")" />
+                  <br />
+            Chief Complaint: <input type="text" placeholder="free text" /> 
+
+        </div>
+        <br />
+        <div class="container">
+            <button class="btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#reviewText" > Review Of Systems</button> <br />
+            <div id="reviewText" class=" collapse ">
+                <input type="checkbox" />HEENT:  <textarea class="form-control" rows="4" cols="60"></textarea>
+                                                 <br />
+                <input type="checkbox" /> HEM/LYMPH: <input type="text" placeholder="Not Assessed" />
+            </div>
+        </div>
+        <br />
+        <div class="container ">
+            <button class="btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#diagText" aria-expanded="false" aria-controls="diagText">Significant Diagnostics</button> <br />
+            <input type="text" id="diagText" class="form-control collapse " />
+        </div>
+        <br />
+        <div class="container">
+            <button class="btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#assessmentText">Assessment</button> <br />
+            <input type="text" id="assessmentText" class="form-control collapse " />
+        </div>
+        <br />
+        <div class="container">
+            <button class="btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#planText">Plan</button> <br />
+            <input type="text" id="planText" class="form-control collapse" />
+        </div>
+
+        <br />
+
+        <div class="container justify-content-md-center">
+            Authorizing Provider: <input type="text" name="name" value="" />
+                                  <br />
+            Co Signature <input type="text" />
+        </div>
+
+        <br />
+
+        <button class="btn btn-primary"> Return to Patient </button>
+        <button class="btn btn-primary"> Return to Checked In Encounters </button>
+        <button class="btn btn-primary"> SAVE AUTHENTICATE </button>
+        <button class="btn btn-primary"> PRINT REPORT </button>
+
+    </div>
+</div>
+<hr />
+
+
+<a asp-action="CheckedIn"
+   class="btn btn-outline-primary m-l-1">
+    View <b>Checked In</b> Encounters
+</a>
