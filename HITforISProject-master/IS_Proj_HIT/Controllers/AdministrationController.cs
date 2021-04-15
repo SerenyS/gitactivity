@@ -19,7 +19,8 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
+    //[Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
+    [Authorize]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -97,7 +98,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region User Details
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
