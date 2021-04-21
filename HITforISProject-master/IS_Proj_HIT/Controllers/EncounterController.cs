@@ -261,7 +261,29 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
 
-        public ViewResult HistoryAndPhysical()
+
+        public ViewResult HistoryAndPhysical(long id)
+        {
+            var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+
+            var model = new Patient
+            {
+                Mrn = desiredPatientEncounter.Mrn,
+
+            };
+
+            ViewBag.EncounterId = id;
+
+            ViewBag.Patient = _repository.Patients
+            .Include(p => p.PatientAlerts)
+            .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
+        public IActionResult AddPhysicianAssessment(string id)
         {
             return View();
         }
