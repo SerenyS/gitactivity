@@ -27,13 +27,25 @@
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#physicianDocumentsCollapse" aria-expanded="false" aria-controls="physicianDocumentsCollapse">
-                    Physician Documents
-                </button>
-            </h5>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#physicianDocumentsCollapse" aria-expanded="false" aria-controls="physicianDocumentsCollapse">
+          Physician Documents
+        </button>
+      </h5>
+    </div>
+    <div id="physicianDocumentsCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body m-0 p-0">
+        <div class="btn-group-vertical btn-block">
+            @* use the a tag to create the buttons to link *@
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> History & Physical</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Discharge Documents</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Consultations</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Progress Notes</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Orders</a>
+
         </div>
         <div id="physicianDocumentsCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body m-0 p-0">
