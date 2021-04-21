@@ -284,9 +284,15 @@ namespace IS_Proj_HIT.Controllers
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
             //var role = _roleManager.FindByIdAsync(id);
-           // var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == id.ToString());
+            //var aspnetUserId = user.AspNetUsersId;
+            var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == user.AspNetUsersId);
+            //var role = _roleManager.FindByIdAsync(bridgeId);
+            var roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
             //var role = bridgeId.Role.Name;
             //var role = _userManager.FindByIdAsync(bridgeId.UserId);
+            if(roleName == null){
+                roleName = "not assigned";
+            }
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
@@ -296,7 +302,7 @@ namespace IS_Proj_HIT.Controllers
                 ProgramEnrolledIn = user.ProgramEnrolledIn,
                 StartDate = user.StartDate,
                 EndDate = user.EndDate,
-                //RoleName = role
+                RoleName = roleName
             };
 
             return View(model);
