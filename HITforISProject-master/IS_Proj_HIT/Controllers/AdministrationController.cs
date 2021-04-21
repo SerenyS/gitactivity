@@ -283,10 +283,10 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult Details(int id)
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-           // var role = _roleManager.FindByIdAsync(id);
-            var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == id.ToString());
+            //var role = _roleManager.FindByIdAsync(id);
+           // var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == id.ToString());
             //var role = bridgeId.Role.Name;
-            var role = _userManager.FindByIdAsync(bridgeId.UserId);
+            //var role = _userManager.FindByIdAsync(bridgeId.UserId);
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
