@@ -285,7 +285,7 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddPhysicianAssessment(string id)
         {
-            return View();
+            return RedirectToAction();
         }
     }
 }
