@@ -283,7 +283,10 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult Details(int id)
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-
+           // var role = _roleManager.FindByIdAsync(id);
+            var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == id.ToString());
+            //var role = bridgeId.Role.Name;
+            var role = _userManager.FindByIdAsync(bridgeId.UserId);
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
@@ -292,25 +295,8 @@ namespace IS_Proj_HIT.Controllers
                 Email = user.Email,
                 ProgramEnrolledIn = user.ProgramEnrolledIn,
                 StartDate = user.StartDate,
-                EndDate = user.EndDate
-            };
-
-            return View(model);
-        }
-        public IActionResult DetailsNext(int id)
-        {
-            id += 1;
-            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-
-            var model = new UsersPlusViewModel
-            {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                ProgramEnrolledIn = user.ProgramEnrolledIn,
-                StartDate = user.StartDate,
-                EndDate = user.EndDate
+                EndDate = user.EndDate,
+                //RoleName = role
             };
 
             return View(model);
