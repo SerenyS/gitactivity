@@ -1,3 +1,9 @@
+@using IS_Proj_HIT.Models.ViewModels
+@model IEnumerable<IS_Proj_HIT.Models.ProgressNote>
+@{
+    ViewData["Title"] = "Encounter List";
+}
+
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
@@ -23,6 +29,17 @@
                     </tr>    
                 </thead>
                 <tbody>
+                    @foreach (var ProgressNote in Model){
+                        <tr>
+                            <td>
+                                <button>View</button>
+                            </td>
+                            <td>@ProgressNote.LastUpdated</td>
+                            <td>@ProgressNote.NoteType</td>
+                            <td>@ProgressNote.Physician</td>
+                            <td>@ProgressNote.CoPhysician</td>
+                        </tr>
+                    }
                     
                 </tbody>
 
