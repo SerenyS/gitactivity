@@ -287,12 +287,17 @@ namespace IS_Proj_HIT.Controllers
             //var aspnetUserId = user.AspNetUsersId;
             var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == user.AspNetUsersId);
             //var role = _roleManager.FindByIdAsync(bridgeId);
-            var roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
+            var roleName = "";
+            try{
+                roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
+            }catch{
+                roleName = "Not Assigned";
+            }
             //var role = bridgeId.Role.Name;
             //var role = _userManager.FindByIdAsync(bridgeId.UserId);
-            if(roleName == null){
+            /*if(roleName == null){
                 roleName = "not assigned";
-            }
+            }*/
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
