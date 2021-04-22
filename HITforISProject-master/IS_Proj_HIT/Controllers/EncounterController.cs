@@ -41,7 +41,11 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View Discahrge 
+        // View ProgressNotes
+
+        public IActionResult ProgressNotes() => View();
+        public IActionResult ViewProgressNotes() => View();
+        // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
