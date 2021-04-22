@@ -266,18 +266,39 @@ namespace IS_Proj_HIT.Controllers
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
-
-            var model = new Patient
-            {
-                Mrn = desiredPatientEncounter.Mrn,
-
-            };
-
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
+            
+            
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
+
+
+
+            Patient patient = new Patient()
+            {
+                Mrn = desiredPatientEncounter.Mrn,
+                Dob = desiredPatient.Dob
+                
+
+            };
+
+            Encounter encounter = new Encounter()
+            {
+                EncounterId = id
+            };
+
+            ViewEncounterPageModel model = new ViewEncounterPageModel()
+            {
+                Patient = patient,
+                Encounter = encounter
+                
+
+            };
+
+            
 
             return View(model);
         }
