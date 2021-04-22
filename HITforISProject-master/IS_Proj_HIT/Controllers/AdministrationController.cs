@@ -19,8 +19,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    //[Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
-    [Authorize]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -98,7 +97,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region User Details
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
@@ -201,10 +200,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-               
+                StartDate = u.StartDate
 
             }).OrderByDescending(u => u.UserName).ToList();
 
@@ -214,20 +210,16 @@ namespace IS_Proj_HIT.Controllers
 
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
-        public async Task<IActionResult> DeleteUser(string name)
+        public async Task<IActionResult> DeleteUser(string id)
         {
+            var userToDelete = await _userManager.FindByIdAsync(id);
             
 
-            var userToDelete = await _userManager.FindByEmailAsync(name);
-
-            //var selectedUser = _userManager.Users.Single(u => u.UserName == userToDelete.UserName);
-
-            if (userToDelete == null)
+            if(userToDelete == null)
             {
-                ViewBag.ErrorMessage = $"User with the Id = {name} cannot be found.";
+                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
                 return View("NotFound");
             }
-
             else
             {
                 var result = await _userManager.DeleteAsync(userToDelete);
@@ -290,22 +282,19 @@ namespace IS_Proj_HIT.Controllers
         }
         public IActionResult Details(int id)
         {
+            // grabs the user from the UserTable
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-            //var role = _roleManager.FindByIdAsync(id);
-            //var aspnetUserId = user.AspNetUsersId;
+            // grabs the string AspNetUsersId from the AspNetUserRoles table
             var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == user.AspNetUsersId);
-            //var role = _roleManager.FindByIdAsync(bridgeId);
+
             var roleName = "";
+            // try/catch prevents error from being thrown if there is no role assigned to the user
             try{
                 roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
             }catch{
                 roleName = "Not Assigned";
             }
-            //var role = bridgeId.Role.Name;
-            //var role = _userManager.FindByIdAsync(bridgeId.UserId);
-            /*if(roleName == null){
-                roleName = "not assigned";
-            }*/
+
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
