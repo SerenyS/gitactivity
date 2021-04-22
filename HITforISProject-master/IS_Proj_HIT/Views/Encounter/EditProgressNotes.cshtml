@@ -1,0 +1,31 @@
+@using IS_Proj_HIT.Models.ViewModels
+@model IEnumerable<IS_Proj_HIT.Models.ProgressNote>
+@{
+    ViewData["Title"] = "Encounter List";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Physician Progress Notes
+        </h4>
+         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar")){
+             <a class="btn btn-info btn-sm float-right">
+                    Add New
+             </a>
+         }
+    </div>
+
+    <div class="card-body bg-light">
+        <div class="container">
+            <form method="post" id="progressNoteEdit" name="progressNoteEdit" asp-action="EditProgessNotes">
+            @*//<partial name="~/Views/Patient/PatientFormFields.cshtml" />
+            //<hr/>*@
+
+            
+            <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
+        </form>
+        </div>
+    </div>
+
+</div>
