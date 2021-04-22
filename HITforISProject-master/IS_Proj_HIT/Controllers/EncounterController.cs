@@ -43,7 +43,7 @@ namespace IS_Proj_HIT.Controllers
 
         // View ProgressNotes
 
-        public IActionResult ProgressNotes() => View();
+        public IActionResult ProgressNotes() => View("ProgressNotes");
         public IActionResult ViewProgressNotes() => View();
         // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
