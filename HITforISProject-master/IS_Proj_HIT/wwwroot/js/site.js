@@ -1,5 +1,4 @@
-﻿import { unique } from "jquery";
-
+﻿
 $(function () {
     $('[data-toggle="tooltip"]').tooltip(); 
 

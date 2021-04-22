@@ -103,7 +103,7 @@ namespace IS_Proj_HIT.Controllers
             using (var context = new WCTCHealthSystemContext())
             {
                 //todo changed fromsql to fromsqlraw
-                var data = context.Patients.FromSqlRaw("EXECUTE dbo.GetNextMRN");
+                var data = context.Patients.FromSqlRaw("EXECUTE dbo.GetNextMRN").ToList();
                 ViewBag.MRN = data.FirstOrDefault()?.Mrn;
             }
 
@@ -129,7 +129,8 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult AddPatient(Patient model)
         {
-            model.LastModified = @DateTime.Now;
+
+ 
             if (ModelState.IsValid)
             {
                 if (repository.Patients.Any(p => p.Mrn == model.Mrn))
@@ -993,8 +994,9 @@ namespace IS_Proj_HIT.Controllers
             {
                 ViewBag.Languages = new SelectList(queryLanguages, "LanguageId", "Name", 0);
                 ViewBag.Races = new SelectList(queryRaces, "RaceId", "Name", 0);
+                ViewBag.LastModified = DateTime.Now;
             }
-
+            
 
         }
 

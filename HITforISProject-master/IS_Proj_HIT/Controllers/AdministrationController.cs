@@ -19,7 +19,8 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
+    //[Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
+    [Authorize]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -97,7 +98,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region User Details
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
@@ -200,7 +201,10 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate
+                StartDate = u.StartDate,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+               
 
             }).OrderByDescending(u => u.UserName).ToList();
 
@@ -210,16 +214,20 @@ namespace IS_Proj_HIT.Controllers
 
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string name)
         {
-            var userToDelete = await _userManager.FindByIdAsync(id);
             
 
-            if(userToDelete == null)
+            var userToDelete = await _userManager.FindByEmailAsync(name);
+
+            //var selectedUser = _userManager.Users.Single(u => u.UserName == userToDelete.UserName);
+
+            if (userToDelete == null)
             {
-                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                ViewBag.ErrorMessage = $"User with the Id = {name} cannot be found.";
                 return View("NotFound");
             }
+
             else
             {
                 var result = await _userManager.DeleteAsync(userToDelete);
