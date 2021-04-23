@@ -1,8 +1,9 @@
-﻿@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
 
 <partial name="PatientBannerPartial" model="Model.Patient" />
 <div class="container">
     <div class="row justify-content-start">
+
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>
@@ -11,14 +12,14 @@
                         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
                         {
                             <a asp-action="EditEncounter"
-                            asp-route-encounterId="@Model.Encounter.EncounterId"
-                            class="btn btn-info btn-sm float-right">
+                               asp-route-encounterId="@Model.Encounter.EncounterId"
+                               class="btn btn-info btn-sm float-right">
                                 Edit
                             </a>
                         }
                     </h4>
                 </div>
-                
+
                 <div class="card-body bg-light">
                     <div class="container">
                         <div class="row">
@@ -112,10 +113,10 @@
                         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Student"))
                         {
                             <a asp-controller="PCA"
-                            asp-action="CreateAssessment"
-                            asp-route-encounterId="@Model.Encounter.EncounterId"
-                            asp-route-mrn="@Model.Patient.Mrn"
-                            class="btn btn-info btn-sm float-right">
+                               asp-action="CreateAssessment"
+                               asp-route-encounterId="@Model.Encounter.EncounterId"
+                               asp-route-mrn="@Model.Patient.Mrn"
+                               class="btn btn-info btn-sm float-right">
                                 Create New PCA
                             </a>
                         }
@@ -144,9 +145,9 @@
                                     <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                                         <td>
                                             <a asp-controller="PCA"
-                                            asp-action="ViewAssessment"
-                                            asp-route-assessmentId="@pca.Pcaid"
-                                            class="btn btn-info btn-sm">
+                                               asp-action="ViewAssessment"
+                                               asp-route-assessmentId="@pca.Pcaid"
+                                               class="btn btn-info btn-sm">
                                                 View
                                             </a>
                                         </td>
@@ -178,13 +179,12 @@
             <hr />
 
             <a asp-controller="Patient"
-            asp-action="Details"
-            asp-route-id="@Model.Patient.Mrn" 
-            class="btn btn-outline-primary">
+               asp-action="Details"
+               asp-route-id="@Model.Patient.Mrn"
+               class="btn btn-outline-primary">
                 <i class="fas fa-arrow-left"></i> View Patient
             </a>
             <a asp-action="CheckedIn"
-            class="btn btn-outline-primary m-l-1">
+               class="btn btn-outline-primary m-l-1">
                 View <b>Checked In</b> Encounters
-            </a> 
 </div>

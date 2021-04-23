@@ -1,0 +1,31 @@
+@model IS_Proj_HIT.ViewModels.UsersPlusViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>
+<a asp-action="ListUsers" class="btn btn-primary">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+User Information
+</h1>
+<div>
+    <div><h3>User ID: @Model.UserId</h3></div>
+    <div><h3>First Name: @Model.FirstName</h3></div>
+    <div><h3>Last Name: @Model.LastName</h3></div>
+    <div><h3>Email: @Model.Email</h3></div>
+    <div><h3>Program: @Model.ProgramEnrolledIn</h3></div>
+    <div><h3>Instructor: @Model.Instructor</h3></div>
+    <div><h3>Start Date: @Model.StartDate</h3></div>
+    <div><h3>End Date: @Model.EndDate</h3></div>
+</div>
+<br />
+<div class="justify-content-center float-left">
+<a asp-action="EditUserDetails" asp-controller="Administration" asp-route-id="@Model.UserId" class="btn btn-outline-primary">Edit</a>
+<a asp-action="DeleteUser" asp-route-id="@Model.UserId"
+                               onclick="return confirm('Are you sure you want to delete user : @Model.UserName ?')" class="btn btn-outline-danger">Delete</a>
+
+</div>
+<div class="justify-content-center float-right">
+    <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model.UserId - 1" class="btn btn-outline-primary">Previous</a>
+    <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model.UserId + 1" class="btn btn-outline-primary">Next</a>
+</div>

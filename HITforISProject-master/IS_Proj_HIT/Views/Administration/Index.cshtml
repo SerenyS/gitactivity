@@ -63,21 +63,7 @@
                 </div>
             </div>
         }
-        @if (User.IsInRole("Administrator"))
-        {
-            <div class="col-sm-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <a asp-action="ViewUsers" class="btn btn-outline-primary">
-                            <h5 class="card-title mb-0">View Users</h5>
-                        </a>
-                    </div>
-                    <div class="card-footer">
-                        <p class="mb-0">List the Users in the UserTable. </p>
-                    </div>
-                </div>
-            </div>
-        }
+
         @if (User.IsInRole("Administrator"))
         {
             <div class="col-sm-3 mb-3">
