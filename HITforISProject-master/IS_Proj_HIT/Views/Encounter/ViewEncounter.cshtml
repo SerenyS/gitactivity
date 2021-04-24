@@ -1,7 +1,9 @@
-@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+﻿@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+
 
 <partial name="PatientBannerPartial" model="Model" />
 <div class="container">
+
     <div class="row justify-content-start">
         <div class="col mx-0 px-0">
 
@@ -174,10 +176,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
-
-    </div>
-            <hr />
+                <hr />
 
             <a asp-controller="Patient"
                asp-action="Details"
@@ -189,4 +188,5 @@
                class="btn btn-outline-primary m-l-1">
                 View <b>Checked In</b> Encounters
             </a>
+
 </div>
