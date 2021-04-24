@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body bg-light">
                         <div class="container">
-                            Date: <input value="@DateTime.Today.ToString("d")" />
+                            Date: <input value="@DateTime.Today.ToString("d")" asp-for="@Model.PhysicianAssessmentDate"/>
                             <br />
                             Chief Complaint: <input type="text" placeholder="free text" asp-for="@Model.ChiefComplaint" />
 
@@ -49,6 +49,7 @@
                         </div>
 
                         <br />
+                            <input type="hidden" asp-for="@Model.EncounterId" value="@Model.EncounterId" />
 
                         <div class="text-center form-group">
                             Authoring Provider: <input type="text" name="name" value="" />

@@ -329,11 +329,20 @@ namespace IS_Proj_HIT.Controllers
             {
                 var physicianAssessment = new PhysicianAssessment
                 {
+                    
                     EncounterId = model.EncounterId,
                     SignificantDiagnosticTests = model.SignificantDiagnosticTests,
                     Assessment = model.Assessment,
                     Plan = model.Plan,
-                    ChiefComplaint = model.ChiefComplaint
+                    ChiefComplaint = model.ChiefComplaint,
+                    PhysicianAssessmentDate = model.PhysicianAssessmentDate,
+
+                    ReferringProvider = 3,
+                    CoSignature = 3,
+                    AuthoringProvider = 3,
+                    PhysicianAssessmentTypeId = 1,
+                    
+
                 };
 
                 //var result = await _roleManager.CreateAsync(physicianAssessment);
@@ -341,7 +350,7 @@ namespace IS_Proj_HIT.Controllers
             }
 
 
-            return RedirectToAction("HistoryAndPhysical");
+            return RedirectToAction("HistoryAndPhysical", new { id = model.EncounterId});
         }
     }
 }
