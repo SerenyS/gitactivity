@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -267,46 +268,74 @@ namespace IS_Proj_HIT.Controllers
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
             var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
-            
-            
+
+            ViewBag.Patients = desiredPatient;
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
 
+            //Patient patient = new Patient()
+            //{
+            //    Mrn = desiredPatientEncounter.Mrn,
+            //    Dob = desiredPatient.Dob,
+            //    FirstName = desiredPatient.FirstName,
+            //    LastName = desiredPatient.LastName,
+            //    PatientAlerts = desiredPatient.PatientAlerts
 
 
-            Patient patient = new Patient()
-            {
-                Mrn = desiredPatientEncounter.Mrn,
-                Dob = desiredPatient.Dob
-                
 
-            };
+            //};
 
-            Encounter encounter = new Encounter()
+            //Encounter encounter = new Encounter()
+            //{
+            //    EncounterId = id
+            //};
+
+            //ViewEncounterPageModel model = new ViewEncounterPageModel()
+            //{
+            //    Patient = patient,
+            //    Encounter = encounter
+
+
+            //};
+
+            PhysicianAssessment model = new PhysicianAssessment()
             {
                 EncounterId = id
-            };
-
-            ViewEncounterPageModel model = new ViewEncounterPageModel()
-            {
-                Patient = patient,
-                Encounter = encounter
-                
 
             };
 
-            
+
+
+            //ViewBag.Patients = model;
 
             return View(model);
         }
 
+
+        [HttpPost]
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
-        public IActionResult AddPhysicianAssessment(string id)
+        public async Task<IActionResult> AddPhysicianAssessment(PhysicianAssessment model)
         {
-            return RedirectToAction();
+            if (ModelState.IsValid)
+            {
+                var physicianAssessment = new PhysicianAssessment
+                {
+                    EncounterId = model.EncounterId,
+                    SignificantDiagnosticTests = model.SignificantDiagnosticTests,
+                    Assessment = model.Assessment,
+                    Plan = model.Plan,
+                    ChiefComplaint = model.ChiefComplaint
+                };
+
+                //var result = await _roleManager.CreateAsync(physicianAssessment);
+                _repository.AddPhysicianAssessment(physicianAssessment);
+            }
+
+
+            return RedirectToAction("HistoryAndPhysical");
         }
     }
 }
