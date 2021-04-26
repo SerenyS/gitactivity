@@ -4,7 +4,7 @@
 }
 
 <form asp-action="CreateAssessment" class="col" id="pca" method="post" name="pca">
-    <partial model="ViewBag.ViewEncounterPageModel" name="PatientBannerPartial" />
+    <partial model="ViewBag.Patient" name="PatientBannerPartial" />
     <input type="hidden" asp-for="PcaRecord.EncounterId" value="@ViewBag.Encounter.EncounterId" />
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <div class="tab-content">
