@@ -453,6 +453,9 @@ namespace IS_Proj_HIT.Controllers
                 new SelectListItem {Text = "Nursing", Value = "Nursing"}
             };
 
+
+           
+
             //get list of possible instructors from db
             var instructorEmails = new List<string>();
             instructorEmails.AddRange(
