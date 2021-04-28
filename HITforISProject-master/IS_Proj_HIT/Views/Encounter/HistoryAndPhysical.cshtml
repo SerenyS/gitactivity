@@ -20,16 +20,16 @@
                         <div class="container">
                             Date: <input value="@DateTime.Today.ToString("d")" asp-for="@Model.PhysicianAssessmentDate"/>
                             <br />
-                            Chief Complaint: <input type="text" placeholder="free text" asp-for="@Model.ChiefComplaint" />
+                            Chief Complaint: <input type="text" asp-for="@Model.ChiefComplaint" />
 
                         </div>
                         <br />
                         <div class="container">
                             <a role="button" class="btn btn-primary btn-lg btn-block" style="color: white; cursor:pointer" data-toggle="collapse" data-target="#reviewText"> Review Of Systems</a> <br />
                             <div id="reviewText" class=" collapse ">
-                                <input type="checkbox" />HEENT:  <textarea class="form-control" rows="4" cols="60"></textarea>
+                                 HEENT:  <textarea class="form-control" rows="4" cols="60"></textarea>
                                 <br />
-                                <input type="checkbox" /> HEM/LYMPH: <input type="text" placeholder="Not Assessed"  />
+                                 HEM/LYMPH: <input type="text" placeholder="Not Assessed"  />
                             </div>
                         </div>
                         <br />
@@ -51,11 +51,11 @@
                         <br />
                             <input type="hidden" asp-for="@Model.EncounterId" value="@Model.EncounterId" />
 
-                        <div class="text-center form-group">
-                            Authoring Provider: <input type="text" name="name" value="" />
-                            <br />
-                            Co Signature <input type="text" />
-                        </div>
+                            <div class="text-center form-group">
+                                Authoring Provider: <select class=" dropdowns" asp-for="@Model.PhysicianAssessmentId" asp-items="@ViewBag.Physicians"></select>
+                                <br />
+                                Co Signature  <select class=" dropdowns" asp-for="@Model.PhysicianAssessmentId" asp-items="@ViewBag.Physicians"></select>
+                            </div>
 
                         <br />
 

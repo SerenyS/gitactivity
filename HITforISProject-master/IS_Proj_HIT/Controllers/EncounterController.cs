@@ -269,7 +269,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-        public ViewResult HistoryAndPhysical(long id)
+        public async Task<ViewResult> HistoryAndPhysical(long id)
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
@@ -282,30 +282,13 @@ namespace IS_Proj_HIT.Controllers
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
 
-            //Patient patient = new Patient()
-            //{
-            //    Mrn = desiredPatientEncounter.Mrn,
-            //    Dob = desiredPatient.Dob,
-            //    FirstName = desiredPatient.FirstName,
-            //    LastName = desiredPatient.LastName,
-            //    PatientAlerts = desiredPatient.PatientAlerts
+            ViewBag.Physicians = _repository.Physicians.Select(a => 
+                                  new SelectListItem
+                                  {
+                                      Value = a.PhysicianId.ToString(),
+                                      Text = a.FirstName + " " + a.LastName
+                                  }).ToList();
 
-
-
-            //};
-
-            //Encounter encounter = new Encounter()
-            //{
-            //    EncounterId = id
-            //};
-
-            //ViewEncounterPageModel model = new ViewEncounterPageModel()
-            //{
-            //    Patient = patient,
-            //    Encounter = encounter
-
-
-            //};
 
             PhysicianAssessment model = new PhysicianAssessment()
             {
@@ -336,10 +319,8 @@ namespace IS_Proj_HIT.Controllers
                     Plan = model.Plan,
                     ChiefComplaint = model.ChiefComplaint,
                     PhysicianAssessmentDate = model.PhysicianAssessmentDate,
-
-                    ReferringProvider = 3,
-                    CoSignature = 3,
-                    AuthoringProvider = 3,
+                    CoSignature = model.CoSignature,
+                    AuthoringProvider = model.AuthoringProvider,
                     PhysicianAssessmentTypeId = 1,
                     
 

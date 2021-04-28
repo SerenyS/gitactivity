@@ -200,7 +200,9 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate
+                StartDate = u.StartDate,
+                FirstName = u.FirstName,
+                LastName = u.LastName
 
             }).OrderByDescending(u => u.UserName).ToList();
 
