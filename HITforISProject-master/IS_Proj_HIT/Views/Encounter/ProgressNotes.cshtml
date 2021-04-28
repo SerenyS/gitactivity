@@ -10,7 +10,7 @@
             Physician Progress Notes
         </h4>
          @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar")){
-             <a class="btn btn-info btn-sm float-right">
+             <a class="btn btn-info btn-sm float-right" asp-action="EditProgressNotes">
                     Add New
              </a>
          }
@@ -18,7 +18,7 @@
 
     <div class="card-body bg-light">
         <div class="container">
-            <tabel class="table table-bordered table-seconday">
+            <table class="table table-bordered table-seconday">
                 <thead>
                     <tr>
                         <th scope="col">View</th>
@@ -29,6 +29,17 @@
                     </tr>    
                 </thead>
                 <tbody>
+                    
+                    @* Filler Data *@
+                    <tr>
+                        <td>
+                            <button>View</button>
+                        </td>
+                        <td>4/27/2021</td>
+                        <td>Physician Note</td>
+                        <td>Dr. Apples</td>
+                        <td>Dr. Banana</td>
+                    </tr>
                     @* @foreach (var ProgressNote in Model){
                         <tr>
                             <td>
@@ -43,7 +54,7 @@
                     
                 </tbody>
 
-            </tabel>
+            </table>
         </div>
     </div>
 
