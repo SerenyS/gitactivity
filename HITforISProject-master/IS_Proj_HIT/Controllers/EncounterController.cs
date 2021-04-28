@@ -287,7 +287,7 @@ namespace IS_Proj_HIT.Controllers
                                   {
                                       Value = a.PhysicianId.ToString(),
                                       Text = a.FirstName + " " + a.LastName
-                                  }).ToList();
+                                  }).ToList().OrderBy(a => a.Text);
 
 
             PhysicianAssessment model = new PhysicianAssessment()
