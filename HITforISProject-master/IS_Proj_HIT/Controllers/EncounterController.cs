@@ -42,9 +42,10 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
-        public IActionResult ProgressNotes() => View();
-        // View Edit ProgressNotes
-        public IActionResult EditProgressNotes() => View();
+
+
+        public IActionResult ProgressNotes() => View("ProgressNotes");
+
         public IActionResult ViewProgressNotes() => View();
         // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
@@ -264,6 +265,54 @@ namespace IS_Proj_HIT.Controllers
                 .Select(p => new {p.EncounterPhysiciansId, Name = $"{p.Physician.FirstName} {p.Physician.LastName}"})
                 .ToList();
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
+        }
+
+
+        public ViewResult HistoryAndPhysical(long id)
+        {
+            var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
+            
+            
+            ViewBag.EncounterId = id;
+
+            ViewBag.Patient = _repository.Patients
+            .Include(p => p.PatientAlerts)
+            .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
+
+
+
+            Patient patient = new Patient()
+            {
+                Mrn = desiredPatientEncounter.Mrn,
+                Dob = desiredPatient.Dob
+                
+
+            };
+
+            Encounter encounter = new Encounter()
+            {
+                EncounterId = id
+            };
+
+            ViewEncounterPageModel model = new ViewEncounterPageModel()
+            {
+                Patient = patient,
+                Encounter = encounter
+                
+
+            };
+
+            
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
+        public IActionResult AddPhysicianAssessment(string id)
+        {
+            return RedirectToAction();
         }
     }
 }

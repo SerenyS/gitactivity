@@ -282,7 +282,20 @@ namespace IS_Proj_HIT.Controllers
         }
         public IActionResult Details(int id)
         {
+
+            // grabs the user from the UserTable
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            // grabs the string AspNetUsersId from the AspNetUserRoles table
+            var bridgeId = _db.AspNetUserRoles.FirstOrDefault(u => u.UserId == user.AspNetUsersId);
+
+            var roleName = "";
+            // try/catch prevents error from being thrown if there is no role assigned to the user
+            try{
+                roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
+            }catch{
+                roleName = "Not Assigned";
+            }
+
 
             var model = new UsersPlusViewModel
             {
@@ -292,25 +305,10 @@ namespace IS_Proj_HIT.Controllers
                 Email = user.Email,
                 ProgramEnrolledIn = user.ProgramEnrolledIn,
                 StartDate = user.StartDate,
-                EndDate = user.EndDate
-            };
 
-            return View(model);
-        }
-        public IActionResult DetailsNext(int id)
-        {
-            id += 1;
-            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+                EndDate = user.EndDate,
+                RoleName = roleName
 
-            var model = new UsersPlusViewModel
-            {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                ProgramEnrolledIn = user.ProgramEnrolledIn,
-                StartDate = user.StartDate,
-                EndDate = user.EndDate
             };
 
             return View(model);
