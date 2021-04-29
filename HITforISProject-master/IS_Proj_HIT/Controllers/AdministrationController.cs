@@ -282,6 +282,7 @@ namespace IS_Proj_HIT.Controllers
         }
         public IActionResult Details(int id)
         {
+
             // grabs the user from the UserTable
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
             // grabs the string AspNetUsersId from the AspNetUserRoles table
@@ -295,6 +296,7 @@ namespace IS_Proj_HIT.Controllers
                 roleName = "Not Assigned";
             }
 
+
             var model = new UsersPlusViewModel
             {
                 UserId = user.UserId,
@@ -303,8 +305,10 @@ namespace IS_Proj_HIT.Controllers
                 Email = user.Email,
                 ProgramEnrolledIn = user.ProgramEnrolledIn,
                 StartDate = user.StartDate,
+
                 EndDate = user.EndDate,
                 RoleName = roleName
+
             };
 
             return View(model);

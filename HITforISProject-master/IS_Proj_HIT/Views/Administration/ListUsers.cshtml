@@ -6,9 +6,11 @@
 
 }
 
+
 <h1>ListUsers</h1>
 <a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
 <br />
+
 
 @*<div class="card-body">*@
 @using (Html.BeginForm("DeleteBatch", "Administration", FormMethod.Post))
@@ -43,6 +45,7 @@
             <tbody>
                 @for (int i = 0; i < Model.Count(); i++)
                 {
+
                 <tr id="userRoleTableRow">
 
                     @*for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody*@
@@ -66,6 +69,7 @@
                 }
             </tbody>
         
+
         </table>
     </div>
 }
