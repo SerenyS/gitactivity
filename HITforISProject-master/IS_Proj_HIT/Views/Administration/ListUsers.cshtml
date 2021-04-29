@@ -6,7 +6,7 @@
 }
 
 <h1>ListUsers</h1>
-<a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
+<a asp-action="Index" class="btn btn-outline-primary" id="returnButton">Return To Role List</a>
 <br />
 
 @*<div class="card-body">*@
@@ -117,6 +117,43 @@
 
             });
         });
-
     </script>
 }
+
+<style scoped>
+
+    #table_id{
+        padding-top: inherit;
+    }
+    .dataTables_length{
+        padding-left: 8px;
+        padding-top: 11px;
+    }
+    .dataTables_filter{
+        padding-top: 8px;
+        padding-right: 8px;
+    }
+    .dataTables_info{
+        padding-left: 8px;
+    }
+    .dataTables_wrapper no-footer{
+
+    }
+    #returnButton{
+        margin-bottom: 10px;
+    }
+    .dataTables_paginate paging_simple_numbers{
+        padding-bottom: 3px;
+    }
+    table.dataTable thead .sorting_asc {
+        background: url("http://cdn.datatables.net/1.10.0/images/sort_asc.png") no-repeat center left;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url("http://cdn.datatables.net/1.10.0/images/sort_desc.png") no-repeat center left;
+    }
+
+    table.dataTable thead .sorting {
+        background: url("http://cdn.datatables.net/1.10.0/images/sort_both.png") no-repeat center left;
+    }
+</style>
