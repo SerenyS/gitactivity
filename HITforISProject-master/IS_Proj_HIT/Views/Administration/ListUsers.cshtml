@@ -5,25 +5,25 @@
     ViewData["Title"] = "ListUsers";
 
 }
-
-<h1>ListUsers</h1>
-<a asp-action="Index" class="btn btn-outline-primary">Return To Role List</a>
+<h1>
+<a asp-action="Index" class="btn btn-primary">
+        <i class="fa fa-arrow-left "></i>
+    </a>
+List Users
+</h1>
 
 
 @*<div class="card-body">*@
 @using (Html.BeginForm("DeleteBatch", "Administration", FormMethod.Post))
 {<div class="card">
-        <button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
 
         <table class="table table-striped" id="table_id">
             <thead>
                 <tr>
                     <th>
-                        @*@Html.DisplayNameFor(model => model.)*@
                         Name
                     </th>
                     <th>
-                        @*@Html.DisplayNameFor(model => model.UserId)*@
                         ID
                     </th>
                     <th>
@@ -40,65 +40,17 @@
                 </tr>
             </thead>
             <tbody>
-                @*@foreach (var item in Model)
-                    {
-                        <tr>
-
-                            <td>
-
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-
-                            <td>
-
-                                <a asp-action="EditUsersInRole" asp-route-id="@item">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item">Details</a> |
-                                <a asp-action="DeleteUser" asp-route-id="@item.Id"
-                                   onclick="return confirm('Are you sure you want to delete user : @item.UserName ?')">Delete</a>
-
-                            </td>
-                            <td>
-                                <input type="hidden" asp-for="@item.Id" />
-                                <input type="checkbox" class="checkBox" id="id" name="@item.Id" value="@item.Id" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
-                            </td>
-                        </tr>
-                    }*@
                 @for (int i = 0; i < Model.Count(); i++)
                 {
                     <tr id="userRoleTableRow">
-
-                        @*
-
-                            for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody
-                        <td style="display:none"><input asp-for="@Model[i].UserName" /></td>
-                        <td style="display:none"> <input asp-for="@Model[i].UserId"></td>*@
 
                         <td>@Model[i].UserName</td>
                         <td>@Model[i].UserId</td>
                
                         <td>@Model[i].LastModified</td>
                         <td>
-                            <a asp-action="EditUsersInRole" asp-route-id="@Model[i].UserId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a> |
-                            <a asp-action="DeleteUser" asp-route-id="@Model[i].UserId"
-                               onclick="return confirm('Are you sure you want to delete user : @Model[i].UserName ?')">Delete</a>
-
-                            @*  This code is an attempt to delete a user in a different way. I couldn't get it to work - CPavelsek 3/3/21'
-
-                                    <form method="post" asp-action="DeleteRole" asp-route-id="@item.UserId">
-                                    <span id="confirmDelete_@item.UserId" style="display:none">
-                                        <span> Are you sure you want to delete?</span>
-                                        <a asp-action="DeleteUser" asp-route-id="@item.UserId">Yes</a>
-                                        <a href="#" class="btn btn-primary">No</a>
-                                    </span>
-
-                                    <span id="deleteSpan_@item.UserId">
-                                        <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.UserId', true)"> Delete</a>
-                                    </span>
-                                </form>*@
+                             
+                            <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model[i].UserId">Details</a> 
                         </td>
                         <td>
                             <input asp-for="@Model[i].IsSelected" type="checkbox" class="checkBox" id="userIdsToDelete" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
@@ -106,20 +58,14 @@
                     </tr>
                 }
             </tbody>
+            <button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
         </table>
     </div>
 }
 
 
-@*</div>*@
-@*<div class="card-footer">
-        <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model"
-           class="btn btn-primary text-white" style="width:auto">Add or Remove Users</a>
-    </div>*@
-
-@* Load datatable css *@
 <link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
-@* Load datatable js *@
+
 
 @section scripts{
 
