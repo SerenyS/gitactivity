@@ -17,8 +17,12 @@ namespace IS_Proj_HIT.Controllers
     public class EncounterController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
+        private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
-        public EncounterController(IWCTCHealthSystemRepository repo) => _repository = repo;
+        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) {
+            _repository = repo;
+            _db = db;
+        } 
 
         public ViewResult CheckedIn()
         {
@@ -42,9 +46,44 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
+        public IActionResult ProgressNotes(long id){
+            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
+            
+            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
+            
+            ViewBag.EncounterId = id;
+
+            ViewBag.Patient = _repository.Patients
+            .Include(p => p.PatientAlerts)
+            .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+
+             Patient patient = new Patient()
+            {
+                Mrn = desiredEncounter.Mrn,
+                Dob = desiredPatient.Dob
+                
+
+            };
+
+            Encounter encounter = new Encounter()
+            {
+                EncounterId = id
+            };
 
 
-        public IActionResult ProgressNotes() => View("ProgressNotes");
+
+            if(desiredProgressNotes.Any()){
+                return View(desiredProgressNotes);
+            }
+            else{
+                return View();
+            }
+        }
+
+        // View Edit Progress Note
+        public IActionResult EditProgressNotes() => View();
 
         public IActionResult ViewProgressNotes() => View();
         // View Discharge 
