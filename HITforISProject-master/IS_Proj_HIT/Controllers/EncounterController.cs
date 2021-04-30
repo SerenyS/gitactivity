@@ -83,9 +83,11 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View Edit Progress Note
-        public IActionResult EditProgressNotes() => View();
+        public IActionResult EditProgressNotes(){
 
-        public IActionResult ViewProgressNotes() => View();
+            return View();
+        }
+
         // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
         {
