@@ -14,7 +14,7 @@
         </h4>
         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
         {
-            <a asp-controller="Encounter" asp-action="EditProgressNotes" >Add New</a>
+            @*<a asp-controller="Encounter" asp-action="EditProgressNotes" >Add New</a>*@
 }
     </div>
 
@@ -37,10 +37,9 @@
                                 <a asp-controller="Encounter" asp-action="EditProgressNotes" asp-route-id="@ProgressNote.ProgressNoteId">View</a>
                             </td>
                             <td>@ProgressNote.LastUpdated</td>
-                            <td>@ProgressNote.ProgressNoteId</td>
-                            <td>@ProgressNote.NoteType</td>
-                            <td>@ProgressNote.Physician</td>
-                            <td>@ProgressNote.CoPhysician</td>
+                            <td>@ProgressNote</td>
+                            <td>@ProgressNote.PhysicianId</td>
+                            <td>@ProgressNote.CoPhysicianId</td>
                         </tr>
                     }
                     

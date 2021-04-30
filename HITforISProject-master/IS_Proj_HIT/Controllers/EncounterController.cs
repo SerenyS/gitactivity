@@ -69,6 +69,8 @@ namespace IS_Proj_HIT.Controllers
              .Include(e => e.PointOfOrigin)
              .Include(e => e.DischargeDispositionNavigation)
              .Include(e => e.Pcarecords)
+             .Include(e => e.ProgressNotes)
+             .Include(e => e.Physician)
              .FirstOrDefault(b => b.EncounterId == id);
               if (encounter is null)
                 return RedirectToAction("CheckedIn");
@@ -81,6 +83,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 Encounter = encounter,
                 Patient = patient
+               
             });
 
         }
@@ -123,7 +126,8 @@ namespace IS_Proj_HIT.Controllers
                 .Include(e => e.PlaceOfService)
                 .Include(e => e.PointOfOrigin)
                 .Include(e => e.DischargeDispositionNavigation)
-                .Include(e => e.Pcarecords)
+                .Include(e => e.Physician)
+                .Include(e => e.ProgressNotes)
                 .FirstOrDefault(b => b.EncounterId == encounterId);
             if (encounter is null)
                 return RedirectToAction("CheckedIn");
