@@ -18,8 +18,14 @@ namespace IS_Proj_HIT.Controllers
     public class EncounterController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
+        private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
-        public EncounterController(IWCTCHealthSystemRepository repo) => _repository = repo;
+        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) { 
+        
+            _repository = repo;
+            _db = db;
+        
+        } 
 
         public ViewResult CheckedIn()
         {
@@ -43,11 +49,66 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
-        public IActionResult ProgressNotes() => View();
-        // View Edit ProgressNotes
-        public IActionResult EditProgressNotes() => View();
+        public IActionResult ProgressNotes(long id) {
 
-        public IActionResult ViewProgressNotes() => View();
+            var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
+
+
+            var desiredNotes = _db.ProgressNotes.Where(p => p.EncounterId == id).ToList();
+
+
+            var encounter = _repository.Encounters
+             .Include(e => e.Facility)
+             .Include(e => e.Department)
+             .Include(e => e.AdmitType)
+             .Include(e => e.EncounterPhysicians.Physician)
+             .Include(e => e.EncounterType)
+             .Include(e => e.PlaceOfService)
+             .Include(e => e.PointOfOrigin)
+             .Include(e => e.DischargeDispositionNavigation)
+             .Include(e => e.Pcarecords)
+             .FirstOrDefault(b => b.EncounterId == id);
+              if (encounter is null)
+                return RedirectToAction("CheckedIn");
+
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+
+            return View(new ViewEncounterPageModel
+            {
+                Encounter = encounter,
+                Patient = patient
+            });
+
+        }
+
+        //public IActionResult AddProgressNote(long id)
+        //{
+        //    return;
+        //}
+
+
+        // View Edit ProgressNotes
+        public IActionResult EditProgressNotes(long id) {
+
+            var desiredNote = _db.ProgressNotes.FirstOrDefault(p => p.ProgressNoteId == id);
+
+            ProgressNote note = new ProgressNote
+            {
+                ProgressNoteId = desiredNote.ProgressNoteId,
+                NoteType = desiredNote.NoteType,
+                WrittenDate = desiredNote.WrittenDate,
+                CoPhysician = desiredNote.CoPhysician
+            };
+
+           return View(note);
+        }
+
+
+
         // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
         {

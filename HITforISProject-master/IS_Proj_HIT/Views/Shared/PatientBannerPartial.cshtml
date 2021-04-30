@@ -100,10 +100,10 @@
                     <div class="btn-group-vertical btn-block">
                         @* use the a tag to create the buttons to link *@
                         <a class="btn btn-primary" asp-controller="Encounter" asp-action="HistoryAndPhysical" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()" > History & Physical</a>
-                        @*<a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Discharge Documents</a>
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Discharge Documents</a>
                         <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Consultations</a>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Progress Notes</a>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Orders</a>*@
+                        <a class="btn btn-primary" asp-controller="Encounter" asp-action="ProgressNotes" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()"> Progress Notes</a>
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Orders</a>
 
                     </div>
                 </div>

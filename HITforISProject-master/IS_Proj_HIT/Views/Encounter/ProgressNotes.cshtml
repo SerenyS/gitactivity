@@ -1,24 +1,26 @@
 @using IS_Proj_HIT.Models.ViewModels
-@model IEnumerable<IS_Proj_HIT.Models.ProgressNote>
+@model ViewEncounterPageModel
 @{
     ViewData["Title"] = "Encounter List";
 }
+
+
+<partial name="PatientBannerPartial" model="@Model.Patient" />
 
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
             Physician Progress Notes
         </h4>
-         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar")){
-             <a class="btn btn-info btn-sm float-right">
-                    Add New
-             </a>
-         }
+        @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
+        {
+            <a asp-controller="Encounter" asp-action="EditProgressNotes" >Add New</a>
+}
     </div>
 
     <div class="card-body bg-light">
         <div class="container">
-            <tabel class="table table-bordered table-seconday">
+            <table class="table table-bordered table-seconday">
                 <thead>
                     <tr>
                         <th scope="col">View</th>
@@ -29,22 +31,23 @@
                     </tr>    
                 </thead>
                 <tbody>
-                    @* @foreach (var ProgressNote in Model){
+                    @foreach (var ProgressNote in Model.Encounter.ProgressNotes){
                         <tr>
                             <td>
-                                <button>View</button>
+                                <a asp-controller="Encounter" asp-action="EditProgressNotes" asp-route-id="@ProgressNote.ProgressNoteId">View</a>
                             </td>
                             <td>@ProgressNote.LastUpdated</td>
+                            <td>@ProgressNote.ProgressNoteId</td>
                             <td>@ProgressNote.NoteType</td>
                             <td>@ProgressNote.Physician</td>
                             <td>@ProgressNote.CoPhysician</td>
                         </tr>
-                    } *@
+                    }
                     
 
                 </tbody>
 
-            </tabel>
+            </table>
         </div>
     </div>
 
