@@ -295,11 +295,5 @@ namespace IS_Proj_HIT.Models.Data
             _context.Remove(race);
             _context.SaveChanges();
         }
-
-        public void AddPhysicianAssessment(PhysicianAssessment physicianAssessment)
-        {
-            _context.Add(physicianAssessment);
-            _context.SaveChanges();
-        }
     }
 }

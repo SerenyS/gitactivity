@@ -1,27 +1,19 @@
 
-@using IS_Proj_HIT.Models.ViewModels
-@model ViewEncounterPageModel
-21
+@model IS_Proj_HIT.Models.ProgressNote
 @{
-    ViewData["Title"] = "Encounter List";
+    ViewData["Title"] = "Progress Notes";
 }
-
-
-
-<partial name="PatientBannerPartial" model="@Model.Patient" />
-
-
+<partial name="PatientBannerPartial" model="Model.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
             Physician Progress Notes
         </h4>
-
-        @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
-        {
-            @*<a asp-controller="Encounter" asp-action="EditProgressNotes" >Add New</a>*@
-}
-
+         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar")){
+             <a class="btn btn-info btn-sm float-right" asp-action="EditProgressNotes">
+                    Add New
+             </a>
+         }
     </div>
 
     <div class="card-body bg-light">
@@ -37,21 +29,29 @@
                     </tr>    
                 </thead>
                 <tbody>
-
-                    @foreach (var ProgressNote in Model.Encounter.ProgressNotes){
+                    
+                    @* Filler Data *@
+                    <tr>
+                        <td>
+                            <button>View</button>
+                        </td>
+                        <td>4/27/2021</td>
+                        <td>Physician Note</td>
+                        <td>Dr. Apples</td>
+                        <td>Dr. Banana</td>
+                    </tr>
+                    @* @foreach (var ProgressNote in Model){
                         <tr>
                             <td>
-                                <a asp-controller="Encounter" asp-action="EditProgressNotes" asp-route-id="@ProgressNote.ProgressNoteId">View</a>
+                                <button>View</button>
                             </td>
                             <td>@ProgressNote.LastUpdated</td>
-                            <td>@ProgressNote.NoteType.NoteType1</td>
-                            <td>@ViewBag.Physicians.LastName</td>
-                            <td>@ProgressNote.CoPhysicianId</td>
+                            <td>@ProgressNote.NoteType</td>
+                            <td>@ProgressNote.Physician</td>
+                            <td>@ProgressNote.CoPhysician</td>
                         </tr>
-                    }
+                    } *@
                     
-
-
                 </tbody>
 
             </table>
