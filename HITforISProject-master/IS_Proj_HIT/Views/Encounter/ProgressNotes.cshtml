@@ -37,9 +37,9 @@
                                 <a asp-controller="Encounter" asp-action="EditProgressNotes" asp-route-id="@ProgressNote.ProgressNoteId">View</a>
                             </td>
                             <td>@ProgressNote.LastUpdated</td>
-                            <td>@ProgressNote</td>
-                            <td>@ProgressNote.PhysicianId</td>
-                            <td>@ProgressNote.CoPhysicianId</td>
+                            <td>@ProgressNote.NoteType.NoteType1</td>
+                            <td>@ViewBag.Physicians.LastName</td>
+                            <td>@ViewBag.CoPhysician</td>
                         </tr>
                     }
                     

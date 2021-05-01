@@ -58,6 +58,13 @@ namespace IS_Proj_HIT.Controllers
 
             var desiredNotes = _db.ProgressNotes.Where(p => p.EncounterId == id).ToList();
 
+            var desiredNote = desiredNotes.FirstOrDefault();
+
+
+            //Gathering name for use in ProgressNotes
+            ViewBag.Physicians = _repository.Physicians.Where(p => p.PhysicianId == desiredNote.PhysicianId).FirstOrDefault();
+
+            ViewBag.CoPhysician = desiredNote.CoPhysician.LastName;
 
             var encounter = _repository.Encounters
              .Include(e => e.Facility)
@@ -69,7 +76,7 @@ namespace IS_Proj_HIT.Controllers
              .Include(e => e.PointOfOrigin)
              .Include(e => e.DischargeDispositionNavigation)
              .Include(e => e.Pcarecords)
-             .Include(e => e.ProgressNotes)
+             .Include(e => e.ProgressNotes).ThenInclude(ef => ef.NoteType)
              .Include(e => e.Physician)
              .FirstOrDefault(b => b.EncounterId == id);
               if (encounter is null)
@@ -78,6 +85,9 @@ namespace IS_Proj_HIT.Controllers
             var patient = _repository.Patients
                 .Include(p => p.PatientAlerts)
                 .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+
+
+
 
             return View(new ViewEncounterPageModel
             {
