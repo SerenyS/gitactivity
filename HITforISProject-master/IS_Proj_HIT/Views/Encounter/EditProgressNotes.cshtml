@@ -12,6 +12,7 @@
     <div class="card-body bg-light">
         <div class="container">
             <form method="post" id="progressNoteEdit" name="progressNoteEdit" asp-action="EditProgessNotes">
+
                 @*//<partial name="~/Views/Patient/PatientFormFields.cshtml" />
                         //<hr/>
                         <div class="col-sm-4">
@@ -23,6 +24,7 @@
                 <input class="form-control" asp-for="@Model.ProgressNoteId" name="Note" id="Note" placeholder="Progress Note" /> 
 
                 <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
+
             </form>
         </div>
     </div>

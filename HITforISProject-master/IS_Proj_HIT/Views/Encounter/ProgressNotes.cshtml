@@ -1,21 +1,27 @@
+
 @using IS_Proj_HIT.Models.ViewModels
 @model ViewEncounterPageModel
+21
 @{
     ViewData["Title"] = "Encounter List";
 }
 
 
+
 <partial name="PatientBannerPartial" model="@Model.Patient" />
+
 
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
             Physician Progress Notes
         </h4>
+
         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
         {
             @*<a asp-controller="Encounter" asp-action="EditProgressNotes" >Add New</a>*@
 }
+
     </div>
 
     <div class="card-body bg-light">
@@ -31,6 +37,7 @@
                     </tr>    
                 </thead>
                 <tbody>
+
                     @foreach (var ProgressNote in Model.Encounter.ProgressNotes){
                         <tr>
                             <td>
@@ -43,6 +50,7 @@
                         </tr>
                     }
                     
+
 
                 </tbody>
 

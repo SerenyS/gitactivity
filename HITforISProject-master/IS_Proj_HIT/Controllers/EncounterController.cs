@@ -20,11 +20,13 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
+
         public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) { 
         
             _repository = repo;
             _db = db;
         
+
         } 
 
         public ViewResult CheckedIn()
@@ -49,6 +51,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
+
         public IActionResult ProgressNotes(long id) {
 
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
@@ -119,6 +122,7 @@ namespace IS_Proj_HIT.Controllers
 
            return View(note);
         }
+
 
 
 

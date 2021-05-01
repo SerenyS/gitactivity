@@ -8,5 +8,6 @@ namespace IS_Proj_HIT.ViewModels
     {
         public Encounter Encounter { get; set; }
         public Patient Patient { get; set; }
+        public ProgressNote ProgressNote {get; set;}
     }
 }

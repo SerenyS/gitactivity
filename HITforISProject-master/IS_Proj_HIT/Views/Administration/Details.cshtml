@@ -9,6 +9,7 @@
 User Information
 </h1>
 <div>
+
     <div><h4>User ID: @Model.UserId</h4></div>
     <div><h4>First Name: @Model.FirstName</h4></div>
     <div><h4>Last Name: @Model.LastName</h4></div>
@@ -18,6 +19,7 @@ User Information
     <div><h4>Start Date: @Model.StartDate</h4></div>
     <div><h4>End Date: @Model.EndDate</h4></div>
     <div><h4>Role: @Model.RoleName</h4></div>
+
 </div>
 <br />
 <div class="justify-content-center float-left">
@@ -26,3 +28,9 @@ User Information
                                onclick="return confirm('Are you sure you want to delete user : @Model.UserName ?')" class="btn btn-outline-danger">Delete</a>
 
 </div>
+
+<div class="justify-content-center float-right">
+    <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model.UserId - 1" class="btn btn-outline-primary">Previous</a>
+    <a asp-action="Details" asp-controller="Administration" asp-route-id="@Model.UserId + 1" class="btn btn-outline-primary">Next</a>
+</div>
+
