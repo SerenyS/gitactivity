@@ -17,8 +17,12 @@ namespace IS_Proj_HIT.Controllers
     public class EncounterController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
+        private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
-        public EncounterController(IWCTCHealthSystemRepository repo) => _repository = repo;
+        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) {
+            _repository = repo;
+            _db = db;
+        } 
 
         public ViewResult CheckedIn()
         {
@@ -41,7 +45,50 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View Discahrge 
+        // View ProgressNotes
+        public IActionResult ProgressNotes(long id){
+            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
+            
+            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
+            
+            ViewBag.EncounterId = id;
+
+            ViewBag.Patient = _repository.Patients
+            .Include(p => p.PatientAlerts)
+            .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+
+             Patient patient = new Patient()
+            {
+                Mrn = desiredEncounter.Mrn,
+                Dob = desiredPatient.Dob
+                
+
+            };
+
+            Encounter encounter = new Encounter()
+            {
+                EncounterId = id
+            };
+
+
+
+            if(desiredProgressNotes.Any()){
+                return View(desiredProgressNotes);
+            }
+            else{
+                return View();
+            }
+        }
+
+        // View Edit Progress Note
+        public IActionResult EditProgressNotes(){
+
+            return View();
+        }
+
+        // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
@@ -259,6 +306,54 @@ namespace IS_Proj_HIT.Controllers
                 .Select(p => new {p.EncounterPhysiciansId, Name = $"{p.Physician.FirstName} {p.Physician.LastName}"})
                 .ToList();
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
+        }
+
+
+        public ViewResult HistoryAndPhysical(long id)
+        {
+            var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
+            
+            
+            ViewBag.EncounterId = id;
+
+            ViewBag.Patient = _repository.Patients
+            .Include(p => p.PatientAlerts)
+            .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
+
+
+
+            Patient patient = new Patient()
+            {
+                Mrn = desiredPatientEncounter.Mrn,
+                Dob = desiredPatient.Dob
+                
+
+            };
+
+            Encounter encounter = new Encounter()
+            {
+                EncounterId = id
+            };
+
+            ViewEncounterPageModel model = new ViewEncounterPageModel()
+            {
+                Patient = patient,
+                Encounter = encounter
+                
+
+            };
+
+            
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
+        public IActionResult AddPhysicianAssessment(string id)
+        {
+            return RedirectToAction();
         }
     }
 }

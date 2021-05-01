@@ -25,5 +25,7 @@ namespace IS_Proj_HIT.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsSelected { get; set; }
+
+        public string RoleName {get; set;}
     }
 }
