@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -19,9 +20,13 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
-        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) {
+
+        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) { 
+        
             _repository = repo;
             _db = db;
+        
+
         } 
 
         public ViewResult CheckedIn()
@@ -46,46 +51,81 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
-        public IActionResult ProgressNotes(long id){
-            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
-            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
-            
-            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
-            
-            ViewBag.EncounterId = id;
+        public IActionResult ProgressNotes(long id) {
 
-            ViewBag.Patient = _repository.Patients
-            .Include(p => p.PatientAlerts)
-            .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+            var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
-             Patient patient = new Patient()
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
+
+
+            var desiredNotes = _db.ProgressNotes.Where(p => p.EncounterId == id).ToList();
+
+            var desiredNote = desiredNotes.FirstOrDefault();
+
+
+            //Gathering name for use in ProgressNotes
+            ViewBag.Physicians = _repository.Physicians.Where(p => p.PhysicianId == desiredNote.PhysicianId).FirstOrDefault();
+
+            ViewBag.CoPhysician = desiredNote.CoPhysician.LastName;
+
+            var encounter = _repository.Encounters
+             .Include(e => e.Facility)
+             .Include(e => e.Department)
+             .Include(e => e.AdmitType)
+             .Include(e => e.EncounterPhysicians.Physician)
+             .Include(e => e.EncounterType)
+             .Include(e => e.PlaceOfService)
+             .Include(e => e.PointOfOrigin)
+             .Include(e => e.DischargeDispositionNavigation)
+             .Include(e => e.Pcarecords)
+             .Include(e => e.ProgressNotes).ThenInclude(ef => ef.NoteType)
+             .Include(e => e.Physician)
+             .FirstOrDefault(b => b.EncounterId == id);
+              if (encounter is null)
+                return RedirectToAction("CheckedIn");
+
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+
+
+
+
+            return View(new ViewEncounterPageModel
             {
-                Mrn = desiredEncounter.Mrn,
-                Dob = desiredPatient.Dob
-                
+                Encounter = encounter,
+                Patient = patient
+               
+            });
 
-            };
-
-            Encounter encounter = new Encounter()
-            {
-                EncounterId = id
-            };
-
-
-
-            if(desiredProgressNotes.Any()){
-                return View(desiredProgressNotes);
-            }
-            else{
-                return View();
-            }
         }
 
-        // View Edit Progress Note
-        public IActionResult EditProgressNotes() => View();
+        //public IActionResult AddProgressNote(long id)
+        //{
+        //    return;
+        //}
 
-        public IActionResult ViewProgressNotes() => View();
+
+        // View Edit ProgressNotes
+        public IActionResult EditProgressNotes(long id) {
+
+            var desiredNote = _db.ProgressNotes.FirstOrDefault(p => p.ProgressNoteId == id);
+
+            ProgressNote note = new ProgressNote
+            {
+                ProgressNoteId = desiredNote.ProgressNoteId,
+                NoteType = desiredNote.NoteType,
+                WrittenDate = desiredNote.WrittenDate,
+                CoPhysician = desiredNote.CoPhysician
+            };
+
+           return View(note);
+        }
+
+
+
+
         // View Discharge 
         public IActionResult ViewDischarge(long encounterId)
         {
@@ -100,7 +140,8 @@ namespace IS_Proj_HIT.Controllers
                 .Include(e => e.PlaceOfService)
                 .Include(e => e.PointOfOrigin)
                 .Include(e => e.DischargeDispositionNavigation)
-                .Include(e => e.Pcarecords)
+                .Include(e => e.Physician)
+                .Include(e => e.ProgressNotes)
                 .FirstOrDefault(b => b.EncounterId == encounterId);
             if (encounter is null)
                 return RedirectToAction("CheckedIn");
@@ -307,51 +348,69 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-        public ViewResult HistoryAndPhysical(long id)
+        public async Task<ViewResult> HistoryAndPhysical(long id)
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
             var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredPatientEncounter.Mrn);
-            
-            
+
+            ViewBag.Patients = desiredPatient;
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredPatientEncounter.Mrn);
 
+            ViewBag.Physicians = _repository.Physicians.Select(a => 
+                                  new SelectListItem
+                                  {
+                                      Value = a.PhysicianId.ToString(),
+                                      Text = a.FirstName + " " + a.LastName
+                                  }).ToList().OrderBy(a => a.Text);
 
 
-            Patient patient = new Patient()
-            {
-                Mrn = desiredPatientEncounter.Mrn,
-                Dob = desiredPatient.Dob
-                
-
-            };
-
-            Encounter encounter = new Encounter()
+            PhysicianAssessment model = new PhysicianAssessment()
             {
                 EncounterId = id
-            };
-
-            ViewEncounterPageModel model = new ViewEncounterPageModel()
-            {
-                Patient = patient,
-                Encounter = encounter
-                
 
             };
 
-            
+
+
+            //ViewBag.Patients = model;
 
             return View(model);
         }
 
+
+        [HttpPost]
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
-        public IActionResult AddPhysicianAssessment(string id)
+        public async Task<IActionResult> AddPhysicianAssessment(PhysicianAssessment model)
         {
-            return RedirectToAction();
+            if (ModelState.IsValid)
+            {
+                var physicianAssessment = new PhysicianAssessment
+                {
+                    
+                    EncounterId = model.EncounterId,
+                    SignificantDiagnosticTests = model.SignificantDiagnosticTests,
+                    Assessment = model.Assessment,
+                    Plan = model.Plan,
+                    ChiefComplaint = model.ChiefComplaint,
+                    PhysicianAssessmentDate = model.PhysicianAssessmentDate,
+                    CoSignature = model.CoSignature,
+                    AuthoringProvider = model.AuthoringProvider,
+                    PhysicianAssessmentTypeId = 1,
+                    
+
+                };
+
+                //var result = await _roleManager.CreateAsync(physicianAssessment);
+                _repository.AddPhysicianAssessment(physicianAssessment);
+            }
+
+
+            return RedirectToAction("HistoryAndPhysical", new { id = model.EncounterId});
         }
     }
 }
