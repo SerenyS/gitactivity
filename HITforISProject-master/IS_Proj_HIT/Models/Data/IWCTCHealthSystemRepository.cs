@@ -100,9 +100,5 @@ namespace IS_Proj_HIT.Models.Data
         void AddPatientLanguage(PatientLanguage language);
         void AddPatientRace(PatientRace race);
         void DeletePatientRace(PatientRace race);
-
-        void AddPhysicianAssessment(PhysicianAssessment physicianAssessment);
-        //void DeletePhysicianAssessment(PhysicianAssessment physicianAssessment);
-        //void EditPhysicianAssessment(PhysicianAssessment physicianAssessment);
     }
 }

@@ -12,19 +12,18 @@
     <div class="card-body bg-light">
         <div class="container">
             <form method="post" id="progressNoteEdit" name="progressNoteEdit" asp-action="EditProgessNotes">
+                       @*//<partial name="~/Views/Patient/PatientFormFields.cshtml" />
+                    //<hr/>
+                    <div class="col-sm-4">
+                <label>*First Name</label><br />
+                <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
 
-                @*//<partial name="~/Views/Patient/PatientFormFields.cshtml" />
-                        //<hr/>
-                        <div class="col-sm-4">
-                    <label>*First Name</label><br />
-                    <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
-                    </div>*@
-
+                </div>*@
+                
                 <label>Date/Time</label>
-                <input class="form-control" asp-for="@Model.ProgressNoteId" name="Note" id="Note" placeholder="Progress Note" /> 
-
-                <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
-
+                @*<input class="form-control" asp-for="@ProgressNote.Note" name="Note" id="Note" placeholder="Progress Note" /> *@
+                
+                 <button type="submit" class="btn btn-outline-primary" id="formatSsnAndSubmitForm">Save</button>
             </form>
         </div>
     </div>

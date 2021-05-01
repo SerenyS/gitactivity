@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student")]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -97,7 +97,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         #region User Details
-        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
@@ -200,9 +200,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate,
-                FirstName = u.FirstName,
-                LastName = u.LastName
+                StartDate = u.StartDate
 
             }).OrderByDescending(u => u.UserName).ToList();
 
@@ -456,9 +454,6 @@ namespace IS_Proj_HIT.Controllers
                 new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
                 new SelectListItem {Text = "Nursing", Value = "Nursing"}
             };
-
-
-           
 
             //get list of possible instructors from db
             var instructorEmails = new List<string>();
