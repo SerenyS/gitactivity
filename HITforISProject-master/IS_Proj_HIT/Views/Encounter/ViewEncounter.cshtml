@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4>
-                        Encounter Information
+                        Encounter Information - @Model.Encounter.EncounterId
 
                         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
                         {
@@ -50,8 +50,6 @@
                                 <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
                             </div>
                             <div class="col-sm-12 col-lg-4">
-                                <label>Facility: </label>
-                                <span class="font-weight-bold">@Model.Encounter.Facility.Name</span>
                             </div>
                         </div>
                         <hr />
@@ -66,7 +64,10 @@
                                 <label>Unit: </label>
                                 <span class="font-weight-bold">@Model.Encounter.Department.Name</span>
                             </div>
-                            <div class="col-sm-12 col-lg-4"></div>
+                            <div class="col-sm-12 col-lg-4">
+                                <label>Facility: </label>
+                                <span class="font-weight-bold">@Model.Encounter.Facility.Name</span>
+                            </div>
                         </div>
                         <hr />
                         <div class="row">
@@ -83,6 +84,10 @@
                         <hr />
                         <div class="row">
                             <div class="col-sm-12 col-lg-4">
+                                <label>Admission Date: </label>
+                                <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
+                            </div>
+                            <div class="col-sm-12 col-lg-4">
                                 <label>Admission Type: </label>
                                 <span class="font-weight-bold">@Model.Encounter.AdmitType.Description</span>
                             </div>
@@ -90,7 +95,6 @@
                                 <label>Point of Origin: </label>
                                 <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
                             </div>
-                            <div class="col-sm-12 col-lg-4"></div>
                         </div>
                         <hr />
                         <div class="row">
