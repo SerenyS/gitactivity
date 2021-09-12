@@ -79,12 +79,18 @@
             var reactions = $('#reactionlist').val();
             var restrictions = $('#RestrictionTypeId').val();
             var fallrisks = $('#FallRiskId').val();
+            var startDate = $('.startDate').datepicker('getDate');
             $('#message').text('');
 
             if (alerttypevalue == '0') {
                 $('#message').text('Please select an Alert Type.');
                 //alert('Please select an Alert Type');
-            } else if (allergies == '0') {
+            } 
+            else if (startDate == "") {
+                alert("activated");
+                $('#message').text('Please select a start date.');
+            }
+            else if (allergies == '0') {
                 $('#message').text('Please select an Allergen.');
             } else if (reactions == '0') {
                 $('#message').text('Please select a Reaction.');
@@ -209,6 +215,7 @@
         var year = currentTime.getFullYear();
         console.log("Start date = " + year + '-' + month + '-' + date);
         $('.startDate').val(year + '-' + month + '-' + date);
+        //$('.startDate').datepicker('setDate', $(this).val());
 
 
         //$("form[name='alert']").validate({
