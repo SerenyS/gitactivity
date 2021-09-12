@@ -239,7 +239,7 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult Edit(Patient model)
         {
-            if (!ModelState.IsValid) return View(model.Mrn);
+            //if (!ModelState.IsValid) return View(model.Mrn);
 
             model.LastModified = DateTime.Now;
 
