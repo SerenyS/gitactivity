@@ -925,12 +925,20 @@ namespace IS_Proj_HIT.Controllers
 
         //Deletes Alert
         [Authorize(Roles = "Administrator")]
-        public IActionResult DeleteAlert(long patientalertId)
+        public IActionResult DeleteAlert(long id, string mrn)
         {
-            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == patientalertId);
+            bool usingExists = repository.PatientFallRisks.Any(p => p.PatientAlertId == id);
+            if (usingExists)
+            {
+                Console.WriteLine("Fall risk records exist using this record.");
+                ViewData["ErrorMessage"] = "Fall risk records exist using this record. Delete not available. This page will now refresh.";
+                return RedirectToAction("ListAlerts", new {id = mrn});
+            }
+
+            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == id);
             repository.DeleteAlert(alert);
             //May not be right redirect
-            return RedirectToAction("ListAlerts");
+            return RedirectToAction("ListAlerts", new {id = mrn});
         }
 
 
