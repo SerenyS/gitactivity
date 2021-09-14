@@ -114,13 +114,12 @@ else
                     </td>
                 }
 
-                @*@if (User.IsInRole("Administrator"))
+                @if (User.IsInRole("Administrator"))
                 {
                     <td>
-                         <a asp-action="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId"
-                         onclick="if (!confirm('Are you sure you want to delete this alert?')) return false;" class="btn btn-danger">Delete</a>
+                         <a asp-page-handler="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId" onclick="return confirm('Are you sure you want to delete this alert?')" class="btn btn-danger">Delete</a>
                     </td>
-                 }*@
+                 }
             </tr>
             }
         </tbody>
