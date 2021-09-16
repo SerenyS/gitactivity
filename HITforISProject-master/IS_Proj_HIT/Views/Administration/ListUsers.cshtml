@@ -23,7 +23,7 @@
                         Name
                     </th>
                     <th>
-                        ID
+                        Email
                     </th>
                     <th>
                         Start Date
@@ -51,8 +51,8 @@
                     @*for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody*@
 
 
-                    <td> @Model[i].FirstName @Model[i].LastName <input style="display:none" asp-for="@Model[i].UserName" /> </td>
-                    <td>@Model[i].UserId <input style="display:none" asp-for="@Model[i].UserId" /></td>
+                    <td> @Model[i].FirstName  <input style="display:none" asp-for="@Model[i].FirstName" /> </td>
+                    <td>@Model[i].UserName <input style="display:none" asp-for="@Model[i].UserName" /></td>
 
                     <td>@Model[i].StartDate.ToString("d")</td>
                     <td>
@@ -82,18 +82,12 @@
 
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-
-
         $(document).ready(function () {
-
             $('#table_id').DataTable();
-
-
             $("#checkAll").click(function () {
                 $(".checkBox").prop('checked',
                     $(this).prop('checked'));
             });
-
             $("#delete").click(function () {
                 var selectedIDs = new Array();
                 $('input:checkbox.checkBox').each(function () {
@@ -101,7 +95,6 @@
                         selectedIDs.push($(this).val());
                     }
                 });
-
                 var options = {};
                 options.url = "/administration/deletebatch";
                 options.type = "POST";
@@ -117,11 +110,7 @@
                     console.log(this.error)
                 };
                 $.ajax(options);
-
-
-
             });
         });
-
     </script>
 }

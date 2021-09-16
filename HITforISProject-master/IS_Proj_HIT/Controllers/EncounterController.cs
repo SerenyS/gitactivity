@@ -355,5 +355,10 @@ namespace IS_Proj_HIT.Controllers
         {
             return RedirectToAction();
         }
+
+        public IActionResult AddPhysicianReport()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
