@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="heading">Active?</label><br />
-                    <div>@ViewBag.Active</div>
+                    <div>@(ViewBag.EndDate == null ? "Yes" : "No")</div>
                 </div>
             </div>
             <div class="row">
