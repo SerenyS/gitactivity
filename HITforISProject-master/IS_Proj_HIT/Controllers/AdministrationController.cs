@@ -1,7 +1,6 @@
 ﻿using IS_Proj_HIT.Data;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
