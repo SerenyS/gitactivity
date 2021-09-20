@@ -931,7 +931,7 @@ namespace IS_Proj_HIT.Controllers
             if (usingExists)
             {
                 //Console.WriteLine("Fall risk records exist using this record.");
-                ViewData["ErrorMessage"] = "Fall risk records exist using this record. Delete not available. This page will now refresh.";
+                //ViewData["ErrorMessage"] = "Fall risk records exist using this record. Delete not available. This page will now refresh.";
                 return RedirectToAction("ListAlerts", new {id = mrn});
             }
 

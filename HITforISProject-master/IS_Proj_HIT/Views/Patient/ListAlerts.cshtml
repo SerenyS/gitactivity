@@ -119,7 +119,7 @@ else
                 @if (User.IsInRole("Administrator") && @patientalerts.EndDate.HasValue)
                 {
                     <td>
-                        <a asp-action="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn" onclick="return confirm('Are you sure you want to delete this alert?')" class="btn btn-danger">Delete</a>
+                        <a onclick="return confirm('Are you sure you want to delete this alert?')" asp-action="DeleteAlert" asp-route-id="@patientalerts.PatientAlertId" asp-route-mrn="@patientalerts.Mrn" class="btn btn-danger">Delete</a>
                     </td>
                  }
             </tr>
