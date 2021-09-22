@@ -29,10 +29,6 @@
                     @*<div><span class="heading">Alert Type: </span><select class="takeawayborder bg-light" readonly id="alertType" asp-for=@Model.AlertTypeId asp-items="ViewBag.AlertType"></select></div>*@
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="heading">Patient Alert ID</label><br />
-                    <input asp-for="@Model.PatientAlertId" class="takeawayborder bg-light" id="alertTypeId" readonly />
-                </div>
-                <div class="col-sm-4 form-group">
                     <label class="heading">Active?</label><br />
                     <div>@(ViewBag.EndDate == null ? "Yes" : "No")</div>
                 </div>
