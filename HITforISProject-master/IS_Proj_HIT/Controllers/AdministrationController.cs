@@ -189,7 +189,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-        //List users - Chris P - 2/27/21
+        //List users - Chris P - 2/27/21 edited by jason Motl 9-21-21 
         [HttpGet]
         public  IActionResult ListUsers()
         {
@@ -199,7 +199,10 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate
+                StartDate = u.StartDate,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AspNetUsersId = u.AspNetUsersId
 
             }).OrderByDescending(u => u.UserName).ToList();
 
@@ -209,31 +212,41 @@ namespace IS_Proj_HIT.Controllers
 
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string ASPid)
         {
-            var userToDelete = await _userManager.FindByIdAsync(id);
+            var userTables = _repository.UserTables;
+            var userToDelete = userTables.Where(u => u.AspNetUsersId == ASPid);
+            var ASPuserToDelete = await _userManager.FindByIdAsync(ASPid);
             
+            //var userToDelete = await _userManager.FindByEmailAsync(id);
 
-            if(userToDelete == null)
+            if(ASPuserToDelete == null)
             {
-                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                ViewBag.ErrorMessage = $"User with the Id = {ASPid} cannot be found.";
                 return View("NotFound");
             }
             else
             {
-                var result = await _userManager.DeleteAsync(userToDelete);
+                // deletes the from the user table
+                //await _repository.DeleteUser(userToDelete);
+                // deletes the ASPUser 
+                var result = await _userManager.DeleteAsync(ASPuserToDelete);
+                
+                //var result = 
                 
                 if(result.Succeeded)
                 {
                     
                     return RedirectToAction("ListUsers");
                 }
-
+                
                 foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
                 return View("ListUsers");
+                
+                
                     
             }
         }
