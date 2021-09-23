@@ -908,6 +908,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.EncounterAlerts)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_EncounterAlerts_PatientAlertID");
             });
 
@@ -1743,6 +1744,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientAdvancedDirectives)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientAdvancedDirectives_PatientAlertID");
             });
 
@@ -1812,6 +1814,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientAllergies)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientAllergy_PatientAlertID");
 
                 entity.HasOne(d => d.Reaction)
@@ -1841,6 +1844,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientClinicalReminders)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientClinicalReminders_PatientAlertID");
             });
 
@@ -1977,6 +1981,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientFallRisks)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientFallRisks_PatientAlertID");
             });
 
@@ -2137,6 +2142,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PatientAlert)
                     .WithMany(p => p.PatientRestrictions)
                     .HasForeignKey(d => d.PatientAlertId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientRestrictions_PatientAlertID");
 
                 entity.HasOne(d => d.RestrictionType)

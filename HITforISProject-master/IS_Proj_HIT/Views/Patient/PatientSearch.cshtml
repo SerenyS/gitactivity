@@ -24,6 +24,12 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-search"></i> Search</button>
             </div>
+            <div class="form-group">
+                @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
+                {
+                    <a asp-action="AddPatient" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add a New Patient</a>
+                }
+            </div>
         </form>
     </div>
 </div>

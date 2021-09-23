@@ -113,7 +113,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/Administration/EditRegisterDetails");
             if(!Input.PrivacyPolicyIsChecked)
-                ModelState.AddModelError("Privacy", "Privacy Policy must be reveiwed.");
+                ModelState.AddModelError("Privacy", "Privacy Policy must be reviewed.");
             if (ModelState.IsValid)
             {
                 // var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
