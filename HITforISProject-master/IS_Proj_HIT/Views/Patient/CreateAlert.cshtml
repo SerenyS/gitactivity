@@ -45,15 +45,13 @@
             <label>Comments</label><br />
             <textarea asp-for="@Model.Comments" name="comments" cols="60" rows="3"></textarea>
         </div>
-        <div class="row">
-            <div class="col-sm-4 form-group">
-                <label>Start Date</label>
+        <div class="form-group">
+                <label>Start Date</label><br />
                 <input asp-for="@Model.StartDate" class="form-control startDate" type="date" id="longer" />
             </div>
-            <div class="col-sm-4 form-group">
+        <div class="form-group">
                 <label>End Date</label><br />
                 <input asp-for="@Model.EndDate" class="form-control endDate" type="date" name="EndDate" id="longer" />
-            </div>
         </div>
 
         <div class="form-group">
@@ -86,6 +84,8 @@
             if (alerttypevalue == '0') {
                 $('#message').text('Please select an Alert Type.');
                 //alert('Please select an Alert Type');
+            } else if ($('.startDate').val() == "") {
+                $('#message').text('Please select a start date.');
             } else if (allergies == '0') {
                 $('#message').text('Please select an Allergen.');
             } else if (reactions == '0') {
@@ -202,6 +202,7 @@
         //console.log("Date is " + fullDate);
         //$('.startDate').val(fullDate);
         // Set the start date to the current date
+        /*
         var currentTime = new Date();
         var month = currentTime.getMonth() + 1;
         var date = currentTime.getDate();
@@ -209,8 +210,9 @@
             date = ("0" + currentTime.getDate()).slice(-2);
         }
         var year = currentTime.getFullYear();
-        console.log("Start date = " + year + '-' + month + '-' + date);
-        $('.startDate').val(year + '-' + month + '-' + date);
+        console.log("Start date = " + year + '-' + month + '-' + date);*/
+        $( ".startDate" ).datepicker({ defaultDate: new Date() });
+        //$( ".startDate" ).val({ defaultDate: new Date() })
 
 
         //$("form[name='alert']").validate({

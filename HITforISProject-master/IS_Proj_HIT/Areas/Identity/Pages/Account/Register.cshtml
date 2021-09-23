@@ -56,6 +56,9 @@
                 $("#privacyModal").modal()
             });
 
+            //uncheck privacy checkbox on load
+            $('#privacyCheckbox').prop( "checked", false );
+
             //hide the register button until the privacy agreement is checked
             $("#Submit").hide();
 

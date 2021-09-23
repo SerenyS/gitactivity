@@ -2,7 +2,7 @@
 @model IS_Proj_HIT.CreateModelPhysician
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Physician";
 }
 
 <h1>Create</h1>
@@ -35,7 +35,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Physician.AddressId" class="control-label"></label>
-                <select asp-for="Physician.AddressId" class ="form-control" asp-items="ViewBag.AddressId"></select>
+                <input asp-for="Physician.AddressId" class="form-control" maxlength="100" />
+                <span asp-validation-for="Physician.AddressId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Physician.PhoneNumber" class="control-label"></label>

@@ -401,3 +401,8 @@ td input[type="checkbox"] {
 table {
     border: 1px solid;
 }
+
+
+.encounter-del-btn {
+    margin-right: 15px;
+}

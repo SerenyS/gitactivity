@@ -56,13 +56,13 @@
                 {
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <i class="fas fa-home"></i> Home
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <i class="fas fa-search"></i> Patient Search
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-search"></i> Patient Search</a>
                         </li>
                         <li class="nav-item">
-                            <i class="fas fa-users"></i> Checked in Patients
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-users"></i> Checked in Patients</a>
                         </li>
                     </ul>
                 }
