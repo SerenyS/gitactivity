@@ -559,6 +559,10 @@ $(function () {
         }
     });
 
+    //var pageNum = $("p:contains('Current Page')").text().substring(14, 15);
+    var pageNum = $("p:contains('Current Page')").text().substring(14, 16);
+    $('a').filter(function(index) { return $(this).text() === pageNum; }).addClass("currentPage");
+
     function getDescriptionIdFromInputId(i) { return i.substr(0, i.length - 1) + "d"; }
     function toggleRequired(tag, isRequired)
     {
@@ -567,6 +571,7 @@ $(function () {
         else
             $(`#${tag}`).attr("required", false).addClass("d-none");
     } 
+
 
 });
 

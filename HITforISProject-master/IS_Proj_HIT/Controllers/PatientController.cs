@@ -11,19 +11,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Primitives;
 
+
 namespace IS_Proj_HIT.Controllers
 {
     [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student, Read Only")]
     public class PatientController : Controller
     {
         private IWCTCHealthSystemRepository repository;
-        public int PageSize = 8;
+        public int PageSize = 10;
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
         // Displays list of patients
         public ActionResult Index(string searchLast, string searchFirst, string searchSSN,
-            string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder)
+            string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder, int pageNum = 0)
         {
+            ViewData.ModelState.Clear();
+
             // Put in a wildcard if user didn't search on these fields
             searchLast ??= " ";
             searchFirst ??= " ";
@@ -52,6 +55,8 @@ namespace IS_Proj_HIT.Controllers
                             && p.Dob >= searchDOB
                             && p.Dob <= searchDOBBefore);
 
+            var pArray = patients.ToArray();
+
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.MrnSortParm = sortOrder == "mrn" ? "mrn_desc" : "mrn";
             ViewBag.DobSortParm = sortOrder == "dob" ? "dob_desc" : "dob";
@@ -62,36 +67,64 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.searchSSN = searchSSN;
             ViewBag.searchDOB = searchDOB;
             ViewBag.searchDOBBefore = searchDOBBefore;
+                        
+            int totalResults = pArray.Count();
+            ViewBag.TotalResults = totalResults;
+            int numberOfPages = (int)Math.Round((double)(totalResults / PageSize), 0, MidpointRounding.AwayFromZero);
+            ViewBag.NumberOfPages = numberOfPages;
+            var pagesArr = new List<int>{};
+
+            if (pageNum < 0) {
+                pageNum = 0;
+            }
+            if (pageNum > numberOfPages) {
+                pageNum = numberOfPages;
+            }
+
+            if (totalResults % 10 == 0) {
+                for (int i = 1; i < numberOfPages + 1; i++) {
+                    pagesArr.Add(i);
+                }
+            } else {
+                for (int i = 1; i <= numberOfPages + 1; i++) {
+                    pagesArr.Add(i);
+                }
+            }
+            
+            ViewBag.PagesArray = pagesArr;
+            ViewBag.pageNum = pageNum;
+            ViewBag.currentPage = pageNum + 1;
 
             switch (sortOrder)
             {
                 case "mrn":
-                    patients = patients.OrderBy(p => p.Mrn);
+                    patients = patients.OrderBy(p => p.Mrn).Skip(pageNum * PageSize).Take(PageSize);
                     break;
                 case "mrn_desc":
-                    patients = patients.OrderByDescending(p => p.Mrn);
+                    patients = patients.OrderByDescending(p => p.Mrn).Skip(pageNum * PageSize).Take(PageSize);
                     break;
                 case "dob":
-                    patients = patients.OrderBy(p => p.Dob);
+                    patients = patients.OrderBy(p => p.Dob).Skip(pageNum * PageSize).Take(PageSize);
                     break;
                 case "dob_desc":
-                    patients = patients.OrderByDescending(p => p.Dob);
+                    patients = patients.OrderByDescending(p => p.Dob).Skip(pageNum * PageSize).Take(PageSize);
                     break;
                 case "name_desc":
-                    patients = patients.OrderByDescending(p => p.LastName);
+                    patients = patients.OrderByDescending(p => p.LastName).Skip(pageNum * PageSize).Take(PageSize);
                     break;
                 default:
-                    patients = patients.OrderBy(p => p.LastName);
+                    patients = patients.OrderBy(p => p.LastName).Skip(pageNum * PageSize).Take(PageSize);
                     ViewBag.sortOrder = "name";
                     break;
             }
 
+            //var model = await PagingList.CreateAsync(patients, PageSize, page);
             return View(new ListPatientsViewModel
             {
                 Patients = patients
             });
+            //return View(model);
         }
-
         
         public IActionResult PatientSearch() => View();
 

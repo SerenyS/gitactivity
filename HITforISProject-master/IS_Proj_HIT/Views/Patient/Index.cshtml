@@ -11,7 +11,56 @@
     </div>
 }
 else
-{
+{/* PAGINATION ON TOP
+    @if (@ViewBag.TotalResults > 10)
+    {
+    <hr />
+    <nav aria-label="Pages">
+        <ul class="pagination">
+             <p>Current Page: @ViewBag.currentPage</p>
+                @Html.ActionLink("Previous", "Index", new
+                    {
+                        sortOrder = ViewBag.sortOrder,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore,
+                        pageNum = ViewBag.pageNum - 1
+                    })
+            @foreach (var num in @ViewBag.PagesArray)
+            {
+                string numString = num.ToString();
+                @Html.ActionLink(numString, "Index", new
+                    {
+                        sortOrder = ViewBag.sortOrder,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore,
+                        pageNum = num - 1
+                    })
+                
+            }
+                @Html.ActionLink("Next", "Index", new
+                    {
+                        sortOrder = ViewBag.sortOrder,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore,
+                        pageNum = ViewBag.pageNum + 1
+                    })
+        </ul>
+    </nav>
+    <hr />
+    }*/
+    <p>Search Results: @ViewBag.TotalResults</p>
     <table class="table">
         <thead>
             <tr>
@@ -100,9 +149,74 @@ else
     </table>
 }
 <hr />
+<!-- PAGINATION ON BOTTOM -->
+@if (@ViewBag.TotalResults > 10)
+    {
+    <nav aria-label="Pages">
+        <ul class="pagination">
+            @Html.ActionLink("Previous", "Index", new
+                {
+                    sortOrder = ViewBag.sortOrder,
+                    searchLast = ViewBag.searchLast,
+                    searchFirst = ViewBag.searchFirst,
+                    searchSSN = ViewBag.searchSSN,
+                    searchMRN = ViewBag.searchMRN,
+                    searchDOB = ViewBag.searchDOB,
+                    searchDOBBefore = ViewBag.searchDOBBefore,
+                    pageNum = ViewBag.pageNum - 1
+                })
+            @foreach (var num in @ViewBag.PagesArray)
+            {
+                string numString = num.ToString();
+                @Html.ActionLink(numString, "Index", new
+                    {
+                        sortOrder = ViewBag.sortOrder,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore,
+                        pageNum = num - 1
+                    })
+                
+            }
+            @Html.ActionLink("Next", "Index", new
+                {
+                    sortOrder = ViewBag.sortOrder,
+                    searchLast = ViewBag.searchLast,
+                    searchFirst = ViewBag.searchFirst,
+                    searchSSN = ViewBag.searchSSN,
+                    searchMRN = ViewBag.searchMRN,
+                    searchDOB = ViewBag.searchDOB,
+                    searchDOBBefore = ViewBag.searchDOBBefore,
+                    pageNum = ViewBag.pageNum + 1
+                })
+        </ul>
+    </nav>
+}
+ <p>Current Page: @ViewBag.currentPage</p>
 
 <a asp-controller="Patient" asp-action="PatientSearch" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
 @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
 {
     <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
     }
+
+<hr />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script>
+    /*
+    $(function() {
+        var pageNum = $("p:contains('Current Page')").text().substring(14, 16);
+        //console.log(pageNum);
+        $('a').filter(function(index) { return $(this).text() === pageNum; }).addClass("active");
+    });
+    
+    var $as = $('a').click(function(){
+        $as.removeClass('active');
+        $(this).addClass('active');
+    });*/
+</script>
+
