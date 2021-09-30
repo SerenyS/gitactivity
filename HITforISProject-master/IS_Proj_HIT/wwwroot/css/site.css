@@ -406,3 +406,36 @@ table {
 .encounter-del-btn {
     margin-right: 15px;
 }
+
+.pagination a {
+    position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: 0;
+  line-height: 1.25;
+  color: #fff;
+  background-color: #18BC9C;
+  border: 2px solid white;
+}
+
+.pagination a:hover {
+    z-index: 2;
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f7864;
+    border-color: transparent;
+}   
+/*
+.currentPage {
+    z-index: 2;
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f7864;
+    border-color: transparent;
+}*/
+.pagination.active {
+    z-index: 1;
+    color: #fff;
+    background-color: #0f7864;
+    border-color: transparent;
+  }
