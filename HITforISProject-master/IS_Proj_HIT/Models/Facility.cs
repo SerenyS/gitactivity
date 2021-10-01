@@ -10,6 +10,7 @@ namespace IS_Proj_HIT.Models
         public Facility()
         {
             Encounters = new HashSet<Encounter>();
+            ProgramFacilities = new HashSet<ProgramFacility>();
             UserFacilities = new HashSet<UserFacility>();
         }
 
@@ -22,6 +23,7 @@ namespace IS_Proj_HIT.Models
 
         public virtual Address Address { get; set; }
         public virtual ICollection<Encounter> Encounters { get; set; }
+        public virtual ICollection<ProgramFacility> ProgramFacilities { get; set; }
         public virtual ICollection<UserFacility> UserFacilities { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace IS_Proj_HIT.Models
         public string HeadCircumferenceUnits { get; set; }
         public DateTime? DateVitalsAdded { get; set; }
         public DateTime LastModified { get; set; }
+        public int? EditedBy { get; set; }
 
         public virtual BloodPressureRouteType BloodPressureRouteType { get; set; }
         public virtual Bmimethod Bmimethod { get; set; }
