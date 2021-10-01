@@ -1,5 +1,4 @@
 ﻿using IS_Proj_HIT.Models;
-using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT.ViewModels
 {

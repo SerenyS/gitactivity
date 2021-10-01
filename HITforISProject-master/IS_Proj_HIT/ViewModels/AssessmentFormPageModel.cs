@@ -1,10 +1,6 @@
 ﻿using IS_Proj_HIT.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using IS_Proj_HIT.Models.Enum;
-using IS_Proj_HIT.Models;
 
 namespace IS_Proj_HIT.ViewModels
 {
