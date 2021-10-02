@@ -1,32 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Models;
+using IS_Proj_HIT.Models.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using IS_Proj_HIT.Models;
-using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Data;
-using IS_Proj_HIT.Models;
-using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using IS_Proj_HIT.Models.Data;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 {

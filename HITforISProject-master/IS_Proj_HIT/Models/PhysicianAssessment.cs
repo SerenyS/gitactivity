@@ -32,7 +32,6 @@ namespace IS_Proj_HIT.Models
 
         public virtual Physician AuthoringProviderNavigation { get; set; }
         public virtual Physician CoSignatureNavigation { get; set; }
-        public virtual UserTable EditedByNavigation { get; set; }
         public virtual Encounter Encounter { get; set; }
         public virtual PhysicianAssessmentType PhysicianAssessmentType { get; set; }
         public virtual Physician ReferringProviderNavigation { get; set; }

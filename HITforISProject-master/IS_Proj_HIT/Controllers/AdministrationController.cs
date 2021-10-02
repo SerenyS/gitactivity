@@ -74,7 +74,9 @@ namespace IS_Proj_HIT.Controllers
                 typeof(EncounterType).Name,
                 typeof(Facility).Name,
                 typeof(PlaceOfServiceOutPatient).Name,
-                typeof(PointOfOrigin).Name
+                typeof(PointOfOrigin).Name,
+                typeof(Models.Program).Name,
+                typeof(ProgramFacility).Name
             };
             return View(entityNames);
         }
@@ -460,12 +462,21 @@ namespace IS_Proj_HIT.Controllers
                     _repository.EditUser(user);
             }
 
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
+            var programs = _repository.Programs;
+
+            foreach (var program in programs)
             {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
+                ViewBag.ProgramList.add(new List<SelectListItem>
+                { new SelectListItem {Text = program.Name, Value = program.Name, Selected = (bool)program.IsActive}});
+            }
+
+            //Create or get program list from DB
+            //ViewBag.ProgramList = new List<SelectListItem>
+            //{
+                
+            //    new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
+            //    new SelectListItem {Text = "Nursing", Value = "Nursing"},
+            //};
 
             //get list of possible instructors from db
             var instructorEmails = new List<string>();
