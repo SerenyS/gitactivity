@@ -12,7 +12,7 @@ namespace IS_Proj_HIT.Models
             InverseInstructor = new HashSet<UserTable>();
             UserFacilities = new HashSet<UserFacility>();
             UserPrograms = new HashSet<UserProgram>();
-            UserQuestions = new HashSet<UserQuestion>();
+            UserSecurityQuestions = new HashSet<UserSecurityQuestion>();
         }
 
         public int UserId { get; set; }
@@ -31,6 +31,6 @@ namespace IS_Proj_HIT.Models
         public virtual ICollection<UserTable> InverseInstructor { get; set; }
         public virtual ICollection<UserFacility> UserFacilities { get; set; }
         public virtual ICollection<UserProgram> UserPrograms { get; set; }
-        public virtual ICollection<UserQuestion> UserQuestions { get; set; }
+        public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
     }
 }

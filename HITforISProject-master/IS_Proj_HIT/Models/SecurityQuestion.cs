@@ -9,12 +9,12 @@ namespace IS_Proj_HIT.Models
     {
         public SecurityQuestion()
         {
-            UserQuestions = new HashSet<UserQuestion>();
+            UserSecurityQuestions = new HashSet<UserSecurityQuestion>();
         }
 
-        public int QuestionId { get; set; }
+        public int SecurityQuestionId { get; set; }
         public string QuestionText { get; set; }
 
-        public virtual ICollection<UserQuestion> UserQuestions { get; set; }
+        public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
     }
 }
