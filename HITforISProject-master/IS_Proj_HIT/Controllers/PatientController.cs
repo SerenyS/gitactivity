@@ -98,22 +98,22 @@ namespace IS_Proj_HIT.Controllers
             switch (sortOrder)
             {
                 case "mrn":
-                    patients = patients.OrderBy(p => p.Mrn).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderBy(p => p.Mrn)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "mrn_desc":
-                    patients = patients.OrderByDescending(p => p.Mrn).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderByDescending(p => p.Mrn)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "dob":
-                    patients = patients.OrderBy(p => p.Dob).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderBy(p => p.Dob)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "dob_desc":
-                    patients = patients.OrderByDescending(p => p.Dob).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderByDescending(p => p.Dob)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "name_desc":
-                    patients = patients.OrderByDescending(p => p.LastName).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderByDescending(p => p.LastName)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 default:
-                    patients = patients.OrderBy(p => p.LastName).Skip(pageNum * PageSize).Take(PageSize);
+                    patients = patients.OrderBy(p => p.LastName)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     ViewBag.sortOrder = "name";
                     break;
             }
