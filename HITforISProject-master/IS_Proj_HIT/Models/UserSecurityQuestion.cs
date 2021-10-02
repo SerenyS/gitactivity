@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace IS_Proj_HIT.Models
 {
-    public partial class UserQuestion
+    public partial class UserSecurityQuestion
     {
-        public int QuestionId { get; set; }
         public int UserId { get; set; }
+        public int SecurityQuestionId { get; set; }
         public string AnswerHash { get; set; }
 
-        public virtual SecurityQuestion Question { get; set; }
+        public virtual SecurityQuestion SecurityQuestion { get; set; }
         public virtual UserTable User { get; set; }
     }
 }
