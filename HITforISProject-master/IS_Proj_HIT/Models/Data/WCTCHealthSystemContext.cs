@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace IS_Proj_HIT.Models
+namespace IS_Proj_HIT.Models.Data
 {
     public partial class WCTCHealthSystemContext : DbContext
     {
