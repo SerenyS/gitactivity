@@ -134,7 +134,7 @@ namespace IS_Proj_HIT.Models.Data
         public virtual DbSet<Use> Uses { get; set; }
         public virtual DbSet<UserFacility> UserFacilities { get; set; }
         public virtual DbSet<UserProgram> UserPrograms { get; set; }
-        public virtual DbSet<UserQuestion> UserQuestions { get; set; }
+        public virtual DbSet<UserSecurityQuestion> UserSecurityQuestions { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<Warning> Warnings { get; set; }
 
@@ -3032,10 +3032,9 @@ namespace IS_Proj_HIT.Models.Data
 
             modelBuilder.Entity<SecurityQuestion>(entity =>
             {
-                entity.HasKey(e => e.QuestionId)
-                    .HasName("PK__Security__0DC06F8C6052F184");
+                entity.ToTable("SecurityQuestion");
 
-                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+                entity.Property(e => e.SecurityQuestionId).HasColumnName("SecurityQuestionID");
 
                 entity.Property(e => e.QuestionText)
                     .IsRequired()
@@ -3234,30 +3233,32 @@ namespace IS_Proj_HIT.Models.Data
                     .HasConstraintName("fk_UserPrograms_UserID");
             });
 
-            modelBuilder.Entity<UserQuestion>(entity =>
+            modelBuilder.Entity<UserSecurityQuestion>(entity =>
             {
-                entity.HasKey(e => new { e.QuestionId, e.UserId })
-                    .HasName("PK__UserQues__DCB8E346DBDD63AF");
+                entity.HasKey(e => new { e.UserId, e.SecurityQuestionId })
+                    .HasName("pk_UserSecurityQuestion");
 
-                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+                entity.ToTable("UserSecurityQuestion");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.SecurityQuestionId).HasColumnName("SecurityQuestionID");
 
                 entity.Property(e => e.AnswerHash)
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.UserQuestions)
-                    .HasForeignKey(d => d.QuestionId)
+                entity.HasOne(d => d.SecurityQuestion)
+                    .WithMany(p => p.UserSecurityQuestions)
+                    .HasForeignKey(d => d.SecurityQuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserQuest__Quest__7C8F6DA6");
+                    .HasConstraintName("fk_UserSecurityQuestion_QuestionID");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserQuestions)
+                    .WithMany(p => p.UserSecurityQuestions)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserQuest__UserI__7D8391DF");
+                    .HasConstraintName("fk_UserSecurityQuestion_UserID");
             });
 
             modelBuilder.Entity<UserTable>(entity =>
