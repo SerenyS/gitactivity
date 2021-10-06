@@ -26,6 +26,13 @@ namespace IS_Proj_HIT.Controllers
 
         public ViewResult CheckedIn()
         {
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+
+            var secCheck = 0;
+
+            var isAdmin = User.IsInRole("Administrator");
+
             var model = _repository.Encounters
                 .Where(e => e.DischargeDateTime == null)
                 .OrderByDescending(e => e.AdmitDateTime)
@@ -41,6 +48,39 @@ namespace IS_Proj_HIT.Controllers
                             e.Facility.Name,
                             e.DischargeDateTime.ToString(),
                             e.RoomNumber));
+
+            if (!isAdmin) {
+                // non admins may get error until UserFacility table in database is filled!
+                // UNCOMMENT WHEN USERFACILITIES HAVE BEEN ADDED
+                /*
+                if (currentUserFacility.FacilityId == 3) {
+                secCheck = 4;
+                }
+                
+                if (currentUserFacility.FacilityId == 5) {
+                    secCheck = 6;
+                }
+
+                if (currentUserFacility.FacilityId == 7) {
+                    secCheck = 8;
+                }
+
+                model = _repository.Encounters
+                .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck)
+                .OrderByDescending(e => e.AdmitDateTime)
+                .Join(_repository.Patients,
+                    e => e.Mrn,
+                    p => p.Mrn,
+                    (e, p) =>
+                        new EncounterPatientViewModel(e.Mrn,
+                            e.EncounterId,
+                            e.AdmitDateTime,
+                            p.FirstName,
+                            p.LastName,
+                            e.Facility.Name,
+                            e.DischargeDateTime.ToString(),
+                            e.RoomNumber)); */
+            }
 
             return View(model);
         }
@@ -121,6 +161,8 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult ViewEncounter(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
+
+            var id = User.Identity.Name;
 
             var encounter = _repository.Encounters
                 .Include(e => e.Facility)
@@ -295,10 +337,38 @@ namespace IS_Proj_HIT.Controllers
                 .ToList();
             ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin, "PointOfOriginId", "Description", 0);
 
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var isAdmin = User.IsInRole("Administrator");
             var queryFacility = _repository.Facilities
-                .OrderBy(n => n.Name)
-                .Select(fac => new {fac.FacilityId, fac.Name})
-                .ToList();
+                    .OrderBy(n => n.Name)
+                    .Select(fac => new {fac.FacilityId, fac.Name})
+                    .ToList();
+            
+            if (!isAdmin) {
+                var secCheck = 0;
+                // non admins may get error until UserFacility table in database is filled!
+                // UNCOMMENT WHEN USERFACILITIES HAVE BEEN ADDED
+                /*
+                if (currentUserFacility.FacilityId == 3) {
+                    secCheck = 4;
+                }
+                
+                if (currentUserFacility.FacilityId == 5) {
+                    secCheck = 6;
+                }
+
+                if (currentUserFacility.FacilityId == 7) {
+                    secCheck = 8;
+                }
+
+                queryFacility = _repository.Facilities
+                    .Where(e => e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck)
+                    .OrderBy(n => n.Name)
+                    .Select(fac => new {fac.FacilityId, fac.Name})
+                    .ToList();*/
+            }
+
             ViewBag.Facility = new SelectList(queryFacility, "FacilityId", "Name", 0);
 
             var queryEncounterPhysicians = _repository.EncounterPhysicians

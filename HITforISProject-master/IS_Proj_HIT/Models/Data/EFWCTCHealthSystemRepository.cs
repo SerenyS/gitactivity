@@ -64,6 +64,7 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<Race> Races => _context.Races;
         public IQueryable<PatientRace> PatientRaces => _context.PatientRaces;
         public IQueryable<Program> Programs => _context.Programs;
+        public IQueryable<UserFacility> UserFacilities => _context.UserFacilities;
 
 
 
@@ -294,6 +295,12 @@ namespace IS_Proj_HIT.Models.Data
         public void DeletePatientRace(PatientRace race)
         {
             _context.Remove(race);
+            _context.SaveChanges();
+        }
+
+        public void AddAddress(Address address)
+        {
+            _context.Add(address);
             _context.SaveChanges();
         }
     }

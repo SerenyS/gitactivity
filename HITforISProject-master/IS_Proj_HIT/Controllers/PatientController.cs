@@ -538,6 +538,7 @@ namespace IS_Proj_HIT.Controllers
             if (returnUrl.Length > 0)
             {
                 return Redirect(returnUrl);
+                //return RedirectToAction("Details", "Patient", id);
             }
             else
             {
