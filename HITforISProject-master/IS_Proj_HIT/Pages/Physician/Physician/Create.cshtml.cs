@@ -24,7 +24,7 @@ namespace IS_Proj_HIT
 
         public IActionResult OnGet()
         {
-        ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
+        //ViewData["AddressId"] = new SelectList(_context.Addresses, "AddressId", "Address1");
         ViewData["ProviderTypeId"] = new SelectList(_context.ProviderTypes, "ProviderTypeId", "Name");
         ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "SpecialtyId", "Name");
             return Page();
@@ -39,6 +39,23 @@ namespace IS_Proj_HIT
             {
                 return Page();
             }
+            /*
+            List<Address> foundAddresses = new List<Address>();
+
+            foreach(Address a in _context.Addresses) {
+                if (a.Address1.Equals(Physician.AddressId)) {
+                    foundAddresses.Add(a);
+                }
+            }
+
+            if (!foundAddresses.IsEmpty()) {
+                Address newAddress = new Address();
+                newAddress.Address1 = Physician.AddressId;
+                newAddress.LastModified = DateTime.Now;
+                _context.Addresses.Add(newAddress);
+                Physician.AddressId = newAddress.AddressId;
+            }
+            */
 
             Physician.LastModified = DateTime.Now;
             _context.Physicians.Add(Physician);

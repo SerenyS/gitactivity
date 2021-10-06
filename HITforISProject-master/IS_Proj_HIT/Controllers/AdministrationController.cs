@@ -126,7 +126,7 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
 
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
+                { Text = u.LastName/*, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId*/ }).ToList();
 
             return View(dbUser);
         }

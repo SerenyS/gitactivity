@@ -3,9 +3,10 @@
     ViewData["Title"] = "Profile";
 }
 
-<div class="bg-primary m-1 p-1 text-white"><h4>Edit Information</h4></div>
-<div class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    Hello @User.Identity.Name, please update your information as needed.
+<div class="row my-3">
+    <div class="col-12">
+        <h3>Edit Profile</h3>
+    </div>
 </div>
 
 <form method="post" asp-action="EditRegisterDetails">

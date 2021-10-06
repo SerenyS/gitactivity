@@ -59,6 +59,7 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<Race> Races { get; }
         IQueryable<PatientRace> PatientRaces { get; }
         IQueryable<Program> Programs { get; }
+        IQueryable<UserFacility> UserFacilities { get; }
 
         #endregion
 
@@ -101,5 +102,7 @@ namespace IS_Proj_HIT.Models.Data
         void AddPatientLanguage(PatientLanguage language);
         void AddPatientRace(PatientRace race);
         void DeletePatientRace(PatientRace race);
+
+        void AddAddress(Address address);
     }
 }
