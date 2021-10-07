@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-
 namespace IS_Proj_HIT.Controllers
 {
 
@@ -25,8 +24,6 @@ namespace IS_Proj_HIT.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly WCTCHealthSystemContext _db;
-
-
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
@@ -173,6 +170,8 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+
+
 
         #endregion
 
@@ -462,37 +461,31 @@ namespace IS_Proj_HIT.Controllers
                     _repository.EditUser(user);
             }
 
+            ViewBag.ProgramList = new List<SelectListItem>();
             var programs = _repository.Programs;
-
             foreach (var program in programs)
             {
-                ViewBag.ProgramList.add(new List<SelectListItem>
-                { new SelectListItem {Text = program.Name, Value = program.Name, Selected = (bool)program.IsActive}});
+                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.Name, Selected = (bool)program.IsActive });
             }
 
-            //Create or get program list from DB
-            //ViewBag.ProgramList = new List<SelectListItem>
-            //{
-                
-            //    new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-            //    new SelectListItem {Text = "Nursing", Value = "Nursing"},
-            //};
+            ViewBag.FacilityList = new List<SelectListItem>();
+            var facilities = _repository.Facilities;
+            foreach (var facility in facilities)
+            {
+                ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.Name });
+            }
 
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
+            var model = new UsersPlusViewModel
+            {
+                UserId = user.UserId,
+                UserName = user.Email,
+                StartDate = user.StartDate,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                AspNetUsersId = user.AspNetUsersId
+            };
 
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = user.InstructorId == u.UserId }).ToList();
-
-
-            return View(user);
+            return View(model);
         }
        /* public async Task<IActionResult> EditUserDetails(string id)
         {
