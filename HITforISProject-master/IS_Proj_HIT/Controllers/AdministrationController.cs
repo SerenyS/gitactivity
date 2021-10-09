@@ -20,7 +20,7 @@ namespace IS_Proj_HIT.Controllers
 {
 
     [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
-    public class AdministrationController : Controller
+    public abstract class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -41,7 +41,7 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult Index() => View();
 
-        #region PCA lookup table management
+        #region CA lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult DataEntry()
         {
@@ -94,6 +94,26 @@ namespace IS_Proj_HIT.Controllers
             };
             return View(entityNames);
         }
+        #endregion
+        
+        #region Token Password Reset
+        // [Authorize(Roles = "Administrator")]
+        // public abstract Task<IdentityResult> ResetPasswordAsync (UserFacility user, string token, string newPassword);
+        //
+        // {   //TODO
+        //   //Enter the specifics for security question validation.
+        //   //Generate Token (static or random?)
+        //   //View/pass token
+        //
+        //   var entityNames = new List<string>
+        //   {
+        //       typeof(Physician).Name,
+        //       typeof(PhysicianRole).Name,
+        //       typeof(ProviderType).Name,
+        //       typeof(Specialty).Name
+        //   };
+        //   return View(entityNames);
+        // }
         #endregion
 
         #region User Details
