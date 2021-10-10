@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
+
 namespace IS_Proj_HIT.Controllers
 {
 
@@ -25,6 +26,8 @@ namespace IS_Proj_HIT.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly WCTCHealthSystemContext _db;
 
+
+
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db)
@@ -35,8 +38,11 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         }
 
+        // Return to Admin Index
         public IActionResult Index() => View();
 
+        // Administrator data entry for PCA
+        // Used in: Administration Tools - PCA indexes
         #region PCA lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult DataEntry()
@@ -59,6 +65,8 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
+        // Administrator data entry for Encounter
+        // Used in: Administration Tools - Encounter indexes
         #region Encounter lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult EncounterDataEntry()
@@ -79,6 +87,8 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
+        // Administrator data entry for Physician
+        // Used in: Administration Tools - Physician indexes
         #region Physician lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult PhysicianDataEntry()
@@ -94,6 +104,8 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
+        // Displays EditRegister details page
+        // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditRegisterDetails()
@@ -128,6 +140,8 @@ namespace IS_Proj_HIT.Controllers
             return View(dbUser);
         }
 
+        // Edits and saved register details
+        // Used in: EditUserDetails, EditRegisterDetails
         [HttpPost]
         public async Task<IActionResult> EditRegisterDetails(UserTable model)
         {
@@ -170,8 +184,6 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-
-
         #endregion
 
         #region Roles
@@ -181,6 +193,7 @@ namespace IS_Proj_HIT.Controllers
 
 
         //Testing Listing the Correct Users - Chris P - 2/25/21
+        //Used in: ViewUsers
         public async Task<IActionResult> ViewUsers()
         {
             var users = _repository.UserTables;
@@ -189,7 +202,9 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
+        //Retrieves user list
         //List users - Chris P - 2/27/21 edited by jason Motl 9-21-21 
+        //Used in: Admin Details, Admin Index, ListUsers
         [HttpGet]
         public  IActionResult ListUsers()
         {
@@ -210,6 +225,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
+        //Used in: Admin Details, List/ViewUsers
         public async Task<IActionResult> DeleteUser(string ASPid)
         {
             var userTables = _repository.UserTables;
@@ -250,6 +266,8 @@ namespace IS_Proj_HIT.Controllers
         }
 
         
+        // Delete selection of Users
+        // Used in: ListUsers
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
                 foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
@@ -270,6 +288,8 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult CreateRole() => View();
 
+        // View edit role
+        // Used in: EditUsersInRole, ViewRoles
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -289,6 +309,8 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+
+        // User details
         public IActionResult Details(int id)
         {
 
@@ -322,6 +344,9 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+
+        // View edit users in role
+        // Used in: EditRole, List/ViewUsers
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.RoleId = roleId;
@@ -355,6 +380,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Create role
+        // Used in: ViewRoles
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
         {
@@ -380,6 +407,7 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Edit role
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
@@ -406,6 +434,8 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Edit users in role
+        // EditUsersInRole with model AND ID
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
@@ -439,7 +469,9 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        #endregion
+        // Edit user details??
+        // Looks to be fairly similar to EditRegisterDetails
+         #endregion
         public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
@@ -500,18 +532,15 @@ namespace IS_Proj_HIT.Controllers
          {
              //find current user
              //var id = _userManager.GetUserId(HttpContext.User);
-
              //select the information I want to display
              var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
                           new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
-
              //Create or get program list from DB
              ViewBag.ProgramList = new List<SelectListItem>
              {
                  new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
                  new SelectListItem {Text = "Nursing", Value = "Nursing"}
              };
-
              //get list of possible instructors from db
              var instructorEmails = new List<string>();
              instructorEmails.AddRange(
@@ -522,9 +551,7 @@ namespace IS_Proj_HIT.Controllers
                  .Select(u => u.Email));
              ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                  .Select(u => new SelectListItem
-
                  { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
-
              return View(dbUser);
          }*/
 

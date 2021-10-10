@@ -21,7 +21,8 @@ namespace IS_Proj_HIT.Controllers
         public int PageSize = 10;
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
-        // Displays list of patients
+        // Displays list of patients found via patient search
+        // Used in: PatientSearch
         public ActionResult Index(string searchLast, string searchFirst, string searchSSN,
             string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder, int pageNum = 0)
         {
@@ -126,9 +127,12 @@ namespace IS_Proj_HIT.Controllers
             //return View(model);
         }
         
+        // Return PatientSearch view
+        // Used in: Navbar (_Layout), Home Page, PatientSearchIndex, PatientIndex, AddPatient
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
+        // Used in: PatientSearchIndex, PatientContactDetails (Unused)
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty,Registrar")]
         public IActionResult AddPatient()
         {
@@ -157,6 +161,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Click Create button on Add Patient page adds new patient from Add Patient page
+        // Used in: AddPatient, AddPatientButton
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
@@ -224,6 +229,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Patient
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator")]
 
         public IActionResult DeletePatient(string id)
@@ -254,6 +260,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult Edit(string id)
         {
@@ -267,6 +274,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Save edits to patient record from Edit Patients page
+        // Used in: EditPatient
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
@@ -341,6 +349,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Pick record to send to Details page
+        // Used in: EditPatient, PatientIndex, PatientBanner
         public IActionResult Details(string id)
         {
             var model = repository.Patients
@@ -393,7 +402,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        //List Alerts for the currently selected MRN
+        // List Alerts for the currently selected MRN
+        // Used in: EditPatientAlert, ListAlerts, PatientBanner
         public IActionResult ListAlerts(string id, string sortOrder)
         {
             // Remember the user's original request
@@ -533,6 +543,9 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Redirect back to return url
+        // Used in: CreateAlert, ListAlerts
+        // Is it worth having this method?
         public IActionResult BackToCaller(string id, string returnUrl)
         {
             if (returnUrl.Length > 0)
@@ -546,6 +559,9 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Redirect back to patient details
+        // Used in: EditPatientAlert
+        // Is it worth having this method?
         public RedirectToRouteResult BackToDetails(string id) =>
             RedirectToRoute(new
             {
@@ -554,6 +570,9 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
+        // Redirect back to list alerts
+        // Unused
+        // Is it worth having this method?
         public RedirectToRouteResult BackToListAlerts(string id) =>
             RedirectToRoute(new
             {
@@ -562,7 +581,8 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
-        // Load page for adding patient alerts
+        // Load page for adding patient alerts.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult CreateAlert(string id, string returnUrl)
         {
@@ -628,6 +648,8 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
+        // Creates alert.
+        // Used in: CreateAlert
         [HttpPost]
         [ActionName("CreateAlert")]
         [ValidateAntiForgeryToken]
@@ -679,7 +701,8 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Displays the Edit Patient page
+        // Displays the Edit Patient page.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult EditPatientAlert(int id, string mrn, string returnUrl)
         {
@@ -818,8 +841,8 @@ namespace IS_Proj_HIT.Controllers
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
         }
 
-  
-        
+        // View update alert page.
+        // Used in: EditPatientAlert
         public IActionResult UpdateAlert(int id, string mrn)
         {
          
@@ -939,6 +962,8 @@ namespace IS_Proj_HIT.Controllers
             //return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
+        // Update alert. Redirect to list alerts.
+        // Used in: UpdateAlert
         [HttpPost]
         [ActionName("UpdateAlert")]
         [ValidateAntiForgeryToken]
@@ -957,7 +982,8 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = model.Mrn });
         }
 
-        //Deletes Alert
+        // Deletes Alert. Alerts can only be deleted if PCA records don't exist for it.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteAlert(long id, string mrn)
         {
@@ -975,7 +1001,8 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = mrn});
         }
 
-
+        // add dropdowns to patient views
+        // Controller method to display dropdowns
         public void AddDropdowns(Patient model = null)
         {
             var queryReligion = repository.Religions
