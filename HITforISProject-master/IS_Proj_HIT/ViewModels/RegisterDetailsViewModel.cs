@@ -24,8 +24,6 @@ namespace IS_Proj_HIT.ViewModels
         [Required]
         public DateTime EndDate { get; set; }
 
-        public int AspNetUserID { get; set; }
-                   
-        
+        public int AspNetUserID { get; set; } 
     }
 }
