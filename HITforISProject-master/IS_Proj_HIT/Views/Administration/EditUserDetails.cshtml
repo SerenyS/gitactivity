@@ -1,4 +1,4 @@
-@model IS_Proj_HIT.ViewModels.UsersPlusViewModel
+@model IS_Proj_HIT.ViewModels.EditUserViewModel
 @{
     ViewData["Title"] = "Edit User";
 }
@@ -16,7 +16,6 @@ Edit User
         <div class="col-sm-4">
             <label for="FirstName">First Name: </label><br />
             <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
-
         </div>
         <div class="col-sm-4">
             <label for="LastName">Last Name: </label><br />
@@ -28,7 +27,7 @@ Edit User
     <div class="row">
         <div class="col-sm-4">
             <label for="Programs">Program Enrolled In:</label><br />
-            <select class="form-control dropdowns" id="Programs" asp-for="@Model.ProgramEnrolledIn" asp-items="ViewBag.ProgramList"></select>
+            <select class="form-control dropdowns" id="Programs" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList"></select>
         </div>
         <div class="col-sm-4">
             <label for="Facilities">Facilities: </label><br />

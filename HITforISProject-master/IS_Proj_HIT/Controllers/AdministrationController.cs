@@ -164,7 +164,6 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-
                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = model.InstructorId == u.UserId }).ToList();
 
 
@@ -209,8 +208,6 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
-
-
 
         //Delete User from AspNetUsers - Chris P - 2/28/21
         public async Task<IActionResult> DeleteUser(string ASPid)
@@ -281,7 +278,6 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.ErrorMessage = $"Role with ID = {id} cannot be found";
                 return View("NotFound");
             }
-
 
             var model = new EditRoleViewModel
             {
@@ -444,9 +440,24 @@ namespace IS_Proj_HIT.Controllers
         }
 
         #endregion
-        public async Task<IActionResult> EditUserDetails(int id)
+        public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
-            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+
+            ViewBag.ProgramList = new List<SelectListItem>();
+            var programs = _repository.Programs;
+            foreach (var program in programs)
+            {
+                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
+            }
+
+            ViewBag.FacilityList = new List<SelectListItem>();
+            var facilities = _repository.Facilities.Where(p => p.Name == "WCTC HC Nursing SECURE" || p.Name == "WCTC HC Nursing SIM");
+            foreach (var facility in facilities)
+            {
+                ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.FacilityId.ToString() });
+            }
+
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrWhiteSpace(user.AspNetUsersId))
@@ -461,63 +472,61 @@ namespace IS_Proj_HIT.Controllers
                     _repository.EditUser(user);
             }
 
-            ViewBag.ProgramList = new List<SelectListItem>();
-            var programs = _repository.Programs;
-            foreach (var program in programs)
+            var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
+            if (viewModel.ProgramId != 0 && !hasProgram)
             {
-                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.Name, Selected = (bool)program.IsActive });
+                _repository.AddUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
+            }
+            else if (viewModel.ProgramId != 0 && hasProgram)
+            {
+                _repository.EditUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
             }
 
-            ViewBag.FacilityList = new List<SelectListItem>();
-            var facilities = _repository.Facilities;
-            foreach (var facility in facilities)
+            var hasFacility = _repository.UserFacilities.Any(f => f.UserId == user.UserId);
+            if (viewModel.FacilityId != 0 && !hasFacility)
             {
-                ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.Name });
+                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
+            }
+            else if (viewModel.FacilityId != 0 && hasFacility)
+            {
+                var currentUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
+                _repository.DeleteUserFacility(currentUserFacility);
+                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
             }
 
-            var model = new UsersPlusViewModel
-            {
-                UserId = user.UserId,
-                UserName = user.Email,
-                StartDate = user.StartDate,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                AspNetUsersId = user.AspNetUsersId
-            };
-
-            return View(model);
+            return View(viewModel);
         }
-       /* public async Task<IActionResult> EditUserDetails(string id)
-        {
-            //find current user
-            //var id = _userManager.GetUserId(HttpContext.User);
+        /* public async Task<IActionResult> EditUserDetails(string id)
+         {
+             //find current user
+             //var id = _userManager.GetUserId(HttpContext.User);
 
-            //select the information I want to display
-            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
-                         new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
+             //select the information I want to display
+             var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
+                          new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
 
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
-            {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
+             //Create or get program list from DB
+             ViewBag.ProgramList = new List<SelectListItem>
+             {
+                 new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
+                 new SelectListItem {Text = "Nursing", Value = "Nursing"}
+             };
 
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
+             //get list of possible instructors from db
+             var instructorEmails = new List<string>();
+             instructorEmails.AddRange(
+                 (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
+                 .Select(u => u.Email));
+             instructorEmails.AddRange(
+                 (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
+                 .Select(u => u.Email));
+             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
+                 .Select(u => new SelectListItem
 
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
+                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
 
-            return View(dbUser);
-        }*/
+             return View(dbUser);
+         }*/
 
     }
 }

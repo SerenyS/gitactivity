@@ -59,7 +59,7 @@
                     <td>@Model[i].UserName</td>
                     <td>@Model[i].StartDate.ToString("d")</td>
                     <td>
-                        <a asp-action="EditUserDetails" asp-route-id="@Model[i].UserId">Edit</a> |
+                        <a asp-action="EditUserDetails" asp-route-UserId="@Model[i].UserId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a> |
                         <a asp-action="DeleteUser" asp-route-id="@Model[i].AspNetUsersId"
                            onclick="return confirm('Are you sure you want to delete user :  @Model[i].FirstName @Model[i].LastName ? id: @Model[i].UserId')">Delete</a>
