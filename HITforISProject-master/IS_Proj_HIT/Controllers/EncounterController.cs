@@ -24,6 +24,8 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         } 
 
+        // Loads PCA Screen
+        // Used in: Navbar (_Layout) and Home Page, ViewDischarge, ViewEncounter (if patient is still checked in?)
         public ViewResult CheckedIn()
         {
             var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
@@ -86,6 +88,8 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View ProgressNotes
+        // Used in: PatientBanner
+        // UNUSED SINCE PROGRESS NOTES ARE NOT CURRENTLY FUNCTIONAL
         public IActionResult ProgressNotes(long id){
             var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
@@ -123,12 +127,16 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View Edit Progress Note
+        // Used in: ProgressNotes
+        // NO CURRENT FUNCTION
         public IActionResult EditProgressNotes(){
 
             return View();
         }
 
         // View Discharge 
+        // Used in: EncounterMenu
+        // May not currently work?
         public IActionResult ViewDischarge(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
@@ -158,6 +166,8 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        // View specific encounter
+        // Used in: PCAController, CheckedIn, EditEncounter (to return to view), HistoryAndPhysical (currently unused), PatientDetails, View/Create/UpdatePCAAssessment
         public IActionResult ViewEncounter(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
@@ -189,6 +199,8 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        // Displays add encounter page
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddEncounter(string id)
         {
@@ -201,6 +213,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Encounter
+        // Used in: CheckedIn, ViewEncounter
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEncounter(long encounterId)
         {
@@ -235,6 +248,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Encounter page
+        // Used in: CheckedIn, ViewDischarge, ViewEncounter
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult EditEncounter(long encounterId)
         {
@@ -249,6 +263,8 @@ namespace IS_Proj_HIT.Controllers
             return View(encounter);
         }
 
+        // Create new encounter
+        // Used in: AddEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
@@ -277,6 +293,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Save edits to patient record from Edit Patients page
+        // Used in: EditEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
@@ -299,6 +316,8 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
+        // add dropdowns to encounter views
+        // Controller method to display dropdowns
         private void AddDropdowns()
         {
             var queryAdmitTypes = _repository.AdmitTypes
@@ -379,6 +398,8 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
+        // ? Looks like was left in progress
+        // Used in: PatientBanner
         public ViewResult HistoryAndPhysical(long id)
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
@@ -420,12 +441,16 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Add Physician Assessment
+        // NO CURRENT FUNCTION 
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddPhysicianAssessment(string id)
         {
             return RedirectToAction();
         }
 
+        // Add Physician Repotr
+        // NO CURRENT FUNCTION
         public IActionResult AddPhysicianReport()
         {
             throw new NotImplementedException();
