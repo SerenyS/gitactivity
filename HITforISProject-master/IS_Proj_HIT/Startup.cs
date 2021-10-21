@@ -62,6 +62,8 @@ namespace IS_Proj_HIT
             services.AddRazorPages();
             services.AddAuthorization(o => o.AddPolicy(_RequireAuthenticatedUserPolicy, builder => builder.RequireAuthenticatedUser()));
 
+            //services.AddPaging();
+
             //We may need 59-64 --------------------------------------------------------------------------------------
                 // .AddRazorPagesOptions(options =>
                 // {

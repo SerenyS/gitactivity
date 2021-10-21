@@ -12,74 +12,17 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" id="patientsTab">
         <thead>
             <tr>
                 <th scope="col">
-                    @Html.ActionLink("MRN", "Index", new
-                    {
-                        sortOrder = ViewBag.MrnSortParm,
-                        searchLast = ViewBag.searchLast,
-                        searchFirst = ViewBag.searchFirst,
-                        searchSSN = ViewBag.searchSSN,
-                        searchMRN = ViewBag.searchMRN,
-                        searchDOB = ViewBag.searchDOB,
-                        searchDOBBefore = ViewBag.searchDOBBefore
-                    })
-                    @{
-                        if (ViewBag.sortOrder == "mrn_desc")
-                        {
-                            <i class="fa fa-angle-up"></i>
-                        }
-                        else if (ViewBag.sortOrder == "mrn")
-                        {
-                            <i class="fa fa-angle-down"></i>
-                        }
-                    }
+                    MRN
                 </th>
                 <th scope="col">
-                    @Html.ActionLink("Name", "Index", new
-                    {
-                        sortOrder = ViewBag.NameSortParm,
-                        searchLast = ViewBag.searchLast,
-                        searchFirst = ViewBag.searchFirst,
-                        searchSSN = ViewBag.searchSSN,
-                        searchMRN = ViewBag.searchMRN,
-                        searchDOB = ViewBag.searchDOB,
-                        searchDOBBefore = ViewBag.searchDOBBefore
-                    })
-                    @{
-                        if (ViewBag.sortOrder == "name_desc")
-                        {
-                            <i class="fa fa-angle-up"></i>
-                        }
-                        else if (ViewBag.sortOrder == "name")
-                        {
-                            <i class="fa fa-angle-down"></i>
-                        }
-                    }
+                    Name
                 </th>
                 <th scope="col">
-                    @Html.ActionLink("Date of Birth", "Index", new
-                    {
-                        sortOrder = ViewBag.DobSortParm,
-                        searchLast = ViewBag.searchLast,
-                        searchFirst = ViewBag.searchFirst,
-                        searchSSN = ViewBag.searchSSN,
-                        searchMRN = ViewBag.searchMRN,
-                        searchDOB = ViewBag.searchDOB,
-                        searchDOBBefore = ViewBag.searchDOBBefore
-                    })
-                    @{
-                        if (ViewBag.sortOrder == "dob_desc")
-                        {
-                            <i class="fa fa-angle-up"></i>
-                        }
-                        else if (ViewBag.sortOrder == "dob")
-                        {
-                            <i class="fa fa-angle-down"></i>
-                        }
-                    }
+                    Date of Birth
                 </th>
                 <th scope="col">Action</th>
             </tr>
@@ -93,16 +36,79 @@ else
                     <td>@(patient.Dob.HasValue ? patient.Dob.Value.ToShortDateString() : string.Empty)</td>
                     <td id="special">
                         <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
-                    <td></td>
+                    </td>
+                    
                 </tr>
             }
         </tbody>
     </table>
 }
 <hr />
+<!-- PAGINATION ON BOTTOM --><!--
+@if (@ViewBag.TotalResults > 10)
+    {
+    <nav aria-label="Pages">
+        <ul class="pagination">
+            @Html.ActionLink("Previous", "Index", new
+                {
+                    sortOrder = ViewBag.sortOrder,
+                    searchLast = ViewBag.searchLast,
+                    searchFirst = ViewBag.searchFirst,
+                    searchSSN = ViewBag.searchSSN,
+                    searchMRN = ViewBag.searchMRN,
+                    searchDOB = ViewBag.searchDOB,
+                    searchDOBBefore = ViewBag.searchDOBBefore,
+                    pageNum = ViewBag.pageNum - 1
+                })
+            @foreach (var num in @ViewBag.PagesArray)
+            {
+                string numString = num.ToString();
+                @Html.ActionLink(numString, "Index", new
+                    {
+                        sortOrder = ViewBag.sortOrder,
+                        searchLast = ViewBag.searchLast,
+                        searchFirst = ViewBag.searchFirst,
+                        searchSSN = ViewBag.searchSSN,
+                        searchMRN = ViewBag.searchMRN,
+                        searchDOB = ViewBag.searchDOB,
+                        searchDOBBefore = ViewBag.searchDOBBefore,
+                        pageNum = num - 1
+                    })
+                
+            }
+            @Html.ActionLink("Next", "Index", new
+                {
+                    sortOrder = ViewBag.sortOrder,
+                    searchLast = ViewBag.searchLast,
+                    searchFirst = ViewBag.searchFirst,
+                    searchSSN = ViewBag.searchSSN,
+                    searchMRN = ViewBag.searchMRN,
+                    searchDOB = ViewBag.searchDOB,
+                    searchDOBBefore = ViewBag.searchDOBBefore,
+                    pageNum = ViewBag.pageNum + 1
+                })
+        </ul>
+    </nav>
+}
+ <p>Current Page: @ViewBag.currentPage</p>-->
 
 <a asp-controller="Patient" asp-action="PatientSearch" class="btn btn-outline-primary"><i class="fas fa-search"></i> Find Another Patient</a>
 @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("Registrar"))
 {
     <a asp-action="AddPatient" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create New Patient</a>
     }
+
+<hr />
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+@section scripts{
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script>
+    
+    $(document).ready( function () {
+        $('#patientsTab').DataTable();
+    } );
+</script>
+
+}

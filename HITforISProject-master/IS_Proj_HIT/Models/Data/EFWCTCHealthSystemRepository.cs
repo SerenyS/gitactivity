@@ -63,6 +63,9 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<PatientLanguage> PatientLanguages => _context.PatientLanguages;
         public IQueryable<Race> Races => _context.Races;
         public IQueryable<PatientRace> PatientRaces => _context.PatientRaces;
+        public IQueryable<Program> Programs => _context.Programs;
+        public IQueryable<UserFacility> UserFacilities => _context.UserFacilities;
+        public IQueryable<UserProgram> UserPrograms => _context.UserPrograms;
 
 
 
@@ -104,7 +107,6 @@ namespace IS_Proj_HIT.Models.Data
         public void EditEncounter(Encounter encounter)
         {
             _context.Update(encounter);
-
             _context.SaveChanges();
         }
 
@@ -293,6 +295,48 @@ namespace IS_Proj_HIT.Models.Data
         public void DeletePatientRace(PatientRace race)
         {
             _context.Remove(race);
+            _context.SaveChanges();
+        }
+
+        public void AddAddress(Address address)
+        {
+            _context.Add(address);
+            _context.SaveChanges();
+        }
+
+        public void AddUserFacility(UserFacility userFacility)
+        {
+            _context.Add(userFacility);
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserFacility(UserFacility userFacility)
+        {
+            _context.Remove(userFacility);
+            _context.SaveChanges();
+        }
+
+        public void EditUserFacility(UserFacility userFacility)
+        {
+            _context.Update(userFacility);
+            _context.SaveChanges();
+        }
+
+        public void AddUserProgram(UserProgram userProgram)
+        {
+            _context.Add(userProgram);
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserProgram(UserProgram userProgram)
+        {
+            _context.Remove(userProgram);
+            _context.SaveChanges();
+        }
+
+        public void EditUserProgram(UserProgram userProgram)
+        {
+            _context.Update(userProgram);
             _context.SaveChanges();
         }
     }

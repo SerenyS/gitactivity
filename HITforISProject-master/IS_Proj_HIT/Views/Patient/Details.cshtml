@@ -151,7 +151,7 @@
                     @{
                         var counter = 0;
                     }
-                    @foreach (var enc in Model.Encounters.OrderByDescending(e => e.AdmitDateTime))
+                    @foreach (var enc in Model.Encounters/*.Where(e => e.FacilityId == CurrentUserFacilityId)*/.OrderByDescending(e => e.AdmitDateTime))
                     {
                         <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                             <td>

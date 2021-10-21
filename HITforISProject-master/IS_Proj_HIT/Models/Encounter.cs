@@ -56,7 +56,6 @@ namespace IS_Proj_HIT.Models
         public virtual Physician CoSignatureNavigation { get; set; }
         public virtual Department Department { get; set; }
         public virtual Discharge DischargeDispositionNavigation { get; set; }
-        public virtual UserTable EditedByNavigation { get; set; }
         public virtual EncounterPhysician EncounterPhysicians { get; set; }
         public virtual EncounterType EncounterType { get; set; }
         public virtual Facility Facility { get; set; }
