@@ -19,12 +19,17 @@ else
                     MRN
                 </th>
                 <th scope="col">
-                    Name
+                    First Name
+                </th>
+                <th scope="col">
+                    Last Name
                 </th>
                 <th scope="col">
                     Date of Birth
                 </th>
-                <th scope="col">Action</th>
+                <th scope="col">
+                    Action
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +37,8 @@ else
             {
                 <tr>
                     <td>@patient.Mrn</td>
-                    <td>@patient.FirstName @patient.MiddleName @patient.LastName</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
                     <td>@(patient.Dob.HasValue ? patient.Dob.Value.ToShortDateString() : string.Empty)</td>
                     <td id="special">
                         <a asp-action="Details" asp-route-id="@patient.Mrn" class="btn btn-outline-primary">Details</a>
@@ -107,7 +113,10 @@ else
 <script>
     
     $(document).ready( function () {
-        $('#patientsTab').DataTable();
+        $('#patientsTab').DataTable({
+            // sort by Column 3 (Last Name)
+            "order": [[ 2, "asc" ]]
+        });
     } );
 </script>
 

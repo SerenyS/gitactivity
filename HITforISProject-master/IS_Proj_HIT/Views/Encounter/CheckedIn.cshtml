@@ -25,9 +25,12 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    var counter = 0;
+                }
                 @foreach (var encounter in Model)
                 {
-                    <tr>
+                    <tr @(counter++)>
                         <td>@encounter.Mrn</td>
                         <td>
                             @(string.IsNullOrWhiteSpace(encounter.FirstName)
@@ -67,6 +70,16 @@
                         </td>
                     </tr>
                 }
+                @if (counter == 0) {
+                    <tr class="red">
+                        <td>No patients found</td>
+                        <td>@ViewBag.ErrorMessage</td>
+                    </tr>
+                }
+                <!--
+                <td>@ViewBag.UserFacil</td>
+                <td>@ViewBag.SecCheck</td>
+                -->
             </tbody>
         </table>
     </div>
