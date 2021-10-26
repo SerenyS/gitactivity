@@ -7,22 +7,22 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Migrations\20191001180652_redirect-authentication.cs"/>
-    <Compile Remove="Migrations\20191001180652_redirect-authentication.Designer.cs"/>
+    <Compile Remove="Migrations\20191001180652_redirect-authentication.cs" />
+    <Compile Remove="Migrations\20191001180652_redirect-authentication.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Views\PCA\Index.cshtml"/>
+    <Content Remove="Views\PCA\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Content\Chosen\chosen-sprite.png"/>
-    <None Remove="Content\Chosen\chosen.min.css"/>
-    <None Remove="Views\PCA\NewFile.txt"/>
+    <None Remove="Content\Chosen\chosen-sprite.png" />
+    <None Remove="Content\Chosen\chosen.min.css" />
+    <None Remove="Views\PCA\NewFile.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Chosen\chosen-sprite.png"/>
+    <Content Include="Content\Chosen\chosen-sprite.png" />
     <Content Include="Content\Chosen\chosen.min.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -52,9 +52,9 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\"/>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\css\chosen.min.css"/>
+    <None Include="wwwroot\css\chosen.min.css" />
   </ItemGroup>
 </Project>
