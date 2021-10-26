@@ -105,6 +105,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         // Displays EditRegister details page
+        // Used when clicked on your e-mail in the nav-bar
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
         [Authorize(Roles = "Administrator")]
@@ -310,7 +311,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // User details
+        // Displays user details
+        // Used in: UserList?
         public IActionResult Details(int id)
         {
 
@@ -469,8 +471,9 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        // Edit user details??
-        // Looks to be fairly similar to EditRegisterDetails
+        // Edit user in administration
+        // Only accessible from clicking edit, does not currently work if Details -> Edit
+        // Adds user facility?
          #endregion
         public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
@@ -528,32 +531,6 @@ namespace IS_Proj_HIT.Controllers
 
             return View(viewModel);
         }
-        /* public async Task<IActionResult> EditUserDetails(string id)
-         {
-             //find current user
-             //var id = _userManager.GetUserId(HttpContext.User);
-             //select the information I want to display
-             var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
-                          new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
-             //Create or get program list from DB
-             ViewBag.ProgramList = new List<SelectListItem>
-             {
-                 new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                 new SelectListItem {Text = "Nursing", Value = "Nursing"}
-             };
-             //get list of possible instructors from db
-             var instructorEmails = new List<string>();
-             instructorEmails.AddRange(
-                 (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                 .Select(u => u.Email));
-             instructorEmails.AddRange(
-                 (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                 .Select(u => u.Email));
-             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                 .Select(u => new SelectListItem
-                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
-             return View(dbUser);
-         }*/
 
     }
 }

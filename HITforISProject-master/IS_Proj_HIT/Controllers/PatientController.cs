@@ -148,15 +148,6 @@ namespace IS_Proj_HIT.Controllers
 
             AddDropdowns();
 
-            //TODO: ADD EMPLOYMENT ENTRY TO THE CREATE/EDIT PATIENT FLOW
-            //var queryEmployment = repository.Employments.Select(r => new { r.EmploymentId, r.Occupation });
-            //ViewBag.Employment = new SelectList(queryEmployment.AsEnumerable(), "MaritalStatusId", "Name", 0);
-            //ViewBag.Employment = repository.Employments.Select(e =>
-            //                    new SelectListItem
-            //                    {
-            //                        Value = e.EmploymentId.ToString(),
-            //                        Text = (e.EmployerName + " - " + e.Occupation).ToString()
-            //                    }).ToList();
             return View();
         }
 
@@ -348,10 +339,19 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("Details", new {id = model.Mrn});
         }
 
-        // Pick record to send to Details page
+        // Pick record to send to Details page, might still need to filter encounters by facility
         // Used in: EditPatient, PatientIndex, PatientBanner
         public IActionResult Details(string id)
         {
+            var currentUser = repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var facilities = repository.Facilities;
+
+            var secCheck = 0;
+
+            var isAdmin = User.IsInRole("Administrator");
+            ViewBag.IsAdmin = isAdmin;
+
             var model = repository.Patients
                 .Include(p => p.PatientAlerts)
                 .Include(p => p.Religion)
@@ -361,6 +361,31 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Ethnicity)
                 .Include(p => p.Encounters).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
+
+            if (!isAdmin) {
+            // non admins will get an error if they don't have a facility!
+
+            var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+            
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
+            }
+
+            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+            
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+            }
+
+            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
+            }
+
+            ViewBag.CurrentUserFacilityId = currentUserFacility.FacilityId;
+            ViewBag.SecondCheck = secCheck;
+            }
 
             var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
                 .Join(repository.Languages, pl => pl.LanguageId, lang => lang.LanguageId, (pl, lang)
@@ -402,7 +427,7 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // List Alerts for the currently selected MRN
+        // List Alerts for the currently selected MRN, includes sort orders
         // Used in: EditPatientAlert, ListAlerts, PatientBanner
         public IActionResult ListAlerts(string id, string sortOrder)
         {
@@ -815,29 +840,6 @@ namespace IS_Proj_HIT.Controllers
                     Text = a.Name
                 }).ToList();
 
-            //ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
-            //       new SelectListItem
-            //       {
-            //           Value = r.FallRiskId.ToString(),
-            //           Text = r.Name
-            //       }).ToList();
-
-            //ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
-            //            new SelectListItem
-            //            {
-            //                Value = r.RestrictionId.ToString(),
-            //                Text = r.Name
-            //            }).ToList();
-
-            //ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
-            //.Select(r =>
-            //   new SelectListItem
-            //   {
-            //       Value = r.AllergenId.ToString(),
-            //       Text = r.AllergenName
-            //   }).ToList();
-
-
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
         }
 
@@ -950,16 +952,6 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index");
             }
 
-
-           
-
-            //model.LastModified = DateTime.Now;
-            //ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
-            //ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
-            //ViewBag.LastModified = DateTime.Now;
-
-            //repository.EditAlert(model);
-            //return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
         // Update alert. Redirect to list alerts.
