@@ -95,7 +95,7 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.SecCheck = secCheck;
 
                 model = _repository.Encounters
-                .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId && e.FacilityId == secCheck)
+                .Where(e => e.DischargeDateTime == null && (e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck))
                 .OrderByDescending(e => e.AdmitDateTime)
                 .Join(_repository.Patients,
                     e => e.Mrn,
