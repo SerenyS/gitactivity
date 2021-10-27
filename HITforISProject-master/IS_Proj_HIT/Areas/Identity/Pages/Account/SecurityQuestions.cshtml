@@ -10,17 +10,16 @@
 <html>
 <head>
     <title>Security Questions</title>
-    
 </head>
 <body>
 <div class="row">
     <div class="col-md-5">
-        <form>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div class="form-group">
-                <label for="question1">Secuity Qusetion 1</label>
-                <select class="custom-select mr-sm-2" id="question1">
-                    <option selected> please select a secutiy question</option>
-                    <option value="1">What us your favorite movie?</option>
+                <label for="question1" asp-for="Input.SecurityQuestion1Answer">Security Question 1</label>
+                <select class="custom-select mr-sm-2" id="question1" asp-for="Input.SecurityQuestion1">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
                     <option value="2">What street did you grow up on?</option>
                     <option value="3">What is your dream place to go on vacation?</option>
                     <option value="4">In what city were you born?</option>
@@ -34,14 +33,14 @@
 
             </div>
             <div class="form-group">
-                <label for="question1Answer">Secuity Qusetion 1 Answer</label>
-                <input type="text" class="form-control" placeholder="answer" id="question1Answer"/>
+                <label for="question1Answer" asp-for="Input.SecurityQuestion1Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question1Answer" asp-for="Input.SecurityQuestion1Answer"/>
             </div>
             <div class="form-group">
-                <label for="question1">Secuity Qusetion 2</label>
-                <select class="custom-select mr-sm-2" id="question2">
-                    <option selected> please select a secutiy question</option>
-                    <option value="1">What us your favorite movie?</option>
+                <label for="question2">Security Question 2</label>
+                <select class="custom-select mr-sm-2" id="question2" asp-for="Input.SecurityQuestion2">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
                     <option value="2">What street did you grow up on?</option>
                     <option value="3">What is your dream place to go on vacation?</option>
                     <option value="4">In what city were you born?</option>
@@ -54,14 +53,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="question1Answer">Secuity Qusetion 2 Answer</label>
-                <input type="text" class="form-control" placeholder="answer" id="question2Answer"/>
+                <label for="question2Answer" asp-for="Input.SecurityQuestion2Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question2Answer" asp-for="Input.SecurityQuestion2Answer"/>
             </div>
             <div class="form-group">
-                <label for="question1">Secuity Qusetion 3</label>
-                <select class="custom-select mr-sm-2" id="question3">
-                    <option selected> please select a secutiy question</option>
-                    <option value="1">What us your favorite movie?</option>
+                <label for="question3">Security Question 3</label>
+                <select class="custom-select mr-sm-2" id="question3" asp-for="Input.SecurityQuestion3">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
                     <option value="2">What street did you grow up on?</option>
                     <option value="3">What is your dream place to go on vacation?</option>
                     <option value="4">In what city were you born?</option>
@@ -74,8 +73,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="question1Answer">Secuity Qusetion 3 Answer</label>
-                <input type="text" class="form-control" placeholder="answer" id="question3Answer"/>
+                <label for="question3Answer" asp-for="Input.SecurityQuestion3Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question3Answer" asp-for="Input.SecurityQuestion3Answer"/>
             </div>
             <div class="form-group">
                 <button type="submit">Confirm</button>
