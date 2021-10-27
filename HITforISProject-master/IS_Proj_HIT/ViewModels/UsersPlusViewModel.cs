@@ -27,5 +27,6 @@ namespace IS_Proj_HIT.ViewModels
         public bool IsSelected { get; set; }
 
         public string RoleName {get; set;}
+        public string AspNetUsersId { get; set; }
     }
 }

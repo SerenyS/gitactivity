@@ -1,0 +1,87 @@
+﻿@page
+@model IS_Proj_HIT.Areas.Identity.Pages.Account.SecurityQuestions
+
+@{
+    ViewData["Title"] = "Security Questions";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Security Questions</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-5">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="form-group">
+                <label for="question1" asp-for="Input.SecurityQuestion1Answer">Security Question 1</label>
+                <select class="custom-select mr-sm-2" id="question1" asp-for="Input.SecurityQuestion1">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
+                    <option value="2">What street did you grow up on?</option>
+                    <option value="3">What is your dream place to go on vacation?</option>
+                    <option value="4">In what city were you born?</option>
+                    <option value="5">What is the name of your favorite pet?</option>
+                    <option value="6">What is your mother's maiden name?</option>
+                    <option value="7">What high school did you attend?</option>
+                    <option value="8">What is the name of your first school?</option>
+                    <option value="9">What was the make of your first car?</option>
+                    <option value="10">What was your favorite food as a child?</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label for="question1Answer" asp-for="Input.SecurityQuestion1Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question1Answer" asp-for="Input.SecurityQuestion1Answer"/>
+            </div>
+            <div class="form-group">
+                <label for="question2">Security Question 2</label>
+                <select class="custom-select mr-sm-2" id="question2" asp-for="Input.SecurityQuestion2">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
+                    <option value="2">What street did you grow up on?</option>
+                    <option value="3">What is your dream place to go on vacation?</option>
+                    <option value="4">In what city were you born?</option>
+                    <option value="5">What is the name of your favorite pet?</option>
+                    <option value="6">What is your mother's maiden name?</option>
+                    <option value="7">What high school did you attend?</option>
+                    <option value="8">What is the name of your first school?</option>
+                    <option value="9">What was the make of your first car?</option>
+                    <option value="10">What was your favorite food as a child?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="question2Answer" asp-for="Input.SecurityQuestion2Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question2Answer" asp-for="Input.SecurityQuestion2Answer"/>
+            </div>
+            <div class="form-group">
+                <label for="question3">Security Question 3</label>
+                <select class="custom-select mr-sm-2" id="question3" asp-for="Input.SecurityQuestion3">
+                    <option selected>Please select a security question.</option>
+                    <option value="1">What is your favorite movie?</option>
+                    <option value="2">What street did you grow up on?</option>
+                    <option value="3">What is your dream place to go on vacation?</option>
+                    <option value="4">In what city were you born?</option>
+                    <option value="5">What is the name of your favorite pet?</option>
+                    <option value="6">What is your mother's maiden name?</option>
+                    <option value="7">What high school did you attend?</option>
+                    <option value="8">What is the name of your first school?</option>
+                    <option value="9">What was the make of your first car?</option>
+                    <option value="10">What was your favorite food as a child?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="question3Answer" asp-for="Input.SecurityQuestion3Answer"></label>
+                <input type="text" class="form-control" placeholder="answer" id="question3Answer" asp-for="Input.SecurityQuestion3Answer"/>
+            </div>
+            <div class="form-group">
+                <button type="submit">Confirm</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+        </div>
+</div>
+</body>
+</html>

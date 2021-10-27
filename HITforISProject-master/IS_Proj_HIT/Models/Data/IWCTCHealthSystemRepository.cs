@@ -58,9 +58,21 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<PatientLanguage> PatientLanguages { get; }
         IQueryable<Race> Races { get; }
         IQueryable<PatientRace> PatientRaces { get; }
+        IQueryable<Program> Programs { get; }
+        IQueryable<UserFacility> UserFacilities { get; }
+        IQueryable<UserProgram> UserPrograms { get; }
+        IQueryable<SecurityQuestion> SecurityQuestions { get; }
+        IQueryable<UserSecurityQuestion> UserSecurityQuestions { get; }
 
         #endregion
 
+        void AddUserFacility(UserFacility userFacility);
+        void DeleteUserFacility(UserFacility userFacility);
+        void EditUserFacility(UserFacility userFacility);
+
+        void AddUserProgram(UserProgram userProgram);
+        void DeleteUserProgram(UserProgram userProgram);
+        void EditUserProgram(UserProgram userProgram);
 
         void AddPatient(Patient patient);
         void DeletePatient(Patient patient);
@@ -100,5 +112,13 @@ namespace IS_Proj_HIT.Models.Data
         void AddPatientLanguage(PatientLanguage language);
         void AddPatientRace(PatientRace race);
         void DeletePatientRace(PatientRace race);
+
+        void AddAddress(Address address);
+
+        void AddAnswer(UserSecurityQuestion answer);
+        void DeleteAnswer(UserSecurityQuestion answer);
+
+        void AddQuestion(SecurityQuestion question);
+        void DeleteQuestion(SecurityQuestion question);
     }
 }

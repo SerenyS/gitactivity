@@ -5,7 +5,7 @@
     ViewData["Title"] = "Patient Alert Detail";
 }
 
-@Html.Hidden("returnUrl");
+@Html.Hidden("returnUrl")
 <partial name="PatientBannerPartial" model="ViewBag.Patient" />
 <div class="card">
     <div class="card-header bg-primary text-white">
@@ -29,12 +29,8 @@
                     @*<div><span class="heading">Alert Type: </span><select class="takeawayborder bg-light" readonly id="alertType" asp-for=@Model.AlertTypeId asp-items="ViewBag.AlertType"></select></div>*@
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="heading">Patient Alert ID</label><br />
-                    <input asp-for="@Model.PatientAlertId" class="takeawayborder bg-light" id="alertTypeId" readonly />
-                </div>
-                <div class="col-sm-4 form-group">
                     <label class="heading">Active?</label><br />
-                    <div>@ViewBag.Active</div>
+                    <div>@(ViewBag.EndDate == null ? "Yes" : "No")</div>
                 </div>
             </div>
             <div class="row">
@@ -79,8 +75,8 @@
     </div>
 </div>
 
-<a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Alerts</a>
-<a asp-controller="Patient" asp-action="BackToCaller" asp-route-id="@ViewBag.myMrn" asp-route-returnUrl="@ViewBag.ReturnUrl" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Return</a>
+<a asp-controller="Patient" asp-action="ListAlerts" asp-route-id="@ViewBag.myMrn" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Return to Alerts</a>
+<a asp-controller="Patient" asp-action="BackToDetails" asp-route-id="@ViewBag.myMrn"  class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Return to Patient</a>
 
 
 

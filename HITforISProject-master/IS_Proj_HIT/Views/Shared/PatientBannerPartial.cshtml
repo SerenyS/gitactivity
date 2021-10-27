@@ -11,7 +11,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-5 my-auto">
-                    <h3 class="m-0">
+                    <h3 class="m-0"><!--
+                        <a class="btn btn-primary" asp-action="Index">
+                            <i class="fa fa-arrow-left "></i>
+                        </a>-->
                         Patient:
                         <a asp-controller="Patient"
                            asp-action="Details"
@@ -60,132 +63,135 @@
 
 </div>
 
-<div class="card col-2 mx-0 px-0 float-left">
-    <div class="card-header bg-primary text-white">
-        <h4>
-            Encounter Menu
-        </h4>
-    </div>
-
-
-    <div id="accordion" class="accordion accordion-flush mx-0 px-0">
-        <div class="card">
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#advancedDirectivesCollapse" aria-expanded="false" aria-controls="advancedDirectivesCollapse">
-                        Advanced Directives
-                    </button>
-                </h5>
-            </div>
-
-            <div id="advancedDirectivesCollapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-
-                    <div class="btn-group-vertical btn-block">
-                        @* This needs more *@
-                        <a class="btn btn-primary" asp-controller="" asp-action="Index"> Advanced Directives Buttons</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#physicianDocumentsCollapse" aria-expanded="false" aria-controls="physicianDocumentsCollapse">
-                        Physician Documents
-                    </button>
-                </h5>
-            </div>
-            <div id="physicianDocumentsCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-                    <div class="btn-group-vertical btn-block">
-                        @* use the a tag to create the buttons to link *@
-                        <a class="btn btn-primary" asp-controller="Encounter" asp-action="HistoryAndPhysical" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()"> History & Physical</a>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Discharge Documents</a>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Consultations</a>
-                        <a class="btn btn-primary" asp-controller="Encounter" asp-action="ProgressNotes" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()"> Progress Notes</a>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Orders</a>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#proceduresCollapse" aria-expanded="false" aria-controls="proceduresCollapse">
-                        Procedures
-                    </button>
-                </h5>
-            </div>
-            <div id="proceduresCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-
-                    <div class="btn-group-vertical btn-block">
-                        @* This needs more *@
-                        <a class="btn btn-primary" asp-controller="" asp-action="Index"> Procedures Buttons</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#labDiagnosticsCollapse" aria-expanded="false" aria-controls="labDiagnosticsCollapse">
-                        Lab & Diagnostics
-                    </button>
-                </h5>
-            </div>
-            <div id="labDiagnosticsCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-
-                    <div class="btn-group-vertical btn-block">
-                        @* This needs more *@
-                        <a class="btn btn-primary" asp-controller="" asp-action="Index"> Lab & Diagnostics Buttons</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#nursingCollapse" aria-expanded="false" aria-controls="nursingCollapse">
-                        Nursing
-                    </button>
-                </h5>
-            </div>
-            <div id="nursingCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-
-                    <div class="btn-group-vertical btn-block">
-                        @* This needs more *@
-                        <a class="btn btn-primary" asp-controller="" asp-action="Index"> Patient Care Assessments</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#emarCollapse" aria-expanded="false" aria-controls="emarCollapse">
-                        eMAR
-                    </button>
-                </h5>
-            </div>
-            <div id="emarCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body m-0 p-0">
-
-                    <div class="btn-group-vertical btn-block">
-                        @* This needs more *@
-                        <a class="btn btn-primary" asp-controller="" asp-action="Index"> eMAR Buttons</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</div>
+@* @if (!User.IsInRole("Registrar")) *@
+@* { *@
+@*     <div class="card col-2 mx-0 px-0 float-left"> *@
+@*         <div class="card-header bg-primary text-white"> *@
+@*             <h4> *@
+@*                 Encounter Menu *@
+@*             </h4> *@
+@*         </div> *@
+@* *@
+@* *@
+@*         <div id="accordion" class="accordion accordion-flush mx-0 px-0"> *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingOne"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link" data-toggle="collapse" data-target="#advancedDirectivesCollapse" aria-expanded="false" aria-controls="advancedDirectivesCollapse"> *@
+@*                             Advanced Directives *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@* *@
+@*                 <div id="advancedDirectivesCollapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@* *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ This needs more #1# *@
+@*                             <a class="btn btn-primary" asp-controller="" asp-action="Index"> Advanced Directives Buttons</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingTwo"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#physicianDocumentsCollapse" aria-expanded="false" aria-controls="physicianDocumentsCollapse"> *@
+@*                             Physician Documents *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@*                 <div id="physicianDocumentsCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ use the a tag to create the buttons to link #1# *@
+@*                             <a class="btn btn-primary" asp-controller="Encounter" asp-action="HistoryAndPhysical" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()"> History & Physical</a> *@
+@*                             <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Discharge Documents</a> *@
+@*                             <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Consultations</a> *@
+@*                             <a class="btn btn-primary" asp-controller="Encounter" asp-action="ProgressNotes" asp-route-id="@Model.Encounters.Where(e => e.Mrn == Model.Mrn).Select(e => e.EncounterId).FirstOrDefault()"> Progress Notes</a> *@
+@*                             <a class="btn btn-primary" asp-controller="Home" asp-action="Index"> Orders</a> *@
+@* *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingThree"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#proceduresCollapse" aria-expanded="false" aria-controls="proceduresCollapse"> *@
+@*                             Procedures *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@*                 <div id="proceduresCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@* *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ This needs more #1# *@
+@*                             <a class="btn btn-primary" asp-controller="" asp-action="Index"> Procedures Buttons</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingThree"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#labDiagnosticsCollapse" aria-expanded="false" aria-controls="labDiagnosticsCollapse"> *@
+@*                             Lab & Diagnostics *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@*                 <div id="labDiagnosticsCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@* *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ This needs more #1# *@
+@*                             <a class="btn btn-primary" asp-controller="" asp-action="Index"> Lab & Diagnostics Buttons</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingThree"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#nursingCollapse" aria-expanded="false" aria-controls="nursingCollapse"> *@
+@*                             Nursing *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@*                 <div id="nursingCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@* *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ This needs more #1# *@
+@*                             <a class="btn btn-primary" asp-controller="" asp-action="Index"> Patient Care Assessments</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@*             <div class="card"> *@
+@*                 <div class="card-header" id="headingThree"> *@
+@*                     <h5 class="mb-0"> *@
+@*                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#emarCollapse" aria-expanded="false" aria-controls="emarCollapse"> *@
+@*                             eMAR *@
+@*                         </button> *@
+@*                     </h5> *@
+@*                 </div> *@
+@*                 <div id="emarCollapse" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> *@
+@*                     <div class="card-body m-0 p-0"> *@
+@* *@
+@*                         <div class="btn-group-vertical btn-block"> *@
+@*                             $1$ This needs more #1# *@
+@*                             <a class="btn btn-primary" asp-controller="" asp-action="Index"> eMAR Buttons</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@* *@
+@*         </div> *@
+@*     </div> *@
+@* } *@

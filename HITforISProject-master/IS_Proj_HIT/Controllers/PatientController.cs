@@ -11,19 +11,23 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Primitives;
 
+
 namespace IS_Proj_HIT.Controllers
 {
     [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar, HIT Clerk, Nursing Student, Read Only")]
     public class PatientController : Controller
     {
         private IWCTCHealthSystemRepository repository;
-        public int PageSize = 8;
+        public int PageSize = 10;
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
-        // Displays list of patients
+        // Displays list of patients found via patient search
+        // Used in: PatientSearch
         public ActionResult Index(string searchLast, string searchFirst, string searchSSN,
-            string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder)
+            string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder, int pageNum = 0)
         {
+            ViewData.ModelState.Clear();
+
             // Put in a wildcard if user didn't search on these fields
             searchLast ??= " ";
             searchFirst ??= " ";
@@ -52,6 +56,8 @@ namespace IS_Proj_HIT.Controllers
                             && p.Dob >= searchDOB
                             && p.Dob <= searchDOBBefore);
 
+            var pArray = patients.ToArray();
+
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.MrnSortParm = sortOrder == "mrn" ? "mrn_desc" : "mrn";
             ViewBag.DobSortParm = sortOrder == "dob" ? "dob_desc" : "dob";
@@ -62,40 +68,71 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.searchSSN = searchSSN;
             ViewBag.searchDOB = searchDOB;
             ViewBag.searchDOBBefore = searchDOBBefore;
+                        
+            int totalResults = pArray.Count();
+            ViewBag.TotalResults = totalResults;
+            int numberOfPages = (int)Math.Round((double)(totalResults / PageSize), 0, MidpointRounding.AwayFromZero);
+            ViewBag.NumberOfPages = numberOfPages;
+            var pagesArr = new List<int>{};
+
+            if (pageNum < 0) {
+                pageNum = 0;
+            }
+            if (pageNum > numberOfPages) {
+                pageNum = numberOfPages;
+            }
+
+            if (totalResults % 10 == 0) {
+                for (int i = 1; i < numberOfPages + 1; i++) {
+                    pagesArr.Add(i);
+                }
+            } else {
+                for (int i = 1; i <= numberOfPages + 1; i++) {
+                    pagesArr.Add(i);
+                }
+            }
+            
+            ViewBag.PagesArray = pagesArr;
+            ViewBag.pageNum = pageNum;
+            ViewBag.currentPage = pageNum + 1;
 
             switch (sortOrder)
             {
                 case "mrn":
-                    patients = patients.OrderBy(p => p.Mrn);
+                    patients = patients.OrderBy(p => p.Mrn)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "mrn_desc":
-                    patients = patients.OrderByDescending(p => p.Mrn);
+                    patients = patients.OrderByDescending(p => p.Mrn)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "dob":
-                    patients = patients.OrderBy(p => p.Dob);
+                    patients = patients.OrderBy(p => p.Dob)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "dob_desc":
-                    patients = patients.OrderByDescending(p => p.Dob);
+                    patients = patients.OrderByDescending(p => p.Dob)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 case "name_desc":
-                    patients = patients.OrderByDescending(p => p.LastName);
+                    patients = patients.OrderByDescending(p => p.LastName)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     break;
                 default:
-                    patients = patients.OrderBy(p => p.LastName);
+                    patients = patients.OrderBy(p => p.LastName)/*.Skip(pageNum * PageSize).Take(PageSize)*/;
                     ViewBag.sortOrder = "name";
                     break;
             }
 
+            //var model = await PagingList.CreateAsync(patients, PageSize, page);
             return View(new ListPatientsViewModel
             {
                 Patients = patients
             });
+            //return View(model);
         }
-
         
+        // Return PatientSearch view
+        // Used in: Navbar (_Layout), Home Page, PatientSearchIndex, PatientIndex, AddPatient
         public IActionResult PatientSearch() => View();
 
         // Displays the Add Patient entry page
+        // Used in: PatientSearchIndex, PatientContactDetails (Unused)
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty,Registrar")]
         public IActionResult AddPatient()
         {
@@ -111,19 +148,11 @@ namespace IS_Proj_HIT.Controllers
 
             AddDropdowns();
 
-            //TODO: ADD EMPLOYMENT ENTRY TO THE CREATE/EDIT PATIENT FLOW
-            //var queryEmployment = repository.Employments.Select(r => new { r.EmploymentId, r.Occupation });
-            //ViewBag.Employment = new SelectList(queryEmployment.AsEnumerable(), "MaritalStatusId", "Name", 0);
-            //ViewBag.Employment = repository.Employments.Select(e =>
-            //                    new SelectListItem
-            //                    {
-            //                        Value = e.EmploymentId.ToString(),
-            //                        Text = (e.EmployerName + " - " + e.Occupation).ToString()
-            //                    }).ToList();
             return View();
         }
 
         // Click Create button on Add Patient page adds new patient from Add Patient page
+        // Used in: AddPatient, AddPatientButton
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
@@ -191,6 +220,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Deletes Patient
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator")]
 
         public IActionResult DeletePatient(string id)
@@ -221,6 +251,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Patient page
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult Edit(string id)
         {
@@ -234,12 +265,13 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Save edits to patient record from Edit Patients page
+        // Used in: EditPatient
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult Edit(Patient model)
         {
-            if (!ModelState.IsValid) return View(model.Mrn);
+            //if (!ModelState.IsValid) return View(model.Mrn);
 
             model.LastModified = DateTime.Now;
 
@@ -307,9 +339,19 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("Details", new {id = model.Mrn});
         }
 
-        // Pick record to send to Details page
+        // Pick record to send to Details page, might still need to filter encounters by facility
+        // Used in: EditPatient, PatientIndex, PatientBanner
         public IActionResult Details(string id)
         {
+            var currentUser = repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var facilities = repository.Facilities;
+
+            var secCheck = 0;
+
+            var isAdmin = User.IsInRole("Administrator");
+            ViewBag.IsAdmin = isAdmin;
+
             var model = repository.Patients
                 .Include(p => p.PatientAlerts)
                 .Include(p => p.Religion)
@@ -319,6 +361,31 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Ethnicity)
                 .Include(p => p.Encounters).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
+
+            if (!isAdmin) {
+            // non admins will get an error if they don't have a facility!
+
+            var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+            
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
+            }
+
+            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+            
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+            }
+
+            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
+            }
+
+            ViewBag.CurrentUserFacilityId = currentUserFacility.FacilityId;
+            ViewBag.SecondCheck = secCheck;
+            }
 
             var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
                 .Join(repository.Languages, pl => pl.LanguageId, lang => lang.LanguageId, (pl, lang)
@@ -360,7 +427,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        //List Alerts for the currently selected MRN
+        // List Alerts for the currently selected MRN, includes sort orders
+        // Used in: EditPatientAlert, ListAlerts, PatientBanner
         public IActionResult ListAlerts(string id, string sortOrder)
         {
             // Remember the user's original request
@@ -500,11 +568,15 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Redirect back to return url
+        // Used in: CreateAlert, ListAlerts
+        // Is it worth having this method?
         public IActionResult BackToCaller(string id, string returnUrl)
         {
             if (returnUrl.Length > 0)
             {
                 return Redirect(returnUrl);
+                //return RedirectToAction("Details", "Patient", id);
             }
             else
             {
@@ -512,6 +584,9 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Redirect back to patient details
+        // Used in: EditPatientAlert
+        // Is it worth having this method?
         public RedirectToRouteResult BackToDetails(string id) =>
             RedirectToRoute(new
             {
@@ -520,6 +595,9 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
+        // Redirect back to list alerts
+        // Unused
+        // Is it worth having this method?
         public RedirectToRouteResult BackToListAlerts(string id) =>
             RedirectToRoute(new
             {
@@ -528,7 +606,8 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
-        // Load page for adding patient alerts
+        // Load page for adding patient alerts.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult CreateAlert(string id, string returnUrl)
         {
@@ -594,6 +673,8 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
+        // Creates alert.
+        // Used in: CreateAlert
         [HttpPost]
         [ActionName("CreateAlert")]
         [ValidateAntiForgeryToken]
@@ -645,7 +726,8 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Displays the Edit Patient page
+        // Displays the Edit Patient page.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult EditPatientAlert(int id, string mrn, string returnUrl)
         {
@@ -758,34 +840,11 @@ namespace IS_Proj_HIT.Controllers
                     Text = a.Name
                 }).ToList();
 
-            //ViewBag.PatientFallRisk = repository.FallRisks.Include(r => r.PatientFallRisks).Select(r =>
-            //       new SelectListItem
-            //       {
-            //           Value = r.FallRiskId.ToString(),
-            //           Text = r.Name
-            //       }).ToList();
-
-            //ViewBag.Restriction = repository.Restrictions.Include(r => r.PatientRestrictions).Select(r =>
-            //            new SelectListItem
-            //            {
-            //                Value = r.RestrictionId.ToString(),
-            //                Text = r.Name
-            //            }).ToList();
-
-            //ViewBag.Allergens = repository.Allergens.OrderBy(r => r.AllergenName).Include(r => r.PatientAllergy)
-            //.Select(r =>
-            //   new SelectListItem
-            //   {
-            //       Value = r.AllergenId.ToString(),
-            //       Text = r.AllergenName
-            //   }).ToList();
-
-
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
         }
 
-  
-        
+        // View update alert page.
+        // Used in: EditPatientAlert
         public IActionResult UpdateAlert(int id, string mrn)
         {
          
@@ -893,18 +952,10 @@ namespace IS_Proj_HIT.Controllers
                 return RedirectToAction("Index");
             }
 
-
-           
-
-            //model.LastModified = DateTime.Now;
-            //ViewBag.AlertType = repository.PatientAlerts.Include(p => p.AlertType);
-            //ViewBag.FallRiskID = repository.PatientAlerts.Include(p => p.PatientFallRisks);
-            //ViewBag.LastModified = DateTime.Now;
-
-            //repository.EditAlert(model);
-            //return RedirectToAction("ListAlerts", new {id = model.Mrn});
         }
 
+        // Update alert. Redirect to list alerts.
+        // Used in: UpdateAlert
         [HttpPost]
         [ActionName("UpdateAlert")]
         [ValidateAntiForgeryToken]
@@ -923,17 +974,27 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = model.Mrn });
         }
 
-        //Deletes Alert
+        // Deletes Alert. Alerts can only be deleted if PCA records don't exist for it.
+        // Used in: ListAlerts
         [Authorize(Roles = "Administrator")]
-        public IActionResult DeleteAlert(long patientalertId)
+        public IActionResult DeleteAlert(long id, string mrn)
         {
-            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == patientalertId);
+            bool usingExists = repository.PatientFallRisks.Any(p => p.PatientAlertId == id);
+            if (usingExists)
+            {
+                //Console.WriteLine("Fall risk records exist using this record.");
+                //ViewData["ErrorMessage"] = "Fall risk records exist using this record. Delete not available. This page will now refresh.";
+                return RedirectToAction("ListAlerts", new {id = mrn});
+            }
+
+            var alert = repository.PatientAlerts.FirstOrDefault(b => b.PatientAlertId == id);
             repository.DeleteAlert(alert);
             //May not be right redirect
-            return RedirectToAction("ListAlerts");
+            return RedirectToAction("ListAlerts", new {id = mrn});
         }
 
-
+        // add dropdowns to patient views
+        // Controller method to display dropdowns
         public void AddDropdowns(Patient model = null)
         {
             var queryReligion = repository.Religions

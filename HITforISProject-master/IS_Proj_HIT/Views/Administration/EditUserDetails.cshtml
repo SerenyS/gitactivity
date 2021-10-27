@@ -1,26 +1,21 @@
-@model IS_Proj_HIT.Models.UserTable
+@model IS_Proj_HIT.ViewModels.EditUserViewModel
 @{
     ViewData["Title"] = "Edit User";
 }
 <h1>
-<a asp-action="Details" asp-controller="Administration" asp-route-id="@Model.UserId" class="btn btn-primary">
+<a asp-action="ListUsers" asp-controller="Administration" class="btn btn-primary">
         <i class="fa fa-arrow-left "></i>
     </a>
 Edit User
 </h1>
 
-<div class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    Hello @User.Identity.Name, please update the information for @Model.FirstName @Model.LastName as needed.
-</div>
-
-<form method="post" asp-action="EditRegisterDetails">
+<form method="post" asp-action="EditUserDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
     <div class="row">
         <div class="col-sm-4">
             <label for="FirstName">First Name: </label><br />
             <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" />
-
         </div>
         <div class="col-sm-4">
             <label for="LastName">Last Name: </label><br />
@@ -31,12 +26,12 @@ Edit User
     <br />
     <div class="row">
         <div class="col-sm-4">
-            <label for="Instructor">Instructor: </label><br />
-            <select class="form-control dropdowns" id="Instructor" asp-for="@Model.InstructorId" asp-items="ViewBag.InstructorList"></select>
+            <label for="Programs">Program Enrolled In:</label><br />
+            <select class="form-control dropdowns" id="Programs" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList"></select>
         </div>
         <div class="col-sm-4">
-            <label for="Programs">Program Enrolled In:</label><br />
-            <select class="form-control dropdowns" id="Programs" asp-for="@Model.ProgramEnrolledIn" asp-items="ViewBag.ProgramList"></select>
+            <label for="Facilities">Facilities: </label><br />
+            <select class="form-control dropdowns" id="Instructor" asp-for="@Model.FacilityId" asp-items="ViewBag.FacilityList"></select>
         </div>
     </div>
 

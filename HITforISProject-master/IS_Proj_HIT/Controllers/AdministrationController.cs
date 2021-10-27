@@ -1,7 +1,6 @@
 ﻿using IS_Proj_HIT.Data;
 using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace IS_Proj_HIT.Controllers
 {
 
     [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
-    public abstract class AdministrationController : Controller
+    public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -39,9 +38,12 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         }
 
+        // Return to Admin Index
         public IActionResult Index() => View();
 
-        #region CA lookup table management
+        // Administrator data entry for PCA
+        // Used in: Administration Tools - PCA indexes
+        #region PCA lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult DataEntry()
         {
@@ -63,6 +65,8 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
+        // Administrator data entry for Encounter
+        // Used in: Administration Tools - Encounter indexes
         #region Encounter lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult EncounterDataEntry()
@@ -75,12 +79,16 @@ namespace IS_Proj_HIT.Controllers
                 typeof(EncounterType).Name,
                 typeof(Facility).Name,
                 typeof(PlaceOfServiceOutPatient).Name,
-                typeof(PointOfOrigin).Name
+                typeof(PointOfOrigin).Name,
+                typeof(Models.Program).Name,
+                typeof(ProgramFacility).Name
             };
             return View(entityNames);
         }
         #endregion
 
+        // Administrator data entry for Physician
+        // Used in: Administration Tools - Physician indexes
         #region Physician lookup table management
         [Authorize(Roles = "Administrator")]
         public IActionResult PhysicianDataEntry()
@@ -95,27 +103,10 @@ namespace IS_Proj_HIT.Controllers
             return View(entityNames);
         }
         #endregion
-        
-        #region Token Password Reset
-        // [Authorize(Roles = "Administrator")]
-        // public abstract Task<IdentityResult> ResetPasswordAsync (UserFacility user, string token, string newPassword);
-        //
-        // {   //TODO
-        //   //Enter the specifics for security question validation.
-        //   //Generate Token (static or random?)
-        //   //View/pass token
-        //
-        //   var entityNames = new List<string>
-        //   {
-        //       typeof(Physician).Name,
-        //       typeof(PhysicianRole).Name,
-        //       typeof(ProviderType).Name,
-        //       typeof(Specialty).Name
-        //   };
-        //   return View(entityNames);
-        // }
-        #endregion
 
+        // Displays EditRegister details page
+        // Used when clicked on your e-mail in the nav-bar
+        // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditRegisterDetails()
@@ -145,11 +136,13 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
 
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
+                { Text = u.LastName/*, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId*/ }).ToList();
 
             return View(dbUser);
         }
 
+        // Edits and saved register details
+        // Used in: EditUserDetails, EditRegisterDetails
         [HttpPost]
         public async Task<IActionResult> EditRegisterDetails(UserTable model)
         {
@@ -186,7 +179,6 @@ namespace IS_Proj_HIT.Controllers
                 .Select(u => u.Email));
             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
                 .Select(u => new SelectListItem
-
                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = model.InstructorId == u.UserId }).ToList();
 
 
@@ -202,6 +194,7 @@ namespace IS_Proj_HIT.Controllers
 
 
         //Testing Listing the Correct Users - Chris P - 2/25/21
+        //Used in: ViewUsers
         public async Task<IActionResult> ViewUsers()
         {
             var users = _repository.UserTables;
@@ -210,7 +203,9 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-        //List users - Chris P - 2/27/21
+        //Retrieves user list
+        //List users - Chris P - 2/27/21 edited by jason Motl 9-21-21 
+        //Used in: Admin Details, Admin Index, ListUsers
         [HttpGet]
         public  IActionResult ListUsers()
         {
@@ -220,46 +215,60 @@ namespace IS_Proj_HIT.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.Email,
-                StartDate = u.StartDate
+                StartDate = u.StartDate,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AspNetUsersId = u.AspNetUsersId
 
             }).OrderByDescending(u => u.UserName).ToList();
 
             return View(model);
         }
 
-
-
         //Delete User from AspNetUsers - Chris P - 2/28/21
-        public async Task<IActionResult> DeleteUser(string id)
+        //Used in: Admin Details, List/ViewUsers
+        public async Task<IActionResult> DeleteUser(string ASPid)
         {
-            var userToDelete = await _userManager.FindByIdAsync(id);
+            var userTables = _repository.UserTables;
+            var userToDelete = userTables.Where(u => u.AspNetUsersId == ASPid);
+            var ASPuserToDelete = await _userManager.FindByIdAsync(ASPid);
             
+            //var userToDelete = await _userManager.FindByEmailAsync(id);
 
-            if(userToDelete == null)
+            if(ASPuserToDelete == null)
             {
-                ViewBag.ErrorMessage = $"User with the Id = {id} cannot be found.";
+                ViewBag.ErrorMessage = $"User with the Id = {ASPid} cannot be found.";
                 return View("NotFound");
             }
             else
             {
-                var result = await _userManager.DeleteAsync(userToDelete);
+                // deletes the from the user table
+                //await _repository.DeleteUser(userToDelete);
+                // deletes the ASPUser 
+                var result = await _userManager.DeleteAsync(ASPuserToDelete);
+                
+                //var result = 
                 
                 if(result.Succeeded)
                 {
                     
                     return RedirectToAction("ListUsers");
                 }
-
+                
                 foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
                 return View("ListUsers");
+                
+                
                     
             }
         }
 
         
+        // Delete selection of Users
+        // Used in: ListUsers
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
                 foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
@@ -280,6 +289,8 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult CreateRole() => View();
 
+        // View edit role
+        // Used in: EditUsersInRole, ViewRoles
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -288,7 +299,6 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.ErrorMessage = $"Role with ID = {id} cannot be found";
                 return View("NotFound");
             }
-
 
             var model = new EditRoleViewModel
             {
@@ -300,6 +310,9 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+
+        // Displays user details
+        // Used in: UserList?
         public IActionResult Details(int id)
         {
 
@@ -333,6 +346,9 @@ namespace IS_Proj_HIT.Controllers
 
             return View(model);
         }
+
+        // View edit users in role
+        // Used in: EditRole, List/ViewUsers
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.RoleId = roleId;
@@ -366,6 +382,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Create role
+        // Used in: ViewRoles
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
         {
@@ -391,6 +409,7 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Edit role
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
@@ -417,6 +436,8 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
+        // Edit users in role
+        // EditUsersInRole with model AND ID
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
@@ -450,10 +471,28 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        #endregion
-        public async Task<IActionResult> EditUserDetails(int id)
+        // Edit user in administration
+        // Only accessible from clicking edit, does not currently work if Details -> Edit
+        // Adds user facility?
+         #endregion
+        public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
-            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+
+            ViewBag.ProgramList = new List<SelectListItem>();
+            var programs = _repository.Programs;
+            foreach (var program in programs)
+            {
+                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
+            }
+
+            ViewBag.FacilityList = new List<SelectListItem>();
+            var facilities = _repository.Facilities.Where(p => p.Name == "WCTC HC Nursing SECURE" || p.Name == "WCTC HC Nursing SIM");
+            foreach (var facility in facilities)
+            {
+                ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.FacilityId.ToString() });
+            }
+
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrWhiteSpace(user.AspNetUsersId))
@@ -468,60 +507,30 @@ namespace IS_Proj_HIT.Controllers
                     _repository.EditUser(user);
             }
 
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
+            var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
+            if (viewModel.ProgramId != 0 && !hasProgram)
             {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
+                _repository.AddUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
+            }
+            else if (viewModel.ProgramId != 0 && hasProgram)
+            {
+                _repository.EditUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
+            }
 
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
+            var hasFacility = _repository.UserFacilities.Any(f => f.UserId == user.UserId);
+            if (viewModel.FacilityId != 0 && !hasFacility)
+            {
+                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
+            }
+            else if (viewModel.FacilityId != 0 && hasFacility)
+            {
+                var currentUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
+                _repository.DeleteUserFacility(currentUserFacility);
+                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
+            }
 
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = user.InstructorId == u.UserId }).ToList();
-
-
-            return View(user);
+            return View(viewModel);
         }
-       /* public async Task<IActionResult> EditUserDetails(string id)
-        {
-            //find current user
-            //var id = _userManager.GetUserId(HttpContext.User);
-
-            //select the information I want to display
-            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
-                         new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
-
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
-            {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
-
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
-
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
-
-            return View(dbUser);
-        }*/
 
     }
 }

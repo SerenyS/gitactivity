@@ -18,7 +18,6 @@ namespace IS_Proj_HIT.Models
         public int EditedBy { get; set; }
 
         public virtual Physician CoPhysician { get; set; }
-        public virtual UserTable EditedByNavigation { get; set; }
         public virtual Encounter Encounter { get; set; }
         public virtual NoteType NoteType { get; set; }
         public virtual Physician Physician { get; set; }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using IS_Proj_HIT.Models;
 
 #nullable disable
 
@@ -114,6 +113,8 @@ namespace IS_Proj_HIT.Models.Data
         public virtual DbSet<ProcedureReport> ProcedureReports { get; set; }
         public virtual DbSet<ProcedureReportAnestheticType> ProcedureReportAnestheticTypes { get; set; }
         public virtual DbSet<ProcedureReportPhysician> ProcedureReportPhysicians { get; set; }
+        public virtual DbSet<Program> Programs { get; set; }
+        public virtual DbSet<ProgramFacility> ProgramFacilities { get; set; }
         public virtual DbSet<ProgressNote> ProgressNotes { get; set; }
         public virtual DbSet<ProviderType> ProviderTypes { get; set; }
         public virtual DbSet<PulseRouteType> PulseRouteTypes { get; set; }
@@ -122,6 +123,7 @@ namespace IS_Proj_HIT.Models.Data
         public virtual DbSet<Relationship> Relationships { get; set; }
         public virtual DbSet<Religion> Religions { get; set; }
         public virtual DbSet<Restriction> Restrictions { get; set; }
+        public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<Sex> Sexes { get; set; }
         public virtual DbSet<SideEffect> SideEffects { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
@@ -131,6 +133,8 @@ namespace IS_Proj_HIT.Models.Data
         public virtual DbSet<TestedBodyPart> TestedBodyParts { get; set; }
         public virtual DbSet<Use> Uses { get; set; }
         public virtual DbSet<UserFacility> UserFacilities { get; set; }
+        public virtual DbSet<UserProgram> UserPrograms { get; set; }
+        public virtual DbSet<UserSecurityQuestion> UserSecurityQuestions { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<Warning> Warnings { get; set; }
 
@@ -139,7 +143,7 @@ namespace IS_Proj_HIT.Models.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=bitsql.wctc.edu;Database=WCTCHealthSystem;User ID=HealthSystemApp;Password=WCTC_H3alth;Trusted_Connection=false;");
+                optionsBuilder.UseSqlServer("Server=bitsql.wctc.edu;Database=WCTCHealthSystem;User ID=HealthSystemApp;Password=WCTC_H3alth");
             }
         }
 
@@ -186,6 +190,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.Addresses)
                     .HasForeignKey(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Address_CountryID");
             });
 
@@ -341,11 +346,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.IntakeFrequency)
                     .WithMany(p => p.ApprovedMedicinesToAdministers)
                     .HasForeignKey(d => d.IntakeFrequencyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__ApprovedM__Intak__7E57BA87");
 
                 entity.HasOne(d => d.MedicineAdmin)
                     .WithMany(p => p.ApprovedMedicinesToAdministers)
                     .HasForeignKey(d => d.MedicineAdminId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__ApprovedM__Medic__7C6F7215");
 
                 entity.HasOne(d => d.OrderInfo)
@@ -374,7 +381,8 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetRoleClaims)
-                    .HasForeignKey(d => d.RoleId);
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<AspNetUser>(entity =>
@@ -402,7 +410,8 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserClaims)
-                    .HasForeignKey(d => d.UserId);
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<AspNetUserLogin>(entity =>
@@ -419,7 +428,8 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserLogins)
-                    .HasForeignKey(d => d.UserId);
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<AspNetUserRole>(entity =>
@@ -430,11 +440,13 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.RoleId);
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.UserId);
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<AspNetUserToken>(entity =>
@@ -447,7 +459,8 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
-                    .HasForeignKey(d => d.UserId);
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<BloodPressureRouteType>(entity =>
@@ -545,11 +558,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CareSystemParameter)
                     .WithMany(p => p.CareSystemAssessments)
                     .HasForeignKey(d => d.CareSystemParameterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_CareSystemAssessment_CareSystemParameterID");
 
                 entity.HasOne(d => d.Pca)
                     .WithMany(p => p.CareSystemAssessments)
                     .HasForeignKey(d => d.Pcaid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_CareSystemAssessment_PCAID");
             });
 
@@ -573,6 +588,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CareSystemType)
                     .WithMany(p => p.CareSystemParameters)
                     .HasForeignKey(d => d.CareSystemTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_CareSystemParameter_CareSystemTypeID");
             });
 
@@ -698,12 +714,12 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AdministrationStatus)
                     .WithMany(p => p.Emars)
                     .HasForeignKey(d => d.AdministrationStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__EMAR__Administra__08D548FA");
 
                 entity.HasOne(d => d.AssignedAdministratorNavigation)
                     .WithMany(p => p.EmarAssignedAdministratorNavigations)
                     .HasForeignKey(d => d.AssignedAdministrator)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__EMAR__AssignedAd__09C96D33");
             });
 
@@ -813,6 +829,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AdmitType)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.AdmitTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_AdmitTypeID");
 
                 entity.HasOne(d => d.AuthoringProviderNavigation)
@@ -828,30 +845,22 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Department)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.DepartmentId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Encounter_DepartmentID");
 
                 entity.HasOne(d => d.DischargeDispositionNavigation)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.DischargeDisposition)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Encounter_DischargeDisposition");
-
-                entity.HasOne(d => d.EditedByNavigation)
-                    .WithMany(p => p.Encounters)
-                    .HasForeignKey(d => d.EditedBy)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_EncounterEditedBy");
 
                 entity.HasOne(d => d.EncounterPhysicians)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.EncounterPhysiciansId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_EncounterPhysiciansID");
 
                 entity.HasOne(d => d.EncounterType)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.EncounterTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Encounter_EncounterTypeID");
 
                 entity.HasOne(d => d.Facility)
@@ -869,7 +878,6 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Payment)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.PaymentId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Encounter_PaymentID");
 
                 entity.HasOne(d => d.Physician)
@@ -880,12 +888,16 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PlaceOfService)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.PlaceOfServiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_PlaceOfServiceID");
 
                 entity.HasOne(d => d.PointOfOrigin)
                     .WithMany(p => p.Encounters)
                     .HasForeignKey(d => d.PointOfOriginId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_PointOfOriginID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<EncounterAlert>(entity =>
@@ -982,6 +994,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PhysicianRole)
                     .WithMany(p => p.EncounterPhysicians)
                     .HasForeignKey(d => d.PhysicianRoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_EncounterPhysicians_PhysicianRoleID");
             });
 
@@ -1033,11 +1046,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CareSystemType)
                     .WithMany(p => p.ExamBodySystems)
                     .HasForeignKey(d => d.CareSystemTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ECareSystemType");
 
                 entity.HasOne(d => d.ExamTypeCodeNavigation)
                     .WithMany(p => p.ExamBodySystems)
                     .HasForeignKey(d => d.ExamTypeCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_EFKExamType");
             });
 
@@ -1085,6 +1100,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Facilities)
                     .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Facility_AddressID");
             });
 
@@ -1186,16 +1202,19 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Insurances)
                     .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Insurance_AddressID");
 
                 entity.HasOne(d => d.PaymentPlan)
                     .WithMany(p => p.Insurances)
                     .HasForeignKey(d => d.PaymentPlanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Insurance_PaymentPlanID");
 
                 entity.HasOne(d => d.PaymentSource)
                     .WithMany(p => p.Insurances)
                     .HasForeignKey(d => d.PaymentSourceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Insurance_PaymentSourceID");
             });
 
@@ -1281,7 +1300,6 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.GenericMed)
                     .WithMany(p => p.Medicines)
                     .HasForeignKey(d => d.GenericMedId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Medicine__Generi__5B0E7E4A");
             });
 
@@ -1305,17 +1323,18 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AdminMethod)
                     .WithMany(p => p.MedicineAdministrationInfos)
                     .HasForeignKey(d => d.AdminMethodId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__MedicineA__Admin__5FD33367");
 
                 entity.HasOne(d => d.MedStateType)
                     .WithMany(p => p.MedicineAdministrationInfos)
                     .HasForeignKey(d => d.MedStateTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineA__medSt__5DEAEAF5");
 
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.MedicineAdministrationInfos)
                     .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineA__Medic__5EDF0F2E");
             });
 
@@ -1333,11 +1352,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Dosage)
                     .WithMany(p => p.MedicineDosages)
                     .HasForeignKey(d => d.DosageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineD__Dosag__74CE504D");
 
                 entity.HasOne(d => d.MedicineAdmin)
                     .WithMany(p => p.MedicineDosages)
                     .HasForeignKey(d => d.MedicineAdminId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineD__Medic__73DA2C14");
             });
 
@@ -1354,11 +1375,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Ingredient)
                     .WithMany(p => p.MedicineIngredients)
                     .HasForeignKey(d => d.IngredientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineI__Ingre__789EE131");
 
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.MedicineIngredients)
                     .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineI__Medic__77AABCF8");
             });
 
@@ -1376,11 +1399,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.MedicineSideEffects)
                     .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineS__Medic__695C9DA1");
 
                 entity.HasOne(d => d.SideEffect)
                     .WithMany(p => p.MedicineSideEffects)
                     .HasForeignKey(d => d.SideEffectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineS__SideE__6A50C1DA");
             });
 
@@ -1398,11 +1423,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.MedicineUses)
                     .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineU__Medic__01342732");
 
                 entity.HasOne(d => d.Uses)
                     .WithMany(p => p.MedicineUses)
                     .HasForeignKey(d => d.UsesId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineU__UsesI__02284B6B");
             });
 
@@ -1420,11 +1447,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.MedicineWarnings)
                     .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineW__Medic__0504B816");
 
                 entity.HasOne(d => d.Warning)
                     .WithMany(p => p.MedicineWarnings)
                     .HasForeignKey(d => d.WarningId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MedicineW__Warni__05F8DC4F");
             });
 
@@ -1499,6 +1528,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.OrderType)
                     .WithMany(p => p.OrderInfos)
                     .HasForeignKey(d => d.OrderTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrderInfo__Order__63A3C44B");
 
                 entity.HasOne(d => d.OrderingAuthorNavigation)
@@ -1510,6 +1540,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Priority)
                     .WithMany(p => p.OrderInfos)
                     .HasForeignKey(d => d.PriorityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrderInfo__Prior__658C0CBD");
             });
 
@@ -1552,6 +1583,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PainScaleType)
                     .WithMany(p => p.PainParameters)
                     .HasForeignKey(d => d.PainScaleTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PainParameter_PainScaleTypeID");
             });
 
@@ -1573,6 +1605,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PainParameter)
                     .WithMany(p => p.PainRatings)
                     .HasForeignKey(d => d.PainParameterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PainRating_PainParameterID");
             });
 
@@ -1592,6 +1625,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PainRating)
                     .WithOne(p => p.PainRatingImage)
                     .HasForeignKey<PainRatingImage>(d => d.PainRatingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PainRatingImage_PainRatingID");
             });
 
@@ -1690,37 +1724,35 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Employment)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.EmploymentId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Patient_EmploymentID");
 
                 entity.HasOne(d => d.Ethnicity)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.EthnicityId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Patient_EthnicityID");
 
                 entity.HasOne(d => d.Gender)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.GenderId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Patient_GenderID");
 
                 entity.HasOne(d => d.MaritalStatus)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.MaritalStatusId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Patient_MaritalStatusID");
 
                 entity.HasOne(d => d.Religion)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.ReligionId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_Patient_ReligionID");
 
                 entity.HasOne(d => d.Sex)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.SexId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Patient_SexID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<PatientAdvancedDirective>(entity =>
@@ -1738,6 +1770,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AdvancedDirective)
                     .WithMany(p => p.PatientAdvancedDirectives)
                     .HasForeignKey(d => d.AdvancedDirectiveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientAdvancedDirectives_AdvancedDirectiveID");
 
                 entity.HasOne(d => d.PatientAlert)
@@ -1778,12 +1811,12 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AlertType)
                     .WithMany(p => p.PatientAlerts)
                     .HasForeignKey(d => d.AlertTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientAlerts_AlertTypeID");
 
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientAlerts)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientAlerts_MRN");
             });
 
@@ -1806,7 +1839,6 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Allergen)
                     .WithMany(p => p.PatientAllergies)
                     .HasForeignKey(d => d.AllergenId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientAllergy_AllergenID");
 
                 entity.HasOne(d => d.PatientAlert)
@@ -1817,7 +1849,6 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Reaction)
                     .WithMany(p => p.PatientAllergies)
                     .HasForeignKey(d => d.ReactionId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientAllergy_ReactionID");
             });
 
@@ -1836,6 +1867,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.ClinicalReminder)
                     .WithMany(p => p.PatientClinicalReminders)
                     .HasForeignKey(d => d.ClinicalReminderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientClinicalReminders_ClinicalReminderID");
 
                 entity.HasOne(d => d.PatientAlert)
@@ -1884,22 +1916,24 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.MailingAddress)
                     .WithMany(p => p.PatientContactDetailMailingAddresses)
                     .HasForeignKey(d => d.MailingAddressId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PatientContactDetails_MailingAddressID");
 
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientContactDetails)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientContactDetails_MRN");
 
                 entity.HasOne(d => d.PreferredModeOfContactNavigation)
                     .WithMany(p => p.PatientContactDetails)
                     .HasForeignKey(d => d.PreferredModeOfContact)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientContactDetails_PreferredModeOfContact");
 
                 entity.HasOne(d => d.PreferredTimeToContactNavigation)
                     .WithMany(p => p.PatientContactDetails)
                     .HasForeignKey(d => d.PreferredTimeToContact)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientContactDetails_PreferredTimeToContact");
 
                 entity.HasOne(d => d.ResidenceAddress)
@@ -1944,16 +1978,19 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.ContactAddress)
                     .WithMany(p => p.PatientEmergencyContacts)
                     .HasForeignKey(d => d.ContactAddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientEmergencyContact_ContactAddressID");
 
                 entity.HasOne(d => d.ContactRelationship)
                     .WithMany(p => p.PatientEmergencyContacts)
                     .HasForeignKey(d => d.ContactRelationshipId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientEmergencyContact_ContactRelationshipID");
 
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientEmergencyContacts)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientEmergencyContact_MRN");
             });
 
@@ -1972,6 +2009,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.FallRisk)
                     .WithMany(p => p.PatientFallRisks)
                     .HasForeignKey(d => d.FallRiskId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientFallRisks_FallRiskID");
 
                 entity.HasOne(d => d.PatientAlert)
@@ -2058,11 +2096,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Language)
                     .WithMany(p => p.PatientLanguages)
                     .HasForeignKey(d => d.LanguageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientLanguage_LanguageID");
 
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientLanguages)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientLanguage_MRN");
             });
 
@@ -2088,6 +2128,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientMilitaryServices)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientMilitaryService_MRN");
             });
 
@@ -2112,11 +2153,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.MrnNavigation)
                     .WithMany(p => p.PatientRaces)
                     .HasForeignKey(d => d.Mrn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientRace_MRN");
 
                 entity.HasOne(d => d.Race)
                     .WithMany(p => p.PatientRaces)
                     .HasForeignKey(d => d.RaceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientRace_RaceID");
             });
 
@@ -2142,6 +2185,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.RestrictionType)
                     .WithMany(p => p.PatientRestrictions)
                     .HasForeignKey(d => d.RestrictionTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PatientRestrictions_RestrictionID");
             });
 
@@ -2162,6 +2206,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PrimaryInsurance)
                     .WithMany(p => p.PaymentPrimaryInsurances)
                     .HasForeignKey(d => d.PrimaryInsuranceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Insurance_PrimaryInsuranceID");
 
                 entity.HasOne(d => d.SecondaryInsurance)
@@ -2238,11 +2283,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PcacommentType)
                     .WithMany(p => p.Pcacomments)
                     .HasForeignKey(d => d.PcacommentTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PCAComment_PCACommentTypeID");
 
                 entity.HasOne(d => d.Pca)
                     .WithMany(p => p.Pcacomments)
                     .HasForeignKey(d => d.Pcaid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PCAComment_PCAID");
             });
 
@@ -2289,6 +2336,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.PainRating)
                     .WithMany(p => p.PcapainAssessments)
                     .HasForeignKey(d => d.PainRatingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PCAPainAssessment_PainRatingID");
 
                 entity.HasOne(d => d.Pca)
@@ -2357,13 +2405,11 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.BloodPressureRouteType)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.BloodPressureRouteTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_BloodPressureRouteTypeID");
 
                 entity.HasOne(d => d.Bmimethod)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.BmimethodId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_BMIMethodID");
 
                 entity.HasOne(d => d.Encounter)
@@ -2374,26 +2420,24 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.O2deliveryType)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.O2deliveryTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_O2DeliveryTypeID");
 
                 entity.HasOne(d => d.PainScaleType)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.PainScaleTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_PainScaleTypeID");
 
                 entity.HasOne(d => d.PulseRouteType)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.PulseRouteTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_PulseRouteTypeID");
 
                 entity.HasOne(d => d.TempRouteType)
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.TempRouteTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PCARecord_TempRouteTypeID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<Physician>(entity =>
@@ -2441,19 +2485,16 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Physicians)
                     .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Physician_AddressID");
 
                 entity.HasOne(d => d.ProviderType)
                     .WithMany(p => p.Physicians)
                     .HasForeignKey(d => d.ProviderTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Physician_ProviderTypeID");
 
                 entity.HasOne(d => d.Specialty)
                     .WithMany(p => p.Physicians)
                     .HasForeignKey(d => d.SpecialtyId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Physician_SpecialtyID");
             });
 
@@ -2502,27 +2543,23 @@ namespace IS_Proj_HIT.Models.Data
                     .HasForeignKey(d => d.CoSignature)
                     .HasConstraintName("fk_PACoSignature");
 
-                entity.HasOne(d => d.EditedByNavigation)
-                    .WithMany(p => p.PhysicianAssessments)
-                    .HasForeignKey(d => d.EditedBy)
-                    .HasConstraintName("fk_PAEditedBy");
-
                 entity.HasOne(d => d.Encounter)
                     .WithMany(p => p.PhysicianAssessments)
                     .HasForeignKey(d => d.EncounterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PAEncounterID");
 
                 entity.HasOne(d => d.PhysicianAssessmentType)
                     .WithMany(p => p.PhysicianAssessments)
                     .HasForeignKey(d => d.PhysicianAssessmentTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PhysicianAssessmentTypeID");
 
                 entity.HasOne(d => d.ReferringProviderNavigation)
                     .WithMany(p => p.PhysicianAssessmentReferringProviderNavigations)
                     .HasForeignKey(d => d.ReferringProvider)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PAReferringProvider");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<PhysicianAssessmentDetail>(entity =>
@@ -2544,19 +2581,16 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CareSystemType)
                     .WithMany(p => p.PhysicianAssessmentDetails)
                     .HasForeignKey(d => d.CareSystemTypeId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_CareSystemType");
 
                 entity.HasOne(d => d.ExamTypeCodeNavigation)
                     .WithMany(p => p.PhysicianAssessmentDetails)
                     .HasForeignKey(d => d.ExamTypeCode)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_ExamType");
 
                 entity.HasOne(d => d.PhysicianAssessment)
                     .WithMany(p => p.PhysicianAssessmentDetails)
                     .HasForeignKey(d => d.PhysicianAssessmentId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PhysicianAssessment");
             });
 
@@ -2730,19 +2764,14 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CoSignatureNavigation)
                     .WithMany(p => p.ProcedureReportCoSignatureNavigations)
                     .HasForeignKey(d => d.CoSignature)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_PRCoSignature");
-
-                entity.HasOne(d => d.EditedByNavigation)
-                    .WithMany(p => p.ProcedureReports)
-                    .HasForeignKey(d => d.EditedBy)
-                    .HasConstraintName("fk_PREditedBy");
 
                 entity.HasOne(d => d.Encounter)
                     .WithMany(p => p.ProcedureReports)
                     .HasForeignKey(d => d.EncounterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PREncounterID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<ProcedureReportAnestheticType>(entity =>
@@ -2763,11 +2792,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AnestheticType)
                     .WithMany(p => p.ProcedureReportAnestheticTypes)
                     .HasForeignKey(d => d.AnestheticTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AnestheticTypeID");
 
                 entity.HasOne(d => d.ProcedureReport)
                     .WithMany(p => p.ProcedureReportAnestheticTypes)
                     .HasForeignKey(d => d.ProcedureReportId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PRATProcedureReportID");
             });
 
@@ -2797,7 +2828,49 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.ProcedureReport)
                     .WithMany(p => p.ProcedureReportPhysicians)
                     .HasForeignKey(d => d.ProcedureReportId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PRPProcedureReportID");
+            });
+
+            modelBuilder.Entity<Program>(entity =>
+            {
+                entity.ToTable("Program");
+
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ProgramFacility>(entity =>
+            {
+                entity.HasKey(e => e.ProgramFacilitiesId)
+                    .HasName("pk_ProgramFacilities");
+
+                entity.HasIndex(e => new { e.ProgramId, e.FacilityId }, "uk_ProgramFacilities")
+                    .IsUnique();
+
+                entity.Property(e => e.ProgramFacilitiesId).HasColumnName("ProgramFacilitiesID");
+
+                entity.Property(e => e.FacilityId).HasColumnName("FacilityID");
+
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.HasOne(d => d.Facility)
+                    .WithMany(p => p.ProgramFacilities)
+                    .HasForeignKey(d => d.FacilityId)
+                    .HasConstraintName("fk_ProgramFacilities_FacilityID");
+
+                entity.HasOne(d => d.Program)
+                    .WithMany(p => p.ProgramFacilities)
+                    .HasForeignKey(d => d.ProgramId)
+                    .HasConstraintName("fk_ProgramFacilities_ProgramID");
             });
 
             modelBuilder.Entity<ProgressNote>(entity =>
@@ -2827,23 +2900,17 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.CoPhysician)
                     .WithMany(p => p.ProgressNoteCoPhysicians)
                     .HasForeignKey(d => d.CoPhysicianId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_CoPhysicanID");
-
-                entity.HasOne(d => d.EditedByNavigation)
-                    .WithMany(p => p.ProgressNotes)
-                    .HasForeignKey(d => d.EditedBy)
-                    .HasConstraintName("fk_PNEditedBy");
 
                 entity.HasOne(d => d.Encounter)
                     .WithMany(p => p.ProgressNotes)
                     .HasForeignKey(d => d.EncounterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PNEncounterID");
 
                 entity.HasOne(d => d.NoteType)
                     .WithMany(p => p.ProgressNotes)
                     .HasForeignKey(d => d.NoteTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_NoteTypeID");
 
                 entity.HasOne(d => d.Physician)
@@ -2851,6 +2918,8 @@ namespace IS_Proj_HIT.Models.Data
                     .HasForeignKey(d => d.PhysicianId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PNPhysicanID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<ProviderType>(entity =>
@@ -2973,6 +3042,18 @@ namespace IS_Proj_HIT.Models.Data
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<SecurityQuestion>(entity =>
+            {
+                entity.ToTable("SecurityQuestion");
+
+                entity.Property(e => e.SecurityQuestionId).HasColumnName("SecurityQuestionID");
+
+                entity.Property(e => e.QuestionText)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Sex>(entity =>
             {
                 entity.ToTable("Sex");
@@ -3058,6 +3139,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.TestCategory)
                     .WithMany(p => p.Tests)
                     .HasForeignKey(d => d.TestCategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Test__TestCatego__6D2D2E85");
             });
 
@@ -3091,11 +3173,13 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Part)
                     .WithMany(p => p.TestedBodyParts)
                     .HasForeignKey(d => d.PartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TestedBod__PartI__70FDBF69");
 
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.TestedBodyParts)
                     .HasForeignKey(d => d.TestId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TestedBod__TestI__70099B30");
             });
 
@@ -3129,12 +3213,64 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.Facility)
                     .WithMany(p => p.UserFacilities)
                     .HasForeignKey(d => d.FacilityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_UserFacility_FacilityID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserFacilities)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_UserFacility_UserID");
+            });
+
+            modelBuilder.Entity<UserProgram>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.ProgramId })
+                    .HasName("pk_UserPrograms");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.HasOne(d => d.Program)
+                    .WithMany(p => p.UserPrograms)
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_UserPrograms_ProgramID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserPrograms)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_UserPrograms_UserID");
+            });
+
+            modelBuilder.Entity<UserSecurityQuestion>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.SecurityQuestionId })
+                    .HasName("pk_UserSecurityQuestion");
+
+                entity.ToTable("UserSecurityQuestion");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.SecurityQuestionId).HasColumnName("SecurityQuestionID");
+
+                entity.Property(e => e.AnswerHash)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.SecurityQuestion)
+                    .WithMany(p => p.UserSecurityQuestions)
+                    .HasForeignKey(d => d.SecurityQuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_UserSecurityQuestion_QuestionID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserSecurityQuestions)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_UserSecurityQuestion_UserID");
             });
 
             modelBuilder.Entity<UserTable>(entity =>
@@ -3167,7 +3303,6 @@ namespace IS_Proj_HIT.Models.Data
 
                 entity.Property(e => e.InstructorId).HasColumnName("InstructorID");
 
-
                 entity.Property(e => e.LastModified)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -3188,6 +3323,7 @@ namespace IS_Proj_HIT.Models.Data
                 entity.HasOne(d => d.AspNetUsers)
                     .WithMany(p => p.UserTables)
                     .HasForeignKey(d => d.AspNetUsersId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_UserTable_AspNetUsersID");
 
                 entity.HasOne(d => d.Instructor)

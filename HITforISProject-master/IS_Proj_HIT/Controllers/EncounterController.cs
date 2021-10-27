@@ -24,8 +24,17 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         } 
 
+        // Loads PCA Screen, Filters by facility
+        // Used in: Navbar (_Layout) and Home Page, ViewDischarge, ViewEncounter (if patient is still checked in?)
         public ViewResult CheckedIn()
         {
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var facilities = _repository.Facilities;
+            var secCheck = 0;
+
+            var isAdmin = User.IsInRole("Administrator");
+            
             var model = _repository.Encounters
                 .Where(e => e.DischargeDateTime == null)
                 .OrderByDescending(e => e.AdmitDateTime)
@@ -42,10 +51,72 @@ namespace IS_Proj_HIT.Controllers
                             e.DischargeDateTime.ToString(),
                             e.RoomNumber));
 
+            if (!isAdmin && currentUserFacility == null) {
+                model = _repository.Encounters
+                .Where(e => e.DischargeDateTime == null && (e.FacilityId == 0))
+                .OrderByDescending(e => e.AdmitDateTime)
+                .Join(_repository.Patients,
+                    e => e.Mrn,
+                    p => p.Mrn,
+                    (e, p) =>
+                        new EncounterPatientViewModel(e.Mrn,
+                            e.EncounterId,
+                            e.AdmitDateTime,
+                            p.FirstName,
+                            p.LastName,
+                            e.Facility.Name,
+                            e.DischargeDateTime.ToString(),
+                            e.RoomNumber));
+
+                ViewBag.ErrorMessage = "You do not currently have an assigned facility.";
+            }
+
+            if (!isAdmin && currentUserFacility != null) {
+
+                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
+                }
+
+                ViewBag.UserFacil = currentUserFacility.FacilityId;
+                ViewBag.SecCheck = secCheck;
+
+                model = _repository.Encounters
+                .Where(e => e.DischargeDateTime == null && (e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck))
+                .OrderByDescending(e => e.AdmitDateTime)
+                .Join(_repository.Patients,
+                    e => e.Mrn,
+                    p => p.Mrn,
+                    (e, p) =>
+                        new EncounterPatientViewModel(e.Mrn,
+                            e.EncounterId,
+                            e.AdmitDateTime,
+                            p.FirstName,
+                            p.LastName,
+                            e.Facility.Name,
+                            e.DischargeDateTime.ToString(),
+                            e.RoomNumber));
+            }
+
             return View(model);
         }
 
         // View ProgressNotes
+        // Used in: PatientBanner
+        // UNUSED SINCE PROGRESS NOTES ARE NOT CURRENTLY FUNCTIONAL
         public IActionResult ProgressNotes(long id){
             var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
@@ -83,12 +154,16 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // View Edit Progress Note
+        // Used in: ProgressNotes
+        // NO CURRENT FUNCTION
         public IActionResult EditProgressNotes(){
 
             return View();
         }
 
         // View Discharge 
+        // Used in: EncounterMenu
+        // May not currently work?
         public IActionResult ViewDischarge(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
@@ -118,9 +193,13 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        // View encounter page
+        // Used in: PCAController, CheckedIn, EditEncounter (to return to view), HistoryAndPhysical (currently unused), PatientDetails, View/Create/UpdatePCAAssessment
         public IActionResult ViewEncounter(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
+
+            var id = User.Identity.Name;
 
             var encounter = _repository.Encounters
                 .Include(e => e.Facility)
@@ -147,6 +226,8 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
+        // Displays add encounter page
+        // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddEncounter(string id)
         {
@@ -158,7 +239,8 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Deletes Encounter
+        // Deletes Encounter, cannot delete if PCA records exist, redirects to PCA
+        // Used in: CheckedIn, ViewEncounter
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEncounter(long encounterId)
         {
@@ -193,6 +275,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Displays the Edit Encounter page
+        // Used in: CheckedIn, ViewDischarge, ViewEncounter
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult EditEncounter(long encounterId)
         {
@@ -207,6 +290,8 @@ namespace IS_Proj_HIT.Controllers
             return View(encounter);
         }
 
+        // Create new encounter
+        // Used in: AddEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
@@ -235,6 +320,7 @@ namespace IS_Proj_HIT.Controllers
         }
 
         // Save edits to patient record from Edit Patients page
+        // Used in: EditEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
@@ -257,6 +343,8 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
+        // add dropdowns to encounter views, only user's facility(ies) can be selected
+        // Controller method to display dropdowns
         private void AddDropdowns()
         {
             var queryAdmitTypes = _repository.AdmitTypes
@@ -295,10 +383,44 @@ namespace IS_Proj_HIT.Controllers
                 .ToList();
             ViewBag.PointsOfOrigin = new SelectList(queryPointsOfOrigin, "PointOfOriginId", "Description", 0);
 
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var isAdmin = User.IsInRole("Administrator");
             var queryFacility = _repository.Facilities
-                .OrderBy(n => n.Name)
-                .Select(fac => new {fac.FacilityId, fac.Name})
-                .ToList();
+                    .OrderBy(n => n.Name)
+                    .Select(fac => new {fac.FacilityId, fac.Name})
+                    .ToList();
+            var facilities = _repository.Facilities;
+            
+            if (!isAdmin) {
+                var secCheck = 0;
+                // non admins may get an error if they don't have a facility
+                
+                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
+                }
+
+                queryFacility = _repository.Facilities
+                    .Where(e => e.FacilityId == currentUserFacility.FacilityId && e.FacilityId == secCheck)
+                    .OrderBy(n => n.Name)
+                    .Select(fac => new {fac.FacilityId, fac.Name})
+                    .ToList();
+            }
+
             ViewBag.Facility = new SelectList(queryFacility, "FacilityId", "Name", 0);
 
             var queryEncounterPhysicians = _repository.EncounterPhysicians
@@ -309,6 +431,8 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
+        // Displays History and Physical view? Appears to be left in progress
+        // Used in: PatientBanner
         public ViewResult HistoryAndPhysical(long id)
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
@@ -350,10 +474,19 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        // Add Physician Assessment
+        // NO CURRENT FUNCTION 
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddPhysicianAssessment(string id)
         {
             return RedirectToAction();
+        }
+
+        // Add Physician Repotr
+        // NO CURRENT FUNCTION
+        public IActionResult AddPhysicianReport()
+        {
+            throw new NotImplementedException();
         }
     }
 }

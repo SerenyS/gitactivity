@@ -1,0 +1,42 @@
+﻿@page
+@model IS_Proj_HIT.IndexModelProgramFacility
+
+@{
+    ViewData["Title"] = "Program Facility";
+}
+
+<h1>Program Facility</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgramFacility[0].Facility)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgramFacility[0].Program)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ProgramFacility) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Facility.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Program.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ProgramFacilitiesId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ProgramFacilitiesId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ProgramFacilitiesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
