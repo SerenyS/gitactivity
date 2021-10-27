@@ -10752,6 +10752,3 @@ a.text-dark:hover, a.text-dark:focus {
 .modal .close:not(:disabled):not(.disabled):hover, .modal .close:not(:disabled):not(.disabled):focus {
   color: #000;
 }
-.patientTab_wrapper {
-  background-color: #7b7d7d;
-}
