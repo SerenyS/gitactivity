@@ -66,6 +66,8 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<Program> Programs => _context.Programs;
         public IQueryable<UserFacility> UserFacilities => _context.UserFacilities;
         public IQueryable<UserProgram> UserPrograms => _context.UserPrograms;
+        public IQueryable<SecurityQuestion> SecurityQuestions => _context.SecurityQuestions;
+        public IQueryable<UserSecurityQuestion> UserSecurityQuestions => _context.UserSecurityQuestions;
 
 
 
@@ -337,6 +339,24 @@ namespace IS_Proj_HIT.Models.Data
         public void EditUserProgram(UserProgram userProgram)
         {
             _context.Update(userProgram);
+            _context.SaveChanges();
+        }
+
+        public void AddAnswer(UserSecurityQuestion answer) {
+            _context.Add(answer);
+            _context.SaveChanges();
+        }
+        public void DeleteAnswer(UserSecurityQuestion answer) {
+            _context.Remove(answer);
+            _context.SaveChanges();
+        }
+
+        public void AddQuestion(SecurityQuestion question) {
+            _context.Add(question);
+            _context.SaveChanges();
+        }
+        public void DeleteQuestion(SecurityQuestion question) {
+            _context.Remove(question);
             _context.SaveChanges();
         }
     }
