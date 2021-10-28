@@ -66,6 +66,7 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<Program> Programs => _context.Programs;
         public IQueryable<UserFacility> UserFacilities => _context.UserFacilities;
         public IQueryable<UserProgram> UserPrograms => _context.UserPrograms;
+        public IQueryable<ProgramFacility> ProgramFacilities => _context.ProgramFacilities;
 
 
 
@@ -337,6 +338,24 @@ namespace IS_Proj_HIT.Models.Data
         public void EditUserProgram(UserProgram userProgram)
         {
             _context.Update(userProgram);
+            _context.SaveChanges();
+        }
+
+        public void AddProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Add(programFacility);
+            _context.SaveChanges();
+        }
+
+        public void DeleteProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Remove(programFacility);
+            _context.SaveChanges();
+        }
+
+        public void EditProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Update(programFacility);
             _context.SaveChanges();
         }
     }

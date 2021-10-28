@@ -61,8 +61,13 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<Program> Programs { get; }
         IQueryable<UserFacility> UserFacilities { get; }
         IQueryable<UserProgram> UserPrograms { get; }
+        IQueryable<ProgramFacility> ProgramFacilities { get; }
 
         #endregion
+
+        void AddProgramFacility(ProgramFacility programFacility);
+        void DeleteProgramFacility(ProgramFacility programFacility);
+        void EditProgramFacility(ProgramFacility programFacility);
 
         void AddUserFacility(UserFacility userFacility);
         void DeleteUserFacility(UserFacility userFacility);
