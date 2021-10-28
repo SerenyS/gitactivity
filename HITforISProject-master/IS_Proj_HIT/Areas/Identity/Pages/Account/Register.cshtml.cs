@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 {
@@ -59,18 +62,13 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            // [Required]
-            // [DataType(DataType.Text)]
-            // [Display(Name = "StudentID")]
-            // public string userID { get; set;}
-            
-            // [Required]
-            // //DataTable dt = new DataTable();
-            // public string PorgramEnrolledin { get; set; }
-            
-            // [Required]
-            // [DataType(DataType.Text)]
-            // public string program { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "StudentID")]
+            //public string userID { get; set; }
+
+            [BindProperty]
+            public int ProgramId { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -86,42 +84,29 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             public bool PrivacyPolicyIsChecked { get; set; }
         }
 
+        public List<SelectListItem> Programs { get; set; }
         public void OnGet(string returnUrl = null)
         {
+            Programs = _repository.Programs.Select(p => new SelectListItem()
+            {
+                Value = p.ProgramId.ToString(),
+                Text = p.Name,
+            }).ToList();
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            Programs = _repository.Programs.Select(p => new SelectListItem()
+            {
+                Value = p.ProgramId.ToString(),
+                Text = p.Name,
+            }).ToList();
             returnUrl = returnUrl ?? Url.Content("~/Administration/EditRegisterDetails");
             if(!Input.PrivacyPolicyIsChecked)
                 ModelState.AddModelError("Privacy", "Privacy Policy must be reviewed.");
             if (ModelState.IsValid)
             {
-                // var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                // var result = await _userManager.CreateAsync(user, Input.Password);
-                // if (result.Succeeded)
-                // {
-                //     _logger.LogInformation("User created a new account with password.");
-                //
-                //     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //     var callbackUrl = Url.Page(
-                //         "/Account/ConfirmEmail",
-                //         pageHandler: null,
-                //         values: new { userId = user.Id, code = code },
-                //         protocol: Request.Scheme);
-                //
-                //     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                //         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                //
-                //     await _signInManager.SignInAsync(user, isPersistent: false);
-                //     return LocalRedirect(returnUrl);
-                // }
-                // foreach (var error in result.Errors)
-                // {
-                //     ModelState.AddModelError(string.Empty, error.Description);
-                // }
-                
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -139,6 +124,41 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                     };
 
                     _repository.AddUser(newUserTable);
+
+                    // Bind program and user
+                    _repository.AddUserProgram(new UserProgram()
+                    {
+                        UserId = newUserTable.UserId,
+                        ProgramId = Input.ProgramId
+                    });
+
+                    // Get all programs bound to user
+                    var userPrograms = _repository.UserPrograms.Where(p => p.UserId == newUserTable.UserId).ToList();
+
+                    if (userPrograms.Count == 1)
+                    {
+                        // All facilities a available based on program
+                        var availableFacilties = _repository.ProgramFacilities.Where(p => p.ProgramId == Input.ProgramId).ToList();
+
+                        Facility assignedFacility = null;
+                        foreach (var programFacility in availableFacilties)
+                        {
+                            // New users only gain access to SIM
+                            if (programFacility.Facility.Name.Contains("SIM"))
+                            {
+                                assignedFacility = programFacility.Facility;
+                            }
+                        }
+
+                        // Bind user and facility
+                        _repository.AddUserFacility(new UserFacility()
+                        {
+                            UserId = newUserTable.UserId,
+                            FacilityId = assignedFacility.FacilityId,
+                            LastModified = DateTime.Now,
+                        });
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 
@@ -146,8 +166,6 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 {
                    ModelState.AddModelError(string.Empty, error.Description);
                 }
-
-                
             }
             
 

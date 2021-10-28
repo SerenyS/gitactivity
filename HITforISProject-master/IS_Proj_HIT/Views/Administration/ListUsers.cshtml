@@ -53,17 +53,13 @@
 
                     @*for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody*@
 
-
                     <td>@Model[i].FirstName</td>
                     <td>@Model[i].LastName</td>
                     <td>@Model[i].UserName</td>
                     <td>@Model[i].StartDate.ToString("d")</td>
                     <td>
                         <a asp-action="EditUserDetails" asp-route-UserId="@Model[i].UserId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a> |
-                        <a asp-action="DeleteUser" asp-route-id="@Model[i].AspNetUsersId"
-                           onclick="return confirm('Are you sure you want to delete user :  @Model[i].FirstName @Model[i].LastName ? id: @Model[i].UserId')">Delete</a>
-
+                        <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
                     </td>
                     <td>
                         <input asp-for="@Model[i].IsSelected" type="checkbox" class="checkBox" id="userIdsToDelete" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
