@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Encodings.Web;
 
 
 
@@ -225,50 +226,19 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        //Delete User from AspNetUsers - Chris P - 2/28/21
-        //Used in: Admin Details, List/ViewUsers
-        public async Task<IActionResult> DeleteUser(string ASPid)
-        {
-            var userTables = _repository.UserTables;
-            var userToDelete = userTables.Where(u => u.AspNetUsersId == ASPid);
-            var ASPuserToDelete = await _userManager.FindByIdAsync(ASPid);
-            
-            //var userToDelete = await _userManager.FindByEmailAsync(id);
+        //public async Task<IActionResult> ResetUserPassword(string id)
+        //{
+        //    //var user = await _userManager.FindByIdAsync(id);
+        //    //string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //    //var callbackUrl = Url.Page(
+        //    //       "/Identity/Account/ResetPassword",
+        //    //       pageHandler: null,
+        //    //       values: new { code },
+        //    //       protocol: Request.Scheme);
 
-            if(ASPuserToDelete == null)
-            {
-                ViewBag.ErrorMessage = $"User with the Id = {ASPid} cannot be found.";
-                return View("NotFound");
-            }
-            else
-            {
-                // deletes the from the user table
-                //await _repository.DeleteUser(userToDelete);
-                // deletes the ASPUser 
-                var result = await _userManager.DeleteAsync(ASPuserToDelete);
-                
-                //var result = 
-                
-                if(result.Succeeded)
-                {
-                    
-                    return RedirectToAction("ListUsers");
-                }
-                
-                foreach(var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View("ListUsers");
-                
-                
-                    
-            }
-        }
+        //    return Redirect($"/Identity/Account/ForgotPasswordConfirmation/{id}");
+        //}
 
-        
-        // Delete selection of Users
-        // Used in: ListUsers
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
                 foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
@@ -285,7 +255,6 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListUsers");
             
         }
-
 
         public IActionResult CreateRole() => View();
 
