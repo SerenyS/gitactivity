@@ -358,6 +358,7 @@ namespace IS_Proj_HIT.Models.Data
         public void EditProgramFacility(ProgramFacility programFacility)
         {
             _context.Update(programFacility);
+        }
         public void AddAnswer(UserSecurityQuestion answer) {
             _context.Add(answer);
             _context.SaveChanges();
