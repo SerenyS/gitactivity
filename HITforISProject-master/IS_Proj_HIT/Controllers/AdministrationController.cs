@@ -226,18 +226,13 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        //public async Task<IActionResult> ResetUserPassword(string id)
-        //{
-        //    //var user = await _userManager.FindByIdAsync(id);
-        //    //string code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //    //var callbackUrl = Url.Page(
-        //    //       "/Identity/Account/ResetPassword",
-        //    //       pageHandler: null,
-        //    //       values: new { code },
-        //    //       protocol: Request.Scheme);
+        public async Task<IActionResult> ResetUserPassword(string id)
+        {
+            var aspUser = await _userManager.FindByIdAsync(id);
+            string code = await _userManager.GeneratePasswordResetTokenAsync(aspUser);
 
-        //    return Redirect($"/Identity/Account/ForgotPasswordConfirmation/{id}");
-        //}
+            return RedirectToPage($"/Account/ResetPassword", new { area = "Identity", code});
+        }
 
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
