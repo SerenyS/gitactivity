@@ -358,10 +358,19 @@ namespace IS_Proj_HIT.Models.Data
         public void EditProgramFacility(ProgramFacility programFacility)
         {
             _context.Update(programFacility);
+            _context.SaveChanges();
+        }
+        
         public void AddAnswer(UserSecurityQuestion answer) {
             _context.Add(answer);
             _context.SaveChanges();
         }
+
+        public void EditAnswer(UserSecurityQuestion answer) {
+            _context.Update(answer);
+            _context.SaveChanges();
+        }
+        
         public void DeleteAnswer(UserSecurityQuestion answer) {
             _context.Remove(answer);
             _context.SaveChanges();
@@ -371,6 +380,12 @@ namespace IS_Proj_HIT.Models.Data
             _context.Add(question);
             _context.SaveChanges();
         }
+
+        public void EditQuestion(SecurityQuestion question) {
+            _context.Update(question);
+            _context.SaveChanges();
+        }
+
         public void DeleteQuestion(SecurityQuestion question) {
             _context.Remove(question);
             _context.SaveChanges();

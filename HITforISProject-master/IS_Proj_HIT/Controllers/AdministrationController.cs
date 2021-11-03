@@ -13,8 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Encodings.Web;
-
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -456,7 +456,7 @@ namespace IS_Proj_HIT.Controllers
             }
 
             ViewBag.FacilityList = new List<SelectListItem>();
-            var facilities = _repository.Facilities.Where(p => p.Name == "WCTC HC Nursing SECURE" || p.Name == "WCTC HC Nursing SIM");
+            var facilities = _repository.Facilities;
             foreach (var facility in facilities)
             {
                 ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.FacilityId.ToString() });
@@ -499,6 +499,95 @@ namespace IS_Proj_HIT.Controllers
             }
 
             return View(viewModel);
+        }
+
+        // Edits and saves security questions
+        // Used in: EditSecurityQuestions
+        public IActionResult EditSecurityQuestions(EditUserSecurityQuestionsViewModel viewModel)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserId = currentUser.UserId;
+
+            ViewBag.QuestionList = new List<SelectListItem>();
+            var sqList = _repository.SecurityQuestions
+                .Select(n => new {n.SecurityQuestionId, n.QuestionText})
+                .ToList(); 
+            foreach (var question in sqList)
+            {
+                ViewBag.QuestionList.Add(new SelectListItem { Text = question.QuestionText, Value = question.SecurityQuestionId.ToString() });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var question1 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId1, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash1) };
+                var question2 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId2, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash2) };
+                var question3 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId3, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash3) };
+                
+                var qsToDelete = _repository.UserSecurityQuestions
+                                .Where(q => q.UserId == currentUserId);
+                if (!qsToDelete.Count().Equals(0)) {
+                    foreach (UserSecurityQuestion question in qsToDelete) {
+                        _repository.DeleteAnswer(question);
+                    }
+                }
+                _repository.AddAnswer(question1);
+                _repository.AddAnswer(question2);
+                _repository.AddAnswer(question3);
+                
+            }
+
+            return View(viewModel);
+        }
+
+        // Checks security questions
+        // Used in: SecurityQuestions
+        public IActionResult CheckSecurityQuestions(EditUserSecurityQuestionsViewModel viewModel)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserId = currentUser.UserId;
+
+            List<string> questions = new List<string>();
+            var sqList = _repository.UserSecurityQuestions
+                .Where(q => q.UserId == currentUserId)
+                .ToList(); 
+            if (!sqList.Count().Equals(0)) {
+                // do nothing?
+            }
+            else {
+                foreach (var question in sqList)
+                {
+                    var questionMatch = _repository.SecurityQuestions
+                        .FirstOrDefault(q => q.SecurityQuestionId == question.SecurityQuestionId);
+                    questions.Add(questionMatch.QuestionText);
+                }
+                ViewBag["Questions"] = questions;
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                // check answers
+                
+            }
+
+            return View(viewModel);
+        }
+
+        // Hash security question answers
+        // Used in: EditSecurityQuestions
+        internal static string GetStringSha256Hash(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+                return String.Empty;
+
+            using (var sha = new System.Security.Cryptography.SHA256Managed())
+            {
+                byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
+                byte[] hash = sha.ComputeHash(textData);
+                return BitConverter.ToString(hash).Replace("-", String.Empty);
+            }
         }
 
     }

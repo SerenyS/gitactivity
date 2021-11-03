@@ -121,9 +121,11 @@ namespace IS_Proj_HIT.Models.Data
         void AddAddress(Address address);
 
         void AddAnswer(UserSecurityQuestion answer);
+        void EditAnswer(UserSecurityQuestion answer);
         void DeleteAnswer(UserSecurityQuestion answer);
 
         void AddQuestion(SecurityQuestion question);
+        void EditQuestion(SecurityQuestion question);
         void DeleteQuestion(SecurityQuestion question);
     }
 }

@@ -362,31 +362,6 @@ namespace IS_Proj_HIT.Controllers
                 .Include(p => p.Encounters).ThenInclude(e => e.Facility)
                 .FirstOrDefault(p => p.Mrn == id);
 
-            if (!isAdmin) {
-            // non admins will get an error if they don't have a facility!
-
-            var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
-            
-            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
-            }
-
-            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
-            
-            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
-            }
-
-            currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
-
-            if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
-            }
-
-            ViewBag.CurrentUserFacilityId = currentUserFacility.FacilityId;
-            ViewBag.SecondCheck = secCheck;
-            }
-
             var primaryLanguageQuery = repository.PatientLanguages.Where(l => l.Mrn == model.Mrn)
                 .Join(repository.Languages, pl => pl.LanguageId, lang => lang.LanguageId, (pl, lang)
                 => new
