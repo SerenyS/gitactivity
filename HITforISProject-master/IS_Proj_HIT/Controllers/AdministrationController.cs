@@ -528,12 +528,15 @@ namespace IS_Proj_HIT.Controllers
                                 .Where(q => q.UserId == currentUserId);
                 if (!qsToDelete.Count().Equals(0)) {
                     foreach (UserSecurityQuestion question in qsToDelete) {
-                        _repository.DeleteAnswer(question);
+                        _repository.DeleteUserSecurityQuestion(question);
                     }
                 }
-                _repository.AddAnswer(question1);
-                _repository.AddAnswer(question2);
-                _repository.AddAnswer(question3);
+                _repository.AddUserSecurityQuestion(question1);
+                _repository.AddUserSecurityQuestion(question2);
+                _repository.AddUserSecurityQuestion(question3);
+                // Console.WriteLine("QUESTION 1:" + question1.SecurityQuestionId);
+                // Console.WriteLine("QUESTION 2:" + question2.SecurityQuestionId);
+                // Console.WriteLine("QUESTION 3:" + question3.SecurityQuestionId);
                 
             }
 
