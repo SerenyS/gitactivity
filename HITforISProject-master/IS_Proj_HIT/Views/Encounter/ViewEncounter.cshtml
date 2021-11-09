@@ -11,7 +11,8 @@
 
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4>
+
+                <h4>
                         Encounter Information - @Model.Encounter.EncounterId
 
                         @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar"))
@@ -25,14 +26,14 @@
                             </a>
                         }
 
-                        
-                    
+
+
                         @if (User.IsInRole("Administrator"))
                         {
-                            <a onclick="if (!confirm('Are you sure you want to delete this encounter?')) return false;" 
-                                asp-action="DeleteEncounter"
-                                asp-route-encounterId="@Model.Encounter.EncounterId"
-                                class="encounter-del-btn btn btn-danger btn-sm float-right">
+                            <a onclick="if (!confirm('Are you sure you want to delete this encounter?')) return false;"
+                               asp-action="DeleteEncounter"
+                               asp-route-encounterId="@Model.Encounter.EncounterId"
+                               class="encounter-del-btn btn btn-danger btn-sm float-right">
                                 Delete
                             </a>
                         }
