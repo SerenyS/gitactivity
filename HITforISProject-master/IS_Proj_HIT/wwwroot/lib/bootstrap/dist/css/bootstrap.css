@@ -10576,6 +10576,7 @@ a.text-dark:hover, a.text-dark:focus {
   color: #fff;
 }
 
+
 .table-primary, .table-secondary, .table-success, .table-info, .table-warning, .table-danger {
   color: #fff;
 }
@@ -10641,6 +10642,8 @@ a.text-dark:hover, a.text-dark:focus {
 .table-hover .table-secondary:hover, .table-hover .table-secondary:hover > th, .table-hover .table-secondary:hover > td {
   background-color: #87999a;
 }
+
+
 
 .table-hover .table-light:hover, .table-hover .table-light:hover > th, .table-hover .table-light:hover > td {
   background-color: #dde4e6;
