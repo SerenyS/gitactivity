@@ -4342,20 +4342,21 @@ input[type="button"].btn-block {
 
 .nav-tabs .nav-item {
   margin-bottom: -1px;
+  border: 3px;
 }
 
 .nav-tabs .nav-link {
-  border: 1px solid transparent;
+  border: 3px;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
 }
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #ecf0f1 #ecf0f1 #ecf0f1;
+  border-color: #414346 #ecf0f1 #ecf0f1;
 }
 
 .nav-tabs .nav-link.disabled {
-  color: #95a5a6;
+  color: #414346;
   background-color: transparent;
   border-color: transparent;
 }
@@ -4932,6 +4933,15 @@ input[type="button"].btn-block {
   padding: 0.75rem 1.25rem;
   background-color: rgba(0, 0, 0, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-footer-short {
+  padding: 0.75rem 1.25rem;
+  padding-bottom: 38px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-footer:last-child {
@@ -10567,6 +10577,7 @@ a.text-dark:hover, a.text-dark:focus {
   color: #fff;
 }
 
+
 .table-primary, .table-secondary, .table-success, .table-info, .table-warning, .table-danger {
   color: #fff;
 }
@@ -10580,7 +10591,7 @@ a.text-dark:hover, a.text-dark:focus {
 .table-secondary,
 .table-secondary > th,
 .table-secondary > td {
-  background-color: #95a5a6;
+  background-color: #ECF4F4;
 }
 
 .table-light,
@@ -10632,6 +10643,8 @@ a.text-dark:hover, a.text-dark:focus {
 .table-hover .table-secondary:hover, .table-hover .table-secondary:hover > th, .table-hover .table-secondary:hover > td {
   background-color: #87999a;
 }
+
+
 
 .table-hover .table-light:hover, .table-hover .table-light:hover > th, .table-hover .table-light:hover > td {
   background-color: #dde4e6;

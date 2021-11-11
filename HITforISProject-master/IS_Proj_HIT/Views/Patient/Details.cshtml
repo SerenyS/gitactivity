@@ -29,18 +29,16 @@
     <div class="card-body bg-light">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-3">
-                    <span class="font-weight-bold">Alias: </span>
-                </div>
+               
                 <div class="col-sm-4 col-md-3">
                     <label>First Name: </label>
                     <span class="font-weight-bold">@(Model.AliasFirstName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-4 col-md-3">
-                    <label>Middle Initial: </label>
+                <div class="col-sm-4 col-md-3" style="padding-left: 150px">
+                    <label> Middle Initial: </label>
                     <span class="font-weight-bold">@(Model.AliasMiddleName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-4 col-md-3">
+                <div class="col-sm-12 col-md-6" style="padding-left: 290px">
                     <label>Last Name: </label>
                     <span class="font-weight-bold">@(Model.AliasLastName ?? "N/A")</span>
                 </div>
