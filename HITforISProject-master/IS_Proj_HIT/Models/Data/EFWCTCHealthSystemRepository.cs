@@ -365,6 +365,10 @@ namespace IS_Proj_HIT.Models.Data
             _context.Add(answer);
             _context.SaveChanges();
         }
+        public void AddAnswer(UserSecurityQuestion answer) {
+            _context.Add(answer);
+            _context.SaveChanges();
+        }
 
         public void EditUserSecurityQuestion(UserSecurityQuestion answer) {
             _context.Update(answer);
