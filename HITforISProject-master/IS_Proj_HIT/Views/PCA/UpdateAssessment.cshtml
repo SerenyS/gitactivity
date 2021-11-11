@@ -10,6 +10,18 @@
     <input type="hidden" asp-for="PatientMrn" value="@ViewBag.Patient.Mrn" />
     <input type="hidden" asp-for="PcaRecord.PainScaleTypeId" value="@Model.PcaRecord.PainScaleTypeId"/>
     <div class="tab-content">
+      <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" style="margin-left: 10px; margin-right: 10px">
+                <a aria-controls="vital" aria-selected="true" class="nav-link active" data-toggle="tab" href="#vital" id="vital-tab" role="tab">Vitals</a>
+            </li>
+            <li class="nav-item" style="margin-left: 10px; margin-right: 10px">
+                <a aria-controls="pain" aria-selected="false" class="nav-link" data-toggle="tab" href="#painTab" id="pain-tab" role="tab">Pain Assessment</a>
+            </li>
+            <li class="nav-item" style="margin-left: 10px; margin-right: 10px">
+                <a aria-controls="systems" aria-selected="false" class="nav-link" data-toggle="tab" href="#systems" id="systems-tab" role="tab">Systems Review</a>
+            </li>
+        </ul>
+    
         <!-- Vitals tab -->
         <div aria-labelledby="vitals-tab" class="tab-pane active" id="vital" role="tabpanel">
             <div class="card">
@@ -355,17 +367,7 @@
     </div>
 
     <!--For navigating PCA-->
-    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a aria-controls="vital" aria-selected="true" class="nav-link active" data-toggle="tab" href="#vital" id="vital-tab" role="tab">Vitals</a>
-        </li>
-        <li class="nav-item">
-            <a aria-controls="pain" aria-selected="false" class="nav-link" data-toggle="tab" href="#painTab" id="pain-tab" role="tab">Pain Assessment</a>
-        </li>
-        <li class="nav-item">
-            <a aria-controls="systems" aria-selected="false" class="nav-link" data-toggle="tab" href="#systems" id="systems-tab" role="tab">Systems Review</a>
-        </li>
-    </ul>
+  
     <button class="btn btn-primary btn-block" onclick="setFormSubmit()" type="submit"  style="padding-top: 10px">Save & Close Assessment</button>
 </form>
 <hr/>

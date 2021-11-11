@@ -4342,20 +4342,21 @@ input[type="button"].btn-block {
 
 .nav-tabs .nav-item {
   margin-bottom: -1px;
+  border: 3px;
 }
 
 .nav-tabs .nav-link {
-  border: 1px solid transparent;
+  border: 3px;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
 }
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #ecf0f1 #ecf0f1 #ecf0f1;
+  border-color: #414346 #ecf0f1 #ecf0f1;
 }
 
 .nav-tabs .nav-link.disabled {
-  color: #95a5a6;
+  color: #414346;
   background-color: transparent;
   border-color: transparent;
 }
