@@ -120,10 +120,12 @@ namespace IS_Proj_HIT.Models.Data
 
         void AddAddress(Address address);
 
-        void AddAnswer(UserSecurityQuestion answer);
-        void DeleteAnswer(UserSecurityQuestion answer);
+        void AddUserSecurityQuestion(UserSecurityQuestion answer);
+        void EditUserSecurityQuestion(UserSecurityQuestion answer);
+        void DeleteUserSecurityQuestion(UserSecurityQuestion answer);
 
-        void AddQuestion(SecurityQuestion question);
-        void DeleteQuestion(SecurityQuestion question);
+        void AddSecurityQuestion(SecurityQuestion question);
+        void EditSecurityQuestion(SecurityQuestion question);
+        void DeleteSecurityQuestion(SecurityQuestion question);
     }
 }

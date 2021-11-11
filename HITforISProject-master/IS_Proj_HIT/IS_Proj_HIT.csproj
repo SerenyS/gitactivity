@@ -51,6 +51,7 @@
 		<PackageReference Include="ReflectionIT.Mvc.Paging" Version="5.1.1"/>
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0"/>
 		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7"/>
+		<PackageReference Include="System.Web.Helpers.Crypto" Version="3.2.3"/>
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Migrations\"/>

@@ -73,7 +73,7 @@ namespace IS_Proj_HIT.Controllers
             }
 
             if (!isAdmin && currentUserFacility != null) {
-
+                /*
                 var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
                 
                 if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
@@ -93,10 +93,10 @@ namespace IS_Proj_HIT.Controllers
                 }
 
                 ViewBag.UserFacil = currentUserFacility.FacilityId;
-                ViewBag.SecCheck = secCheck;
+                ViewBag.SecCheck = secCheck;*/
 
                 model = _repository.Encounters
-                .Where(e => e.DischargeDateTime == null && (e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck))
+                .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId)
                 .OrderByDescending(e => e.AdmitDateTime)
                 .Join(_repository.Patients,
                     e => e.Mrn,
@@ -431,6 +431,39 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
 
+        public IActionResult PCAIndex(long encounterId)
+        {
+            ViewData["ErrorMessage"] = "";
+
+            var id = User.Identity.Name;
+
+            var encounter = _repository.Encounters
+                .Include(e => e.Facility)
+                .Include(e => e.Department)
+                .Include(e => e.AdmitType)
+                .Include(e => e.EncounterPhysicians.Physician)
+                .Include(e => e.EncounterType)
+                .Include(e => e.PlaceOfService)
+                .Include(e => e.PointOfOrigin)
+                .Include(e => e.DischargeDispositionNavigation)
+                .Include(e => e.Pcarecords)
+                .FirstOrDefault(b => b.EncounterId == encounterId);
+            if (encounter is null) {
+                ViewData["ErrorMessage"] = "No PCA to display.";
+                return RedirectToAction("Error");
+            }
+            
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+            
+
+            return View(new ViewEncounterPageModel
+            {
+                Encounter = encounter,
+                Patient   = patient
+            });
+        }
 
         // Displays History and Physical view? Appears to be left in progress
         // Used in: PatientBanner
