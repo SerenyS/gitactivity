@@ -32,7 +32,7 @@ namespace IS_Proj_HIT.Controllers
             var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
             var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
             var facilities = _repository.Facilities;
-            var secCheck = 0;
+            //var secCheck = 0;
 
             var isAdmin = User.IsInRole("Administrator");
             

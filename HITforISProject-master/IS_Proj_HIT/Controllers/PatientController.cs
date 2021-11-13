@@ -347,7 +347,7 @@ namespace IS_Proj_HIT.Controllers
             var currentUserFacility = repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
             var facilities = repository.Facilities;
 
-            var secCheck = 0;
+            //var secCheck = 0;
 
             var isAdmin = User.IsInRole("Administrator");
             ViewBag.IsAdmin = isAdmin;
