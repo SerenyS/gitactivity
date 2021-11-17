@@ -29,18 +29,16 @@
     <div class="card-body bg-light">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-3">
-                    <span class="font-weight-bold">Alias: </span>
-                </div>
+               
                 <div class="col-sm-4 col-md-3">
                     <label>First Name: </label>
                     <span class="font-weight-bold">@(Model.AliasFirstName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-4 col-md-3">
-                    <label>Middle Initial: </label>
+                <div class="col-sm-4 col-md-3" style="padding-left: 150px">
+                    <label> Middle Initial: </label>
                     <span class="font-weight-bold">@(Model.AliasMiddleName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-4 col-md-3">
+                <div class="col-sm-12 col-md-6" style="padding-left: 290px">
                     <label>Last Name: </label>
                     <span class="font-weight-bold">@(Model.AliasLastName ?? "N/A")</span>
                 </div>
@@ -151,22 +149,44 @@
                     @{
                         var counter = 0;
                     }
-                    @foreach (var enc in Model.Encounters/*.Where(e => e.FacilityId == CurrentUserFacilityId)*/.OrderByDescending(e => e.AdmitDateTime))
+                    @if (ViewBag.isAdmin == true)
                     {
-                        <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
-                            <td>
-                                <a asp-controller="Encounter"
-                                   asp-action="ViewEncounter"
-                                   asp-route-encounterId="@enc.EncounterId"
-                                   class="btn btn-info btn-sm">
-                                    View
-                                </a>
-                            </td>
-                            <td>@enc.Facility?.Name</td>
-                            <td>@enc.AdmitDateTime.ToString("g")</td>
-                            <td>@(enc.DischargeDateTime is null ? "NOT DISCHARGED" : enc.DischargeDateTime?.ToString("g"))</td>
-                            <td class="d-sm-none d-md-table-cell">@enc.LastModified.ToString("g")</td>
-                        </tr>
+                        @foreach (var enc in Model.Encounters.OrderByDescending(e => e.AdmitDateTime))
+                        {
+                            <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
+                                <td>
+                                    <a asp-controller="Encounter"
+                                    asp-action="ViewEncounter"
+                                    asp-route-encounterId="@enc.EncounterId"
+                                    class="btn btn-info btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                                <td>@enc.Facility?.Name</td>
+                                <td>@enc.AdmitDateTime.ToString("g")</td>
+                                <td>@(enc.DischargeDateTime is null ? "NOT DISCHARGED" : enc.DischargeDateTime?.ToString("g"))</td>
+                                <td class="d-sm-none d-md-table-cell">@enc.LastModified.ToString("g")</td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.isAdmin == false) {
+                        @foreach (var enc in Model.Encounters.Where(e => e.FacilityId == ViewBag.CurrentUserFacilityId && e.FacilityId == ViewBag.SecondCheck).OrderByDescending(e => e.AdmitDateTime))
+                        {
+                            <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
+                                <td>
+                                    <a asp-controller="Encounter"
+                                    asp-action="ViewEncounter"
+                                    asp-route-encounterId="@enc.EncounterId"
+                                    class="btn btn-info btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                                <td>@enc.Facility?.Name</td>
+                                <td>@enc.AdmitDateTime.ToString("g")</td>
+                                <td>@(enc.DischargeDateTime is null ? "NOT DISCHARGED" : enc.DischargeDateTime?.ToString("g"))</td>
+                                <td class="d-sm-none d-md-table-cell">@enc.LastModified.ToString("g")</td>
+                            </tr>
+                        }
                     }
                     @if (Model.Encounters.Count > 5)
                     {

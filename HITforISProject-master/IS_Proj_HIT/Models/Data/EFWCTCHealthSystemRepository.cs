@@ -66,6 +66,9 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<Program> Programs => _context.Programs;
         public IQueryable<UserFacility> UserFacilities => _context.UserFacilities;
         public IQueryable<UserProgram> UserPrograms => _context.UserPrograms;
+        public IQueryable<ProgramFacility> ProgramFacilities => _context.ProgramFacilities;
+        public IQueryable<SecurityQuestion> SecurityQuestions => _context.SecurityQuestions;
+        public IQueryable<UserSecurityQuestion> UserSecurityQuestions => _context.UserSecurityQuestions;
 
 
 
@@ -337,6 +340,58 @@ namespace IS_Proj_HIT.Models.Data
         public void EditUserProgram(UserProgram userProgram)
         {
             _context.Update(userProgram);
+            _context.SaveChanges();
+        }
+
+        public void AddProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Add(programFacility);
+            _context.SaveChanges();
+        }
+
+        public void DeleteProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Remove(programFacility);
+            _context.SaveChanges();
+        }
+
+        public void EditProgramFacility(ProgramFacility programFacility)
+        {
+            _context.Update(programFacility);
+            _context.SaveChanges();
+        }
+        
+        public void AddUserSecurityQuestion(UserSecurityQuestion answer) {
+            _context.Add(answer);
+            _context.SaveChanges();
+        }
+        public void AddAnswer(UserSecurityQuestion answer) {
+            _context.Add(answer);
+            _context.SaveChanges();
+        }
+
+        public void EditUserSecurityQuestion(UserSecurityQuestion answer) {
+            _context.Update(answer);
+            _context.SaveChanges();
+        }
+        
+        public void DeleteUserSecurityQuestion(UserSecurityQuestion answer) {
+            _context.Remove(answer);
+            _context.SaveChanges();
+        }
+
+        public void AddSecurityQuestion(SecurityQuestion question) {
+            _context.Add(question);
+            _context.SaveChanges();
+        }
+
+        public void EditSecurityQuestion(SecurityQuestion question) {
+            _context.Update(question);
+            _context.SaveChanges();
+        }
+
+        public void DeleteSecurityQuestion(SecurityQuestion question) {
+            _context.Remove(question);
             _context.SaveChanges();
         }
     }

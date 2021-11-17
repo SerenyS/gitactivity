@@ -61,8 +61,15 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<Program> Programs { get; }
         IQueryable<UserFacility> UserFacilities { get; }
         IQueryable<UserProgram> UserPrograms { get; }
+        IQueryable<ProgramFacility> ProgramFacilities { get; }
+        IQueryable<SecurityQuestion> SecurityQuestions { get; }
+        IQueryable<UserSecurityQuestion> UserSecurityQuestions { get; }
 
         #endregion
+
+        void AddProgramFacility(ProgramFacility programFacility);
+        void DeleteProgramFacility(ProgramFacility programFacility);
+        void EditProgramFacility(ProgramFacility programFacility);
 
         void AddUserFacility(UserFacility userFacility);
         void DeleteUserFacility(UserFacility userFacility);
@@ -112,5 +119,13 @@ namespace IS_Proj_HIT.Models.Data
         void DeletePatientRace(PatientRace race);
 
         void AddAddress(Address address);
+
+        void AddUserSecurityQuestion(UserSecurityQuestion answer);
+        void EditUserSecurityQuestion(UserSecurityQuestion answer);
+        void DeleteUserSecurityQuestion(UserSecurityQuestion answer);
+
+        void AddSecurityQuestion(SecurityQuestion question);
+        void EditSecurityQuestion(SecurityQuestion question);
+        void DeleteSecurityQuestion(SecurityQuestion question);
     }
 }

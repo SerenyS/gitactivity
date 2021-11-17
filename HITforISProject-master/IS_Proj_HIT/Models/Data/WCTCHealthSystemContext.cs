@@ -896,6 +896,8 @@ namespace IS_Proj_HIT.Models.Data
                     .HasForeignKey(d => d.PointOfOriginId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Encounter_PointOfOriginID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<EncounterAlert>(entity =>
@@ -1749,6 +1751,8 @@ namespace IS_Proj_HIT.Models.Data
                     .HasForeignKey(d => d.SexId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Patient_SexID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<PatientAdvancedDirective>(entity =>
@@ -2432,6 +2436,8 @@ namespace IS_Proj_HIT.Models.Data
                     .WithMany(p => p.Pcarecords)
                     .HasForeignKey(d => d.TempRouteTypeId)
                     .HasConstraintName("fk_PCARecord_TempRouteTypeID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<Physician>(entity =>
@@ -2552,6 +2558,8 @@ namespace IS_Proj_HIT.Models.Data
                     .WithMany(p => p.PhysicianAssessmentReferringProviderNavigations)
                     .HasForeignKey(d => d.ReferringProvider)
                     .HasConstraintName("fk_PAReferringProvider");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<PhysicianAssessmentDetail>(entity =>
@@ -2762,6 +2770,8 @@ namespace IS_Proj_HIT.Models.Data
                     .WithMany(p => p.ProcedureReports)
                     .HasForeignKey(d => d.EncounterId)
                     .HasConstraintName("fk_PREncounterID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<ProcedureReportAnestheticType>(entity =>
@@ -2908,6 +2918,8 @@ namespace IS_Proj_HIT.Models.Data
                     .HasForeignKey(d => d.PhysicianId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_PNPhysicanID");
+
+                //entity.Property(e => e.EditedBy).HasColumnName("EditedBy");
             });
 
             modelBuilder.Entity<ProviderType>(entity =>

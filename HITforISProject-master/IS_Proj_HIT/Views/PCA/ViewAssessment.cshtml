@@ -24,7 +24,8 @@
     </div>
     <div class="card-body bg-light">
         <div class="container">
-            <h5 class="d-block pb-1 mb-2">
+            <h5 class="d-block pb-1 mb-2"
+                >
                 <span class="float-left">Date Vitals Entered: <b>@Model.DateVitalsAdded?.ToString("g")</b></span>
                 <span class="float-right">Last Modified: <b>@Model.LastModified.ToString("g")</b></span>
             </h5>
@@ -38,7 +39,7 @@
                         <th>Body Mass Index</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table table-bordered table-secondary" style="color: black">
                     <tr>
                         <td>@(Model.Temperature is null ? "N.A." : $"{Model.Temperature} *F ({Model.TempRouteType.TempRouteTypeName})")</td>
                         <td>@(Model.Weight is null ? "N.A." : $"{Model.Weight} {Model.WeightUnits}")</td>
@@ -60,7 +61,7 @@
                         <th>Respiration Assistance Route</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody  class="table table-bordered table-secondary" style="color: black">
                     <tr>
                         <td>
                             @if (Model.BloodPressureRouteType != null && Model.SystolicBloodPressure != null && Model.DiastolicBloodPressure != null)
@@ -176,7 +177,7 @@
                             <th>Comment</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody  class="table table-bordered table-secondary" style="color: black">
                         @foreach (var sa in Model.CareSystemAssessments)
                         {
                             <tr>
@@ -195,8 +196,8 @@
 <hr />
 
 <a asp-controller="Encounter"
-   asp-action="ViewEncounter"
+   asp-action="PCAIndex"
    asp-route-encounterId="@Model.Encounter.EncounterId"
    class="btn btn-outline-primary">
-    <i class="fas fa-arrow-left"></i> Return To Encounter
+    <i class="fas fa-arrow-left"></i> Return To PCAs
 </a>

@@ -12,8 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
+using System.Text.Encodings.Web;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -105,6 +106,7 @@ namespace IS_Proj_HIT.Controllers
         #endregion
 
         // Displays EditRegister details page
+        // Used when clicked on your e-mail in the nav-bar
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
         [Authorize(Roles = "Administrator")]
@@ -224,50 +226,19 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        //Delete User from AspNetUsers - Chris P - 2/28/21
-        //Used in: Admin Details, List/ViewUsers
-        public async Task<IActionResult> DeleteUser(string ASPid)
-        {
-            var userTables = _repository.UserTables;
-            var userToDelete = userTables.Where(u => u.AspNetUsersId == ASPid);
-            var ASPuserToDelete = await _userManager.FindByIdAsync(ASPid);
-            
-            //var userToDelete = await _userManager.FindByEmailAsync(id);
+        //public async Task<IActionResult> ResetUserPassword(string id)
+        //{
+        //    //var user = await _userManager.FindByIdAsync(id);
+        //    //string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //    //var callbackUrl = Url.Page(
+        //    //       "/Identity/Account/ResetPassword",
+        //    //       pageHandler: null,
+        //    //       values: new { code },
+        //    //       protocol: Request.Scheme);
 
-            if(ASPuserToDelete == null)
-            {
-                ViewBag.ErrorMessage = $"User with the Id = {ASPid} cannot be found.";
-                return View("NotFound");
-            }
-            else
-            {
-                // deletes the from the user table
-                //await _repository.DeleteUser(userToDelete);
-                // deletes the ASPUser 
-                var result = await _userManager.DeleteAsync(ASPuserToDelete);
-                
-                //var result = 
-                
-                if(result.Succeeded)
-                {
-                    
-                    return RedirectToAction("ListUsers");
-                }
-                
-                foreach(var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View("ListUsers");
-                
-                
-                    
-            }
-        }
+        //    return Redirect($"/Identity/Account/ForgotPasswordConfirmation/{id}");
+        //}
 
-        
-        // Delete selection of Users
-        // Used in: ListUsers
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
                 foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
@@ -284,7 +255,6 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListUsers");
             
         }
-
 
         public IActionResult CreateRole() => View();
 
@@ -310,7 +280,8 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // User details
+        // Displays user details
+        // Used in: UserList?
         public IActionResult Details(int id)
         {
 
@@ -469,8 +440,9 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        // Edit user details??
-        // Looks to be fairly similar to EditRegisterDetails
+        // Edit user in administration
+        // Only accessible from clicking edit, does not currently work if Details -> Edit
+        // Adds user facility?
          #endregion
         public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
@@ -484,7 +456,7 @@ namespace IS_Proj_HIT.Controllers
             }
 
             ViewBag.FacilityList = new List<SelectListItem>();
-            var facilities = _repository.Facilities.Where(p => p.Name == "WCTC HC Nursing SECURE" || p.Name == "WCTC HC Nursing SIM");
+            var facilities = _repository.Facilities;
             foreach (var facility in facilities)
             {
                 ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.FacilityId.ToString() });
@@ -528,32 +500,98 @@ namespace IS_Proj_HIT.Controllers
 
             return View(viewModel);
         }
-        /* public async Task<IActionResult> EditUserDetails(string id)
-         {
-             //find current user
-             //var id = _userManager.GetUserId(HttpContext.User);
-             //select the information I want to display
-             var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
-                          new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
-             //Create or get program list from DB
-             ViewBag.ProgramList = new List<SelectListItem>
-             {
-                 new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                 new SelectListItem {Text = "Nursing", Value = "Nursing"}
-             };
-             //get list of possible instructors from db
-             var instructorEmails = new List<string>();
-             instructorEmails.AddRange(
-                 (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                 .Select(u => u.Email));
-             instructorEmails.AddRange(
-                 (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                 .Select(u => u.Email));
-             ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                 .Select(u => new SelectListItem
-                 { Text = u.LastName, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId }).ToList();
-             return View(dbUser);
-         }*/
+
+        // Edits and saves security questions
+        // Used in: EditSecurityQuestions
+        public IActionResult EditSecurityQuestions(EditUserSecurityQuestionsViewModel viewModel)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserId = currentUser.UserId;
+
+            ViewBag.QuestionList = new List<SelectListItem>();
+            var sqList = _repository.SecurityQuestions
+                .Select(n => new {n.SecurityQuestionId, n.QuestionText})
+                .ToList(); 
+            foreach (var question in sqList)
+            {
+                ViewBag.QuestionList.Add(new SelectListItem { Text = question.QuestionText, Value = question.SecurityQuestionId.ToString() });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var question1 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId1, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash1) };
+                var question2 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId2, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash2) };
+                var question3 = new UserSecurityQuestion { UserId = currentUserId, SecurityQuestionId = viewModel.SecurityQuestionId3, AnswerHash = GetStringSha256Hash(viewModel.AnswerHash3) };
+                
+                var qsToDelete = _repository.UserSecurityQuestions
+                                .Where(q => q.UserId == currentUserId);
+                if (!qsToDelete.Count().Equals(0)) {
+                    foreach (UserSecurityQuestion question in qsToDelete) {
+                        _repository.DeleteUserSecurityQuestion(question);
+                    }
+                }
+                _repository.AddUserSecurityQuestion(question1);
+                _repository.AddUserSecurityQuestion(question2);
+                _repository.AddUserSecurityQuestion(question3);
+                // Console.WriteLine("QUESTION 1:" + question1.SecurityQuestionId);
+                // Console.WriteLine("QUESTION 2:" + question2.SecurityQuestionId);
+                // Console.WriteLine("QUESTION 3:" + question3.SecurityQuestionId);
+                
+            }
+
+            return View(viewModel);
+        }
+
+        // Checks security questions
+        // Used in: SecurityQuestions
+        public IActionResult CheckSecurityQuestions(EditUserSecurityQuestionsViewModel viewModel)
+        {
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserId = currentUser.UserId;
+
+            List<string> questions = new List<string>();
+            var sqList = _repository.UserSecurityQuestions
+                .Where(q => q.UserId == currentUserId)
+                .ToList(); 
+            if (!sqList.Count().Equals(0)) {
+                // do nothing?
+            }
+            else {
+                foreach (var question in sqList)
+                {
+                    var questionMatch = _repository.SecurityQuestions
+                        .FirstOrDefault(q => q.SecurityQuestionId == question.SecurityQuestionId);
+                    questions.Add(questionMatch.QuestionText);
+                }
+                ViewBag["Questions"] = questions;
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                // check answers
+                
+            }
+
+            return View(viewModel);
+        }
+
+        // Hash security question answers
+        // Used in: EditSecurityQuestions
+        internal static string GetStringSha256Hash(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+                return String.Empty;
+
+            using (var sha = new System.Security.Cryptography.SHA256Managed())
+            {
+                byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
+                byte[] hash = sha.ComputeHash(textData);
+                return BitConverter.ToString(hash).Replace("-", String.Empty);
+            }
+        }
 
     }
 }

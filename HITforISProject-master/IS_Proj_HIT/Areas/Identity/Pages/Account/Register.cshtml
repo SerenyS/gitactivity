@@ -28,15 +28,10 @@
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            @* <div class="form-group"> *@
-            @*     <label asp-for="Input.userID"></label> *@
-            @*     <input asp-for="Input.userID" class="form-control" type="number"> *@
-            @*     <span asp-validation-for="Input.userID" class="text-danger"></span> *@
-            @* </div> *@
-            @* <div class="form-group"> *@
-            @*     <label asp-for="Input.program"></label> *@
-            @*     <input > *@
-            @* </div> *@
+             <div class="form-group"> 
+                 <label asp-for="Input.ProgramId"></label><br /> 
+                 <select class="form-control dropdowns" asp-for="Input.ProgramId" asp-items="@Model.Programs"></select>
+             </div> 
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control"/>

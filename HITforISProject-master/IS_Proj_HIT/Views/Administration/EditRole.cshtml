@@ -2,13 +2,14 @@
 @{
     ViewBag.Title = "Edit Role";
 }
-<h1>
-<a class="btn btn-primary" asp-action="ViewRoles">
+<div class="row my-3">
+<h3>
+    <a class="btn btn-primary" asp-action="Index">
         <i class="fa fa-arrow-left "></i>
-</a>
-Edit Role
-</h1>
-
+    </a>
+    Edit Role
+</h3>
+</div>
 <form method="post" class="mt-3">
     <div class="form-group row">
         <label asp-for="Id" class="col-sm-2 col-form-label"></label>

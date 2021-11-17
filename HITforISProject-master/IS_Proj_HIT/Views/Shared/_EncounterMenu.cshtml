@@ -1,8 +1,16 @@
+@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
+
 <div class="card col-2 mx-0 px-0 float-left"> 
 <div class="card-header bg-primary text-white">
-    <h4>
-        Encounter Menu
-    </h4>
+  <h4>
+      Encounter Menu
+  </h4>
+  <a asp-controller="Encounter"
+  asp-action="ViewEncounter"
+  asp-route-encounterId="@Model.Encounter.EncounterId" 
+  class="text-white">
+      <small>Return to Encounter</small>
+  </a>
 </div>
 
 
@@ -98,7 +106,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn disabled"> Patient Care Assessments</a>
+          <a class="btn btn-primary" asp-controller="Encounter" asp-action="PCAIndex" asp-route-encounterId="@Model.Encounter.EncounterId"> Patient Care Assessments</a>
         </div>
       </div>
     </div>

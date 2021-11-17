@@ -38,7 +38,7 @@ namespace IS_Proj_HIT.Models
         public byte? EthnicityId { get; set; }
         public int? EmploymentId { get; set; }
         public DateTime LastModified { get; set; }
-        public int? EditedBy { get; set; }
+        //public int? EditedBy { get; set; }
 
         public virtual Employment Employment { get; set; }
         public virtual Ethnicity Ethnicity { get; set; }

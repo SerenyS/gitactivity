@@ -12,7 +12,7 @@ namespace IS_Proj_HIT.Controllers
         public IActionResult Index() => View();
         
         public IActionResult BritRedirect() => Redirect("https://hcsdev.wctc.edu:4443");
-
+        
         public IActionResult Privacy()
         {
             ViewBag.privacy = "privacy";

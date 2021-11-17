@@ -1,0 +1,22 @@
+﻿@page
+@model IS_Proj_HIT.Areas.Identity.Pages.Account.SetProgramModel
+
+@{
+    ViewData["Title"] = "Select Program(s)";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-5">
+        <section>
+            <form method="post">
+                @foreach (var program in Model.Programs)
+                {
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="@program.Name" asp-for="Input.ProgramName" title="@program.Name" />
+                    </div>
+                }
+            </form>
+        </section>
+    </div>
+</div>

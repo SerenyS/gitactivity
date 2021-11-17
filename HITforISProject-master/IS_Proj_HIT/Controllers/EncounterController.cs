@@ -19,22 +19,23 @@ namespace IS_Proj_HIT.Controllers
         private readonly IWCTCHealthSystemRepository _repository;
         private readonly WCTCHealthSystemContext _db;
         public int PageSize = 8;
-        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) {
+        public EncounterController(IWCTCHealthSystemRepository repo, WCTCHealthSystemContext db) 
+        {
             _repository = repo;
             _db = db;
         } 
 
-        // Loads PCA Screen
+        // Loads PCA Screen, Filters by facility
         // Used in: Navbar (_Layout) and Home Page, ViewDischarge, ViewEncounter (if patient is still checked in?)
         public ViewResult CheckedIn()
         {
             var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
             var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
-
-            var secCheck = 0;
+            var facilities = _repository.Facilities;
+            //var secCheck = 0;
 
             var isAdmin = User.IsInRole("Administrator");
-
+            
             var model = _repository.Encounters
                 .Where(e => e.DischargeDateTime == null)
                 .OrderByDescending(e => e.AdmitDateTime)
@@ -51,24 +52,9 @@ namespace IS_Proj_HIT.Controllers
                             e.DischargeDateTime.ToString(),
                             e.RoomNumber));
 
-            if (!isAdmin) {
-                // non admins may get error until UserFacility table in database is filled!
-                // UNCOMMENT WHEN USERFACILITIES HAVE BEEN ADDED
-                /*
-                if (currentUserFacility.FacilityId == 3) {
-                secCheck = 4;
-                }
-                
-                if (currentUserFacility.FacilityId == 5) {
-                    secCheck = 6;
-                }
-
-                if (currentUserFacility.FacilityId == 7) {
-                    secCheck = 8;
-                }
-
+            if (!isAdmin && currentUserFacility == null) {
                 model = _repository.Encounters
-                .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck)
+                .Where(e => e.DischargeDateTime == null && (e.FacilityId == 0))
                 .OrderByDescending(e => e.AdmitDateTime)
                 .Join(_repository.Patients,
                     e => e.Mrn,
@@ -81,7 +67,49 @@ namespace IS_Proj_HIT.Controllers
                             p.LastName,
                             e.Facility.Name,
                             e.DischargeDateTime.ToString(),
-                            e.RoomNumber)); */
+                            e.RoomNumber));
+
+                ViewBag.ErrorMessage = "You do not currently have an assigned facility.";
+            }
+
+            if (!isAdmin && currentUserFacility != null) {
+                /*
+                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
+                }
+
+                ViewBag.UserFacil = currentUserFacility.FacilityId;
+                ViewBag.SecCheck = secCheck;*/
+
+                model = _repository.Encounters
+                .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId)
+                .OrderByDescending(e => e.AdmitDateTime)
+                .Join(_repository.Patients,
+                    e => e.Mrn,
+                    p => p.Mrn,
+                    (e, p) =>
+                        new EncounterPatientViewModel(e.Mrn,
+                            e.EncounterId,
+                            e.AdmitDateTime,
+                            p.FirstName,
+                            p.LastName,
+                            e.Facility.Name,
+                            e.DischargeDateTime.ToString(),
+                            e.RoomNumber));
             }
 
             return View(model);
@@ -166,7 +194,7 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-        // View specific encounter
+        // View encounter page
         // Used in: PCAController, CheckedIn, EditEncounter (to return to view), HistoryAndPhysical (currently unused), PatientDetails, View/Create/UpdatePCAAssessment
         public IActionResult ViewEncounter(long encounterId)
         {
@@ -212,7 +240,7 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Deletes Encounter
+        // Deletes Encounter, cannot delete if PCA records exist, redirects to PCA
         // Used in: CheckedIn, ViewEncounter
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEncounter(long encounterId)
@@ -316,7 +344,7 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
-        // add dropdowns to encounter views
+        // add dropdowns to encounter views, only user's facility(ies) can be selected
         // Controller method to display dropdowns
         private void AddDropdowns()
         {
@@ -363,29 +391,35 @@ namespace IS_Proj_HIT.Controllers
                     .OrderBy(n => n.Name)
                     .Select(fac => new {fac.FacilityId, fac.Name})
                     .ToList();
+            var facilities = _repository.Facilities;
             
             if (!isAdmin) {
                 var secCheck = 0;
-                // non admins may get error until UserFacility table in database is filled!
-                // UNCOMMENT WHEN USERFACILITIES HAVE BEEN ADDED
-                /*
-                if (currentUserFacility.FacilityId == 3) {
-                    secCheck = 4;
-                }
+                // non admins may get an error if they don't have a facility
                 
-                if (currentUserFacility.FacilityId == 5) {
-                    secCheck = 6;
+                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
                 }
 
-                if (currentUserFacility.FacilityId == 7) {
-                    secCheck = 8;
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
+                
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
+                }
+
+                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+
+                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
+                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
                 }
 
                 queryFacility = _repository.Facilities
-                    .Where(e => e.FacilityId == currentUserFacility.FacilityId || e.FacilityId == secCheck)
+                    .Where(e => e.FacilityId == currentUserFacility.FacilityId && e.FacilityId == secCheck)
                     .OrderBy(n => n.Name)
                     .Select(fac => new {fac.FacilityId, fac.Name})
-                    .ToList();*/
+                    .ToList();
             }
 
             ViewBag.Facility = new SelectList(queryFacility, "FacilityId", "Name", 0);
@@ -397,8 +431,41 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
 
+        public IActionResult PCAIndex(long encounterId)
+        {
+            ViewData["ErrorMessage"] = "";
 
-        // ? Looks like was left in progress
+            var id = User.Identity.Name;
+
+            var encounter = _repository.Encounters
+                .Include(e => e.Facility)
+                .Include(e => e.Department)
+                .Include(e => e.AdmitType)
+                .Include(e => e.EncounterPhysicians.Physician)
+                .Include(e => e.EncounterType)
+                .Include(e => e.PlaceOfService)
+                .Include(e => e.PointOfOrigin)
+                .Include(e => e.DischargeDispositionNavigation)
+                .Include(e => e.Pcarecords)
+                .FirstOrDefault(b => b.EncounterId == encounterId);
+            if (encounter is null) {
+                ViewData["ErrorMessage"] = "No PCA to display.";
+                return RedirectToAction("Error");
+            }
+            
+            var patient = _repository.Patients
+                .Include(p => p.PatientAlerts)
+                .FirstOrDefault(p => p.Mrn == encounter.Mrn);
+            
+
+            return View(new ViewEncounterPageModel
+            {
+                Encounter = encounter,
+                Patient   = patient
+            });
+        }
+
+        // Displays History and Physical view? Appears to be left in progress
         // Used in: PatientBanner
         public ViewResult HistoryAndPhysical(long id)
         {

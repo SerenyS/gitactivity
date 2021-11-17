@@ -1,0 +1,27 @@
+﻿@model IS_Proj_HIT.ViewModels.EditUserSecurityQuestionsViewModel
+
+@{
+    ViewData["Title"] = "Add Security Questions";
+}
+
+<h1>Add Security Questions</h1>
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="CheckSecurityQuestions" method="post">
+            @{foreach (var question in ViewBag.Questions) {
+                <div class="form-group">
+                    <label class="custom-select mr-sm-2">@question</label>
+                </div>
+                <div class="form-group">
+                    <label for="questionAnswer"></label>
+                    <input type="text" class="form-control" placeholder="answer"/>
+                </div>
+            } }
+            <div class="form-group">
+                <button type="submit">Confirm</button>
+                @* <button type="reset">Reset</button> *@
+            </div>
+        </form>
+        </div>
+</div>
