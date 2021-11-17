@@ -12,42 +12,65 @@
 </head>
 <body>
 <div>
-      <form>
-          <div class="form-group row">
-              <label for="HaPdDate" class="col-sm-2 col-form-label">Date:</label>
-              <div class="col-sm-3">
-                  <input type="datetime-local" class="form-control" id="HaPdDate">
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="HaPComplaint" class="col-sm-2 col-form-label">Chef Complaint:</label>
-              <div class="col-sm-10">
-                  <input type="text" id="HaPComplaint" class="form-control">
-              </div>
-          </div>
-          <div class="form-group row">
-              <div class="form-check col-sm-2">
-                  <input type="checkbox" class="form-check-input">
-                  <label class=" col-form-label">HEENT:</label>
-              </div>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control">
-              </div>
-          </div>
-          <div class="form-group row">
-              <div class="form-check col-sm-2">
-                  <input type="checkbox" class="form-check-input">
-                  <label class=" col-form-label">HEM/LYMPH:</label>
-              </div>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control">
-              </div>
-          </div>
-          <div class="form-group">
-              <label> SIGNFICANT DIAGNOSTIC</label>
-              <input class="form-control" type="text" id="">
-          </div>
-      </form>
+    <form>
+        <div class="form-group row mb-4 mt-4">
+            <label for="HaPdDate" class="col-sm-2 col-form-label ">Date:</label>
+            <div class="col-sm-3">
+                <input type="datetime-local" class="form-control" id="HaPdDate">
+            </div>
+        </div>
+        <div class="form-group row mb-4">
+            <label for="HaPComplaint" class="col-sm-2 col-form-label">Chef Complaint:</label>
+            <div class="col-sm-10">
+                <input type="text" id="HaPComplaint" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row mb-4">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input">
+                <label class=" col-form-label">HEENT:</label>
+            </div>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="form-group row mb-4">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input">
+                <label class=" col-form-label">HEM/LYMPH:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group mb-4">
+            <label for="significantDiagnostic" class="form-label">SIGNIFICANT DIAGNOSTIC</label>
+            <textarea class="form-control" rows="4" id="significantDiagnostic"></textarea>
+        </div>
+        <div class="form-group mb-4">
+            <label for="assessment" class="form-label">ASSESSMENT</label>
+            <textarea class="form-control" rows="4" id="assessment"></textarea>
+        </div>
+        <div class="form-group mb-4">
+            <label for="pain" class="form-label">PAIN</label>
+            <textarea class="form-control" rows="4" id="pain"></textarea>
+        </div>
+        <div class="mx-auto">
+            <div class="form-group row mb-4">
+                <label for="provider" class="form-label col-sm-1">Provider:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="provider">
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <label for="coSignature" class="form-label col-sm-1">CO Signature:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="coSignature">
+                </div>
+            </div>
+        </div>
+
+    </form>
 </div>
 </body>
 </html>
