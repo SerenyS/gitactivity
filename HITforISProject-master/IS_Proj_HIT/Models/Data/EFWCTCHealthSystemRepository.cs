@@ -69,6 +69,7 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<ProgramFacility> ProgramFacilities => _context.ProgramFacilities;
         public IQueryable<SecurityQuestion> SecurityQuestions => _context.SecurityQuestions;
         public IQueryable<UserSecurityQuestion> UserSecurityQuestions => _context.UserSecurityQuestions;
+        public IQueryable<PhysicianAssessment> PhysicianAssessments => _context.PhysicianAssessments;
 
 
 
@@ -392,6 +393,11 @@ namespace IS_Proj_HIT.Models.Data
 
         public void DeleteSecurityQuestion(SecurityQuestion question) {
             _context.Remove(question);
+            _context.SaveChanges();
+        }
+
+        public void AddPhysicianAssessment(PhysicianAssessment assessment) {
+            _context.Add(assessment);
             _context.SaveChanges();
         }
     }
