@@ -115,21 +115,23 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View ProgressNotes
-        // Used in: PatientBanner
-        // UNUSED SINCE PROGRESS NOTES ARE NOT CURRENTLY FUNCTIONAL
+        // View ProgressNotes page
+        // Used in: EncounterMenu
         public IActionResult ProgressNotes(long id){
             var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
             var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
             
-            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
+            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id).OrderByDescending(p => p.WrittenDate);
             
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+            
+            ViewBag.ProgressNotes = _repository.ProgressNotes
+            .Where(p => p.EncounterId == id);
 
              Patient patient = new Patient()
             {
@@ -139,27 +141,47 @@ namespace IS_Proj_HIT.Controllers
 
             };
 
+            patient = ViewBag.Patient;
+
             Encounter encounter = new Encounter()
             {
                 EncounterId = id
             };
 
+            var model = new ViewEncounterPageModel(desiredEncounter, desiredPatient, desiredProgressNotes);
 
 
-            if(desiredProgressNotes.Any()){
-                return View(desiredProgressNotes);
-            }
-            else{
-                return View();
-            }
+            // if(desiredProgressNotes.Any()){
+            //     return View(model);
+            // }
+            // else{
+            //     return View(model);
+            // }
+            return View(model);
         }
 
-        // View Edit Progress Note
+        // View Create New Progress Note
         // Used in: ProgressNotes
         // NO CURRENT FUNCTION
-        public IActionResult EditProgressNotes(){
+        public IActionResult AddProgressNotes(long id){
 
-            return View();
+            var model = new ProgressNotesViewModel(id);
+
+            var queryPhysician = _db.Physicians
+                    .OrderBy(p => p.LastName)
+                    .Select(p => new {p.PhysicianId, p.FirstName, p.LastName})
+                    .ToList();
+
+            ViewBag.Physicians = new SelectList(queryPhysician, "PhysicianId", "FirstName LastName", 0);
+
+            var queryNoteType = _db.NoteTypes
+                    .OrderBy(n => n.NoteTypeId)
+                    .Select(n => new {n.NoteTypeId, n.NoteType1})
+                    .ToList();
+
+            ViewBag.NoteTypes = new SelectList(queryNoteType, "NoteTypeId", "NoteType1", 0);
+
+            return View(model);
         }
 
         // View Discharge 

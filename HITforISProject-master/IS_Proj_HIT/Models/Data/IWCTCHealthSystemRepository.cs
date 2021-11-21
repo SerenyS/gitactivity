@@ -65,6 +65,7 @@ namespace IS_Proj_HIT.Models.Data
         IQueryable<SecurityQuestion> SecurityQuestions { get; }
         IQueryable<UserSecurityQuestion> UserSecurityQuestions { get; }
         IQueryable<PhysicianAssessment> PhysicianAssessments { get; }
+        IQueryable<ProgressNote> ProgressNotes { get; }
 
         #endregion
 
@@ -130,5 +131,7 @@ namespace IS_Proj_HIT.Models.Data
         void DeleteSecurityQuestion(SecurityQuestion question);
 
         void AddPhysicianAssessment(PhysicianAssessment assessment);
+
+        void AddProgressNote(ProgressNote progressNote);
     }
 }

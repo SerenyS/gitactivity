@@ -70,7 +70,7 @@ namespace IS_Proj_HIT.Models.Data
         public IQueryable<SecurityQuestion> SecurityQuestions => _context.SecurityQuestions;
         public IQueryable<UserSecurityQuestion> UserSecurityQuestions => _context.UserSecurityQuestions;
         public IQueryable<PhysicianAssessment> PhysicianAssessments => _context.PhysicianAssessments;
-
+        public IQueryable<ProgressNote> ProgressNotes => _context.ProgressNotes;
 
 
 
@@ -398,6 +398,11 @@ namespace IS_Proj_HIT.Models.Data
 
         public void AddPhysicianAssessment(PhysicianAssessment assessment) {
             _context.Add(assessment);
+            _context.SaveChanges();
+        }
+
+        public void AddProgressNote(ProgressNote progressNote) {
+            _context.Add(progressNote);
             _context.SaveChanges();
         }
     }
