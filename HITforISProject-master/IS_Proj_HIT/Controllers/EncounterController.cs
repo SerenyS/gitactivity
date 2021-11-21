@@ -465,7 +465,7 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-        // Displays History and Physical view? Appears to be left in progress
+        // Displays History and Physical physician assessment view
         // Used in: PatientBanner
         public ViewResult HistoryAndPhysical(long id)
         {
@@ -495,12 +495,15 @@ namespace IS_Proj_HIT.Controllers
                 EncounterId = id
             };
 
+            PhysicianAssessment hap = new PhysicianAssessment() {
+                EncounterId = id
+            };
+
             ViewEncounterPageModel model = new ViewEncounterPageModel()
             {
                 Patient = patient,
-                Encounter = encounter
-                
-
+                Encounter = encounter,
+                HistoryAndPhysical = hap
             };
 
             
@@ -508,15 +511,28 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Add Physician Assessment
+        // Add Physician Assessment (ex. History and Physical, Consultation, etc.)
         // NO CURRENT FUNCTION 
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
-        public IActionResult AddPhysicianAssessment(string id)
+        public IActionResult AddPhysicianAssessment(PhysicianAssessment model)
         {
-            return RedirectToAction();
+            var assessments = _repository.PhysicianAssessments;
+
+            var paID = assessments.OrderByDescending(u => u.PhysicianAssessmentId).FirstOrDefault();
+            model.PhysicianAssessmentId = paID.PhysicianAssessmentId + 1;
+
+            model.WrittenDateTime = DateTime.Now;
+            model.LastUpdated = DateTime.Now;
+
+            Console.WriteLine("ASSESSMENT: " + model.PhysicianAssessmentId + ", " + model.PhysicianAssessmentDate + ", " + model.ChiefComplaint + ", " + model.SignificantDiagnosticTests + ", " + model.Assessment + ", " + model.Plan + ", " + model.AuthoringProvider + ", " + model.CoSignature + ", " + model.EncounterId + ", " + model.WrittenDateTime + ", " + model.LastUpdated);
+
+            //_repository.AddPhysicianAssessment(model);
+
+            return RedirectToAction("ViewEncounter",
+                new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
-        // Add Physician Repotr
+        // Add Physician Report
         // NO CURRENT FUNCTION
         public IActionResult AddPhysicianReport()
         {
