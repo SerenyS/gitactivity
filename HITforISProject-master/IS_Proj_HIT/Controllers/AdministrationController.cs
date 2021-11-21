@@ -1,5 +1,4 @@
-﻿using IS_Proj_HIT.Data;
-using IS_Proj_HIT.Models;
+﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
 using IS_Proj_HIT.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -7,14 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Encodings.Web;
-
-
 
 namespace IS_Proj_HIT.Controllers
 {
@@ -26,8 +21,6 @@ namespace IS_Proj_HIT.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly WCTCHealthSystemContext _db;
-
-
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
@@ -145,7 +138,7 @@ namespace IS_Proj_HIT.Controllers
         // Edits and saved register details
         // Used in: EditUserDetails, EditRegisterDetails
         [HttpPost]
-        public async Task<IActionResult> EditRegisterDetails(UserTable model)
+        public IActionResult EditRegisterDetails(UserTable model)
         {
             if (ModelState.IsValid)
             {
@@ -162,27 +155,6 @@ namespace IS_Proj_HIT.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
-            {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
-
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
-                { Text = u.LastName, Value = u.UserId.ToString(), Selected = model.InstructorId == u.UserId }).ToList();
-
-
             return View(model);
         }
 
@@ -226,12 +198,13 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ResetUserPassword(string id)
+        public async Task<IActionResult> ResetUserPassword(int id)
         {
-            var aspUser = await _userManager.FindByIdAsync(id);
+            var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            var aspUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
             string code = await _userManager.GeneratePasswordResetTokenAsync(aspUser);
 
-            return RedirectToPage($"/Account/ResetPassword", new { area = "Identity", code});
+            return RedirectToPage($"/Account/ResetPassword", new { area = "Identity", code, Id = id});
         }
 
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
@@ -496,5 +469,9 @@ namespace IS_Proj_HIT.Controllers
             return View(viewModel);
         }
 
+        public IActionResult ResetSecurityQuestions(int id)
+        {
+            return RedirectToPage($"/Account/AddSecurityQuestions", new { area = "Identity", Id = id });
+        }
     }
 }

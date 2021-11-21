@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using IS_Proj_HIT.Models.Data;
+using System.Linq;
 
 //todo added this to fix emailsender
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -16,11 +18,13 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IWCTCHealthSystemRepository _repository;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender, IWCTCHealthSystemRepository repository)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -33,32 +37,39 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    return RedirectToPage("./Login");
                 }
 
                 // For more information on how to enable account confirmation and password reset please 
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { code },
-                    protocol: Request.Scheme);
+                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var callbackUrl = Url.Page(
+                //    "/Account/ResetPassword",
+                //    pageHandler: null,
+                //    values: new { code },
+                //    protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                //await _emailSender.SendEmailAsync(
+                //    Input.Email,
+                //    "Reset Password",
+                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                var userTable = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == user.Id);
+                var questions = _repository.UserSecurityQuestions.Where(q => q.UserId == userTable.UserId).ToList();
+                if (questions.Count == 0)
+                {
+                    return RedirectToPage("./NoSecurityQuestions");
+                }
+
+                return RedirectToPage("./EnterSecurityQuestions", new { Id = userTable.UserId, ReturnUrl = returnUrl });
             }
 
             return Page();
