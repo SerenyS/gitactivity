@@ -362,37 +362,21 @@ namespace IS_Proj_HIT.Models.Data
             _context.SaveChanges();
         }
         
-        public void AddUserSecurityQuestion(UserSecurityQuestion answer) {
-            _context.Add(answer);
+        public void AddUserSecurityQuestion(UserSecurityQuestion userSecurityQuestion) {
+            _context.Add(userSecurityQuestion);
             _context.SaveChanges();
         }
-        public void AddAnswer(UserSecurityQuestion answer) {
-            _context.Add(answer);
-            _context.SaveChanges();
-        }
-
-        public void EditUserSecurityQuestion(UserSecurityQuestion answer) {
-            _context.Update(answer);
-            _context.SaveChanges();
-        }
-        
-        public void DeleteUserSecurityQuestion(UserSecurityQuestion answer) {
-            _context.Remove(answer);
+        public void DeleteUserSecurityQuestion(UserSecurityQuestion userSecurityQuestion) {
+            _context.Remove(userSecurityQuestion);
             _context.SaveChanges();
         }
 
-        public void AddSecurityQuestion(SecurityQuestion question) {
-            _context.Add(question);
+        public void AddSecurityQuestion(SecurityQuestion securityQuestion) {
+            _context.Add(securityQuestion);
             _context.SaveChanges();
         }
-
-        public void EditSecurityQuestion(SecurityQuestion question) {
-            _context.Update(question);
-            _context.SaveChanges();
-        }
-
-        public void DeleteSecurityQuestion(SecurityQuestion question) {
-            _context.Remove(question);
+        public void DeleteSecurityQuestion(SecurityQuestion securityQuestion) {
+            _context.Remove(securityQuestion);
             _context.SaveChanges();
         }
 

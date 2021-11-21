@@ -1,0 +1,32 @@
+﻿@page
+@model IS_Proj_HIT.Areas.Identity.Pages.Account.EnterSecurityQuestionsModel
+
+@{
+    ViewData["Title"] = "Security Questions";
+}
+ 
+<h1>
+    @ViewData["Title"]
+</h1>
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div class="form-group">
+                <label for="@Model.SelectedQuestions[0]" asp-for="@Model.SelectedQuestions[0]">@Model.SelectedQuestions[0]</label>
+                <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerOne" />
+            </div>
+            <div class="form-group">
+                <label for="@Model.SelectedQuestions[1]" asp-for="@Model.SelectedQuestions[1]">@Model.SelectedQuestions[1]</label>
+                <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerTwo" />
+            </div>
+            <div class="form-group">
+                <label for="@Model.SelectedQuestions[2]" asp-for="@Model.SelectedQuestions[2]">@Model.SelectedQuestions[2]</label>
+                <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerThree" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Confirm</button>
+                <button type="reset" class="btn btn-primary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
