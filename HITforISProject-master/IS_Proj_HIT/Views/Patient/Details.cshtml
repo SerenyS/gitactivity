@@ -30,16 +30,16 @@
         <div class="container">
             <div class="row">
                
-                <div class="col-sm-4 col-md-3">
-                    <label>First Name: </label>
+                <div class="col-sm-4 col-md-4">
+                    <label>Alias First Name: </label>
                     <span class="font-weight-bold">@(Model.AliasFirstName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-4 col-md-3" style="padding-left: 150px">
-                    <label> Middle Initial: </label>
+                <div class="col-sm-4 col-md-4">
+                    <label>Alias Middle Initial: </label>
                     <span class="font-weight-bold">@(Model.AliasMiddleName ?? "N/A")</span>
                 </div>
-                <div class="col-sm-12 col-md-6" style="padding-left: 290px">
-                    <label>Last Name: </label>
+                <div class="col-sm-12 col-md-4">
+                    <label>Alias Last Name: </label>
                     <span class="font-weight-bold">@(Model.AliasLastName ?? "N/A")</span>
                 </div>
             </div>
@@ -170,7 +170,8 @@
                         }
                     }
                     @if (ViewBag.isAdmin == false) {
-                        @foreach (var enc in Model.Encounters.Where(e => e.FacilityId == ViewBag.CurrentUserFacilityId && e.FacilityId == ViewBag.SecondCheck).OrderByDescending(e => e.AdmitDateTime))
+                        @* Facility check for Encounters under a Patient *@
+                        @foreach (var enc in Model.Encounters.Where(e => e.FacilityId == ViewBag.CurrentUserFacilityId).OrderByDescending(e => e.AdmitDateTime))
                         {
                             <tr @(counter++ < 5 ? string.Empty : "class=extra-row")>
                                 <td>

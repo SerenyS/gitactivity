@@ -45,17 +45,25 @@
                 <div class="card-body bg-light">
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-12 col-lg-6 ml-0 pl-0">
+                            <div class="col-sm-12 col-lg-4 ml-0 pl-0">
                                 <label>Admission Time: </label>
                                 <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
                             </div>
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-4">
+                                <label>Facility: </label>
+                                <span class="font-weight-bold">@Model.Encounter.Facility.Name</span>
+                            </div>
+                            <div class="col-sm-12 col-lg-4">
                                 <label>Facility Registry Opt Out: </label>
                                 <span class="font-weight-bold">@(Model.Encounter.FacilityRegistryOptInOut ? "Yes" : "No")</span>
                             </div>
                         </div>
                         <hr />
                         <div class="row">
+                            <div class="col-sm-12 col-lg-4 ml-0 pl-0">
+                                <label>Admission Type: </label>
+                                <span class="font-weight-bold">@Model.Encounter.AdmitType.Description</span>
+                            </div>
                             <div class="col-sm-12 col-lg-4">
                                 <label>Chief Complaint: </label>
                                 <span class="font-weight-bold">@Model.Encounter.ChiefComplaint</span>
@@ -64,12 +72,10 @@
                                 <label>Room Number: </label>
                                 <span class="font-weight-bold">@Model.Encounter.RoomNumber</span>
                             </div>
-                            <div class="col-sm-12 col-lg-4">
-                            </div>
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-sm-12 col-lg-4">
+                            <div class="col-sm-12 col-lg-4 ml-0 pl-0">
                                 <label>Attending Physician: </label>
                                 <span class="font-weight-bold">
                                     @Model.Encounter.EncounterPhysicians.Physician.FirstName @Model.Encounter.EncounterPhysicians.Physician.LastName
@@ -80,13 +86,13 @@
                                 <span class="font-weight-bold">@Model.Encounter.Department.Name</span>
                             </div>
                             <div class="col-sm-12 col-lg-4">
-                                <label>Facility: </label>
-                                <span class="font-weight-bold">@Model.Encounter.Facility.Name</span>
+                                <label>Point of Origin: </label>
+                                <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
                             </div>
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-sm-12 col-lg-4">
+                            <div class="col-sm-12 col-lg-4 ml-0 pl-0">
                                 <label>Patient Type: </label>
                                 <span class="font-weight-bold">@Model.Encounter.EncounterType.Name</span>
                             </div>
@@ -98,22 +104,7 @@
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-sm-12 col-lg-4">
-                                <label>Admission Date: </label>
-                                <span class="font-weight-bold">@Model.Encounter.AdmitDateTime</span>
-                            </div>
-                            <div class="col-sm-12 col-lg-4">
-                                <label>Admission Type: </label>
-                                <span class="font-weight-bold">@Model.Encounter.AdmitType.Description</span>
-                            </div>
-                            <div class="col-sm-12 col-lg-4">
-                                <label>Point of Origin: </label>
-                                <span class="font-weight-bold">@Model.Encounter.PointOfOrigin.Description</span>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm-12 col-lg-4">
+                            <div class="col-sm-12 col-lg-4 ml-0 pl-0">
                                 <label>Discharge Time: </label>
                                 <span class="font-weight-bold">@(Model.Encounter.DischargeDateTime?.ToString() ?? "Not Discharged")</span>
                             </div>

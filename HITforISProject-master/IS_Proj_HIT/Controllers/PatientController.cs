@@ -21,7 +21,17 @@ namespace IS_Proj_HIT.Controllers
         public int PageSize = 10;
         public PatientController(IWCTCHealthSystemRepository repo) => repository = repo;
 
-        // Displays list of patients found via patient search
+        /// <summary>
+        /// Displays list of patients found via patient search
+        /// </summary>
+        /// <param name="searchLast">Last name to search for</param>
+        /// <param name="searchFirst">First name to search for</param>
+        /// <param name="searchSSN">SSN...</param>
+        /// <param name="searchMRN">MRN...</param>
+        /// <param name="searchDOB">Date of birth...</param>
+        /// <param name="searchDOBBefore">Date before date of birth...</param>
+        /// <param name="sortOrder">Order to sort search results</param>
+        /// <param name="pageNum">Current page number, may not be used?</param>
         // Used in: PatientSearch
         public ActionResult Index(string searchLast, string searchFirst, string searchSSN,
             string searchMRN, DateTime searchDOB, DateTime searchDOBBefore, string sortOrder, int pageNum = 0)
@@ -127,11 +137,15 @@ namespace IS_Proj_HIT.Controllers
             //return View(model);
         }
         
-        // Return PatientSearch view
+        /// <summary>
+        /// Return PatientSearch view
+        /// </summary>
         // Used in: Navbar (_Layout), Home Page, PatientSearchIndex, PatientIndex, AddPatient
         public IActionResult PatientSearch() => View();
 
-        // Displays the Add Patient entry page
+        /// <summary>
+        /// View AddPatient page
+        /// </summary>
         // Used in: PatientSearchIndex, PatientContactDetails (Unused)
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty,Registrar")]
         public IActionResult AddPatient()
@@ -151,7 +165,10 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Click Create button on Add Patient page adds new patient from Add Patient page
+        /// <summary>
+        /// Creates new patient
+        /// </summary>
+        /// <param name="model">Patient model to add to database</param>
         // Used in: AddPatient, AddPatientButton
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -219,7 +236,10 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Deletes Patient
+        /// <summary>
+        /// Deletes select patient
+        /// </summary>
+        /// <param name="id">Id of unique patient to delete</param>
         // Used in: PatientDetails
         [Authorize(Roles = "Administrator")]
 
@@ -250,7 +270,10 @@ namespace IS_Proj_HIT.Controllers
             //return RedirectToAction("Index", "Home");
         }
 
-        // Displays the Edit Patient page
+        /// <summary>
+        /// View EditPatient page
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult Edit(string id)
@@ -264,7 +287,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Save edits to patient record from Edit Patients page
+        /// <summary>
+        /// Save edits to patient
+        /// </summary>
+        /// <param name="modle">Patient model to edit</param>
         // Used in: EditPatient
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -339,15 +365,17 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("Details", new {id = model.Mrn});
         }
 
-        // Pick record to send to Details page, might still need to filter encounters by facility
+        /// <summary>
+        /// Pick record to send to Details page, might still need to filter encounters by facility?
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Used in: EditPatient, PatientIndex, PatientBanner
         public IActionResult Details(string id)
         {
             var currentUser = repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
             var currentUserFacility = repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            ViewBag.CurrentUserFacilityId = currentUserFacility.FacilityId;
             var facilities = repository.Facilities;
-
-            //var secCheck = 0;
 
             var isAdmin = User.IsInRole("Administrator");
             ViewBag.IsAdmin = isAdmin;
@@ -402,7 +430,11 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // List Alerts for the currently selected MRN, includes sort orders
+        /// <summary>
+        /// View ListAlerts for selected MRN, includes sort orders
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
+        /// <param name="sortOrder">Order to sort alerts</param>
         // Used in: EditPatientAlert, ListAlerts, PatientBanner
         public IActionResult ListAlerts(string id, string sortOrder)
         {
@@ -543,7 +575,10 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
-        // Redirect back to return url
+        /// <summary>
+        /// Redirect back to return url.
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Used in: CreateAlert, ListAlerts
         // Is it worth having this method?
         public IActionResult BackToCaller(string id, string returnUrl)
@@ -559,7 +594,10 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
-        // Redirect back to patient details
+        /// <summary>
+        /// Redirect back to patient details
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Used in: EditPatientAlert
         // Is it worth having this method?
         public RedirectToRouteResult BackToDetails(string id) =>
@@ -570,8 +608,10 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
-        // Redirect back to list alerts
-        // Unused
+        /// <summary>
+        /// Redirect back to list alerts. Unused
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Is it worth having this method?
         public RedirectToRouteResult BackToListAlerts(string id) =>
             RedirectToRoute(new
@@ -581,7 +621,10 @@ namespace IS_Proj_HIT.Controllers
                 ID = id
             });
 
-        // Load page for adding patient alerts.
+        /// <summary>
+        /// View CreateAlert page
+        /// </summary>
+        /// <param name="id">Id of unique patient</param>
         // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult CreateAlert(string id, string returnUrl)
@@ -648,7 +691,10 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Creates alert.
+        /// <summary>
+        /// Create alert
+        /// </summary>
+        /// <param name="model">Alert model to be added to database</param>
         // Used in: CreateAlert
         [HttpPost]
         [ActionName("CreateAlert")]
@@ -701,7 +747,11 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Displays the Edit Patient page.
+        /// <summary>
+        /// View EditPatientAlert page
+        /// </summary>
+        /// <param name="id">Id of unique alert</param>
+        /// <param name="mrn">Mrn of unique patient</param>
         // Used in: ListAlerts
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Nursing Student, HIT Clerk, Registrar")]
         public IActionResult EditPatientAlert(int id, string mrn, string returnUrl)
@@ -818,7 +868,11 @@ namespace IS_Proj_HIT.Controllers
             return View(repository.PatientAlerts.FirstOrDefault(p => p.PatientAlertId == id));
         }
 
-        // View update alert page.
+        /// <summary>
+        /// View UpdateAlert page
+        /// </summary>
+        /// <param name="id">Id of unique alert</param>
+        /// <param name="mrn">Mrn of unique patient</param>
         // Used in: EditPatientAlert
         public IActionResult UpdateAlert(int id, string mrn)
         {
@@ -929,7 +983,10 @@ namespace IS_Proj_HIT.Controllers
 
         }
 
-        // Update alert. Redirect to list alerts.
+        /// <summary>
+        /// Update alert and redirect back to alert list
+        /// </summary>
+        /// <param name="model">Alert model to be updated</param>
         // Used in: UpdateAlert
         [HttpPost]
         [ActionName("UpdateAlert")]
@@ -949,7 +1006,11 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = model.Mrn });
         }
 
-        // Deletes Alert. Alerts can only be deleted if PCA records don't exist for it.
+        /// <summary>
+        /// Deletes Alert. Alerts can only be deleted if PCA records don't exist for it.
+        /// </summary>
+        /// <param name="id">Id of unique alert</param>
+        /// <param name="mrn">Mrn of unique patient</param>
         // Used in: ListAlerts
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteAlert(long id, string mrn)
@@ -968,8 +1029,9 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ListAlerts", new {id = mrn});
         }
 
-        // add dropdowns to patient views
-        // Controller method to display dropdowns
+        /// <summary>
+        /// Add dropdowns to encounter views. Controller method to display dropdowns
+        /// </summary>
         public void AddDropdowns(Patient model = null)
         {
             var queryReligion = repository.Religions

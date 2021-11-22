@@ -23,7 +23,7 @@ User Information
 </div>
 <br />
 <div class="justify-content-center float-left">
-    <a asp-action="EditUserDetails" asp-controller="Administration" asp-route-id="@Model.UserId" class="btn btn-outline-primary">Edit</a>
+    @* <a asp-action="EditUserDetails" asp-controller="Administration" asp-route-id="@Model.UserId" class="btn btn-outline-primary">Edit</a> *@
     <a asp-action="DeleteUser" asp-route-id="@Model.UserId"
                                    onclick="return confirm('Are you sure you want to delete user : @Model.UserName ?')" class="btn btn-outline-danger">Delete</a>
     <a asp-action="ResetUserPassword" asp-route-id="@Model.UserId">Reset Password</a>
