@@ -1,0 +1,48 @@
+
+@model IS_Proj_HIT.Models.ProgressNote
+@{
+    ViewData["Title"] = "Add Progress Notes";
+}
+<partial model="ViewBag.Patient" name="PatientBannerPartial" />
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>
+            Add Progress Notes
+        </h4>
+    </div>
+
+    <div class="card-body bg-light">
+        <div class="container">
+            <form method="post" id="progressNote" name="progressNote" asp-action="AddProgessNotes">
+                <input type="hidden" asp-for="@Model.EncounterId" value="@ViewBag.EncounterId" />
+                    @* <partial name="~/Views/Patient/PatientFormFields.cshtml" /> *@
+                    <div class="col-sm-4">
+                @* <label>*First Name</label><br />
+                <input class="form-control" asp-for="@Model.FirstName" name="FirstName" id="FirstName" placeholder="First Name" /> *@
+                <select class="form-control dropdowns" asp-for="@Model.NoteTypeId" asp-items="ViewBag.NoteTypes">
+                    <option value="">Select Progress Note Type</option>
+                </select>
+                <hr/>
+                Date: <input type="datetime" asp-for="@Model.WrittenDate" name="WrittenDate" class="form-control" placeholder="XX/XX/XXXX 00:00:00"
+                           value="@DateTime.Now"/>
+
+                <label>Progress Note:</label>
+                <input placeholder="Enter note..." name="Note" type="text" id="Note" class="form-control" asp-for="@Model.Note" />
+
+                <div class="text-center form-group">
+                            <label>Authorizing Provider:</label>
+                            <select class="form-control dropdowns" asp-for="@Model.PhysicianId" asp-items="ViewBag.Physicians">
+                                <option value="">Select Authorizing Provider</option>
+                            </select>
+                            <br />
+                            <label>Co-Signature:</label>
+                            <select class="form-control dropdowns" asp-for="@Model.CoPhysicianId" asp-items="ViewBag.Physicians">
+                                <option value="">Select Co-Signer</option>
+                            </select>
+                        </div>
+                
+                <button type="submit" class="btn btn-outline-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

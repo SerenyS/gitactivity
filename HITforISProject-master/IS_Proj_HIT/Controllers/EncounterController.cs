@@ -115,51 +115,109 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View ProgressNotes
-        // Used in: PatientBanner
-        // UNUSED SINCE PROGRESS NOTES ARE NOT CURRENTLY FUNCTIONAL
+        // View ProgressNotes page
+        // Used in: EncounterMenu
         public IActionResult ProgressNotes(long id){
             var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
             var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
             
-            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
+            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id).OrderByDescending(p => p.WrittenDate);
             
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+            
+            ViewBag.ProgressNotes = _repository.ProgressNotes
+            .Where(p => p.EncounterId == id);
 
-             Patient patient = new Patient()
-            {
-                Mrn = desiredEncounter.Mrn,
-                Dob = desiredPatient.Dob
+            //  Patient patient = new Patient()
+            // {
+            //     Mrn = desiredEncounter.Mrn,
+            //     Dob = desiredPatient.Dob
                 
 
-            };
+            // };
 
-            Encounter encounter = new Encounter()
-            {
-                EncounterId = id
-            };
+            // patient = ViewBag.Patient;
+
+            // Encounter encounter = new Encounter()
+            // {
+            //     EncounterId = id
+            // };
+
+            var model = new ViewEncounterPageModel(desiredEncounter, desiredPatient, desiredProgressNotes);
 
 
-
-            if(desiredProgressNotes.Any()){
-                return View(desiredProgressNotes);
-            }
-            else{
-                return View();
-            }
+            // if(desiredProgressNotes.Any()){
+            //     return View(model);
+            // }
+            // else{
+            //     return View(model);
+            // }
+            return View(model);
         }
 
-        // View Edit Progress Note
+        // Displays Add New Progress Note Page
         // Used in: ProgressNotes
-        // NO CURRENT FUNCTION
-        public IActionResult EditProgressNotes(){
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
+        public IActionResult AddProgressNotes(long id){
+
+            ViewBag.EncounterId = id;
+
+            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
+
+            ViewBag.Patient = desiredPatient;
+            ViewBag.Encounter = desiredEncounter;
+
+            var queryPhysician = _db.Physicians
+                    .OrderBy(p => p.LastName)
+                    .Select(p => new {p.PhysicianId, p.FirstName, p.LastName})
+                    .ToList();
+
+            ViewBag.Physicians = new SelectList(queryPhysician, "PhysicianId", "LastName", 0);
+
+            var queryNoteType = _db.NoteTypes
+                    .OrderBy(n => n.NoteTypeId)
+                    .Select(n => new {n.NoteTypeId, n.NoteType1})
+                    .ToList();
+
+            ViewBag.NoteTypes = new SelectList(queryNoteType, "NoteTypeId", "NoteType1", 0);
 
             return View();
+        }
+
+        // Create new Progress Note
+        // Used in: AddProgressNotes
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProgressNotes(ProgressNote model) {
+            // if (_repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
+            // {
+            //     ModelState.AddModelError("", "Encounter Id must be unique");
+            // }
+
+            // if (!ModelState.IsValid)
+            // {
+            //     ViewBag.Patient = _repository.Patients
+            //         .Include(p => p.PatientAlerts)
+            //         .FirstOrDefault(b => b.Mrn == model.Mrn);
+            //     AddDropdowns();
+
+            //     return View(model);
+            // }
+            
+            // model.AdmitDateTime = DateTime.Now;
+            // model.LastModified = DateTime.Now;
+            // _repository.AddEncounter(model);
+
+            Console.WriteLine("PROGRESS NOTE: " + model.NoteTypeId + ", " + model.Note);
+
+            return RedirectToAction("ProgressNotes", model.EncounterId);
         }
 
         // View Discharge 

@@ -486,8 +486,9 @@ namespace IS_Proj_HIT.Controllers
                         if (!formPca.PainRatings.ContainsKey(pr.PainRatingId))
                             formPca.PainRatings.Add(pr.PainRatingId, null);
                     })));
-
+            // Checks for less than 100 to avoid junk/testing types
             formPca.SecondarySystemTypes = _repository.CareSystemAssessmentTypes
+                .Where(cs => cs.CareSystemTypeId < 100)
                 .Include(cs => cs.CareSystemParameters)
                 .ToList();
             formPca.SecondarySystemTypes.ForEach(s =>

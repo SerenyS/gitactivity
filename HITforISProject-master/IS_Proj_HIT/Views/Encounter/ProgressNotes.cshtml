@@ -1,25 +1,24 @@
-
-@model IS_Proj_HIT.Models.ProgressNote
+@model IS_Proj_HIT.ViewModels.ViewEncounterPageModel
 @{
     ViewData["Title"] = "Progress Notes";
 }
-<!--
-<partial name="PatientBannerPartial" model="Model.Patient" />
+<partial name="PatientBannerPartial" model="ViewBag.Patient" /> 
+<partial name="_EncounterMenu"/>
 <div class="card">
     <div class="card-header bg-primary text-white">
         <h4>
-            Physician Progress Notes
-        </h4>
+            Progress Notes
          @if (User.IsInRole("Administrator") || User.IsInRole("Nursing Faculty") || User.IsInRole("HIT Faculty") || User.IsInRole("Registrar")){
-             <a class="btn btn-info btn-sm float-right" asp-action="EditProgressNotes">
+             <a class="btn btn-info btn-sm float-right" asp-controller="Encounter" asp-action="AddProgressNotes" asp-route-id="@Model.Encounter.EncounterId">
                     Add New
              </a>
          }
+        </h4>
     </div>
 
     <div class="card-body bg-light">
         <div class="container">
-            <table class="table table-bordered table-secondary">
+            <table class="table table-bordered table-primary">
                 <thead>
                     <tr>
                         <th scope="col">View</th>
@@ -32,7 +31,7 @@
                 <tbody>
                     
                     @* Filler Data *@
-                    <tr>
+                    @* <tr>
                         <td>
                             <button>View</button>
                         </td>
@@ -40,9 +39,12 @@
                         <td>Physician Note</td>
                         <td>Dr. Apples</td>
                         <td>Dr. Banana</td>
-                    </tr>
-                    @* @foreach (var ProgressNote in Model){
-                        <tr>
+                    </tr> *@
+                    @{
+                        var counter = 0;
+                    }
+                    @foreach (var ProgressNote in ViewBag.ProgressNotes){
+                        <tr @(counter++)>
                             <td>
                                 <button>View</button>
                             </td>
@@ -51,12 +53,16 @@
                             <td>@ProgressNote.Physician</td>
                             <td>@ProgressNote.CoPhysician</td>
                         </tr>
-                    } *@
-                    
+                    }
+                    @if (counter == 0) {
+                        <tr class="red">
+                            <td>No progress notes available</td>
+                        </tr>
+                    }
                 </tbody>
 
             </table>
         </div>
     </div>
 
-</div>-->
+</div>
