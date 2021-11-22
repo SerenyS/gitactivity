@@ -4345,6 +4345,16 @@ input[type="button"].btn-block {
   border: 3px;
 }
 
+@media (max-width: 1199.98px) {
+  .nav-item{
+    border-bottom: 1px solid white;
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+}
+
+
+
 .nav-tabs .nav-link {
   border: 3px;
   border-top-left-radius: 0.25rem;
