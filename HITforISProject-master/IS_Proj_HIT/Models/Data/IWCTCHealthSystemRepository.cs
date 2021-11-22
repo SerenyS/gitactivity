@@ -122,13 +122,11 @@ namespace IS_Proj_HIT.Models.Data
 
         void AddAddress(Address address);
 
-        void AddUserSecurityQuestion(UserSecurityQuestion answer);
-        void EditUserSecurityQuestion(UserSecurityQuestion answer);
-        void DeleteUserSecurityQuestion(UserSecurityQuestion answer);
+        void AddUserSecurityQuestion(UserSecurityQuestion userSecurityQuestion);
+        void DeleteUserSecurityQuestion(UserSecurityQuestion userSecurityQuestion);
 
-        void AddSecurityQuestion(SecurityQuestion question);
-        void EditSecurityQuestion(SecurityQuestion question);
-        void DeleteSecurityQuestion(SecurityQuestion question);
+        void AddSecurityQuestion(SecurityQuestion securityQuestion);
+        void DeleteSecurityQuestion(SecurityQuestion securityQuestion);
 
         void AddPhysicianAssessment(PhysicianAssessment assessment);
 

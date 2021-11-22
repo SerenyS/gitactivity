@@ -22,13 +22,11 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
             IWCTCHealthSystemRepository repo
             )
             
@@ -36,7 +34,6 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
             _repository = repo;
         }
 
@@ -102,6 +99,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 Value = p.ProgramId.ToString(),
                 Text = p.Name,
             }).ToList();
+
             returnUrl = returnUrl ?? Url.Content("~/Administration/EditRegisterDetails");
             if(!Input.PrivacyPolicyIsChecked)
                 ModelState.AddModelError("Privacy", "Privacy Policy must be reviewed.");
@@ -144,9 +142,10 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                         foreach (var programFacility in availableFacilties)
                         {
                             // New users only gain access to SIM
-                            if (programFacility.Facility.Name.Contains("SIM"))
+                            var facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId);
+                            if (facility.Name.Contains("SIM"))
                             {
-                                assignedFacility = programFacility.Facility;
+                                assignedFacility = facility;
                             }
                         }
 
@@ -159,7 +158,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                         });
                     }
 
-                    return LocalRedirect(returnUrl);
+                    return RedirectToPage("./AddSecurityQuestions", new { ReturnUrl = returnUrl, Id = newUserTable.UserId });
                 }
                 
                 foreach (var error in result.Errors)

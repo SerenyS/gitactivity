@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using IS_Proj_HIT.Models.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
@@ -14,21 +15,19 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IWCTCHealthSystemRepository _repository;
 
-        public ResetPasswordModel(UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(UserManager<IdentityUser> userManager, IWCTCHealthSystemRepository repository)
         {
             _userManager = userManager;
+            _repository = repository;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-
+        { 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -58,14 +57,15 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            var user = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
