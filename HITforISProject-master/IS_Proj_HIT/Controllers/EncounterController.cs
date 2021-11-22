@@ -133,20 +133,20 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.ProgressNotes = _repository.ProgressNotes
             .Where(p => p.EncounterId == id);
 
-             Patient patient = new Patient()
-            {
-                Mrn = desiredEncounter.Mrn,
-                Dob = desiredPatient.Dob
+            //  Patient patient = new Patient()
+            // {
+            //     Mrn = desiredEncounter.Mrn,
+            //     Dob = desiredPatient.Dob
                 
 
-            };
+            // };
 
-            patient = ViewBag.Patient;
+            // patient = ViewBag.Patient;
 
-            Encounter encounter = new Encounter()
-            {
-                EncounterId = id
-            };
+            // Encounter encounter = new Encounter()
+            // {
+            //     EncounterId = id
+            // };
 
             var model = new ViewEncounterPageModel(desiredEncounter, desiredPatient, desiredProgressNotes);
 
@@ -160,19 +160,26 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View Create New Progress Note
+        // Displays Add New Progress Note Page
         // Used in: ProgressNotes
-        // NO CURRENT FUNCTION
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult AddProgressNotes(long id){
 
-            var model = new ProgressNotesViewModel(id);
+            ViewBag.EncounterId = id;
+
+            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
+
+            ViewBag.Patient = desiredPatient;
+            ViewBag.Encounter = desiredEncounter;
 
             var queryPhysician = _db.Physicians
                     .OrderBy(p => p.LastName)
                     .Select(p => new {p.PhysicianId, p.FirstName, p.LastName})
                     .ToList();
 
-            ViewBag.Physicians = new SelectList(queryPhysician, "PhysicianId", "FirstName LastName", 0);
+            ViewBag.Physicians = new SelectList(queryPhysician, "PhysicianId", "LastName", 0);
 
             var queryNoteType = _db.NoteTypes
                     .OrderBy(n => n.NoteTypeId)
@@ -181,7 +188,36 @@ namespace IS_Proj_HIT.Controllers
 
             ViewBag.NoteTypes = new SelectList(queryNoteType, "NoteTypeId", "NoteType1", 0);
 
-            return View(model);
+            return View();
+        }
+
+        // Create new Progress Note
+        // Used in: AddProgressNotes
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProgressNotes(ProgressNote model) {
+            // if (_repository.Encounters.Any(p => p.EncounterId == model.EncounterId))
+            // {
+            //     ModelState.AddModelError("", "Encounter Id must be unique");
+            // }
+
+            // if (!ModelState.IsValid)
+            // {
+            //     ViewBag.Patient = _repository.Patients
+            //         .Include(p => p.PatientAlerts)
+            //         .FirstOrDefault(b => b.Mrn == model.Mrn);
+            //     AddDropdowns();
+
+            //     return View(model);
+            // }
+            
+            // model.AdmitDateTime = DateTime.Now;
+            // model.LastModified = DateTime.Now;
+            // _repository.AddEncounter(model);
+
+            Console.WriteLine("PROGRESS NOTE: " + model.NoteTypeId + ", " + model.Note);
+
+            return RedirectToAction("ProgressNotes", model.EncounterId);
         }
 
         // View Discharge 
