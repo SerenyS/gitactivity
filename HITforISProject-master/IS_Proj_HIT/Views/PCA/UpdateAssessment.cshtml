@@ -205,10 +205,25 @@
                     <h4>Patient Care Assessment - Pain<span class="float-right">Page 2</span></h4>
                 </div>
                 <div class="card-body">
-                    @if (Model.PcaRecord.PainScaleType != null)
-                    {
                         <div class="form-group row">
-
+                            @foreach (var painScaleType in Model.PainScales)
+                            {
+                                <div class="col-sm-6 col-lg-3 mb-1">
+                                    <button class="btn btn-primary" type="button"
+                                            data-toggle="tooltip" data-placement="right" title="@painScaleType.UseDescription">
+                                        <i class="fas fa-info"></i>
+                                    </button>
+                                    <input id="@(painScaleType.PainScaleTypeName + painScaleType.PainScaleTypeId)"
+                                        class="painScaleRadio"
+                                        type="radio"
+                                        asp-for="PcaRecord.PainScaleTypeId"
+                                        value="@painScaleType.PainScaleTypeId">
+                                    <label class="btn btn-outline-primary w-75 mb-0"
+                                        for="@(painScaleType.PainScaleTypeName + painScaleType.PainScaleTypeId)">
+                                        @painScaleType.PainScaleTypeName
+                                    </label>
+                                </div>
+                            }
                             <div class="col-sm-6 col-lg-3">
                                 <div class="float-right">
                                     <label class="form-label mb-0" for="painLevelGoal">
@@ -225,13 +240,6 @@
                         </div>
                         <!-- this is where the chosen pain assessment info goes. Should only be able to modify notes while showing the pain assessment info-->
                         <table class="table table-bordered table-primary">
-                            <thead>
-                                <tr>
-                                    <th colspan="99" class="text-center">
-                                        Pain Assessment - @Model.PcaRecord.PainScaleType.PainScaleTypeName
-                                    </th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 @foreach (var pa in Model.PcaRecord.PcapainAssessments)
                                 {
@@ -241,7 +249,7 @@
                                         <td>@pa.PainRating.Description</td>
                                     </tr>
                                 }
-                                @if (Model.PcaRecord.PainScaleType.PainScaleTypeName is "Wong-Baker")
+                                @if (Model.PcaRecord.PainScaleType != null && Model.PcaRecord.PainScaleType.PainScaleTypeName is "Wong-Baker")
                                 {
                                     <tr>
                                         <td colspan="99">
@@ -262,15 +270,6 @@
                                 <textarea class="form-control w-100" id="inputPainNote" rows="4" asp-for="PainNote"></textarea>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <h3 class="text-center">No Pain Assessment Made</h3>
-                            </div>
-                        </div>
-                    }
                 </div>
             </div>
         </div>
