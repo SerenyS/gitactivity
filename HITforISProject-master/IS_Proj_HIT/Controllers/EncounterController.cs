@@ -25,14 +25,15 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         } 
 
-        // Loads PCA Screen, Filters by facility
+        /// <summary>
+        /// Loads checked in encounters screen, filters by facility
+        /// </summary>
         // Used in: Navbar (_Layout) and Home Page, ViewDischarge, ViewEncounter (if patient is still checked in?)
         public ViewResult CheckedIn()
         {
             var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
             var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
             var facilities = _repository.Facilities;
-            //var secCheck = 0;
 
             var isAdmin = User.IsInRole("Administrator");
             
@@ -73,27 +74,6 @@ namespace IS_Proj_HIT.Controllers
             }
 
             if (!isAdmin && currentUserFacility != null) {
-                /*
-                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
-                
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
-                }
-
-                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
-                
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
-                }
-
-                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
-
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
-                }
-
-                ViewBag.UserFacil = currentUserFacility.FacilityId;
-                ViewBag.SecCheck = secCheck;*/
 
                 model = _repository.Encounters
                 .Where(e => e.DischargeDateTime == null && e.FacilityId == currentUserFacility.FacilityId)
@@ -115,54 +95,112 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View ProgressNotes
-        // Used in: PatientBanner
-        // UNUSED SINCE PROGRESS NOTES ARE NOT CURRENTLY FUNCTIONAL
+        /// <summary>
+        /// View ProgressNotes page
+        /// </summary>
+        /// <param name="id">Id of unique encounter</param>
+        // Used in: EncounterMenu
         public IActionResult ProgressNotes(long id){
             var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
 
             var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
             
-            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id);
+            var desiredProgressNotes = _db.ProgressNotes.Where(u => u.EncounterId == id).OrderByDescending(p => p.WrittenDate);
             
             ViewBag.EncounterId = id;
 
             ViewBag.Patient = _repository.Patients
             .Include(p => p.PatientAlerts)
             .FirstOrDefault(b => b.Mrn == desiredEncounter.Mrn);
+            
+            ViewBag.ProgressNotes = _repository.ProgressNotes
+            .Where(p => p.EncounterId == id);
 
-             Patient patient = new Patient()
-            {
-                Mrn = desiredEncounter.Mrn,
-                Dob = desiredPatient.Dob
+            //  Patient patient = new Patient()
+            // {
+            //     Mrn = desiredEncounter.Mrn,
+            //     Dob = desiredPatient.Dob
                 
 
-            };
+            // };
 
-            Encounter encounter = new Encounter()
-            {
-                EncounterId = id
-            };
+            // patient = ViewBag.Patient;
+
+            // Encounter encounter = new Encounter()
+            // {
+            //     EncounterId = id
+            // };
+
+            var model = new ViewEncounterPageModel(desiredEncounter, desiredPatient, desiredProgressNotes);
 
 
-
-            if(desiredProgressNotes.Any()){
-                return View(desiredProgressNotes);
-            }
-            else{
-                return View();
-            }
+            // if(desiredProgressNotes.Any()){
+            //     return View(model);
+            // }
+            // else{
+            //     return View(model);
+            // }
+            return View(model);
         }
 
-        // View Edit Progress Note
+        /// <summary>
+        /// View AddProgressNotes page
+        /// </summary>
+        /// <param name="id">Id of unique encounter</param>
         // Used in: ProgressNotes
-        // NO CURRENT FUNCTION
-        public IActionResult EditProgressNotes(){
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
+        public IActionResult AddProgressNotes(long id){
+
+            ViewBag.EncounterId = id;
+
+            var desiredEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
+
+            var desiredPatient = _repository.Patients.FirstOrDefault(u => u.Mrn == desiredEncounter.Mrn);
+
+            ViewBag.Patient = desiredPatient;
+            ViewBag.Encounter = desiredEncounter;
+
+            var queryPhysician = _db.Physicians
+                    .OrderBy(p => p.LastName)
+                    .Select(p => new {p.PhysicianId, p.FirstName, p.LastName})
+                    .ToList();
+
+            ViewBag.Physicians = new SelectList(queryPhysician, "PhysicianId", "LastName", 0);
+
+            var queryNoteType = _db.NoteTypes
+                    .OrderBy(n => n.NoteTypeId)
+                    .Select(n => new {n.NoteTypeId, n.NoteType1})
+                    .ToList();
+
+            ViewBag.NoteTypes = new SelectList(queryNoteType, "NoteTypeId", "NoteType1", 0);
 
             return View();
         }
 
-        // View Discharge 
+        /// <summary>
+        /// Create new progress note, WIP, does not get passed the model correctly and still needs validation
+        /// </summary>
+        /// <param name="model">ProgressNotes model to be added to database</param>
+        // Used in: AddProgressNotes
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProgressNotes(ProgressNote model) {
+            // validation goes here
+            
+            // model.AdmitDateTime = DateTime.Now;
+            // model.LastModified = DateTime.Now;
+            // _repository.AddEncounter(model);
+
+            // for testing:
+            //Console.WriteLine("PROGRESS NOTE: " + model.NoteTypeId + ", " + model.Note);
+
+            return RedirectToAction("ProgressNotes", model.EncounterId);
+        }
+
+        /// <summary>
+        /// View Discharge page
+        /// </summary>
+        /// <param name="encounterId">Id of unique encounter</param>
         // Used in: EncounterMenu
         // May not currently work?
         public IActionResult ViewDischarge(long encounterId)
@@ -194,7 +232,10 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-        // View encounter page
+        /// <summary>
+        /// View page of a specific encounter
+        /// </summary>
+        /// <param name="encounterId">Id of unique encounter</param>
         // Used in: PCAController, CheckedIn, EditEncounter (to return to view), HistoryAndPhysical (currently unused), PatientDetails, View/Create/UpdatePCAAssessment
         public IActionResult ViewEncounter(long encounterId)
         {
@@ -227,7 +268,10 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-        // Displays add encounter page
+        /// <summary>
+        /// View AddEncounter page
+        /// </summary>
+        /// <param name="id">Mrn of patient?</param>
         // Used in: PatientDetails
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddEncounter(string id)
@@ -240,7 +284,10 @@ namespace IS_Proj_HIT.Controllers
             return View();
         }
 
-        // Deletes Encounter, cannot delete if PCA records exist, redirects to PCA
+        /// <summary>
+        /// Deletes encounter, cannot delete if PCA records exist, redirects to PCA (there may be a better redirect here)
+        /// </summary>
+        /// <param name="encounterId">Id of unique encounter</param>
         // Used in: CheckedIn, ViewEncounter
         [Authorize(Roles = "Administrator")]
         public IActionResult DeleteEncounter(long encounterId)
@@ -275,7 +322,10 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("CheckedIn");
         }
 
-        // Displays the Edit Encounter page
+        /// <summary>
+        /// View EditEncounter page
+        /// </summary>
+        /// <param name="encounterId">Id of unique encounter</param>
         // Used in: CheckedIn, ViewDischarge, ViewEncounter
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, Registrar")]
         public IActionResult EditEncounter(long encounterId)
@@ -291,7 +341,10 @@ namespace IS_Proj_HIT.Controllers
             return View(encounter);
         }
 
-        // Create new encounter
+        /// <summary>
+        /// Create new encounter
+        /// </summary>
+        /// <param name="model">Encounter model to be added to database</param>
         // Used in: AddEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -320,7 +373,10 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("ViewEncounter", "Encounter", new {encounterId = model.EncounterId});
         }
 
-        // Save edits to patient record from Edit Patients page
+        /// <summary>
+        /// Save edits to patient record from Edit Patients page
+        /// </summary>
+        /// <param name="model">Encounter model to be edited</param>
         // Used in: EditEncounter
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -344,8 +400,9 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
-        // add dropdowns to encounter views, only user's facility(ies) can be selected
-        // Controller method to display dropdowns
+        /// <summary>
+        /// Add dropdowns to encounter views, only user's facility(ies) can be selected. Controller method to display dropdowns
+        /// </summary>
         private void AddDropdowns()
         {
             var queryAdmitTypes = _repository.AdmitTypes
@@ -431,6 +488,10 @@ namespace IS_Proj_HIT.Controllers
             ViewBag.EncounterPhysicians = new SelectList(queryEncounterPhysicians, "EncounterPhysiciansId", "Name", 0);
         }
 
+        /// <summary>
+        /// View PCAIndex page from Encounter Menu
+        /// </summary>
+        /// <param name="encounterId">Id of unique encounter</param>
         public IActionResult PCAIndex(long encounterId)
         {
             ViewData["ErrorMessage"] = "";
@@ -465,8 +526,11 @@ namespace IS_Proj_HIT.Controllers
             });
         }
 
-        // Displays History and Physical physician assessment view
-        // Used in: PatientBanner
+        /// <summary>
+        /// View HistoryAndPhysical page
+        /// </summary>
+        /// <param name="id">Id of unique encounter</param>
+        // Used in: PatientBanner, Encounter Menu
         public ViewResult HistoryAndPhysical(long id)
         {
             var desiredPatientEncounter = _repository.Encounters.FirstOrDefault(u => u.EncounterId == id);
@@ -511,7 +575,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Add Physician Assessment (ex. History and Physical, Consultation, etc.)
+        /// <summary>
+        /// Add physician assessment (ex. History and Physical, Consultation, etc.) Currently doesn't work and only set up for History and Physical
+        /// </summary>
+        /// <param name="model">PhysicianAssessment model to be added to database</param>
         // NO CURRENT FUNCTION 
         [Authorize(Roles = "Administrator, Nursing Faculty, Registrar, HIT Faculty")]
         public IActionResult AddPhysicianAssessment(PhysicianAssessment model)
@@ -521,10 +588,13 @@ namespace IS_Proj_HIT.Controllers
             var paID = assessments.OrderByDescending(u => u.PhysicianAssessmentId).FirstOrDefault();
             model.PhysicianAssessmentId = paID.PhysicianAssessmentId + 1;
 
+            // validation goes here
+
             model.WrittenDateTime = DateTime.Now;
             model.LastUpdated = DateTime.Now;
 
-            Console.WriteLine("ASSESSMENT: " + model.PhysicianAssessmentId + ", " + model.PhysicianAssessmentDate + ", " + model.ChiefComplaint + ", " + model.SignificantDiagnosticTests + ", " + model.Assessment + ", " + model.Plan + ", " + model.AuthoringProvider + ", " + model.CoSignature + ", " + model.EncounterId + ", " + model.WrittenDateTime + ", " + model.LastUpdated);
+            // for testing:
+            // Console.WriteLine("ASSESSMENT: " + model.PhysicianAssessmentId + ", " + model.PhysicianAssessmentDate + ", " + model.ChiefComplaint + ", " + model.SignificantDiagnosticTests + ", " + model.Assessment + ", " + model.Plan + ", " + model.AuthoringProvider + ", " + model.CoSignature + ", " + model.EncounterId + ", " + model.WrittenDateTime + ", " + model.LastUpdated);
 
             //_repository.AddPhysicianAssessment(model);
 
@@ -532,8 +602,9 @@ namespace IS_Proj_HIT.Controllers
                 new {encounterId = model.EncounterId, allowCheckedInRedirect = true});
         }
 
-        // Add Physician Report
-        // NO CURRENT FUNCTION
+        /// <summary>
+        /// Add Physician report. No current functionality. Difference between PhysicianReport and PhysicianAssessment is unclear
+        /// </summary>
         public IActionResult AddPhysicianReport()
         {
             throw new NotImplementedException();

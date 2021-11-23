@@ -3,8 +3,8 @@
 
 <partial name="PatientBannerPartial" model="Model.Patient" />
 <partial name="_EncounterMenu"/>
-
-<div class="row justify-content-start ">
+    @* This is the index page for the PCAs found by clicking on Patient Care Assessments under the Encounter Menu. Probably better practice to have it under the PCA folder, but we found it easier to work with under the Encounter folder and there doesn't seem to be any issues with it. *@
+    <div class="row justify-content-start">
         <div class="col mx-0 px-0">
             @if ((string) @ViewData["ErrorMessage"] != "")
             {

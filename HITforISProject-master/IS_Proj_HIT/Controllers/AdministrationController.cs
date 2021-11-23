@@ -32,10 +32,14 @@ namespace IS_Proj_HIT.Controllers
             _db = db;
         }
 
-        // Return to Admin Index
+        /// <summary>
+        /// Display the Admin tools index
+        /// </summary>
         public IActionResult Index() => View();
 
-        // Administrator data entry for PCA
+        /// <summary>
+        /// Administrator data entry for PCAs
+        /// </summary>
         // Used in: Administration Tools - PCA indexes
         #region PCA lookup table management
         [Authorize(Roles = "Administrator")]
@@ -59,7 +63,9 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
-        // Administrator data entry for Encounter
+        /// <summary>
+        /// Administrator data entry for encounters
+        /// </summary>
         // Used in: Administration Tools - Encounter indexes
         #region Encounter lookup table management
         [Authorize(Roles = "Administrator")]
@@ -81,7 +87,9 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
-        // Administrator data entry for Physician
+        /// <summary>
+        /// Administrator data entry for physicians
+        /// </summary>
         // Used in: Administration Tools - Physician indexes
         #region Physician lookup table management
         [Authorize(Roles = "Administrator")]
@@ -98,7 +106,9 @@ namespace IS_Proj_HIT.Controllers
         }
         #endregion
 
-        // Displays EditRegister details page
+        /// <summary>
+        /// Displays EditRegisterDetails page
+        /// </summary>
         // Used when clicked on your e-mail in the nav-bar
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
@@ -135,7 +145,10 @@ namespace IS_Proj_HIT.Controllers
             return View(dbUser);
         }
 
-        // Edits and saved register details
+        /// <summary>
+        /// Edits and saves Register Details
+        /// </summary>
+        /// <param name="model">UserTable model</param>
         // Used in: EditUserDetails, EditRegisterDetails
         [HttpPost]
         public IActionResult EditRegisterDetails(UserTable model)
@@ -162,7 +175,9 @@ namespace IS_Proj_HIT.Controllers
 
         #region Roles
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
-
+        /// <summary>
+        /// Displays Role Manager view
+        /// </summary>
         public IActionResult ViewRoles() => View(_roleManager.Roles);
 
 
@@ -176,7 +191,9 @@ namespace IS_Proj_HIT.Controllers
         }
 
 
-        //Retrieves user list
+        /// <summary>
+        /// Retrieves User List
+        /// </summary>
         //List users - Chris P - 2/27/21 edited by jason Motl 9-21-21 
         //Used in: Admin Details, Admin Index, ListUsers
         [HttpGet]
@@ -198,6 +215,9 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Resets user password
+        /// </summary>
         public async Task<IActionResult> ResetUserPassword(int id)
         {
             var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
@@ -226,7 +246,10 @@ namespace IS_Proj_HIT.Controllers
 
         public IActionResult CreateRole() => View();
 
-        // View edit role
+        /// <summary>
+        /// View Edit Role
+        /// </summary>
+        /// <param name="id">Id of unique role</param>
         // Used in: EditUsersInRole, ViewRoles
         public async Task<IActionResult> EditRole(string id)
         {
@@ -248,7 +271,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Displays user details
+        /// <summary>
+        /// Displays User details
+        /// </summary>
+        /// <param name="id">Id of unique user</param>
         // Used in: UserList?
         public IActionResult Details(int id)
         {
@@ -284,7 +310,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // View edit users in role
+        /// <summary>
+        /// View edit users in role
+        /// </summary>
+        /// <param name="roleId">Id of unique role</param>
         // Used in: EditRole, List/ViewUsers
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
@@ -319,7 +348,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Create role
+        /// <summary>
+        /// Create role
+        /// </summary>
+        /// <param name="model">CreateRoleViewModel</param>
         // Used in: ViewRoles
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
@@ -346,7 +378,10 @@ namespace IS_Proj_HIT.Controllers
             return View(model);
         }
 
-        // Edit role
+        /// <summary>
+        /// Edit role
+        /// </summary>
+        /// <param name="model">EditRoleViewModel</param>
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
@@ -373,7 +408,11 @@ namespace IS_Proj_HIT.Controllers
             }
         }
 
-        // Edit users in role
+        /// <summary>
+        /// Edit users in role
+        /// </summary>
+        /// <param name="model">List of UserRoleViewModels</param>
+        /// <param name="roleId">Id of unique role to be edited</param>
         // EditUsersInRole with model AND ID
         [Authorize]
         [HttpPost]
@@ -408,7 +447,10 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        // Edit user in administration
+        /// <summary>
+        /// Edit user in administration
+        /// </summary>
+        /// <param name="viewModel">Model that retrieves user id</param>
         // Only accessible from clicking edit, does not currently work if Details -> Edit
         // Adds user facility?
          #endregion
@@ -469,6 +511,10 @@ namespace IS_Proj_HIT.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Resets security questions
+        /// </summary>
+        /// <param name="id">Id of unique user</param>
         public IActionResult ResetSecurityQuestions(int id)
         {
             return RedirectToPage($"/Account/AddSecurityQuestions", new { area = "Identity", Id = id });

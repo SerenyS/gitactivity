@@ -9,7 +9,7 @@
 <form>
     <div class="container">
         <div class="row justify-content-start">
-
+            @* Sorry for leaving History and Physical a bit of a mess. It's a decent ways along, but some of the code may have to be refactored if it's to be used. *@
             <div class="container">
                 <div class="card w-75">
                     <div class="card-header bg-primary text-white">
@@ -67,7 +67,7 @@
                         <div class="float-right">
 
 
-                            <button type="submit" class="btn btn-primary" formmethod="post" asp-action="AddPhysicianAssessment" asp-controller="Encounter" asp-route-model="@Model.HistoryAndPhysical">Save</button>
+                            <button type="submit" class="btn btn-primary" formmethod="post" asp-action="AddPhysicianAssessment" asp-route-model="@Model.HistoryAndPhysical">Save</button>
                             @* not functional as of now - add later - 4/20/21
                                 <button class="btn btn-primary"> PRINT REPORT </button>*@
                         </div>

@@ -8,7 +8,7 @@
     </a>
 Edit User
 </h1>
-
+@* We had a hard time discerning between EditRegisterDetails and EditUserDetails at the beginning because of the similar name scheme. I believe EditRegisterDetails is used when clicking on your e-mail in the navbar and EditUserDetails is used in the Administration tools when editing a user. *@
 <form method="post" asp-action="EditUserDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
