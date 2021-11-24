@@ -1,17 +1,19 @@
-@model IS_Proj_HIT.ViewModels.EditUserViewModel
+@model IS_Proj_HIT.ViewModels.UsersPlusViewModel
 @{
     ViewData["Title"] = "Edit User";
 }
 <h1>
-<a asp-action="ListUsers" asp-controller="Administration" class="btn btn-primary">
+    <a asp-action="ListUsers" class="btn btn-primary">
         <i class="fa fa-arrow-left "></i>
     </a>
-Edit User
+    Edit User
 </h1>
-@* We had a hard time discerning between EditRegisterDetails and EditUserDetails at the beginning because of the similar name scheme. I believe EditRegisterDetails is used when clicking on your e-mail in the navbar and EditUserDetails is used in the Administration tools when editing a user. *@
-<form method="post" asp-action="EditUserDetails">
+
+<form method="post" asp-action="EditUserDetails" name="editUserDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
+    <input type="hidden" asp-for="@Model.AspNetUsersId" />
+    <input type="hidden" asp-for="@Model.Email" />
     <div class="row">
         <div class="col-sm-4">
             <label for="FirstName">First Name: </label><br />
@@ -19,34 +21,16 @@ Edit User
         </div>
         <div class="col-sm-4">
             <label for="LastName">Last Name: </label><br />
-            <input class="form-control" asp-for="@Model.LastName" name="lastName" id="LastName" placeholder="Last Name" />
+            <input class="form-control" asp-for="@Model.LastName" name="LastName" id="LastName" placeholder="Last Name" />
         </div>
     </div>
-
     <br />
     <div class="row">
         <div class="col-sm-4">
-            <label for="Programs">Program Enrolled In:</label><br />
-            <select class="form-control dropdowns" id="Programs" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList"></select>
-        </div>
-        <div class="col-sm-4">
-            <label for="Facilities">Facilities: </label><br />
-            <select class="form-control dropdowns" id="Instructor" asp-for="@Model.FacilityId" asp-items="ViewBag.FacilityList"></select>
+            <label for="Program">Program Enrolled In:</label><br />
+            <select class="form-control dropdowns" id="Program" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList"></select>
         </div>
     </div>
-
-    <br />
-    <div class="row">
-        <div class="col-sm-4">
-            <label for="StartDate">Class Start Date</label><br />
-            <input asp-for="@Model.StartDate" type="date" class="form-control startDate" id="StartDate" />
-        </div>
-        <div class="col-sm-4">
-            <label for="EndDate">Class End Date</label><br />
-            <input asp-for="@Model.EndDate" type="date" class="form-control endDate" id="EndDate" />
-        </div>
-    </div>
-
     <br />
     <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
 </form>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using IS_Proj_HIT.Models.Data;
+using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
@@ -26,6 +27,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public UserTable Table { get; set; }
+
         public class InputModel
         { 
             [Required]
@@ -41,7 +44,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             public string Code { get; set; }
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(int id, string code = null)
         {
             if (code == null)
             {
@@ -53,6 +56,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 {
                     Code = code
                 };
+                Table = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
                 return Page();
             }
         }
@@ -64,8 +68,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-            var user = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
+            Table = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            var user = await _userManager.FindByIdAsync(Table.AspNetUsersId);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

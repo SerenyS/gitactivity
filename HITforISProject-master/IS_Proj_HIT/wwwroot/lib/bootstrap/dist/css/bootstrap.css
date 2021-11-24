@@ -230,6 +230,14 @@ th {
   text-align: inherit;
 }
 
+@media (max-width: 991px) {
+  .th{
+    vertical-align: top;
+    text-align: left;
+  }
+}
+
+
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
@@ -2576,6 +2584,31 @@ textarea.form-control {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
+@media (max-width: 1095px) {
+  .btn-outline-primary{
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 1.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  }
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   .btn {
     -webkit-transition: none;
@@ -2608,6 +2641,7 @@ fieldset:disabled a.btn {
   background-color: #2C3E50;
   border-color: #2C3E50;
 }
+
 
 .btn-primary:hover {
   color: #fff;
@@ -4344,6 +4378,16 @@ input[type="button"].btn-block {
   margin-bottom: -1px;
   border: 3px;
 }
+
+@media (max-width: 991px) {
+  .nav-item{
+    border-bottom: 1px solid white;
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+}
+
+
 
 .nav-tabs .nav-link {
   border: 3px;
@@ -10562,6 +10606,9 @@ a.text-dark:hover, a.text-dark:focus {
   img {
     page-break-inside: avoid;
   }
+  
+ 
+
   p,
   h2,
   h3 {
@@ -10594,6 +10641,13 @@ a.text-dark:hover, a.text-dark:focus {
   .table th {
     background-color: #fff !important;
   }
+  @media (max-width: 991px) {
+    .th{
+      vertical-align: top;
+      text-align: left;
+    }
+  }
+
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #dee2e6 !important;

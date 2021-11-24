@@ -15,6 +15,9 @@ namespace IS_Proj_HIT.ViewModels
         public string Phone { get; set; }
         public DateTime LastModified { get; set; }
 
+        // from Program
+        public int ProgramId { get; set; }
+
         // from UserTable
         public int UserId { get; set; }
         public string FirstName { get; set; }

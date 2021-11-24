@@ -114,34 +114,13 @@ namespace IS_Proj_HIT.Controllers
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
-        public async Task<IActionResult> EditRegisterDetails()
+        public IActionResult EditRegisterDetails()
         {
             //find current user
             var id = _userManager.GetUserId(HttpContext.User);
 
             //select the information I want to display
-            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id) ??
-                         new UserTable { StartDate = DateTime.Now, EndDate = DateTime.Now };
-
-            //Create or get program list from DB
-            ViewBag.ProgramList = new List<SelectListItem>
-            {
-                new SelectListItem {Text = "HIT/MCS", Value = "HIT/MCS", Selected = true},
-                new SelectListItem {Text = "Nursing", Value = "Nursing"}
-            };
-
-            //get list of possible instructors from db
-            var instructorEmails = new List<string>();
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("HIT Faculty"))
-                .Select(u => u.Email));
-            instructorEmails.AddRange(
-                (await _userManager.GetUsersInRoleAsync("Nursing Faculty"))
-                .Select(u => u.Email));
-            ViewBag.InstructorList = _repository.UserTables.Where(user => instructorEmails.Contains(user.Email))
-                .Select(u => new SelectListItem
-
-                { Text = u.LastName/*, Value = u.UserId.ToString(), Selected = dbUser.InstructorId == u.UserId*/ }).ToList();
+            var dbUser = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == id);
 
             return View(dbUser);
         }
@@ -160,6 +139,10 @@ namespace IS_Proj_HIT.Controllers
                     model.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
                 if (string.IsNullOrWhiteSpace(model.Email))
                     model.Email = User.Identity.Name;
+
+                // A quick fix until start date and end date are properly implemented
+                model.StartDate = DateTime.Now;
+                model.EndDate = DateTime.Now;
 
                 model.LastModified = DateTime.Now;
                 if (model.UserId is 0)
@@ -329,19 +312,35 @@ namespace IS_Proj_HIT.Controllers
                 roleName = "Not Assigned";
             }
 
+            if (user.FirstName.Length == 0)
+            {
+                user.FirstName = "Not Assigned";
+            }
+            if (user.LastName.Length == 0)
+            {
+                user.LastName = "Not Assigned";
+            }
 
-            var model = new UsersPlusViewModel
+            // Make tweaks if multiple programs per user is added.
+            var programName = "No current facility";
+            var userProgram = _repository.UserPrograms.FirstOrDefault(uP => uP.UserId == user.UserId);
+
+            if (userProgram != null)
+            {
+                var currentProgram = _repository.Programs.FirstOrDefault(p => p.ProgramId == userProgram.ProgramId);
+
+                programName = currentProgram.Name;
+            }
+
+            var model = new DetailsViewModel
             {
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                ProgramEnrolledIn = user.ProgramEnrolledIn,
-                StartDate = user.StartDate,
-
-                EndDate = user.EndDate,
+                ProgramName = programName,
+                
                 RoleName = roleName
-
             };
 
             return View(model);
@@ -487,17 +486,24 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        /// <summary>
-        /// Edit user in administration
-        /// </summary>
-        /// <param name="viewModel">Model that retrieves user id</param>
-        // Only accessible from clicking edit, does not currently work if Details -> Edit
+        // Edit user in administration
         // Adds user facility?
-         #endregion
         [Authorize(Roles = "Administrator")]
-        public IActionResult EditUserDetails(EditUserViewModel viewModel)
+        #endregion
+        public IActionResult EditUserDetails(int id)
         {
-            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
+            var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+
+            var viewModel = new UsersPlusViewModel()
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                AspNetUsersId = user.AspNetUsersId,
+            };
+
+            var userProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
 
             ViewBag.ProgramList = new List<SelectListItem>();
             var programs = _repository.Programs;
@@ -506,47 +512,64 @@ namespace IS_Proj_HIT.Controllers
                 ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
             }
 
-            ViewBag.FacilityList = new List<SelectListItem>();
-            var facilities = _repository.Facilities;
-            foreach (var facility in facilities)
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditUserDetails(UsersPlusViewModel viewModel)
+        {
+            var userProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == viewModel.UserId);
+            ViewBag.ProgramList = new List<SelectListItem>();
+            var programs = _repository.Programs;
+            foreach (var program in programs)
             {
-                ViewBag.FacilityList.Add(new SelectListItem { Text = facility.Name, Value = facility.FacilityId.ToString() });
+                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
             }
 
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(user.AspNetUsersId))
-                    user.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
-                if (string.IsNullOrWhiteSpace(user.Email))
-                    user.Email = User.Identity.Name;
+                // Quick fix
+                viewModel.StartDate = DateTime.Now;
+                viewModel.EndDate = DateTime.Now;
 
-                user.LastModified = DateTime.Now;
+                viewModel.LastModified = DateTime.Now;
+
+                var user = new UserTable()
+                {
+                    UserId = viewModel.UserId,
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Email = viewModel.Email,
+                    AspNetUsersId = viewModel.AspNetUsersId,
+                    StartDate = viewModel.StartDate,
+                    EndDate = viewModel.EndDate,
+                    LastModified = viewModel.LastModified,
+                };
+
                 if (user.UserId is 0)
                     _repository.AddUser(user);
                 else
                     _repository.EditUser(user);
-            }
 
-            var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
-            if (viewModel.ProgramId != 0 && !hasProgram)
-            {
-                _repository.AddUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
-            }
-            else if (viewModel.ProgramId != 0 && hasProgram)
-            {
-                _repository.EditUserProgram(new UserProgram { UserId = user.UserId, ProgramId = viewModel.ProgramId });
-            }
+                var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
+                if (hasProgram)
+                {
+                    var activeUserProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
+                    _repository.DeleteUserProgram(activeUserProgram);
 
-            var hasFacility = _repository.UserFacilities.Any(f => f.UserId == user.UserId);
-            if (viewModel.FacilityId != 0 && !hasFacility)
-            {
-                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
-            }
-            else if (viewModel.FacilityId != 0 && hasFacility)
-            {
-                var currentUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
-                _repository.DeleteUserFacility(currentUserFacility);
-                _repository.AddUserFacility(new UserFacility { UserId = user.UserId, FacilityId = viewModel.FacilityId });
+                    var activeUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
+                    if (activeUserFacility != null)
+                    {
+                        _repository.DeleteUserFacility(activeUserFacility);
+                    }
+                }
+
+                var newUserProgram = new UserProgram()
+                {
+                    ProgramId = viewModel.ProgramId,
+                    UserId = viewModel.UserId,
+                };
+                _repository.AddUserProgram(newUserProgram);
             }
 
             return View(viewModel);

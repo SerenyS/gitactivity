@@ -18,17 +18,12 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
     {
 
         private readonly IWCTCHealthSystemRepository _repository;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
 
         public List<SelectListItem> Questions { get; set; }
 
-        public SecurityQuestionsModel(ILogger<RegisterModel> logger, UserManager<IdentityUser> userManager, 
-            IWCTCHealthSystemRepository repository)
+        public SecurityQuestionsModel(IWCTCHealthSystemRepository repository)
         {
-            _logger = logger;
             _repository = repository;
-            _userManager = userManager;
 
             Questions = new List<SelectListItem>();
         }
@@ -86,32 +81,51 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
         public IActionResult OnPostAsync(int id, string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
-            CurrentUserId = id;
-
-            var earlierQuestions = _repository.UserSecurityQuestions.Where(q => q.UserId == CurrentUserId).ToList();
-            if (earlierQuestions.Count != 0)
+            if (ModelState.IsValid)
             {
-                foreach (var question in earlierQuestions)
+                returnUrl ??= Url.Content("~/");
+                CurrentUserId = id;
+
+                var earlierQuestions = _repository.UserSecurityQuestions.Where(q => q.UserId == CurrentUserId).ToList();
+                if (earlierQuestions.Count != 0)
                 {
-                    _repository.DeleteUserSecurityQuestion(question);
+                    foreach (var question in earlierQuestions)
+                    {
+                        _repository.DeleteUserSecurityQuestion(question);
+                    }
                 }
+
+                var securityQuestions = new List<UserSecurityQuestion>
+                {
+                    new UserSecurityQuestion
+                    {
+                        UserId = CurrentUserId,
+                        SecurityQuestionId = Input.SecurityQuestion1,
+                        AnswerHash = HashText(Input.SecurityQuestion1Answer)
+                    },
+                    new UserSecurityQuestion
+                    {
+                        UserId = CurrentUserId,
+                        SecurityQuestionId = Input.SecurityQuestion2,
+                        AnswerHash = HashText(Input.SecurityQuestion2Answer)
+                    },
+                    new UserSecurityQuestion
+                    {
+                        UserId = CurrentUserId,
+                        SecurityQuestionId = Input.SecurityQuestion3,
+                        AnswerHash = HashText(Input.SecurityQuestion3Answer)
+                    }
+                };
+
+                foreach (var question in securityQuestions)
+                {
+                    _repository.AddUserSecurityQuestion(question);
+                }
+
+                return LocalRedirect(returnUrl);
             }
 
-            var question1 = new UserSecurityQuestion { UserId = CurrentUserId, SecurityQuestionId = Input.SecurityQuestion1, 
-                AnswerHash = HashText(Input.SecurityQuestion1Answer) };
-            var question2 = new UserSecurityQuestion { UserId = CurrentUserId, SecurityQuestionId = Input.SecurityQuestion2, 
-                AnswerHash = HashText(Input.SecurityQuestion2Answer) };
-            var question3 = new UserSecurityQuestion { UserId = CurrentUserId, SecurityQuestionId = Input.SecurityQuestion3, 
-                AnswerHash = HashText(Input.SecurityQuestion3Answer) };
-
-            _repository.AddUserSecurityQuestion(question1);
-            _repository.AddUserSecurityQuestion(question2);
-            _repository.AddUserSecurityQuestion(question3);
-
-            _logger.LogInformation("Question 1: " + question1.UserId + " " + question1.SecurityQuestionId + " " + question1.AnswerHash);
-
-            return LocalRedirect(returnUrl);
+            return Page();
         }
 
         private static string HashText(string text)

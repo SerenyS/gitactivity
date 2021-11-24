@@ -4,13 +4,13 @@
 @{
     ViewData["Title"] = "Security Questions";
 }
- 
+
 <h1>
     @ViewData["Title"]
 </h1>
 <div class="row">
     <div class="col-md-5">
-        <form method="post">
+        <form method="post" asp-validation-summary="All">
             <div class="form-group">
                 <label for="@Model.SelectedQuestions[0]" asp-for="@Model.SelectedQuestions[0]">@Model.SelectedQuestions[0]</label>
                 <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerOne" />
@@ -30,3 +30,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

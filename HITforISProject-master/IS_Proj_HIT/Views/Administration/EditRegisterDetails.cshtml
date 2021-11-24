@@ -8,8 +8,8 @@
         <h3>Edit Profile</h3>
     </div>
 </div>
-@* We had a hard time discerning between EditRegisterDetails and EditUserDetails at the beginning because of the similar name scheme. I believe EditRegisterDetails is used when clicking on your e-mail in the navbar and EditUserDetails is used in the Administration tools when editing a user. *@
-<form method="post" asp-action="EditRegisterDetails">
+
+<form method="post" asp-action="EditRegisterDetails" name="editRegisterDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
     <div class="row">
@@ -19,10 +19,10 @@
         </div>
         <div class="col-sm-4">
             <label for="LastName">Last Name: </label><br />
-            <input class="form-control" asp-for="@Model.LastName" name="lastName" id="LastName" placeholder="Last Name" />
+            <input class="form-control" asp-for="@Model.LastName" name="LastName" id="LastName" placeholder="Last Name" />
         </div>
     </div>
     <br />
     <button id="update-profile-button" type="submit" class="btn btn-primary">Update Info</button>
-    <button asp-action="ResetSecurityQuestions" class="btn btn-primary">Add or Reset Questions</button>
+    <button asp-action="ResetSecurityQuestions" asp-route-id="@Model.UserId" class="btn btn-primary">Add or Reset Questions</button>
 </form>
