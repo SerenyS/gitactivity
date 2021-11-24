@@ -9,6 +9,8 @@
     Edit User
 </h1>
 
+Editing User: @Model.Email
+
 <form method="post" asp-action="EditUserDetails" name="editUserDetails">
     <div class="container text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.UserId" />
