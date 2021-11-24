@@ -468,16 +468,7 @@ namespace IS_Proj_HIT.Controllers
             var programs = _repository.Programs;
             foreach (var program in programs)
             {
-                if (userProgram != null && program.ProgramId == userProgram.ProgramId)
-                {
-                    ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString(), 
-                        Selected = true });
-                    viewModel.ProgramId = program.ProgramId;
-                }
-                else
-                {
-                    ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
-                }
+                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
             }
 
             return View(viewModel);
