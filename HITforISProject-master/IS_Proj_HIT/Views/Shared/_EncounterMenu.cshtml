@@ -13,7 +13,7 @@
   </a>
 </div>
 
-
+@* To 'undisable' a button, replace 'disabled' with 'btn-primary', and vice versa. *@
 <div id="accordion" class="accordion accordion-flush mx-0 px-0">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -29,7 +29,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn disabled"> Advanced Directives Buttons</a>
+          <a class="btn disabled" style="text-align:left"> Advanced Directives Buttons</a>
         </div>
       </div>
     </div>
@@ -46,11 +46,11 @@
       <div class="card-body m-0 p-0">
         <div class="btn-group-vertical btn-block">
           @* use the a tag to create the buttons to link *@
-          <a class="btn disabled" asp-controller="Encounter" asp-action="HistoryAndPhysical" asp-route-id="@Model.Encounter.EncounterId"> History & Physical</a>
-          <a class="btn disabled" asp-controller="Encounter" asp-action="ProgressNotes" asp-route-id="@Model.Encounter.EncounterId"> Progress Notes</a>
-          <a class="btn disabled" asp-controller="Encounter" asp-action="ViewDischarge"> Discharge Documents</a>
-          <a class="btn disabled" asp-controller="Home" asp-action="Index"> Consultations</a>
-          <a class="btn disabled" asp-controller="Home" asp-action="Index"> Orders</a>
+          <a class="btn disabled" asp-controller="Encounter" asp-action="HistoryAndPhysical" asp-route-id="@Model.Encounter.EncounterId" style="text-align:left"> History & Physical</a>
+          <a class="btn disabled" asp-controller="Encounter" asp-action="ProgressNotes" asp-route-id="@Model.Encounter.EncounterId" style="text-align:left"> Progress Notes</a>
+          <a class="btn disabled" asp-controller="Encounter" asp-action="ViewDischarge" style="text-align:left"> Discharge Documents</a>
+          <a class="btn disabled" asp-controller="Home" asp-action="Index" style="text-align:left"> Consultations</a>
+          <a class="btn disabled" asp-controller="Home" asp-action="Index" style="text-align:left"> Orders</a>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn disabled"> Procedures Buttons</a>
+          <a class="btn disabled" style="text-align:left"> Procedures Buttons</a>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn disabled"> Lab & Diagnostics Buttons</a>
+          <a class="btn disabled" style="text-align:left"> Lab & Diagnostics Buttons</a>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn btn-primary" asp-controller="Encounter" asp-action="PCAIndex" asp-route-encounterId="@Model.Encounter.EncounterId"> Patient Care Assessments</a>
+          <a class="btn btn-primary" asp-controller="Encounter" asp-action="PCAIndex" asp-route-encounterId="@Model.Encounter.EncounterId" style="text-align:left"> Patient Care Assessments</a>
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@
         
         <div class="btn-group-vertical btn-block">
           @* This needs more *@
-          <a class="btn disabled"> eMAR Buttons</a>
+          <a class="btn disabled" style="text-align:left"> eMAR Buttons</a>
         </div>
       </div>
     </div>
