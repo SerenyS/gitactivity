@@ -100,7 +100,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 Text = p.Name,
             }).ToList();
 
-            returnUrl = returnUrl ?? Url.Content("~/Administration/EditRegisterDetails");
+            returnUrl ??= Url.Content("~/Administration/EditRegisterDetails");
             if(!Input.PrivacyPolicyIsChecked)
                 ModelState.AddModelError("Privacy", "Privacy Policy must be reviewed.");
             if (ModelState.IsValid)
@@ -135,7 +135,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
                     if (userPrograms.Count == 1)
                     {
-                        // All facilities a available based on program
+                        // All facilities are available based on program
                         var availableFacilties = _repository.ProgramFacilities.Where(p => p.ProgramId == Input.ProgramId).ToList();
 
                         Facility assignedFacility = null;

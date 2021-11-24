@@ -31,7 +31,59 @@ $(function () {
 
     $.validator.setDefaults({ ignore: ":hidden:not(select)" })
     //$.validator.setDefaults({ ignore: ":hidden:not(.chosen-select)" })
-    
+
+    $("form[name='editUserDetails").validate({
+        rules: {
+            FirstName: {
+                required: true,
+                alphabetsnspace: true
+            },
+            LastName: {
+                required: true,
+                alphabetsnspace: true
+            },
+            Program: {
+                required: true
+            }
+        },
+        messages: {
+            FirstName: {
+                required: "Please provide a first name",
+                alphabetsnspace: "First name must be all letters"
+            },
+            LastName: {
+                required: "Please provide a last name",
+                alphabetsnspace: "Last name must be all letters"
+            },
+            Program: {
+                required: "Please select a program"
+            }
+        }
+    })
+
+    $("form[name='editRegisterDetails").validate({
+        rules: {
+            FirstName: {
+                required: true,
+                alphabetsnspace: true
+            },
+            LastName: {
+                required: true,
+                alphabetsnspace: true
+            }
+        },
+        messages: {
+            FirstName: {
+                required: "Please provide a first name",
+                alphabetsnspace: "First name must be all letters"
+            },
+            LastName: {
+                required: "Please provide a last name",
+                alphabetsnspace: "Last name must be all letters"
+            }
+        }
+    })
+
     // ADD PATIENT
     $("form[name='patient']").validate({
         // Specify validation rules
