@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -35,6 +35,7 @@ namespace IS_Proj_HIT.Controllers
         /// <summary>
         /// Display the Admin tools index
         /// </summary>
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult Index() => View();
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace IS_Proj_HIT.Controllers
         // Used when clicked on your e-mail in the nav-bar
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
         public async Task<IActionResult> EditRegisterDetails()
         {
             //find current user
@@ -183,6 +184,7 @@ namespace IS_Proj_HIT.Controllers
 
         //Testing Listing the Correct Users - Chris P - 2/25/21
         //Used in: ViewUsers
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> ViewUsers()
         {
             var users = _repository.UserTables;
@@ -197,20 +199,50 @@ namespace IS_Proj_HIT.Controllers
         //List users - Chris P - 2/27/21 edited by jason Motl 9-21-21 
         //Used in: Admin Details, Admin Index, ListUsers
         [HttpGet]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public  IActionResult ListUsers()
         {
             //var users = _repository.UserTables;
+            var currentUser = _repository.UserTables.FirstOrDefault(u => u.Email == User.Identity.Name);
+            var currentUserFacility = _repository.UserFacilities.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var currentUserProgram = _repository.UserPrograms.FirstOrDefault(e => e.UserId == currentUser.UserId);
+            var program = _repository.Programs.FirstOrDefault(p => p.ProgramId == currentUserProgram.ProgramId);
+
+            ViewBag.CurrentUserFacility = currentUserFacility;
+            var progToDisplay = "";
+            
+            if (program.Equals("Nursing")) {
+                progToDisplay = "Nursing";
+            }
+            else {
+                progToDisplay = "HIT/MCS";
+            }
+
+            ViewBag.Program = progToDisplay;
+
+            var isAdmin = User.IsInRole("Administrator");
 
             var model = _repository.UserTables.Select(u => new UsersPlusViewModel
-            {
-                UserId = u.UserId,
-                UserName = u.Email,
-                StartDate = u.StartDate,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                AspNetUsersId = u.AspNetUsersId
+                {
+                    UserId = u.UserId,
+                    UserName = u.Email,
+                    StartDate = u.StartDate,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    AspNetUsersId = u.AspNetUsersId
+                }).OrderByDescending(u => u.UserName).ToList();
 
-            }).OrderByDescending(u => u.UserName).ToList();
+            if (isAdmin) {
+                model = _repository.UserTables.Select(u => new UsersPlusViewModel
+                {
+                    UserId = u.UserId,
+                    UserName = u.Email,
+                    StartDate = u.StartDate,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    AspNetUsersId = u.AspNetUsersId
+                }).OrderByDescending(u => u.UserName).ToList();
+            }
 
             return View(model);
         }
@@ -218,6 +250,7 @@ namespace IS_Proj_HIT.Controllers
         /// <summary>
         /// Resets user password
         /// </summary>
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> ResetUserPassword(int id)
         {
             var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
@@ -227,6 +260,7 @@ namespace IS_Proj_HIT.Controllers
             return RedirectToPage($"/Account/ResetPassword", new { area = "Identity", code, Id = id});
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult>  DeleteBatch(List<UsersPlusViewModel> userIdsToDelete)
         {
                 foreach (var user in userIdsToDelete.Where(u => u.IsSelected))
@@ -244,6 +278,7 @@ namespace IS_Proj_HIT.Controllers
             
         }
 
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult CreateRole() => View();
 
         /// <summary>
@@ -251,6 +286,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="id">Id of unique role</param>
         // Used in: EditUsersInRole, ViewRoles
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -276,6 +312,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="id">Id of unique user</param>
         // Used in: UserList?
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult Details(int id)
         {
 
@@ -315,6 +352,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="roleId">Id of unique role</param>
         // Used in: EditRole, List/ViewUsers
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.RoleId = roleId;
@@ -354,6 +392,7 @@ namespace IS_Proj_HIT.Controllers
         /// <param name="model">CreateRoleViewModel</param>
         // Used in: ViewRoles
         [HttpPost]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
         {
             if (ModelState.IsValid)
@@ -383,6 +422,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="model">EditRoleViewModel</param>
         [HttpPost]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             var role = await _roleManager.FindByIdAsync(model.Id);
@@ -414,7 +454,7 @@ namespace IS_Proj_HIT.Controllers
         /// <param name="model">List of UserRoleViewModels</param>
         /// <param name="roleId">Id of unique role to be edited</param>
         // EditUsersInRole with model AND ID
-        [Authorize]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
         {
@@ -454,6 +494,7 @@ namespace IS_Proj_HIT.Controllers
         // Only accessible from clicking edit, does not currently work if Details -> Edit
         // Adds user facility?
          #endregion
+        [Authorize(Roles = "Administrator")]
         public IActionResult EditUserDetails(EditUserViewModel viewModel)
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == viewModel.UserId);
@@ -515,6 +556,7 @@ namespace IS_Proj_HIT.Controllers
         /// Resets security questions
         /// </summary>
         /// <param name="id">Id of unique user</param>
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult ResetSecurityQuestions(int id)
         {
             return RedirectToPage($"/Account/AddSecurityQuestions", new { area = "Identity", Id = id });
