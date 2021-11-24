@@ -128,11 +128,11 @@ namespace IS_Proj_HIT.Controllers
                 .Include(pca => pca.O2deliveryType)
                 .FirstOrDefault(pca => pca.Pcaid == assessmentId);
 
-            var vitalID=_repository.PcaComments.Where(pca=>pca.Pcaid == assessmentId && pca.PcacommentTypeId==11).Select(c=>c.Pcacomment1).SingleOrDefault();
+            var vitalID=_repository.PcaComments.Where(pca=>pca.Pcaid == assessmentId && pca.PcacommentTypeId==11).Select(c=>c.Pcacomment1).FirstOrDefault();
 
             string vitalsNotes = Convert.ToString(vitalID);
 
-            var painID = _repository.PcaComments.Where(pa => pa.Pcaid == assessmentId && pa.PcacommentTypeId== 12).Select(c => c.Pcacomment1).SingleOrDefault();
+            var painID = _repository.PcaComments.Where(pa => pa.Pcaid == assessmentId && pa.PcacommentTypeId== 12).Select(c => c.Pcacomment1).FirstOrDefault();
 
             string painsNotes = Convert.ToString(painID);
 
@@ -285,7 +285,7 @@ namespace IS_Proj_HIT.Controllers
 
                         _repository.AddPcaComment(new Pcacomment
                         {
-                            PcacommentId = pca.Pcaid,
+                            Pcaid = pca.Pcaid,
                             PcacommentTypeId = vNote?.PcacommentTypeId ?? 11,
                             Pcacomment1 = formPca.VitalNote,
                             DateCommentAdded = DateTime.Now,
@@ -300,7 +300,7 @@ namespace IS_Proj_HIT.Controllers
 
                         _repository.AddPcaComment(new Pcacomment
                         {
-                            PcacommentId = pca.Pcaid,
+                            Pcaid = pca.Pcaid,
                             PcacommentTypeId = vNote?.PcacommentTypeId ?? 12,
                             Pcacomment1 = formPca.PainNote,
                             DateCommentAdded = DateTime.Now,
@@ -386,7 +386,7 @@ namespace IS_Proj_HIT.Controllers
 
                             _repository.AddPcaComment(new Pcacomment
                             {
-                                PcacommentId = pca.Pcaid,
+                                Pcaid = pca.Pcaid,
                                 PcacommentTypeId = vNote?.PcacommentTypeId ?? 11,
                                 Pcacomment1 = formPca.VitalNote,
                                 DateCommentAdded = DateTime.Now,
@@ -410,9 +410,9 @@ namespace IS_Proj_HIT.Controllers
 
                             _repository.AddPcaComment(new Pcacomment
                             {
-                                PcacommentId = pca.Pcaid,
+                                Pcaid = pca.Pcaid,
                                 PcacommentTypeId = vNote?.PcacommentTypeId ?? 12,
-                                Pcacomment1 = formPca.VitalNote,
+                                Pcacomment1 = formPca.PainNote,
                                 DateCommentAdded = DateTime.Now,
                                 LastModified = DateTime.Now
                             });

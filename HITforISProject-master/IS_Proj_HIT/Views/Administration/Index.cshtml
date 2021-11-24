@@ -23,6 +23,18 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <a asp-action="ListUsers" class="btn btn-outline-primary">
+                            <h5 class="card-title mb-0">List Users</h5>
+                        </a>
+                    </div>
+                    <div class="card-footer-short">
+                        <p class="mb-0">List All Users in the Database.</p>
+                    </div>
+                </div>
+            </div>
         @if (User.IsInRole("Administrator"))
         {
             <div class="col-sm-3 mb-3">
@@ -64,22 +76,6 @@
                     </div>
                     <div class="card-footer">
                         <p class="mb-0">Management pages for Physician structured data/lookup tables</p>
-                    </div>
-                </div>
-            </div>
-        }
-
-        @if (User.IsInRole("Administrator"))
-        {
-            <div class="col-sm-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <a asp-action="ListUsers" class="btn btn-outline-primary">
-                            <h5 class="card-title mb-0">List Users</h5>
-                        </a>
-                    </div>
-                    <div class="card-footer-short">
-                        <p class="mb-0">List All Users in the Database.</p>
                     </div>
                 </div>
             </div>

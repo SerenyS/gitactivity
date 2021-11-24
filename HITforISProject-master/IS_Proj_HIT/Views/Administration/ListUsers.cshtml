@@ -24,6 +24,7 @@
         <table class="table table-striped" id="table_id">
             <thead>
                 <tr>
+                    @if (User.IsInRole("Administrator")) {
                     <th>
                         First Name
                     </th>
@@ -42,34 +43,62 @@
                     <th data-orderable="false" style="padding: 8px 10px">
 
                         <input type="checkbox" class="checkBox" name="userIdsToDelete" id="checkAll" value="@Model."  style="width: 30px; height: 30px; text-align:center; vertical-align:middle; padding: 8px 10px"/> Select All
-
                         <div class="float-right">
                             <button type="submit" value="Delete" class="btn btn-outline-danger float-right" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete Selected</button>
                         </div>
                     </th>
+                    }
+                    else {
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th data-orderable="false">
 
+                    </th>
+                    }
                 </tr>
             </thead>
             <tbody>
                 @for (int i = 0; i < Model.Count(); i++)
                 {
+                    @if (User.IsInRole("Administrator")) {
+                    <tr id="userRoleTableRow">
 
-                <tr id="userRoleTableRow">
+                        @*for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody*@
 
-                    @*for DATA tables to work with sort/pagination/etc. there needs to be matching <td> in thead/tbody*@
-
-                    <td>@Model[i].FirstName</td>
-                    <td>@Model[i].LastName</td>
-                    <td>@Model[i].UserName</td>
-                    <td>@Model[i].StartDate.ToString("d")</td>
-                    <td>
-                        <a asp-action="EditUserDetails" asp-route-id="@Model[i].UserId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
-                    </td>
-                    <td>
-                        <input asp-for="@Model[i].IsSelected" type="checkbox" class="checkBox" id="userIdsToDelete" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
-                    </td>
-                </tr>
+                        <td>@Model[i].FirstName</td>
+                        <td>@Model[i].LastName</td>
+                        <td>@Model[i].UserName</td>
+                        <td>@Model[i].StartDate.ToString("d")</td>
+                        <td>
+                            <a asp-action="EditUserDetails" asp-route-id="@Model[i].UserId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
+                        </td>
+                        <td>
+                            <input asp-for="@Model[i].IsSelected" type="checkbox" class="checkBox" id="userIdsToDelete" style="width: 30px; height: 30px; text-align:center; vertical-align:middle;" />
+                        </td>
+                    </tr>
+                    }
+                    else {
+                        <tr id="userRoleTableRow">
+                            <td>@Model[i].FirstName</td>
+                            <td>@Model[i].LastName</td>
+                            <td>@Model[i].UserName</td>
+                            <td>@Model[i].StartDate.ToString("d")</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         
