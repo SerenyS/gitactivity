@@ -62,7 +62,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -74,7 +74,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             if (ModelState.IsValid)
             {
@@ -93,69 +93,71 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                         var aspNetUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
                         var currentRoles = await _userManager.GetRolesAsync(aspNetUser);
 
+                        // Determines if user is part of faculty(Non-admin)
                         var isFaculty = false;
                         foreach (var role in currentRoles)
                         {
-                            if ((role == "HIT Faculty" || role == "Nursing Faculty") && role != "Administrator")
+                            if (role is "HIT Faculty" or "Nursing Faculty" && role != "Administrator")
                             {
                                 isFaculty = true;
                             }
                         }
 
+                        // Faculty chooses which facility they wish to use
                         if (isFaculty)
                         {
                             return RedirectToPage("./SelectFacility", new { Id = userTable.UserId, ReturnUrl = returnUrl });
                         }
-                        else
+
+                        var userFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == userTable.UserId);
+                        if (userFacility == null)
                         {
-                            var userFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == userTable.UserId);
-                            if (userFacility == null)
+                            var programFacilities = _repository.ProgramFacilities.Where(p => p.ProgramId == userPrograms[0].ProgramId).ToList();
+                            Facility assignedFacility = null;
+
+                            // Determines which facility they are assigned to
+                            // Since they are not faculty they will assigned to SIM
+                            foreach (var programFacility in from programFacility in programFacilities 
+                                                            let facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId)
+                                                            where facility != null && facility.Name.Contains("SIM") select programFacility)
                             {
-                                var programFacilities = _repository.ProgramFacilities.Where(p => p.ProgramId == userPrograms[0].ProgramId).ToList();
-                                Facility assignedFacility = null;
-                                foreach (var programFacility in programFacilities)
-                                {
-                                    var facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId);
-                                    if (facility.Name.Contains("SIM"))
-                                    {
-                                        assignedFacility = programFacility.Facility;
-                                    }
-                                }
+                                assignedFacility = programFacility.Facility;
+                            }
+
+                            if (assignedFacility != null)
                                 _repository.AddUserFacility(new UserFacility()
                                 {
                                     UserId = userTable.UserId,
                                     FacilityId = assignedFacility.FacilityId,
                                     LastModified = DateTime.Now
                                 });
-                            }
-                            else
-                            {
-                                userFacility.LastModified = DateTime.Now;
-                                _repository.EditUserFacility(userFacility);
-                            }
+                        }
+                        else
+                        {
+                            userFacility.LastModified = DateTime.Now;
+                            _repository.EditUserFacility(userFacility);
                         }
                     }
                     else if (userPrograms.Count == 0)
                     {
-                        return RedirectToPage("./SetProgram", new { Id = userTable.UserId, ReturnUrl = returnUrl });
+                        if (userTable != null)
+                            return RedirectToPage("./SetProgram", new { Id = userTable.UserId, ReturnUrl = returnUrl });
                     }
 
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
             }
 
             // If we got this far, something failed, redisplay form

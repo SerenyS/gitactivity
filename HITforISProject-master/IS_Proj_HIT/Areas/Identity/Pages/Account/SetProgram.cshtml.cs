@@ -43,40 +43,42 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
             var selectedProgram = _repository.Programs.FirstOrDefault(p => p.Name == Input.ProgramName);
 
-            _repository.AddUserProgram(new UserProgram()
+            if (selectedProgram != null)
             {
-                UserId = id,
-                ProgramId = selectedProgram.ProgramId
-            });
-
-            var aspNetUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
-            var currentRoles = await _userManager.GetRolesAsync(aspNetUser);
-
-            var isFaculty = false;
-            foreach (var role in currentRoles)
-            {
-                if ((role == "HIT Faculty" || role == "Nursing Faculty") && role != "Administrator")
+                _repository.AddUserProgram(new UserProgram()
                 {
-                    isFaculty = true;
-                }
-            }
+                    UserId = id,
+                    ProgramId = selectedProgram.ProgramId
+                });
 
-            if (isFaculty)
-            {
-                return RedirectToPage("./SelectFacility", new { Id = id, ReturnUrl = returnUrl });
-            }
-            else
-            { 
-                var programFacilities = _repository.ProgramFacilities.Where(p => p.ProgramId == selectedProgram.ProgramId).ToList();
-                Facility assignedFacility = null;
-                foreach (var programFacility in programFacilities)
+                var aspNetUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
+                var currentRoles = await _userManager.GetRolesAsync(aspNetUser);
+
+                var isFaculty = false;
+                foreach (var role in currentRoles)
                 {
-                    var facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId);
-                    if (facility.Name.Contains("SIM"))
+                    if ((role == "HIT Faculty" || role == "Nursing Faculty") && role != "Administrator")
                     {
-                        assignedFacility = programFacility.Facility;
+                        isFaculty = true;
                     }
                 }
+
+                if (isFaculty)
+                {
+                    return RedirectToPage("./SelectFacility", new { Id = id, ReturnUrl = returnUrl });
+                }
+
+                var programFacilities = _repository.ProgramFacilities
+                    .Where(p => p.ProgramId == selectedProgram.ProgramId).ToList();
+
+                Facility assignedFacility = null;
+                foreach (var programFacility in from programFacility in programFacilities 
+                                                let facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId) 
+                                                where facility.Name.Contains("SIM") select programFacility)
+                {
+                    assignedFacility = programFacility.Facility;
+                }
+
                 _repository.AddUserFacility(new UserFacility()
                 {
                     UserId = userTable.UserId,
