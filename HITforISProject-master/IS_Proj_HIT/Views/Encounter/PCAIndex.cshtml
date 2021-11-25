@@ -74,6 +74,14 @@
                                     </td>
                                 </tr>
                             }
+                            @if (Model.Encounter.Pcarecords.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="99" style="text-align:center">
+                                        There are currently no PCAs to show under this encounter.
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
