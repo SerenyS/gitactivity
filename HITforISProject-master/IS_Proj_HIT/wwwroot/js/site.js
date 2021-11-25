@@ -107,7 +107,7 @@ $(function () {
             //EthnicityId: "required",
 
             Dob: {
-                //required: true,
+                required: true,
                 //date: true,
                 //maxDate: true,
                 //minDate: true
