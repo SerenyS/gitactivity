@@ -94,18 +94,14 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 correctAnswers = false;
             }
 
-            if (correctAnswers)
-            {
-                var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == CurrentUserId);
-                var aspUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
-                var code = await _userManager.GeneratePasswordResetTokenAsync(aspUser);
-
-                return RedirectToPage("./ResetPassword", new { code, Id = CurrentUserId });
-            }
-            else
-            {
+            if (!correctAnswers)
                 return RedirectToPage("./IncorrectAnswers", new { Id = CurrentUserId, ReturnUrl = returnUrl });
-            }
+
+            var userTable = _repository.UserTables.FirstOrDefault(u => u.UserId == CurrentUserId);
+            var aspUser = await _userManager.FindByIdAsync(userTable.AspNetUsersId);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(aspUser);
+
+            return RedirectToPage("./ResetPassword", new { code, Id = CurrentUserId });
         }
 
         private static string HashText(string text)

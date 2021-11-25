@@ -1,17 +1,14 @@
 ﻿using IS_Proj_HIT.Models;
 using IS_Proj_HIT.Models.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using IS_Proj_HIT.Areas.Identity;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 {
@@ -100,7 +97,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                 returnUrl ??= Url.Content("~/");
                 CurrentUserId = id;
 
-                var earlierQuestions = _repository.UserSecurityQuestions.Where(q => q.UserId == CurrentUserId).ToList();
+                var earlierQuestions = _repository.UserSecurityQuestions
+                    .Where(q => q.UserId == CurrentUserId).ToList();
                 if (earlierQuestions.Count != 0)
                 {
                     foreach (var question in earlierQuestions)
@@ -111,19 +109,19 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
                 var securityQuestions = new List<UserSecurityQuestion>
                 {
-                    new UserSecurityQuestion
+                    new()
                     {
                         UserId = CurrentUserId,
                         SecurityQuestionId = Input.SecurityQuestion1,
                         AnswerHash = HashText(Input.SecurityQuestion1Answer)
                     },
-                    new UserSecurityQuestion
+                    new()
                     {
                         UserId = CurrentUserId,
                         SecurityQuestionId = Input.SecurityQuestion2,
                         AnswerHash = HashText(Input.SecurityQuestion2Answer)
                     },
-                    new UserSecurityQuestion
+                    new()
                     {
                         UserId = CurrentUserId,
                         SecurityQuestionId = Input.SecurityQuestion3,
@@ -138,10 +136,8 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
                 return LocalRedirect(returnUrl);
             }
-            else
-            {
-                PopulateSelectList();
-            }
+
+            PopulateSelectList();
 
             return Page();
         }

@@ -30,7 +30,8 @@ Editing User: @Model.Email
     <div class="row">
         <div class="col-sm-4">
             <label for="Program">Program Enrolled In:</label><br />
-            <select class="form-control dropdowns" id="Program" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList"></select>
+            <select class="form-control" id="Program" asp-for="@Model.ProgramId" asp-items="ViewBag.ProgramList">
+            </select>
         </div>
     </div>
     <br />

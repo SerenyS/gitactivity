@@ -133,26 +133,24 @@ namespace IS_Proj_HIT.Controllers
         [HttpPost]
         public IActionResult EditRegisterDetails(UserTable model)
         {
-            if (ModelState.IsValid)
-            {
-                if (string.IsNullOrWhiteSpace(model.AspNetUsersId))
-                    model.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
-                if (string.IsNullOrWhiteSpace(model.Email))
-                    model.Email = User.Identity.Name;
+            if (!ModelState.IsValid) return View(model);
 
-                // A quick fix until start date and end date are properly implemented
-                model.StartDate = DateTime.Now;
-                model.EndDate = DateTime.Now;
+            if (string.IsNullOrWhiteSpace(model.AspNetUsersId))
+                model.AspNetUsersId = _userManager.GetUserId(HttpContext.User);
+            if (string.IsNullOrWhiteSpace(model.Email))
+                model.Email = User.Identity?.Name;
 
-                model.LastModified = DateTime.Now;
-                if (model.UserId is 0)
-                    _repository.AddUser(model);
-                else
-                    _repository.EditUser(model);
+            // A quick fix until start date and end date are properly implemented
+            model.StartDate = DateTime.Now;
+            model.EndDate = DateTime.Now;
+                
+            model.LastModified = DateTime.Now;
+            if (model.UserId is 0)
+                _repository.AddUser(model);
+            else
+                _repository.EditUser(model);
 
-                return RedirectToAction("Index", "Home");
-            }
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion
@@ -168,7 +166,7 @@ namespace IS_Proj_HIT.Controllers
         //Testing Listing the Correct Users - Chris P - 2/25/21
         //Used in: ViewUsers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
-        public async Task<IActionResult> ViewUsers()
+        public IActionResult ViewUsers()
         {
             var users = _repository.UserTables;
             return View(users);
@@ -255,9 +253,9 @@ namespace IS_Proj_HIT.Controllers
                     
                     var result =  await _userManager.DeleteAsync(userId);
                 
-            }
+                }
 
-            return RedirectToAction("ListUsers");
+                return RedirectToAction("ListUsers");
             
         }
 
@@ -307,16 +305,16 @@ namespace IS_Proj_HIT.Controllers
             var roleName = "";
             // try/catch prevents error from being thrown if there is no role assigned to the user
             try{
-                roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId).Name;
+                roleName = _db.AspNetRoles.FirstOrDefault(u => u.Id == bridgeId.RoleId)?.Name;
             }catch{
                 roleName = "Not Assigned";
             }
 
-            if (user.FirstName.Length == 0)
+            if (user != null && user.FirstName.Length == 0)
             {
                 user.FirstName = "Not Assigned";
             }
-            if (user.LastName.Length == 0)
+            if (user != null && user.LastName.Length == 0)
             {
                 user.LastName = "Not Assigned";
             }
@@ -329,7 +327,7 @@ namespace IS_Proj_HIT.Controllers
             {
                 var currentProgram = _repository.Programs.FirstOrDefault(p => p.ProgramId == userProgram.ProgramId);
 
-                programName = currentProgram.Name;
+                programName = currentProgram?.Name;
             }
 
             var model = new DetailsViewModel
@@ -494,83 +492,94 @@ namespace IS_Proj_HIT.Controllers
         {
             var user = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
 
-            var viewModel = new UsersPlusViewModel()
+            if (user != null)
             {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                AspNetUsersId = user.AspNetUsersId,
-            };
+                var viewModel = new UsersPlusViewModel()
+                {
+                    UserId = user.UserId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    AspNetUsersId = user.AspNetUsersId,
+                };
 
-            var userProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
+                var userProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
 
-            ViewBag.ProgramList = new List<SelectListItem>();
-            var programs = _repository.Programs;
-            foreach (var program in programs)
-            {
-                ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
+                // Adds program id if user program isn't null
+                if (userProgram != null) viewModel.ProgramId = userProgram.ProgramId;
+
+                ViewBag.ProgramList = new List<SelectListItem>();
+                var programs = _repository.Programs;
+
+                // Checks to see if viewModels program id matches
+                foreach (var program in programs)
+                    if (program.ProgramId == viewModel.ProgramId)
+                        ViewBag.ProgramList.Add(new SelectListItem
+                            { Text = program.Name, Value = program.ProgramId.ToString(), Selected = true });
+                    else
+                        ViewBag.ProgramList.Add(new SelectListItem
+                            { Text = program.Name, Value = program.ProgramId.ToString() });
+
+                return View(viewModel);
             }
 
-            return View(viewModel);
+            ModelState.AddModelError(string.Empty, "User not found");
+
+            return View();
         }
 
         [HttpPost]
         public IActionResult EditUserDetails(UsersPlusViewModel viewModel)
         {
-            var userProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == viewModel.UserId);
             ViewBag.ProgramList = new List<SelectListItem>();
             var programs = _repository.Programs;
+
             foreach (var program in programs)
-            {
                 ViewBag.ProgramList.Add(new SelectListItem { Text = program.Name, Value = program.ProgramId.ToString() });
-            }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(viewModel);
+
+            // Quick fix for now until date implementation
+            viewModel.StartDate = DateTime.Now;
+            viewModel.EndDate = DateTime.Now;
+
+            viewModel.LastModified = DateTime.Now;
+
+            // User model is needed to change program
+            var user = new UserTable()
             {
-                // Quick fix
-                viewModel.StartDate = DateTime.Now;
-                viewModel.EndDate = DateTime.Now;
+                UserId = viewModel.UserId,
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Email = viewModel.Email,
+                AspNetUsersId = viewModel.AspNetUsersId,
+                StartDate = viewModel.StartDate,
+                EndDate = viewModel.EndDate,
+                LastModified = viewModel.LastModified,
+            };
 
-                viewModel.LastModified = DateTime.Now;
+            if (user.UserId is 0)
+                _repository.AddUser(user);
+            else
+                _repository.EditUser(user);
 
-                var user = new UserTable()
-                {
-                    UserId = viewModel.UserId,
-                    FirstName = viewModel.FirstName,
-                    LastName = viewModel.LastName,
-                    Email = viewModel.Email,
-                    AspNetUsersId = viewModel.AspNetUsersId,
-                    StartDate = viewModel.StartDate,
-                    EndDate = viewModel.EndDate,
-                    LastModified = viewModel.LastModified,
-                };
+            var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
+            // If user already has a program delete it and their active facility
+            if (hasProgram)
+            {
+                var activeUserProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
+                _repository.DeleteUserProgram(activeUserProgram);
 
-                if (user.UserId is 0)
-                    _repository.AddUser(user);
-                else
-                    _repository.EditUser(user);
-
-                var hasProgram = _repository.UserPrograms.Any(p => p.UserId == user.UserId);
-                if (hasProgram)
-                {
-                    var activeUserProgram = _repository.UserPrograms.FirstOrDefault(p => p.UserId == user.UserId);
-                    _repository.DeleteUserProgram(activeUserProgram);
-
-                    var activeUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
-                    if (activeUserFacility != null)
-                    {
-                        _repository.DeleteUserFacility(activeUserFacility);
-                    }
-                }
-
-                var newUserProgram = new UserProgram()
-                {
-                    ProgramId = viewModel.ProgramId,
-                    UserId = viewModel.UserId,
-                };
-                _repository.AddUserProgram(newUserProgram);
+                var activeUserFacility = _repository.UserFacilities.FirstOrDefault(f => f.UserId == user.UserId);
+                if (activeUserFacility != null) _repository.DeleteUserFacility(activeUserFacility);
             }
+
+            var newUserProgram = new UserProgram
+            {
+                ProgramId = viewModel.ProgramId,
+                UserId = viewModel.UserId
+            };
+            _repository.AddUserProgram(newUserProgram);
 
             return View(viewModel);
         }
@@ -582,7 +591,7 @@ namespace IS_Proj_HIT.Controllers
         [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult ResetSecurityQuestions(int id)
         {
-            return RedirectToPage($"/Account/AddSecurityQuestions", new { area = "Identity", Id = id });
+            return RedirectToPage("/Account/AddSecurityQuestions", new { area = "Identity", Id = id });
         }
     }
 }

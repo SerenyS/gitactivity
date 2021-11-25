@@ -34,9 +34,9 @@
                     <th>
                         Email
                     </th>
-                    <th>
+                    @*<th>
                         Start Date
-                    </th>
+                    </th>*@
                     <th data-orderable="false">
 
                     </th>
@@ -58,9 +58,9 @@
                     <th>
                         Email
                     </th>
-                    <th>
+                    @*<th>
                         Start Date
-                    </th>
+                    </th>*@
                     <th data-orderable="false">
 
                     </th>
@@ -78,7 +78,7 @@
                         <td>@Model[i].FirstName</td>
                         <td>@Model[i].LastName</td>
                         <td>@Model[i].UserName</td>
-                        <td>@Model[i].StartDate.ToString("d")</td>
+                        @*<td>@Model[i].StartDate.ToString("d")</td>*@
                         <td>
                             <a asp-action="EditUserDetails" asp-route-id="@Model[i].UserId">Edit</a> |
                             <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
@@ -93,7 +93,7 @@
                             <td>@Model[i].FirstName</td>
                             <td>@Model[i].LastName</td>
                             <td>@Model[i].UserName</td>
-                            <td>@Model[i].StartDate.ToString("d")</td>
+                            @*<td>@Model[i].StartDate.ToString("d")</td>*@
                             <td>
                                 <a asp-action="Details" asp-route-id="@Model[i].UserId">Details</a>
                             </td>

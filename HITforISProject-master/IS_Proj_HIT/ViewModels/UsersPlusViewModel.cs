@@ -17,6 +17,7 @@ namespace IS_Proj_HIT.ViewModels
 
         // from Program
         public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
 
         // from UserTable
         public int UserId { get; set; }

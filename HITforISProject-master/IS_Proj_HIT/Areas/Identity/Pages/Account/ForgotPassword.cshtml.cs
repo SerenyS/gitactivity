@@ -39,38 +39,39 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return Page();
+
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null)
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./Login");
-                }
-
-                // For more information on how to enable account confirmation and password reset please 
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Page(
-                //    "/Account/ResetPassword",
-                //    pageHandler: null,
-                //    values: new { code },
-                //    protocol: Request.Scheme);
-
-                //await _emailSender.SendEmailAsync(
-                //    Input.Email,
-                //    "Reset Password",
-                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                var userTable = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == user.Id);
-                var questions = _repository.UserSecurityQuestions.Where(q => q.UserId == userTable.UserId).ToList();
-                if (questions.Count == 0)
-                {
-                    return RedirectToPage("./NoSecurityQuestions");
-                }
-
-                return RedirectToPage("./EnterSecurityQuestions", new { Id = userTable.UserId, ReturnUrl = returnUrl });
+                // Don't reveal that the user does not exist or is not confirmed
+                return RedirectToPage("./Login");
             }
+
+            // For more information on how to enable account confirmation and password reset please 
+            // visit https://go.microsoft.com/fwlink/?LinkID=532713
+            //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //var callbackUrl = Url.Page(
+            //    "/Account/ResetPassword",
+            //    pageHandler: null,
+            //    values: new { code },
+            //    protocol: Request.Scheme);
+
+            //await _emailSender.SendEmailAsync(
+            //    Input.Email,
+            //    "Reset Password",
+            //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            var userTable = _repository.UserTables.FirstOrDefault(u => u.AspNetUsersId == user.Id);
+            var questions = _repository.UserSecurityQuestions.Where(q => q.UserId == userTable.UserId).ToList();
+            if (questions.Count == 0)
+            {
+                return RedirectToPage("./NoSecurityQuestions");
+            }
+
+            if (userTable != null)
+                return RedirectToPage("./EnterSecurityQuestions",
+                    new { Id = userTable.UserId, ReturnUrl = returnUrl });
 
             return Page();
         }

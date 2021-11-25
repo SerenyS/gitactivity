@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IS_Proj_HIT.Models;
+using IS_Proj_HIT.Models.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using IS_Proj_HIT.Models.Data;
-using IS_Proj_HIT.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 {
@@ -50,15 +48,14 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             {
                 return BadRequest("A code must be supplied for password reset.");
             }
-            else
+
+            Input = new InputModel
             {
-                Input = new InputModel
-                {
-                    Code = code
-                };
-                Table = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
-                return Page();
-            }
+                Code = code
+            };
+
+            Table = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
@@ -69,6 +66,9 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             }
 
             Table = _repository.UserTables.FirstOrDefault(u => u.UserId == id);
+
+            if (Table == null) return Page();
+
             var user = await _userManager.FindByIdAsync(Table.AspNetUsersId);
             if (user == null)
             {
@@ -86,6 +86,7 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
     }
