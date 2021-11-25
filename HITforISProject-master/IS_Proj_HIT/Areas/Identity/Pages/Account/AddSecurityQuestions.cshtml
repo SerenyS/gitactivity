@@ -12,37 +12,47 @@
     <div class="col-md-5">
         <form method="post" asp-validation-summary="All">
             <div class="form-group">
+                 <span asp-validation-for="Input" class="text-danger"></span>
+             </div>            
+            <div class="form-group">
                 <label for="question1" asp-for="Input.SecurityQuestion1Answer">Question One</label>
                 <select class="custom-select mr-sm-2 dropdowns" asp-items="Model.Questions" id="question1" asp-for="Input.SecurityQuestion1">
                     <option value="">Select Question</option>
                 </select>
+                <span asp-validation-for="Input.SecurityQuestion1" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="question1Answer">Answer</label>
                 <input type="text" class="form-control" placeholder="Answer" id="question1Answer" asp-for="Input.SecurityQuestion1Answer" />
+                <span asp-validation-for="Input.SecurityQuestion1Answer" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="question2">Question Two</label>
                 <select class="custom-select mr-sm-2 dropdowns" asp-items="Model.Questions" id="question2" asp-for="Input.SecurityQuestion2">
                     <option value="">Select Question</option>
                 </select>
+                <span asp-validation-for="Input.SecurityQuestion2" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="question2Answer">Answer</label>
                 <input type="text" class="form-control" placeholder="Answer" id="question2Answer" asp-for="Input.SecurityQuestion2Answer" />
+                <span asp-validation-for="Input.SecurityQuestion2Answer" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="question3">Question Three</label>
                 <select class="custom-select mr-sm-2 dropdowns" asp-items="Model.Questions" id="question3" asp-for="Input.SecurityQuestion3">
                     <option value="">Select Question</option>
                 </select>
+                <span asp-validation-for="Input.SecurityQuestion3" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="question3Answer">Answer</label>
                 <input type="text" class="form-control" placeholder="Answer" id="question3Answer" asp-for="Input.SecurityQuestion3Answer" />
+                <span asp-validation-for="Input.SecurityQuestion3Answer" class="text-danger"></span>
+
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" id="submit">Confirm</button>
+                <button type="submit" class="btn btn-primary" id="submit" onclick="checkQuestions()">Confirm</button>
                 <button type="reset" class="btn btn-primary">Reset</button>
             </div>
         </form>

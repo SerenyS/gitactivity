@@ -56,14 +56,14 @@
                 {
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-search"></i> Patient Search</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home")"><i class="fas fa-users"></i> Checked in Patients</a>
-                        </li>
+                        </li>*@
                     </ul>
                 }
                 <partial name="_LoginPartial" class="navbar-nav" />

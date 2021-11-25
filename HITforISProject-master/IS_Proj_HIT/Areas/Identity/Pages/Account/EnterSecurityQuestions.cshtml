@@ -14,14 +14,17 @@
             <div class="form-group">
                 <label for="@Model.SelectedQuestions[0]" asp-for="@Model.SelectedQuestions[0]">@Model.SelectedQuestions[0]</label>
                 <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerOne" />
+                <span asp-validation-for="Input.AnswerOne" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="@Model.SelectedQuestions[1]" asp-for="@Model.SelectedQuestions[1]">@Model.SelectedQuestions[1]</label>
                 <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerTwo" />
+                <span asp-validation-for="Input.AnswerTwo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="@Model.SelectedQuestions[2]" asp-for="@Model.SelectedQuestions[2]">@Model.SelectedQuestions[2]</label>
                 <input type="text" class="form-control" placeholder="Answer" asp-for="Input.AnswerThree" />
+                <span asp-validation-for="Input.AnswerThree" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Confirm</button>

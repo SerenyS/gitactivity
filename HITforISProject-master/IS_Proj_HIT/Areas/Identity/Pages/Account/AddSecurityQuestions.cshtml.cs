@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using IS_Proj_HIT.Areas.Identity;
 
 namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 {
@@ -33,48 +34,61 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
         public int CurrentUserId { get; set; }
 
-        public class InputModel
+        public class InputModel : IValidatableObject
         {
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Security Question 1")]
+            [Display(Name = "first question")]
             public int SecurityQuestion1 { get; set;}
 
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Security Question 1 Answer")]
+            [Display(Name = "first answer")]
             public string SecurityQuestion1Answer { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Security Question 2")]
+            [Display(Name = "second question")]
             public int SecurityQuestion2 { get; set;}
             
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Security Question 2 Answer")]
+            [Display(Name = "second answer")]
             public string SecurityQuestion2Answer { get; set; }
             
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Security Question 3")]
+            [Display(Name = "third question")]
             public int SecurityQuestion3 { get; set;}
 
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Security Question 3 Answer")]
+            [Display(Name = "third answer")]
             public string SecurityQuestion3Answer { get; set; }
+
+            public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+            {
+                var questionList = new List<int>()
+                {
+                    SecurityQuestion1,
+                    SecurityQuestion2,
+                    SecurityQuestion3
+                };
+
+                var distinctResults = questionList.Distinct().ToList();
+
+                if (distinctResults.Count != 3)
+                {
+                    yield return new ValidationResult("All questions must be unique!");
+                }
+            }
         }
 
         public void OnGet(int id, string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            Questions = _repository.SecurityQuestions.Select(q =>
-            new SelectListItem
-            {
-                Value = q.SecurityQuestionId.ToString(),
-                Text = q.QuestionText
-            }).ToList();
+
+            PopulateSelectList();
 
             CurrentUserId = id;
         }
@@ -124,8 +138,22 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
                 return LocalRedirect(returnUrl);
             }
+            else
+            {
+                PopulateSelectList();
+            }
 
             return Page();
+        }
+
+        private void PopulateSelectList()
+        {
+            Questions = _repository.SecurityQuestions.Select(q =>
+            new SelectListItem
+            {
+                Value = q.SecurityQuestionId.ToString(),
+                Text = q.QuestionText
+            }).ToList();
         }
 
         private static string HashText(string text)
