@@ -449,31 +449,21 @@ namespace IS_Proj_HIT.Controllers
                     .Select(fac => new {fac.FacilityId, fac.Name})
                     .ToList();
             var facilities = _repository.Facilities;
-            
-            if (!isAdmin) {
-                var secCheck = 0;
-                // non admins may get an error if they don't have a facility
-                
-                var currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SECURE");
-                
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC Healthcare Center SIM").FacilityId;
-                }
 
-                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SECURE");
-                
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC Nursing SIM").FacilityId;
-                }
+            if (!isAdmin && currentUserFacility == null) {
+                queryFacility = _repository.Facilities
+                    .Where(e => e.FacilityId == 0)
+                    .OrderBy(n => n.Name)
+                    .Select(fac => new {fac.FacilityId, fac.Name})
+                    .ToList();
 
-                currentFacilCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SECURE");
+                ViewBag.ErrorMessage = "You do not currently have an assigned facility.";
+            }
 
-                if (currentUserFacility.FacilityId == currentFacilCheck.FacilityId) {
-                    secCheck = facilities.FirstOrDefault(p => p.Name == "WCTC HC MedAssist SIM").FacilityId;
-                }
+            if (!isAdmin && currentUserFacility != null) {
 
                 queryFacility = _repository.Facilities
-                    .Where(e => e.FacilityId == currentUserFacility.FacilityId && e.FacilityId == secCheck)
+                    .Where(e => e.FacilityId == currentUserFacility.FacilityId)
                     .OrderBy(n => n.Name)
                     .Select(fac => new {fac.FacilityId, fac.Name})
                     .ToList();
