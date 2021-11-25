@@ -84,21 +84,14 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         public List<SelectListItem> Programs { get; set; }
         public void OnGet(string returnUrl = null)
         {
-            Programs = _repository.Programs.Select(p => new SelectListItem()
-            {
-                Value = p.ProgramId.ToString(),
-                Text = p.Name,
-            }).ToList();
+            PopulateSelectList();
+            
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            Programs = _repository.Programs.Select(p => new SelectListItem()
-            {
-                Value = p.ProgramId.ToString(),
-                Text = p.Name,
-            }).ToList();
+            PopulateSelectList();
 
             returnUrl ??= Url.Content("~/Administration/EditRegisterDetails");
             if(!Input.PrivacyPolicyIsChecked)
@@ -136,17 +129,13 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
                     if (userPrograms.Count == 1)
                     {
                         // All facilities are available based on program
-                        var availableFacilties = _repository.ProgramFacilities.Where(p => p.ProgramId == Input.ProgramId).ToList();
+                        var availableFacilities = _repository.ProgramFacilities.Where(p => p.ProgramId == Input.ProgramId).ToList();
 
                         Facility assignedFacility = null;
-                        foreach (var programFacility in availableFacilties)
+                        foreach (var facility in availableFacilities.Select(programFacility => _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId))
+                            .Where(facility => facility.Name.Contains("SIM")))
                         {
-                            // New users only gain access to SIM
-                            var facility = _repository.Facilities.FirstOrDefault(f => f.FacilityId == programFacility.FacilityId);
-                            if (facility.Name.Contains("SIM"))
-                            {
-                                assignedFacility = facility;
-                            }
+                            assignedFacility = facility;
                         }
 
                         // Bind user and facility
@@ -170,6 +159,15 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private void PopulateSelectList()
+        {
+            Programs = _repository.Programs.Select(p => new SelectListItem()
+            {
+                Value = p.ProgramId.ToString(),
+                Text = p.Name,
+            }).ToList();
         }
     }
 }
