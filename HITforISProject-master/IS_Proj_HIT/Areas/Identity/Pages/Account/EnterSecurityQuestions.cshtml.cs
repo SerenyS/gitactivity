@@ -39,12 +39,15 @@ namespace IS_Proj_HIT.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "first answer")]
             public string AnswerOne { get; set; }
 
             [Required]
+            [Display(Name = "second answer")]
             public string AnswerTwo { get; set; }
 
             [Required]
+            [Display(Name = "third answer")]
             public string AnswerThree { get; set; }
         }
 
