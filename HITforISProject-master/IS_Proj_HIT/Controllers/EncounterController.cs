@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only, Registrar")]
     public class EncounterController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;

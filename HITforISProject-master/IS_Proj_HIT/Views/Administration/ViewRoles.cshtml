@@ -27,16 +27,35 @@
         <div class="row">
             @foreach (var role in Model)
             {
-                <div class="col-sm-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@role.Name</h5>
+                @if (User.IsInRole("HIT Faculty") || User.IsInRole("Nursing Faculty"))
+                {
+                    @if (role.Name != "Administrator" && role.Name != "Nursing Faculty" && role.Name != "HIT Faculty" )
+                    {
+                        <div class="col-sm-3 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">@role.Name</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-outline-primary" asp-action="EditRole" asp-route-id="@role.Id">Edit Role</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                            <a class="btn btn-outline-primary" asp-action="EditRole" asp-route-id="@role.Id">Edit Role</a>
+                    }
+                }
+                else
+                {
+                    <div class="col-sm-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@role.Name</h5>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn btn-outline-primary" asp-action="EditRole" asp-route-id="@role.Id">Edit Role</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
         </div>
     </div>

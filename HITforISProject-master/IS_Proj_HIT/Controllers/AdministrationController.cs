@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace IS_Proj_HIT.Controllers
 {
 
-    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
+    [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only, Registrar")]
     public class AdministrationController : Controller
     {
         private readonly IWCTCHealthSystemRepository _repository;
@@ -113,7 +113,7 @@ namespace IS_Proj_HIT.Controllers
         // Used when clicked on your e-mail in the nav-bar
         // Used in: Login, Register, Home Page, LoginPartial
         #region User Details
-        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty, HIT Clerk, Nursing Student, Read Only, Registrar")]
         public IActionResult EditRegisterDetails()
         {
             //find current user
@@ -259,7 +259,7 @@ namespace IS_Proj_HIT.Controllers
             
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public IActionResult CreateRole() => View();
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="id">Id of unique role</param>
         // Used in: EditUsersInRole, ViewRoles
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -389,7 +389,7 @@ namespace IS_Proj_HIT.Controllers
         /// <param name="model">CreateRoleViewModel</param>
         // Used in: ViewRoles
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
         {
             if (ModelState.IsValid)
@@ -419,7 +419,7 @@ namespace IS_Proj_HIT.Controllers
         /// </summary>
         /// <param name="model">EditRoleViewModel</param>
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Nursing Faculty, HIT Faculty")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             var role = await _roleManager.FindByIdAsync(model.Id);
