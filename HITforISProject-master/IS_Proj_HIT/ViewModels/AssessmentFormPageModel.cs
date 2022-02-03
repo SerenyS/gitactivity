@@ -11,7 +11,7 @@ namespace IS_Proj_HIT.ViewModels
         [Required] public string PatientMrn { get; set; }
 
         public string TempUnit { get; set; }
-        public string VitalNote { get; set; }
+        public string VitalNote  { get; set; }
         public string PainNote { get; set; }
 
         public List<CareSystemType> SecondarySystemTypes { get; set; }
